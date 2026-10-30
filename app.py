@@ -78,6 +78,7 @@ button {
     flex-direction:column;
     padding:20px;
 }
+
 #login.active { display:flex; }
 
 .login-logo {
@@ -391,12 +392,23 @@ button {
 }
 
 @media(max-width:350px) {
-    #app { padding-left:9px; padding-right:9px; }
+    #app {
+        padding-left:9px;
+        padding-right:9px;
+    }
+
     .home-grid { gap:5px; }
-    .home-card { font-size:10px; border-radius:12px; }
+    .home-card {
+        font-size:10px;
+        border-radius:12px;
+    }
+
     .home-icon { font-size:24px; }
     .calc-grid { gap:6px; }
-    .calc-key { height:57px; font-size:18px; }
+    .calc-key {
+        height:57px;
+        font-size:18px;
+    }
 }
 </style>
 </head>
@@ -408,8 +420,14 @@ button {
 <section id="login" class="page active">
     <div class="login-logo">📱 mobile.app</div>
     <div class="login-sub">Your little world of useful tools</div>
-    <button class="login-btn" id="loginButton" onclick="loginUser()">LOGIN</button>
-    <button class="guest-btn" onclick="go('home')">EXPLORE AS GUEST</button>
+
+    <button class="login-btn" id="loginButton" onclick="loginUser()">
+        LOGIN
+    </button>
+
+    <button class="guest-btn" onclick="go('home')">
+        EXPLORE AS GUEST
+    </button>
 </section>
 
 <!-- HOME -->
@@ -483,9 +501,11 @@ button {
 
     <div class="guess-card">
         <div style="font-size:45px">🔮</div>
+
         <div style="color:#dce2ff;font-size:16px;margin:12px 0">
             Your remaining chances
         </div>
+
         <div id="chances" style="font-size:32px;font-weight:bold;color:#fff">
             10 / 10
         </div>
@@ -548,7 +568,11 @@ function loginUser() {
 
     button.disabled = true;
 
-    button.innerHTML = '<span class="login-loading"><span class="login-spinner"></span><span>Processing<span class="processing-dots">...</span></span></span>';
+    button.innerHTML =
+        '<span class="login-loading">' +
+        '<span class="login-spinner"></span>' +
+        '<span>Processing<span class="processing-dots">...</span></span>' +
+        '</span>';
 
     setTimeout(function() {
         button.disabled = false;
@@ -584,12 +608,15 @@ function calcPress(key) {
 
     if(key === 'DEL') {
         if(calcWaiting) return;
+
         if(calcValue === "Error") {
             calcValue = "0";
         } else {
             calcValue = calcValue.length > 1
-                ? calcValue.slice(0,-1) : "0";
+                ? calcValue.slice(0,-1)
+                : "0";
         }
+
         showCalc();
         return;
     }
@@ -598,6 +625,7 @@ function calcPress(key) {
         if(calcValue !== "Error") {
             calcValue = cleanNumber(-Number(calcValue));
         }
+
         showCalc();
         return;
     }
@@ -606,6 +634,7 @@ function calcPress(key) {
         if(calcValue !== "Error") {
             calcValue = cleanNumber(Number(calcValue)/100);
         }
+
         showCalc();
         return;
     }
@@ -617,6 +646,7 @@ function calcPress(key) {
         } else {
             calcValue += key;
         }
+
         showCalc();
         return;
     }
@@ -628,6 +658,7 @@ function calcPress(key) {
         } else if(!calcValue.includes('.')) {
             calcValue += '.';
         }
+
         showCalc();
         return;
     }
@@ -639,7 +670,9 @@ function calcPress(key) {
 
         if(calcOperator && !calcWaiting) {
             let result = calculateCalc(
-                calcFirst,current,calcOperator
+                calcFirst,
+                current,
+                calcOperator
             );
 
             if(result === null) {
@@ -664,7 +697,9 @@ function calcPress(key) {
 
     if(key === '=' && calcOperator !== null) {
         let result = calculateCalc(
-            calcFirst,Number(calcValue),calcOperator
+            calcFirst,
+            Number(calcValue),
+            calcOperator
         );
 
         calcValue = result === null
@@ -702,7 +737,12 @@ function submitGuess() {
     const guess = Number(input.value);
     const message = document.getElementById('guessMessage');
 
-    if(!input.value || !Number.isInteger(guess) || guess < 1 || guess > 100) {
+    if(
+        !input.value ||
+        !Number.isInteger(guess) ||
+        guess < 1 ||
+        guess > 100
+    ) {
         message.textContent = "Enter a number from 1 to 100!";
         return;
     }
@@ -754,14 +794,23 @@ let birdScore = 0;
 let birdFrame = 0;
 let birdRunning = false;
 let birdStarted = false;
+let birdLoopActive = false;
 
 function resetBird() {
-    bird = {x:75,y:220,velocity:0,radius:12};
+    bird = {
+        x:75,
+        y:220,
+        velocity:0,
+        radius:12
+    };
+
     pipes = [];
     birdScore = 0;
     birdFrame = 0;
     birdRunning = false;
     birdStarted = false;
+    birdLoopActive = false;
+
     drawBirdGame();
 }
 
@@ -770,6 +819,7 @@ function jumpBird() {
         birdStarted = true;
         birdRunning = true;
         bird.velocity = -6.5;
+        startBirdLoop();
     } else if(birdRunning) {
         bird.velocity = -6.5;
     } else {
@@ -777,6 +827,7 @@ function jumpBird() {
         birdStarted = true;
         birdRunning = true;
         bird.velocity = -6.5;
+        startBirdLoop();
     }
 }
 
@@ -791,6 +842,7 @@ function drawCloud(x,y,s) {
 
 function drawBirdGame() {
     const sky = ctx.createLinearGradient(0,0,0,480);
+
     sky.addColorStop(0,"#42b7ff");
     sky.addColorStop(1,"#b9edff");
 
@@ -803,10 +855,12 @@ function drawBirdGame() {
 
     for(const p of pipes) {
         ctx.fillStyle = "#20b84a";
+
         ctx.fillRect(p.x,0,48,p.top);
         ctx.fillRect(p.x,p.bottom,48,480-p.bottom);
 
         ctx.fillStyle = "#49e879";
+
         ctx.fillRect(p.x-4,p.top-12,56,12);
         ctx.fillRect(p.x-4,p.bottom,56,12);
     }
@@ -841,6 +895,7 @@ function drawBirdGame() {
     if(birdStarted && !birdRunning) {
         ctx.font = "bold 26px Arial";
         ctx.fillText("GAME OVER",180,220);
+
         ctx.font = "18px Arial";
         ctx.fillText("Tap JUMP to restart",180,255);
     }
@@ -848,27 +903,4 @@ function drawBirdGame() {
 
 function addBirdPipe() {
     const gap = 145;
-    const top = 55 + Math.random()*185;
-
-    pipes.push({
-        x:360,
-        top:top,
-        bottom:top+gap,
-        scored:false
-    });
-}
-
-function updateBirdGame() {
-    if(birdRunning) {
-        birdFrame++;
-        bird.velocity += .38;
-        bird.y += bird.velocity;
-
-        if(birdFrame % 95 === 0) {
-            addBirdPipe();
-        }
-
-        for(const p of pipes) {
-            p.x -= 2.3;
-
-            if(!p.scored && p.x+48 < bir
+    const top = 55 + Math.random()*1
