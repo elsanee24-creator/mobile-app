@@ -108,6 +108,32 @@ button {
     box-shadow:0 0 25px #20d96855;
 }
 
+.login-btn:disabled {
+    opacity:.8;
+    cursor:wait;
+}
+
+.login-loading {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-size:17px;
+}
+
+.login-spinner {
+    width:21px;
+    height:21px;
+    border:3px solid #ffffff55;
+    border-top:3px solid #72ffb0;
+    border-radius:50%;
+    animation:loginSpin .7s linear infinite;
+}
+
+@keyframes loginSpin {
+    to { transform:rotate(360deg); }
+}
+
 .guest-btn {
     width:190px;
     height:55px;
@@ -366,7 +392,7 @@ button {
 <section id="login" class="page active">
     <div class="login-logo">📱 mobile.app</div>
     <div class="login-sub">Your little world of useful tools</div>
-    <button class="login-btn" onclick="go('home')">LOGIN</button>
+    <button class="login-btn" id="loginButton" onclick="loginUser()">LOGIN</button>
     <button class="guest-btn" onclick="go('home')">EXPLORE AS GUEST</button>
 </section>
 
@@ -492,6 +518,27 @@ function go(id) {
     if(id === 'flappy') {
         drawBirdGame();
     }
+}
+
+/* ---------- LOGIN LOADING ---------- */
+function loginUser() {
+    const button = document.getElementById('loginButton');
+
+    if(button.disabled) return;
+
+    button.disabled = true;
+    button.innerHTML = `
+        <span class="login-loading">
+            <span class="login-spinner"></span>
+            <span>Processing...</span>
+        </span>
+    `;
+
+    setTimeout(function() {
+        button.disabled = false;
+        button.innerHTML = "LOGIN";
+        go('home');
+    }, 1500);
 }
 
 /* ---------- CALCULATOR ---------- */
@@ -816,43 +863,4 @@ function updateBirdGame() {
 
             const vertical =
                 bird.y-bird.radius < p.top ||
-                bird.y+bird.radius > p.bottom;
-
-            if(horizontal && vertical) {
-                birdRunning = false;
-                break;
-            }
-        }
-
-        pipes = pipes.filter(p => p.x > -60);
-
-        if(bird.y+bird.radius >= 480 ||
-           bird.y-bird.radius <= 0) {
-            birdRunning = false;
-        }
-    }
-
-    drawBirdGame();
-    requestAnimationFrame(updateBirdGame);
-}
-
-canvas.addEventListener('click',jumpBird);
-
-document.addEventListener('keydown',function(e) {
-    if(e.code === "Space" || e.code === "ArrowUp") {
-        const flappyPage = document.getElementById('flappy');
-        if(flappyPage.classList.contains('active')) {
-            e.preventDefault();
-            jumpBird();
-        }
-    }
-});
-
-resetBird();
-updateBirdGame();
-</script>
-</body>
-</html>
-"""
-
-components.html(APP, height=900, scrolling=True)
+                bird.y+bird.radius > p.bottom
