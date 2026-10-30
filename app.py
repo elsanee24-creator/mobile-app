@@ -118,7 +118,7 @@ button {
     align-items:center;
     justify-content:center;
     gap:10px;
-    font-size:17px;
+    font-size:16px;
 }
 
 .login-spinner {
@@ -510,9 +510,10 @@ button {
 <script>
 /* ---------- NAVIGATION ---------- */
 function go(id) {
-    document.querySelectorAll('.page').forEach(p => {
+    document.querySelectorAll('.page').forEach(function(p) {
         p.classList.remove('active');
     });
+
     document.getElementById(id).classList.add('active');
 
     if(id === 'flappy') {
@@ -522,22 +523,20 @@ function go(id) {
 
 /* ---------- LOGIN LOADING ---------- */
 function loginUser() {
-    const button = document.getElementById('loginButton');
+    var button = document.getElementById("loginButton");
 
-    if(button.disabled) return;
+    if(button.disabled) {
+        return;
+    }
 
     button.disabled = true;
-    button.innerHTML = `
-        <span class="login-loading">
-            <span class="login-spinner"></span>
-            <span>Processing...</span>
-        </span>
-    `;
+
+    button.innerHTML = '<span class="login-loading"><span class="login-spinner"></span><span>Processing...</span></span>';
 
     setTimeout(function() {
         button.disabled = false;
-        button.innerHTML = "LOGIN";
-        go('home');
+        button.textContent = "LOGIN";
+        go("home");
     }, 1500);
 }
 
@@ -625,6 +624,7 @@ function calcPress(key) {
             let result = calculateCalc(
                 calcFirst,current,calcOperator
             );
+
             if(result === null) {
                 calcValue = "Cannot divide by zero";
                 calcFirst = null;
@@ -633,6 +633,7 @@ function calcPress(key) {
                 showCalc();
                 return;
             }
+
             current = result;
             calcValue = cleanNumber(result);
         }
@@ -831,6 +832,7 @@ function drawBirdGame() {
 function addBirdPipe() {
     const gap = 145;
     const top = 55 + Math.random()*185;
+
     pipes.push({
         x:360,
         top:top,
@@ -863,4 +865,6 @@ function updateBirdGame() {
 
             const vertical =
                 bird.y-bird.radius < p.top ||
-                bird.y+bird.radius > p.bottom
+                bird.y+bird.radius > p.bottom;
+
+            if(hor
