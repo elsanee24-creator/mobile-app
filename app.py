@@ -22,7 +22,7 @@ html,body {
     width:100%;
     min-height:100%;
     font-family:Arial,sans-serif;
-    background:#020805;
+    background:#06130f;
     color:white;
 }
 
@@ -38,7 +38,11 @@ button {
     min-height:850px;
     margin:auto;
     padding:20px 14px 35px;
-    background:linear-gradient(155deg,#081b10,#020805);
+    background:
+        radial-gradient(ellipse at 15% 10%,#176b43 0%,transparent 38%),
+        radial-gradient(ellipse at 90% 35%,#123e52 0%,transparent 42%),
+        radial-gradient(ellipse at 50% 100%,#164c38 0%,transparent 45%),
+        linear-gradient(145deg,#071b16,#091c29 55%,#06140f);
     color:white;
     position:relative;
     overflow:hidden;
@@ -49,17 +53,19 @@ button {
 
 .logo {
     text-align:center;
-    color:#55ff91;
+    color:#72ffb0;
     font-size:27px;
     font-weight:900;
     margin:15px 0 28px;
-    letter-spacing:1px;
+    letter-spacing:1.5px;
+    text-shadow:0 0 14px #35ff9666;
 }
 
 .subtitle {
     text-align:center;
-    color:#c6e9d0;
+    color:#d4f8e5;
     font-size:14px;
+    letter-spacing:.5px;
 }
 
 /* LOGIN */
@@ -74,28 +80,46 @@ button {
 #login.active { display:flex; }
 
 .login-logo {
-    color:#55ff91;
+    color:#72ffb0;
     font-size:35px;
     font-weight:900;
     margin-bottom:12px;
+    letter-spacing:1px;
+    text-shadow:0 0 22px #37ff9866;
 }
 
 .login-sub {
-    color:#b9d9c4;
+    color:#d0eadc;
     margin-bottom:35px;
     text-align:center;
+    font-size:14px;
+    letter-spacing:.3px;
 }
 
 .login-btn {
     width:190px;
     height:65px;
     border-radius:18px;
-    border:2px solid #55ff91;
-    background:#123c24;
+    border:2px solid #72ffb0;
+    background:linear-gradient(135deg,#17633c,#0d3829);
     color:#fff;
     font-size:21px;
     font-weight:bold;
-    box-shadow:0 0 20px #20d96855;
+    box-shadow:0 0 25px #20d96855;
+}
+
+.guest-btn {
+    width:190px;
+    height:55px;
+    margin-top:16px;
+    border-radius:18px;
+    border:1.5px solid #68dfff;
+    background:linear-gradient(135deg,#123c50,#102c40);
+    color:#e4faff;
+    font-size:16px;
+    font-weight:bold;
+    letter-spacing:.5px;
+    box-shadow:0 0 20px #35cfff33;
 }
 
 /* HOME */
@@ -152,10 +176,13 @@ button {
 }
 
 .heading {
-    color:#55ff91;
+    color:#72ffb0;
     text-align:center;
-    font-size:23px;
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:1px;
     margin:15px 0 20px;
+    text-shadow:0 0 13px #35ff9655;
 }
 
 /* CALCULATOR */
@@ -340,6 +367,7 @@ button {
     <div class="login-logo">📱 mobile.app</div>
     <div class="login-sub">Your little world of useful tools</div>
     <button class="login-btn" onclick="go('home')">LOGIN</button>
+    <button class="guest-btn" onclick="go('home')">EXPLORE AS GUEST</button>
 </section>
 
 <!-- HOME -->
