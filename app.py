@@ -5,71 +5,7 @@ import random
 
 st.set_page_config(page_title="mobile.app", page_icon="📱", layout="centered")
 
-# ================= DESIGN =================
-
-st.markdown("""
-<style>
-.stApp {
-    background: #020805;
-    color: #eaffef;
-}
-.block-container {
-    max-width: 460px !important;
-    min-height: 95vh;
-    margin: 8px auto !important;
-    padding: 25px 12px !important;
-    border: 7px solid #17251c;
-    border-radius: 38px;
-    background: linear-gradient(160deg,#07160d,#020805);
-    box-shadow: 0 0 22px #00ff6650;
-}
-h1,h2,h3 {
-    color: #55ff91 !important;
-    text-align: center;
-}
-p,label {
-    color: #d5ffe3 !important;
-}
-.stButton > button {
-    width: 100%;
-    min-height: 48px;
-    border-radius: 14px;
-    border: 1px solid #20d968;
-    background: #102b1c;
-    color: #55ff91;
-    font-weight: bold;
-}
-.stButton > button:hover {
-    background: #18502d;
-    color: white;
-}
-div[data-testid="column"] .stButton > button {
-    min-height: 105px;
-    padding: 5px;
-    font-size: 13px;
-    white-space: normal;
-    border-radius: 17px;
-}
-.calc-display {
-    background: #001508;
-    border: 2px solid #20d968;
-    border-radius: 15px;
-    padding: 22px 12px;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    color: #55ff91;
-    font-size: 32px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
-# ================= SESSION =================
-
+# ---------- SESSION ----------
 defaults = {
     "logged": False,
     "page": "login",
@@ -83,19 +19,73 @@ defaults = {
     "won": False,
     "feedback": ""
 }
-
 for k, v in defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
+# ---------- MOBILE DESIGN ----------
+st.markdown("""
+<style>
+.stApp {
+    background: #020805;
+    color: #eaffef;
+}
+.block-container {
+    max-width: 460px !important;
+    padding: 22px 12px 30px !important;
+}
+h1,h2,h3 {
+    color: #55ff91 !important;
+    text-align: center;
+}
+p,label {
+    color: #d5ffe3 !important;
+}
+.stButton > button {
+    width: 100%;
+    min-height: 54px;
+    border-radius: 14px;
+    border: 1px solid #20d968;
+    background: #102b1c;
+    color: #55ff91;
+    font-weight: bold;
+}
+.stButton > button:hover {
+    background: #18502d;
+    color: white;
+}
+div[data-testid="column"] .stButton > button {
+    min-height: 100px;
+    padding: 4px;
+    font-size: 13px;
+    white-space: normal;
+    border-radius: 17px;
+}
+.calc-display {
+    background: #001508;
+    border: 2px solid #20d968;
+    border-radius: 15px;
+    padding: 22px 12px;
+    min-height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    color: #55ff91;
+    font-size: 30px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+.login-space {
+    height: 35vh;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# ================= CALCULATOR =================
-
+# ---------- CALCULATOR ----------
 def fmt(n):
     if float(n).is_integer():
         return str(int(n))
     return f"{n:.10g}"
-
 
 def calculate(a, b, op):
     if op == "+":
@@ -106,7 +96,6 @@ def calculate(a, b, op):
         return a * b
     if op == "÷":
         return None if b == 0 else a / b
-
 
 def press(k):
     d = st.session_state.display
@@ -119,9 +108,10 @@ def press(k):
         return
 
     if k == "DEL":
-        if not st.session_state.waiting:
-            if d not in ("Error", "Cannot divide by zero"):
-                st.session_state.display = d[:-1] or "0"
+        if d not in ("Error", "Cannot divide by zero"):
+            if st.session_state.waiting:
+                return
+            st.session_state.display = d[:-1] or "0"
         return
 
     if k in "0123456789":
@@ -164,14 +154,12 @@ def press(k):
                 current,
                 st.session_state.operator
             )
-
             if result is None:
                 st.session_state.display = "Cannot divide by zero"
                 st.session_state.first = None
                 st.session_state.operator = None
                 st.session_state.waiting = True
                 return
-
             current = result
             st.session_state.display = fmt(result)
 
@@ -184,13 +172,11 @@ def press(k):
         if st.session_state.operator is not None:
             if d in ("Error", "Cannot divide by zero"):
                 return
-
             result = calculate(
                 st.session_state.first,
                 float(d),
                 st.session_state.operator
             )
-
             st.session_state.display = (
                 "Cannot divide by zero"
                 if result is None else fmt(result)
@@ -199,46 +185,34 @@ def press(k):
             st.session_state.operator = None
             st.session_state.waiting = True
 
-
-# ================= LOGIN =================
-
+# ---------- LOGIN ----------
 if not st.session_state.logged:
-
-    st.write("")
-    st.write("")
-    st.write("")
+    st.markdown("<div class='login-space'></div>", unsafe_allow_html=True)
     st.markdown("<h1>📱 mobile.app</h1>", unsafe_allow_html=True)
     st.markdown(
         "<p style='text-align:center'>Your little world of useful tools</p>",
         unsafe_allow_html=True
     )
-    st.write("")
-    st.write("")
-    st.write("")
 
     left, middle, right = st.columns([1, 2, 1])
-
     with middle:
-        if st.button("LOGIN", key="login_button"):
+        if st.button("LOGIN", key="login"):
             st.session_state.logged = True
             st.session_state.page = "home"
             st.rerun()
 
-
-# ================= APP =================
-
+# ---------- MAIN APP ----------
 else:
-
     st.markdown("<h1>📱 mobile.app</h1>", unsafe_allow_html=True)
 
+    # HOME
     if st.session_state.page == "home":
-
         st.markdown(
             "<p style='text-align:center'>Choose your tool</p>",
             unsafe_allow_html=True
         )
 
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3 = st.columns(3, gap="small")
 
         with c1:
             if st.button("🧮\nCalculator", key="home_calc"):
@@ -261,11 +235,8 @@ else:
             st.session_state.page = "login"
             st.rerun()
 
-
-    # ================= CALCULATOR SCREEN =================
-
+    # CALCULATOR
     elif st.session_state.page == "calculator":
-
         st.markdown("<h2>CALCULATOR</h2>", unsafe_allow_html=True)
 
         st.markdown(
@@ -282,7 +253,7 @@ else:
         ]
 
         for ri, row in enumerate(rows):
-            cols = st.columns(4)
+            cols = st.columns(4, gap="small")
             for ci, key in enumerate(row):
                 with cols[ci]:
                     if st.button(key, key=f"calc_{ri}_{ci}"):
@@ -294,28 +265,16 @@ else:
             st.session_state.page = "home"
             st.rerun()
 
-
-    # ================= NUMBER GUESSING GAME =================
-
+    # NUMBER GUESSING
     elif st.session_state.page == "guess":
-
         st.markdown("<h2>NUMBER GUESSING GAME</h2>", unsafe_allow_html=True)
-
-        st.markdown(
-            "<div class='calc-display' style='font-size:20px;justify-content:center'>"
-            "Guess a number between 1 and 100"
-            "</div>",
-            unsafe_allow_html=True
-        )
+        st.write("Guess a number between 1 and 100.")
 
         remaining = 10 - st.session_state.attempts
-        st.markdown(
-            f"<h3>Chances remaining: {remaining}/10</h3>",
-            unsafe_allow_html=True
-        )
+        st.markdown(f"<h3>Chances remaining: {remaining}/10</h3>",
+                    unsafe_allow_html=True)
 
         if not st.session_state.game_over:
-
             guess = st.number_input(
                 "Your guess",
                 min_value=1,
@@ -331,31 +290,23 @@ else:
                 if guess == st.session_state.secret:
                     st.session_state.won = True
                     st.session_state.game_over = True
-                    st.session_state.feedback = ""
-
                 elif st.session_state.attempts >= 10:
                     st.session_state.game_over = True
-
                 elif guess < st.session_state.secret:
                     st.session_state.feedback = "Too low! Try higher."
-
                 else:
                     st.session_state.feedback = "Too high! Try lower."
-
                 st.rerun()
 
             if st.session_state.feedback:
                 st.info(st.session_state.feedback)
 
         else:
-
             if st.session_state.won:
                 st.success("Yay! You won !!!!")
             else:
                 st.error("Oops! You're out of tries")
-                st.write(
-                    f"The correct number was {st.session_state.secret}"
-                )
+                st.write(f"The correct number was {st.session_state.secret}")
 
             if st.button("🔄 NEW GAME"):
                 st.session_state.secret = random.randint(1, 100)
@@ -365,16 +316,12 @@ else:
                 st.session_state.feedback = ""
                 st.rerun()
 
-        st.write("")
         if st.button("⬅ BACK TO HOME"):
             st.session_state.page = "home"
             st.rerun()
 
-
-    # ================= FLAPPY BIRD =================
-
+    # FLAPPY BIRD
     elif st.session_state.page == "flappy":
-
         st.markdown("<h2>🐦 FLAPPY BIRD</h2>", unsafe_allow_html=True)
 
         flappy_html = """
@@ -399,7 +346,7 @@ canvas {
  margin:auto;
  border:2px solid #20d968;
  border-radius:12px;
- background:#102b1c;
+ background:#65c9ff;
  touch-action:manipulation;
 }
 button {
@@ -426,88 +373,90 @@ button {
 <div class="hint">Tap JUMP to fly. Avoid the pipes!</div>
 
 <script>
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
-const jumpButton = document.getElementById("jump");
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+const jumpButton=document.getElementById("jump");
 
-let bird, pipes, score, frame, running, started;
-const gravity = 0.38;
-const jumpPower = -6.5;
+let bird,pipes,score,frame,running,started;
+const gravity=0.38;
+const jumpPower=-6.5;
 
-function resetGame() {
- bird = {x:75,y:220,velocity:0,radius:12};
- pipes = [];
- score = 0;
- frame = 0;
- running = false;
- started = false;
+function resetGame(){
+ bird={x:75,y:220,velocity:0,radius:12};
+ pipes=[];
+ score=0;
+ frame=0;
+ running=false;
+ started=false;
  draw();
 }
 
-function jump() {
- if (!started) {
-  started = true;
-  running = true;
-  bird.velocity = jumpPower;
- } else if (running) {
-  bird.velocity = jumpPower;
- } else {
+function jump(){
+ if(!started){
+  started=true;
+  running=true;
+  bird.velocity=jumpPower;
+ }else if(running){
+  bird.velocity=jumpPower;
+ }else{
   resetGame();
-  started = true;
-  running = true;
-  bird.velocity = jumpPower;
+  started=true;
+  running=true;
+  bird.velocity=jumpPower;
  }
 }
 
 jumpButton.addEventListener("click",jump);
+canvas.addEventListener("click",jump);
 
-canvas.addEventListener("click",function() {
- jump();
-});
-
-document.addEventListener("keydown",function(e) {
- if (e.code === "Space" || e.code === "ArrowUp") {
+document.addEventListener("keydown",function(e){
+ if(e.code==="Space" || e.code==="ArrowUp"){
   e.preventDefault();
   jump();
  }
 });
 
-function addPipe() {
- const gap = 140;
- const top = 55 + Math.random() * 190;
- pipes.push({
-  x:360,
-  top:top,
-  bottom:top+gap,
-  scored:false
- });
+function cloud(x,y,s){
+ ctx.fillStyle="white";
+ ctx.beginPath();
+ ctx.arc(x,y,17*s,0,Math.PI*2);
+ ctx.arc(x+19*s,y-9*s,21*s,0,Math.PI*2);
+ ctx.arc(x+42*s,y,16*s,0,Math.PI*2);
+ ctx.fill();
 }
 
-function draw() {
- ctx.fillStyle="#102b1c";
+function addPipe(){
+ const gap=145;
+ const top=55+Math.random()*185;
+ pipes.push({x:360,top:top,bottom:top+gap,scored:false});
+}
+
+function draw(){
+ const sky=ctx.createLinearGradient(0,0,0,480);
+ sky.addColorStop(0,"#48b9ff");
+ sky.addColorStop(1,"#b6edff");
+ ctx.fillStyle=sky;
  ctx.fillRect(0,0,360,480);
 
- ctx.fillStyle="#16452b";
- for(let i=0;i<7;i++) {
-  ctx.fillRect(i*60,0,1,480);
- }
+ cloud(45,85,0.8);
+ cloud(230,135,0.7);
+ cloud(145,40,0.5);
 
- for(const p of pipes) {
-  ctx.fillStyle="#25d366";
+ for(const p of pipes){
+  ctx.fillStyle="#24b84a";
   ctx.fillRect(p.x,0,48,p.top);
   ctx.fillRect(p.x,p.bottom,48,480-p.bottom);
-
-  ctx.fillStyle="#55ff91";
+  ctx.fillStyle="#42e66c";
   ctx.fillRect(p.x-4,p.top-12,56,12);
   ctx.fillRect(p.x-4,p.bottom,56,12);
  }
 
- ctx.fillStyle="#ffe45c";
+ ctx.fillStyle="#ffe34a";
  ctx.beginPath();
  ctx.arc(bird.x,bird.y,bird.radius,0,Math.PI*2);
  ctx.fill();
 
- ctx.fillStyle="#ffffff";
+ ctx.fillStyle="white";
  ctx.beginPath();
  ctx.arc(bird.x+4,bird.y-4,3,0,Math.PI*2);
  ctx.fill();
@@ -519,17 +468,17 @@ function draw() {
  ctx.lineTo(bird.x+10,bird.y+7);
  ctx.fill();
 
- ctx.fillStyle="#ffffff";
+ ctx.fillStyle="#143b65";
  ctx.font="bold 26px Arial";
  ctx.textAlign="center";
  ctx.fillText("Score: "+score,180,35);
 
- if(!started) {
+ if(!started){
   ctx.font="bold 20px Arial";
   ctx.fillText("TAP JUMP TO START",180,250);
  }
 
- if(started && !running) {
+ if(started && !running){
   ctx.font="bold 26px Arial";
   ctx.fillText("GAME OVER",180,220);
   ctx.font="18px Arial";
@@ -537,42 +486,39 @@ function draw() {
  }
 }
 
-function update() {
- if(running) {
+function update(){
+ if(running){
   frame++;
-  bird.velocity += gravity;
-  bird.y += bird.velocity;
+  bird.velocity+=gravity;
+  bird.y+=bird.velocity;
 
-  if(frame % 95 === 0) {
-   addPipe();
-  }
+  if(frame%95===0) addPipe();
 
-  for(const p of pipes) {
-   p.x -= 2.3;
+  for(const p of pipes){
+   p.x-=2.3;
 
-   if(!p.scored && p.x+48 < bird.x) {
+   if(!p.scored && p.x+48<bird.x){
     p.scored=true;
     score++;
    }
 
-   const horizontal =
-    bird.x+bird.radius > p.x &&
-    bird.x-bird.radius < p.x+48;
+   const horizontal=
+    bird.x+bird.radius>p.x &&
+    bird.x-bird.radius<p.x+48;
 
-   const vertical =
-    bird.y-bird.radius < p.top ||
-    bird.y+bird.radius > p.bottom;
+   const vertical=
+    bird.y-bird.radius<p.top ||
+    bird.y+bird.radius>p.bottom;
 
-   if(horizontal && vertical) {
+   if(horizontal && vertical){
     running=false;
     break;
    }
   }
 
-  pipes = pipes.filter(p => p.x > -60);
+  pipes=pipes.filter(p=>p.x>-60);
 
-  if(bird.y+bird.radius >= 480 ||
-     bird.y-bird.radius <= 0) {
+  if(bird.y+bird.radius>=480 || bird.y-bird.radius<=0){
    running=false;
   }
  }
@@ -590,8 +536,7 @@ update();
 
         components.html(flappy_html, height=620, scrolling=False)
 
-        st.write("")
         if st.button("⬅ BACK TO HOME"):
             st.session_state.page = "home"
             st.rerun()
-        
+    
