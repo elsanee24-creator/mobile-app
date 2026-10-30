@@ -17,202 +17,142 @@ APP = r"""
 <style>
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     -webkit-tap-highlight-color: transparent;
 }
 
 :root {
-    --bg1: #061c18;
-    --bg2: #0b3027;
-    --card: rgba(15,65,51,.88);
-    --accent: #39ff9c;
-    --accent2: #00c878;
-    --text: #f2fff8;
-    --muted: #a8cbb9;
-    --border: rgba(57,255,156,.25);
+    --bg: #07150e;
+    --panel: #10251a;
+    --card: #183526;
+    --text: #f1fff5;
+    --muted: #a2b9a9;
+    --accent: #39ff88;
+    --accent2: #13bd68;
+    --border: rgba(57,255,136,.22);
+}
+
+body[data-theme="blue"] {
+    --bg:#071222;
+    --panel:#10243b;
+    --card:#193653;
+    --text:#eff7ff;
+    --muted:#a5bad0;
+    --accent:#42baff;
+    --accent2:#247ee8;
+    --border:rgba(66,186,255,.25);
+}
+
+body[data-theme="purple"] {
+    --bg:#160d24;
+    --panel:#28183c;
+    --card:#392450;
+    --text:#fff4ff;
+    --muted:#c1a9d1;
+    --accent:#d58aff;
+    --accent2:#984de0;
+    --border:rgba(213,138,255,.25);
+}
+
+body[data-theme="light"] {
+    --bg:#edf5ef;
+    --panel:#ffffff;
+    --card:#f0f5f1;
+    --text:#15251a;
+    --muted:#66776b;
+    --accent:#159c55;
+    --accent2:#087a40;
+    --border:rgba(20,120,60,.2);
+}
+
+body[data-theme="dark"] {
+    --bg:#08090c;
+    --panel:#15171c;
+    --card:#22252d;
+    --text:#f5f5f5;
+    --muted:#a5a7ae;
+    --accent:#eeeeee;
+    --accent2:#a9a9a9;
+    --border:rgba(255,255,255,.13);
 }
 
 body {
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    color: var(--text);
-    background:
-        radial-gradient(circle at 15% 10%, #14543e, transparent 40%),
-        linear-gradient(145deg,var(--bg1),var(--bg2));
-    transition: background .4s ease,color .3s ease;
-    overflow-x: hidden;
+    margin:0;
+    padding:12px 5px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial, sans-serif;
+    transition:background .25s,color .25s;
 }
 
-/* THEMES */
-
-body.theme-blue {
-    --bg1:#07172e;
-    --bg2:#102f59;
-    --card:rgba(18,54,94,.9);
-    --accent:#54c8ff;
-    --accent2:#278cff;
-    --text:#f2f9ff;
-    --muted:#b2cce4;
-    --border:rgba(84,200,255,.25);
-}
-
-body.theme-purple {
-    --bg1:#1b1030;
-    --bg2:#382052;
-    --card:rgba(66,39,94,.9);
-    --accent:#d59aff;
-    --accent2:#a45bff;
-    --text:#fff8ff;
-    --muted:#d0b9e3;
-    --border:rgba(213,154,255,.25);
-}
-
-body.theme-light {
-    --bg1:#e9fff4;
-    --bg2:#ccefe0;
-    --card:rgba(255,255,255,.94);
-    --accent:#078b58;
-    --accent2:#10b978;
-    --text:#123b2c;
-    --muted:#557565;
-    --border:rgba(0,130,80,.2);
-}
-
-body.theme-dark {
-    --bg1:#101114;
-    --bg2:#202329;
-    --card:rgba(43,46,53,.94);
-    --accent:#eeeeee;
-    --accent2:#aaaaaa;
-    --text:#ffffff;
-    --muted:#b8bbc2;
-    --border:rgba(255,255,255,.15);
-}
-
-/* PHONE FRAME */
-
-#app {
+#phone {
     width:100%;
-    max-width:420px;
-    min-height:100vh;
-    margin:0 auto;
-    padding:25px 17px 35px;
-    position:relative;
-    background:var(--bg1);
-    border:1px solid var(--border);
-    border-radius:38px;
-    box-shadow:
-        0 0 0 5px #171a1b,
-        0 0 0 7px #45494b,
-        0 18px 55px rgba(0,0,0,.45);
+    max-width:430px;
+    min-height:850px;
+    margin:auto;
+    padding:15px;
+    border:2px solid var(--border);
+    border-radius:35px;
+    background:var(--panel);
+    box-shadow:0 15px 45px rgba(0,0,0,.25);
     overflow:hidden;
-    animation:appEnter .7s ease;
+    position:relative;
 }
 
-/* ANIMATIONS */
-
-@keyframes appEnter {
-    from {opacity:0;transform:translateY(15px);}
-    to {opacity:1;transform:translateY(0);}
-}
-
-@keyframes fadeIn {
-    from {opacity:0;transform:translateY(12px);}
-    to {opacity:1;transform:translateY(0);}
-}
-
-@keyframes spin {
-    to {transform:rotate(360deg);}
-}
-
-@keyframes pulse {
-    0%,100% {transform:scale(1);}
-    50% {transform:scale(1.08);}
-}
-
-@keyframes pop {
-    from {transform:scale(.92);opacity:.5;}
-    to {transform:scale(1);opacity:1;}
-}
-
-@keyframes glow {
-    0%,100% {box-shadow:0 0 8px var(--border);}
-    50% {box-shadow:0 0 20px var(--accent);}
-}
-
-/* HEADER */
-
-.header {
+.topbar {
     display:flex;
     justify-content:space-between;
     align-items:center;
     gap:8px;
-    margin-bottom:24px;
+    margin-bottom:25px;
 }
 
 .logo {
-    font-size:25px;
+    font-size:21px;
     font-weight:900;
     letter-spacing:-1px;
 }
 
 .logo span {
     color:var(--accent);
-    text-shadow:0 0 15px var(--accent);
 }
 
-.theme-control {
-    max-width:135px;
+select,input {
     background:var(--card);
     color:var(--text);
     border:1px solid var(--border);
-    padding:9px;
     border-radius:12px;
-    font-size:12px;
+    padding:11px;
     outline:none;
+    font-size:14px;
+    max-width:100%;
 }
 
-/* SCREENS */
+select {
+    width:125px;
+}
 
 .screen {
     display:none;
-    animation:fadeIn .4s ease;
+    animation:appear .25s ease;
 }
 
 .screen.active {
     display:block;
 }
 
-/* CARDS */
-
-.card {
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:21px;
-    padding:19px;
-    box-shadow:0 8px 30px rgba(0,0,0,.12);
-    backdrop-filter:blur(12px);
-    margin-bottom:16px;
-    transition:transform .25s,box-shadow .25s;
-}
-
-.card:hover {
-    box-shadow:0 0 18px var(--border);
+@keyframes appear {
+    from {opacity:0;transform:translateY(8px)}
+    to {opacity:1;transform:translateY(0)}
 }
 
 h1 {
-    font-size:26px;
-    margin-bottom:10px;
+    font-size:29px;
+    margin:10px 0;
 }
 
 h2 {
-    font-size:21px;
-    margin-bottom:12px;
-}
-
-h3 {
-    font-size:17px;
+    font-size:22px;
+    margin:8px 0 15px;
 }
 
 p {
@@ -220,265 +160,186 @@ p {
     line-height:1.5;
 }
 
-/* BUTTONS */
+.card {
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:17px;
+    border-radius:19px;
+    margin:12px 0;
+}
 
-.primary-btn,
-.secondary-btn {
-    width:100%;
+button {
+    cursor:pointer;
+    border:0;
     border-radius:14px;
     padding:14px;
     font-size:15px;
     font-weight:bold;
-    cursor:pointer;
-    transition:transform .18s,filter .2s,box-shadow .2s;
-    font-family:inherit;
-}
-
-.primary-btn {
-    color:#042719;
-    background:linear-gradient(120deg,var(--accent),var(--accent2));
-    border:0;
-    box-shadow:0 0 14px var(--border);
-}
-
-.secondary-btn {
     color:var(--text);
     background:var(--card);
-    border:1px solid var(--border);
+    transition:transform .15s,opacity .15s;
 }
 
-.primary-btn:active,
-.secondary-btn:active {
-    transform:scale(.95);
+button:active {
+    transform:scale(.96);
 }
 
-.primary-btn:hover {
-    filter:brightness(1.1);
-    box-shadow:0 0 18px var(--accent);
-}
-
-/* INPUTS */
-
-input,
-select {
+.primary {
+    color:#06150b;
+    background:var(--accent);
     width:100%;
-    padding:13px;
-    margin:9px 0;
-    border-radius:12px;
+    box-shadow:0 5px 18px rgba(0,0,0,.12);
+}
+
+.secondary {
     border:1px solid var(--border);
-    background:var(--bg1);
-    color:var(--text);
-    outline:none;
-    font-size:15px;
+    width:100%;
 }
 
-input:focus,
-select:focus {
-    box-shadow:0 0 12px var(--border);
-    border-color:var(--accent);
+.back {
+    padding:9px 13px;
+    margin-bottom:15px;
 }
 
-/* DASHBOARD */
-
-.dashboard-grid {
+.menu-grid {
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:11px;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
     margin-top:20px;
 }
 
-.square-btn {
-    min-width:0;
-    aspect-ratio:1/1;
+.menu-btn {
+    min-height:115px;
+    text-align:left;
+    padding:17px;
     border:1px solid var(--border);
-    border-radius:19px;
     background:var(--card);
-    color:var(--text);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:9px;
-    font-size:12px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:all .25s ease;
-    animation:pop .45s ease;
 }
 
-.square-btn:active {
-    transform:scale(.94);
-}
-
-.square-btn:hover {
-    transform:translateY(-4px);
-    box-shadow:0 0 20px var(--border);
-    border-color:var(--accent);
-}
-
-.square-icon {
+.menu-btn .emoji {
+    display:block;
     font-size:29px;
+    margin-bottom:12px;
 }
 
-/* BACK BUTTON */
-
-.back-btn {
-    display:inline-block;
-    padding:10px 14px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    background:var(--card);
-    color:var(--text);
-    margin-bottom:17px;
-    cursor:pointer;
+.menu-btn small {
+    display:block;
+    color:var(--muted);
+    margin-top:5px;
+    font-weight:normal;
 }
 
-/* LOADING */
+input {
+    width:100%;
+    margin:8px 0;
+}
 
-.loading-area {
+.loading {
     display:none;
     text-align:center;
-    padding:25px 10px;
+    padding:25px 5px;
 }
 
-.loader {
-    width:40px;
-    height:40px;
+.spinner {
+    width:38px;
+    height:38px;
     border:4px solid var(--border);
     border-top-color:var(--accent);
     border-radius:50%;
+    margin:10px auto;
     animation:spin .8s linear infinite;
-    margin:15px auto;
 }
 
-.loading-dots {
-    display:flex;
-    justify-content:center;
-    gap:7px;
-    margin-top:10px;
+@keyframes spin {
+    to {transform:rotate(360deg)}
 }
 
-.loading-dots span {
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:var(--accent);
-    animation:pulse .7s infinite alternate;
+.calc-display {
+    min-height:85px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:17px;
+    text-align:right;
+    font-size:29px;
+    overflow-wrap:anywhere;
+    margin-bottom:12px;
 }
-
-.loading-dots span:nth-child(2) {
-    animation-delay:.2s;
-}
-
-.loading-dots span:nth-child(3) {
-    animation-delay:.4s;
-}
-
-.notice {
-    color:var(--accent);
-    font-size:13px;
-    min-height:20px;
-    margin-top:10px;
-    text-align:center;
-}
-
-/* PASSWORD CHECKBOXES */
-
-.check-option {
-    display:flex;
-    align-items:center;
-    gap:9px;
-    margin-top:13px;
-    color:var(--text);
-    font-size:14px;
-}
-
-.check-option input {
-    width:18px;
-    height:18px;
-    margin:0;
-    accent-color:var(--accent);
-}
-
-/* CALCULATOR */
 
 .calc-grid {
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:8px;
-    margin-top:12px;
 }
 
-/* FLAPPY BIRD */
+.calc-grid button {
+    min-height:58px;
+    font-size:19px;
+}
+
+.calc-grid .operator {
+    color:var(--accent);
+}
+
+.result {
+    font-size:19px;
+    font-weight:bold;
+    color:var(--accent);
+    margin:15px 0;
+    overflow-wrap:anywhere;
+}
+
+.game-info {
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    color:var(--accent);
+}
 
 #birdCanvas {
     display:block;
     width:100%;
     max-width:360px;
     height:auto;
-    aspect-ratio:3/4;
-    border-radius:16px;
-    background:#87ceeb;
     margin:12px auto;
+    border-radius:15px;
+    border:1px solid var(--border);
     touch-action:manipulation;
-    box-shadow:0 5px 18px rgba(0,0,0,.2);
+    background:#65cfff;
 }
 
-/* RESPONSIVE PHONE */
-
-@media(min-width:500px) {
-    body {
-        padding:25px 0;
-    }
-
-    #app {
-        min-height:850px;
-    }
+.check-row {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:12px 0;
+    color:var(--text);
 }
 
-@media(max-width:430px) {
-    body {
-        padding:0;
-    }
-
-    #app {
-        width:100%;
-        min-height:100vh;
-        border-radius:0;
-        border:none;
-        box-shadow:none;
-    }
+.check-row input {
+    width:auto;
+    margin:0;
+    accent-color:var(--accent);
 }
 
-@media(max-width:360px) {
-    #app {
-        padding:20px 12px 30px;
-    }
-
-    .dashboard-grid {
-        gap:7px;
-    }
-
-    .square-btn {
-        font-size:11px;
-    }
-
-    .square-icon {
-        font-size:25px;
-    }
+.footer {
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:30px 0 10px;
 }
+
 </style>
 </head>
 
-<body>
-<div id="app">
+<body data-theme="green">
 
-    <!-- HEADER -->
-    <div class="header">
+<div id="phone">
+
+    <div class="topbar">
         <div class="logo">mobile<span>.app</span></div>
 
-        <select class="theme-control" id="themeSelect"
-            onchange="changeTheme(this.value)">
+        <select id="themeSelect" onchange="changeTheme(this.value)">
             <option value="green">Green Neon</option>
             <option value="blue">Blue</option>
             <option value="purple">Purple</option>
@@ -487,399 +348,331 @@ select:focus {
         </select>
     </div>
 
-    <!-- LOGIN SCREEN -->
+    <!-- LOGIN -->
     <section id="login" class="screen active">
-        <div class="card" style="margin-top:45px;text-align:center;">
 
-            <div style="font-size:55px;margin-bottom:15px;">📱</div>
-
-            <h1>Welcome to mobile.app</h1>
+        <div style="text-align:center;padding:45px 5px 25px">
+            <div style="font-size:65px">📱</div>
+            <h1>Welcome to <span style="color:var(--accent)">mobile.app</span></h1>
             <p>Your mini digital world.</p>
-
-            <div id="loginForm">
-
-                <input id="username" type="text"
-                    placeholder="Enter your name">
-
-                <button class="primary-btn" onclick="loginUser()">
-                    Login
-                </button>
-
-                <button class="secondary-btn"
-                    style="margin-top:10px;"
-                    onclick="guestUser()">
-                    Continue as Guest
-                </button>
-
-            </div>
-
-            <div class="loading-area" id="loginLoading">
-
-                <div class="loader"></div>
-
-                <h3 id="loadingTitle">Processing...</h3>
-
-                <div class="loading-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <p style="margin-top:12px;">
-                    Please wait a moment
-                </p>
-
-            </div>
         </div>
+
+        <div class="card">
+            <h2>Get Started</h2>
+
+            <input id="username" placeholder="Enter your name">
+
+            <button class="primary" onclick="loginUser()">
+                Login
+            </button>
+
+            <div style="height:10px"></div>
+
+            <button class="secondary" onclick="guestUser()">
+                Continue as Guest
+            </button>
+        </div>
+
+        <div id="loginLoading" class="loading">
+            <div class="spinner"></div>
+            <b id="loadingText">Please wait...</b>
+        </div>
+
+        <div class="footer">Made with creativity ✨</div>
     </section>
 
-    <!-- HOME DASHBOARD -->
+
+    <!-- HOME -->
     <section id="home" class="screen">
 
         <div class="card">
-            <h1 id="welcomeTitle">Hello!</h1>
-            <p>Choose an application to get started.</p>
+            <p>Welcome back 👋</p>
+            <h1 id="welcomeName">User</h1>
+            <p>Your tools are ready.</p>
         </div>
 
-        <div class="dashboard-grid">
+        <h2>Explore Apps</h2>
 
-            <button class="square-btn"
-                onclick="go('calculator')">
-                <span class="square-icon">🧮</span>
+        <div class="menu-grid">
+
+            <button class="menu-btn" onclick="go('calculator')">
+                <span class="emoji">🧮</span>
                 Calculator
+                <small>Calculate anything</small>
             </button>
 
-            <button class="square-btn"
-                onclick="go('guess')">
-                <span class="square-icon">🎯</span>
+            <button class="menu-btn" onclick="go('guess')">
+                <span class="emoji">🎯</span>
                 Number Guess
+                <small>Guess the number</small>
             </button>
 
-            <button class="square-btn"
-                onclick="go('flappy')">
-                <span class="square-icon">🐦</span>
+            <button class="menu-btn" onclick="go('flappy')">
+                <span class="emoji">🐦</span>
                 Flappy Bird
+                <small>Play the game</small>
             </button>
 
-            <button class="square-btn"
-                onclick="go('password')">
-                <span class="square-icon">🔐</span>
+            <button class="menu-btn" onclick="go('password')">
+                <span class="emoji">🔐</span>
                 Password Generator
+                <small>Create passwords</small>
             </button>
 
         </div>
 
-        <div class="card"
-            style="margin-top:20px;text-align:center;">
-
-            <p>Made with creativity ✨</p>
-
-            <button class="secondary-btn"
-                style="margin-top:13px;"
-                onclick="logoutUser()">
-                Logout
-            </button>
-
+        <div class="card" style="margin-top:22px">
+            <b>✨ mobile.app</b>
+            <p>A collection of useful mini tools in one place.</p>
         </div>
+
+        <button class="secondary" onclick="logoutUser()">Logout</button>
+
     </section>
+
 
     <!-- CALCULATOR -->
     <section id="calculator" class="screen">
 
-        <button class="back-btn" onclick="go('home')">
-            ← Home
-        </button>
+        <button class="back" onclick="go('home')">← Back</button>
 
-        <div class="card">
+        <h1>Calculator</h1>
+        <p>Simple and quick calculations.</p>
 
-            <h2>🧮 Calculator</h2>
+        <div class="calc-display" id="calcDisplay">0</div>
 
-            <input id="calcDisplay"
-                type="text"
-                value="0"
-                readonly
-                style="font-size:27px;text-align:right;">
+        <div class="calc-grid">
 
-            <div class="calc-grid">
+            <button class="operator" onclick="calcClear()">AC</button>
+            <button class="operator" onclick="calcBack()">⌫</button>
+            <button class="operator" onclick="calcPress('%')">%</button>
+            <button class="operator" onclick="calcPress('/')">÷</button>
 
-                <button class="secondary-btn"
-                    onclick="calcPress('C')">C</button>
+            <button onclick="calcPress('7')">7</button>
+            <button onclick="calcPress('8')">8</button>
+            <button onclick="calcPress('9')">9</button>
+            <button class="operator" onclick="calcPress('*')">×</button>
 
-                <button class="secondary-btn"
-                    onclick="calcPress('(')">(</button>
+            <button onclick="calcPress('4')">4</button>
+            <button onclick="calcPress('5')">5</button>
+            <button onclick="calcPress('6')">6</button>
+            <button class="operator" onclick="calcPress('-')">−</button>
 
-                <button class="secondary-btn"
-                    onclick="calcPress(')')">)</button>
+            <button onclick="calcPress('1')">1</button>
+            <button onclick="calcPress('2')">2</button>
+            <button onclick="calcPress('3')">3</button>
+            <button class="operator" onclick="calcPress('+')">+</button>
 
-                <button class="secondary-btn"
-                    onclick="calcPress('/')">÷</button>
+            <button onclick="calcPress('0')">0</button>
+            <button onclick="calcPress('00')">00</button>
+            <button onclick="calcPress('.')">.</button>
+            <button class="primary" onclick="calculateCalc()">=</button>
 
-                <button class="secondary-btn"
-                    onclick="calcPress('7')">7</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('8')">8</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('9')">9</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('*')">×</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('4')">4</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('5')">5</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('6')">6</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('-')">−</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('1')">1</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('2')">2</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('3')">3</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('+')">+</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('0')">0</button>
-
-                <button class="secondary-btn"
-                    onclick="calcPress('.')">.</button>
-
-                <button class="secondary-btn"
-                    onclick="calcBack()">⌫</button>
-
-                <button class="primary-btn"
-                    onclick="calculateCalc()">=</button>
-
-            </div>
         </div>
     </section>
 
-    <!-- NUMBER GUESSING -->
+
+    <!-- NUMBER GUESS -->
     <section id="guess" class="screen">
 
-        <button class="back-btn" onclick="go('home')">
-            ← Home
-        </button>
+        <button class="back" onclick="go('home')">← Back</button>
+
+        <h1>Number Guess 🎯</h1>
+        <p>Guess a secret number between 1 and 100.</p>
 
         <div class="card">
-
-            <h2>🎯 Number Guessing</h2>
-
-            <p>Guess a number between 1 and 100.</p>
-
-            <h3 id="triesText" style="margin-top:15px;">
+            <div class="game-info" id="guessAttempts">
                 Attempts left: 10
-            </h3>
+            </div>
 
-            <input id="guessInput"
+            <input
+                id="guessInput"
                 type="number"
-                placeholder="Enter your guess">
+                min="1"
+                max="100"
+                placeholder="Enter your guess"
+            >
 
-            <button class="primary-btn"
-                onclick="submitGuess()">
-                Submit Guess
+            <button class="primary" onclick="checkGuess()">
+                Check Number
             </button>
 
-            <div class="notice" id="guessMessage"></div>
+            <div class="result" id="guessMessage">
+                Good luck!
+            </div>
 
-            <button class="secondary-btn"
-                style="margin-top:12px;"
-                onclick="newGame()">
+            <button class="secondary" onclick="resetGuess()">
                 New Game
             </button>
-
         </div>
     </section>
+
 
     <!-- FLAPPY BIRD -->
     <section id="flappy" class="screen">
 
-        <button class="back-btn" onclick="go('home')">
-            ← Home
+        <button class="back" onclick="go('home')">← Back</button>
+
+        <h1>Flappy Bird 🐦</h1>
+        <p>Tap the game area or press Jump to fly.</p>
+
+        <div class="game-info" id="birdScoreText">
+            Score: 0
+        </div>
+
+        <canvas id="birdCanvas" width="360" height="480"></canvas>
+
+        <button class="primary" onclick="birdJump()">
+            JUMP
         </button>
 
-        <div class="card" style="text-align:center;">
+        <div style="height:10px"></div>
 
-            <h2>🐦 Flappy Bird</h2>
+        <button class="secondary" onclick="resetBird()">
+            Restart Game
+        </button>
 
-            <p>Tap Jump to fly through the pipes.</p>
-
-            <h3 id="birdScoreText" style="margin:12px;">
-                Score: 0
-            </h3>
-
-            <canvas id="birdCanvas"
-                width="360"
-                height="480">
-            </canvas>
-
-            <button class="primary-btn"
-                style="margin-top:13px;"
-                onclick="birdJump()">
-                JUMP
-            </button>
-
-            <button class="secondary-btn"
-                style="margin-top:9px;"
-                onclick="resetBird()">
-                Restart
-            </button>
-
-            <p style="margin-top:12px;font-size:12px;">
-                Tap the screen or press JUMP to fly.
-            </p>
-
-        </div>
     </section>
+
 
     <!-- PASSWORD GENERATOR -->
     <section id="password" class="screen">
 
-        <button class="back-btn" onclick="go('home')">
-            ← Home
-        </button>
+        <button class="back" onclick="go('home')">← Back</button>
+
+        <h1>Password Generator 🔐</h1>
+        <p>Create a random password.</p>
 
         <div class="card">
 
-            <h2>🔐 Password Generator</h2>
-
-            <p>Create a random password on your device.</p>
-
-            <label style="display:block;margin-top:18px;">
-                Password Length
-            </label>
-
-            <input id="passwordLength"
+            <label>Password Length</label>
+            <input
                 type="number"
+                id="passLength"
                 min="8"
                 max="32"
-                value="16">
+                value="16"
+            >
 
-            <label class="check-option">
-                <input type="checkbox" id="useUpper" checked>
-                Uppercase letters (A-Z)
-            </label>
+            <div class="check-row">
+                <input type="checkbox" id="passUpper" checked>
+                <label for="passUpper">Uppercase letters (A-Z)</label>
+            </div>
 
-            <label class="check-option">
-                <input type="checkbox" id="useLower" checked>
-                Lowercase letters (a-z)
-            </label>
+            <div class="check-row">
+                <input type="checkbox" id="passLower" checked>
+                <label for="passLower">Lowercase letters (a-z)</label>
+            </div>
 
-            <label class="check-option">
-                <input type="checkbox" id="useNumbers" checked>
-                Numbers (0-9)
-            </label>
+            <div class="check-row">
+                <input type="checkbox" id="passNumbers" checked>
+                <label for="passNumbers">Numbers (0-9)</label>
+            </div>
 
-            <label class="check-option">
-                <input type="checkbox" id="useSymbols" checked>
-                Special symbols
-            </label>
+            <div class="check-row">
+                <input type="checkbox" id="passSymbols" checked>
+                <label for="passSymbols">Symbols (!@#$)</label>
+            </div>
 
-            <button class="primary-btn"
-                style="margin-top:18px;"
-                onclick="generatePassword()">
+            <button class="primary" onclick="generatePassword()">
                 Generate Password
             </button>
 
-            <input id="passwordOutput"
-                type="text"
-                placeholder="Your password will appear here"
+            <input
+                id="passwordOutput"
                 readonly
-                style="margin-top:15px;text-align:center;">
+                placeholder="Your password appears here"
+            >
 
-            <button class="secondary-btn"
-                onclick="copyPassword()">
-                📋 Copy Password
+            <button class="secondary" onclick="copyPassword()">
+                Copy Password
             </button>
 
-            <div class="notice" id="passwordMessage"></div>
+            <div class="result" id="passwordMessage"></div>
 
         </div>
     </section>
 
+    <div class="footer">mobile.app • Your digital space</div>
+
 </div>
-</body>
-</html>
+
 
 <script>
 
-// ==============================
+// ===========================
 // THEME SYSTEM
-// ==============================
+// ===========================
 
 function changeTheme(theme) {
-    document.body.className = "";
-
-    if(theme !== "green") {
-        document.body.classList.add("theme-" + theme);
-    }
+    document.body.setAttribute("data-theme", theme);
+    document.getElementById("themeSelect").value = theme;
 
     try {
         localStorage.setItem("mobileAppTheme", theme);
-    } catch(error) {}
+    } catch(e) {}
 }
 
-let savedTheme = "green";
-
 try {
-    savedTheme = localStorage.getItem("mobileAppTheme") || "green";
-} catch(error) {}
+    const savedTheme = localStorage.getItem("mobileAppTheme");
 
-document.getElementById("themeSelect").value = savedTheme;
-changeTheme(savedTheme);
+    if(savedTheme) {
+        changeTheme(savedTheme);
+    }
+} catch(e) {}
 
 
-// ==============================
+// ===========================
 // SCREEN NAVIGATION
-// ==============================
+// ===========================
 
-function go(id) {
+function go(screenId) {
     document.querySelectorAll(".screen").forEach(function(screen) {
         screen.classList.remove("active");
     });
 
-    const target = document.getElementById(id);
+    const target = document.getElementById(screenId);
 
     if(target) {
         target.classList.add("active");
     }
 
-    if(id === "flappy") {
+    if(screenId === "flappy") {
         if(!birdStarted || !birdRunning) {
             resetBird();
         } else {
+            startBirdLoop();
             drawBirdGame();
         }
     }
 }
 
 
-// ==============================
+// ===========================
 // LOGIN AND GUEST
-// ==============================
+// ===========================
 
-function showProcessing(title) {
-    document.getElementById("loginForm").style.display = "none";
+function startLogin(name) {
     document.getElementById("loginLoading").style.display = "block";
-    document.getElementById("loadingTitle").textContent = title;
+    document.getElementById("loadingText").textContent =
+        "Preparing your experience...";
+
+    document.querySelectorAll("#login .card button").forEach(function(btn) {
+        btn.disabled = true;
+        btn.style.opacity = ".5";
+    });
 
     setTimeout(function() {
+        document.getElementById("welcomeName").textContent = name;
         document.getElementById("loginLoading").style.display = "none";
-        document.getElementById("loginForm").style.display = "block";
+
+        document.querySelectorAll("#login .card button").forEach(function(btn) {
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        });
+
         go("home");
-    }, 1500);
+    }, 1200);
 }
 
 function loginUser() {
@@ -890,43 +683,38 @@ function loginUser() {
         return;
     }
 
-    document.getElementById("welcomeTitle").textContent =
-        "Hello, " + name + "!";
-
-    showProcessing("Logging in...");
+    startLogin(name);
 }
 
 function guestUser() {
-    document.getElementById("welcomeTitle").textContent =
-        "Hello, Guest!";
-
-    showProcessing("Preparing your app...");
+    startLogin("Guest");
 }
 
 function logoutUser() {
-    document.getElementById("username").value = "";
     go("login");
 }
 
 
-// ==============================
+// ===========================
 // CALCULATOR
-// ==============================
+// ===========================
 
 let calcExpression = "";
 
 function updateCalc() {
-    document.getElementById("calcDisplay").value =
+    document.getElementById("calcDisplay").textContent =
         calcExpression || "0";
 }
 
 function calcPress(value) {
-    if(value === "C") {
-        calcExpression = "";
-    } else {
-        calcExpression += value;
-    }
+    if(calcExpression.length > 35) return;
 
+    calcExpression += value;
+    updateCalc();
+}
+
+function calcClear() {
+    calcExpression = "";
     updateCalc();
 }
 
@@ -936,11 +724,11 @@ function calcBack() {
 }
 
 function calculateCalc() {
-    try {
-        if(!calcExpression) return;
+    if(!calcExpression) return;
 
-        if(!/^[0-9+\-*/(). ]+$/.test(calcExpression)) {
-            throw new Error("Invalid expression");
+    try {
+        if(!/^[0-9+\-*/%.() ]+$/.test(calcExpression)) {
+            throw new Error("Invalid");
         }
 
         const result = Function(
@@ -948,190 +736,171 @@ function calculateCalc() {
         )();
 
         if(!Number.isFinite(result)) {
-            throw new Error("Invalid result");
+            throw new Error("Invalid");
         }
 
-        calcExpression = String(result);
+        calcExpression = String(
+            Number(result.toFixed(10))
+        );
+
         updateCalc();
 
-    } catch(error) {
-        document.getElementById("calcDisplay").value = "Error";
+    } catch(e) {
+        document.getElementById("calcDisplay").textContent =
+            "Error";
+
         calcExpression = "";
     }
 }
 
 
-// ==============================
+// ===========================
 // NUMBER GUESSING GAME
-// ==============================
+// ===========================
 
 let secretNumber = Math.floor(Math.random() * 100) + 1;
-let triesLeft = 10;
-let gameFinished = false;
+let attemptsLeft = 10;
+let guessFinished = false;
 
-function updateGuessDisplay() {
-    document.getElementById("triesText").textContent =
-        "Attempts left: " + triesLeft;
-}
-
-function newGame() {
+function resetGuess() {
     secretNumber = Math.floor(Math.random() * 100) + 1;
-    triesLeft = 10;
-    gameFinished = false;
+    attemptsLeft = 10;
+    guessFinished = false;
 
     document.getElementById("guessInput").value = "";
-    document.getElementById("guessMessage").textContent = "";
-
-    updateGuessDisplay();
+    document.getElementById("guessMessage").textContent = "Good luck!";
+    document.getElementById("guessAttempts").textContent =
+        "Attempts left: 10";
 }
 
-function submitGuess() {
-    if(gameFinished) return;
+function checkGuess() {
+    if(guessFinished) return;
 
     const input = document.getElementById("guessInput");
     const guess = Number(input.value);
     const message = document.getElementById("guessMessage");
 
-    if(
-        input.value.trim() === "" ||
-        !Number.isInteger(guess) ||
-        guess < 1 ||
-        guess > 100
-    ) {
-        message.textContent = "Enter a number between 1 and 100.";
+    if(!input.value || !Number.isInteger(guess) || guess < 1 || guess > 100) {
+        message.textContent = "Enter a number from 1 to 100.";
         return;
     }
 
-    triesLeft--;
+    attemptsLeft--;
 
     if(guess === secretNumber) {
-        message.textContent = "Yay! You won !!!!";
-        gameFinished = true;
-
-    } else if(triesLeft === 0) {
-        message.textContent =
-            "Oops! You're out of tries. Number was " + secretNumber;
-        gameFinished = true;
-
+        message.textContent = "🎉 Correct! You won!";
+        guessFinished = true;
+    } else if(attemptsLeft <= 0) {
+        message.textContent = "Game over! Number was " + secretNumber;
+        guessFinished = true;
     } else if(guess < secretNumber) {
         message.textContent = "Too low! Try a higher number.";
-
     } else {
         message.textContent = "Too high! Try a lower number.";
     }
 
-    updateGuessDisplay();
+    document.getElementById("guessAttempts").textContent =
+        "Attempts left: " + attemptsLeft;
+
     input.value = "";
 }
 
 
-// ==============================
+// ===========================
 // PASSWORD GENERATOR
-// ==============================
+// ===========================
+
+function secureRandom(max) {
+    const values = new Uint32Array(1);
+    crypto.getRandomValues(values);
+    return values[0] % max;
+}
 
 function generatePassword() {
-    const lengthInput = document.getElementById("passwordLength");
-    const length = Number(lengthInput.value);
-
-    const output = document.getElementById("passwordOutput");
-    const message = document.getElementById("passwordMessage");
+    const length = Number(document.getElementById("passLength").value);
 
     if(!Number.isInteger(length) || length < 8 || length > 32) {
-        message.textContent = "Choose a length between 8 and 32.";
+        document.getElementById("passwordMessage").textContent =
+            "Choose a length between 8 and 32.";
         return;
     }
 
-    const groups = [];
+    let groups = [];
 
-    if(document.getElementById("useUpper").checked) {
+    if(document.getElementById("passUpper").checked) {
         groups.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     }
 
-    if(document.getElementById("useLower").checked) {
+    if(document.getElementById("passLower").checked) {
         groups.push("abcdefghijklmnopqrstuvwxyz");
     }
 
-    if(document.getElementById("useNumbers").checked) {
+    if(document.getElementById("passNumbers").checked) {
         groups.push("0123456789");
     }
 
-    if(document.getElementById("useSymbols").checked) {
-        groups.push("!@#$%&*_-+=?");
+    if(document.getElementById("passSymbols").checked) {
+        groups.push("!@#$%&*?");
     }
 
     if(groups.length === 0) {
-        message.textContent = "Select at least one option.";
-        output.value = "";
+        document.getElementById("passwordMessage").textContent =
+            "Select at least one character group.";
         return;
     }
 
-    const allCharacters = groups.join("");
-    const randomValues = new Uint32Array(length);
-
-    crypto.getRandomValues(randomValues);
-
+    let allCharacters = groups.join("");
     let password = "";
 
-    // At least one character from every selected group.
-    for(let i = 0; i < groups.length; i++) {
-        const index = randomValues[i] % groups[i].length;
-        password += groups[i][index];
+    // Include at least one character from each selected group.
+    groups.forEach(function(group) {
+        password += group[secureRandom(group.length)];
+    });
+
+    while(password.length < length) {
+        password += allCharacters[secureRandom(allCharacters.length)];
     }
 
-    for(let i = groups.length; i < length; i++) {
-        password += allCharacters[
-            randomValues[i] % allCharacters.length
-        ];
+    // Shuffle characters.
+    let chars = password.split("");
+
+    for(let i = chars.length - 1; i > 0; i--) {
+        const j = secureRandom(i + 1);
+        [chars[i], chars[j]] = [chars[j], chars[i]];
     }
 
-    // Shuffle password characters.
-    const shuffled = password.split("");
+    password = chars.join("");
 
-    for(let i = shuffled.length - 1; i > 0; i--) {
-        const j = randomValues[i] % (i + 1);
-
-        [shuffled[i], shuffled[j]] =
-            [shuffled[j], shuffled[i]];
-    }
-
-    output.value = shuffled.join("");
-
-    output.style.animation = "none";
-    void output.offsetWidth;
-    output.style.animation = "pop .35s ease";
-
-    message.textContent = "New password generated!";
+    document.getElementById("passwordOutput").value = password;
+    document.getElementById("passwordMessage").textContent =
+        "Password generated successfully.";
 }
 
 async function copyPassword() {
     const output = document.getElementById("passwordOutput");
-    const message = document.getElementById("passwordMessage");
 
     if(!output.value) {
-        message.textContent = "Generate a password first.";
+        document.getElementById("passwordMessage").textContent =
+            "Generate a password first.";
         return;
     }
 
     try {
         await navigator.clipboard.writeText(output.value);
-        message.textContent = "Password copied!";
-
-    } catch(error) {
+        document.getElementById("passwordMessage").textContent =
+            "Password copied!";
+    } catch(e) {
         output.select();
-
-        const copied = document.execCommand("copy");
-
-        message.textContent = copied
-            ? "Password copied!"
-            : "Copy unavailable. Select and copy manually.";
+        document.execCommand("copy");
+        document.getElementById("passwordMessage").textContent =
+            "Copy attempted. Please check the field.";
     }
 }
 
-</script>
 
-// ==============================
-// FLAPPY BIRD GAME ENGINE
-// ==============================
+// ===========================
+// FLAPPY BIRD ENGINE
+// ===========================
 
 const canvas = document.getElementById("birdCanvas");
 const ctx = canvas.getContext("2d");
@@ -1161,10 +930,7 @@ const pipeGap = 150;
 const pipeWidth = 48;
 
 
-// ==============================
-// RESET GAME
-// ==============================
-
+// Reset game
 function resetBird() {
     if(birdAnimationId !== null) {
         cancelAnimationFrame(birdAnimationId);
@@ -1183,18 +949,14 @@ function resetBird() {
     birdStarted = true;
     birdLoopActive = false;
 
-    document.getElementById("birdScoreText").textContent =
-        "Score: 0";
+    document.getElementById("birdScoreText").textContent = "Score: 0";
 
     drawBirdGame();
     startBirdLoop();
 }
 
 
-// ==============================
-// BIRD JUMP
-// ==============================
-
+// Jump
 function birdJump() {
     if(!birdStarted || !birdRunning) {
         resetBird();
@@ -1204,10 +966,7 @@ function birdJump() {
 }
 
 
-// ==============================
-// CREATE PIPES
-// ==============================
-
+// Create pipes
 function addBirdPipe() {
     const top = 55 + Math.random() * 180;
 
@@ -1220,16 +979,11 @@ function addBirdPipe() {
 }
 
 
-// ==============================
-// DRAW GAME
-// ==============================
-
+// Draw game
 function drawBirdGame() {
     ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-    // Sky
     const sky = ctx.createLinearGradient(0, 0, 0, GAME_HEIGHT);
-
     sky.addColorStop(0, "#65cfff");
     sky.addColorStop(1, "#d8f5ff");
 
@@ -1264,19 +1018,8 @@ function drawBirdGame() {
 
         ctx.fillStyle = "#087638";
 
-        ctx.fillRect(
-            p.x - 4,
-            p.top - 12,
-            pipeWidth + 8,
-            12
-        );
-
-        ctx.fillRect(
-            p.x - 4,
-            p.bottom,
-            pipeWidth + 8,
-            12
-        );
+        ctx.fillRect(p.x - 4, p.top - 12, pipeWidth + 8, 12);
+        ctx.fillRect(p.x - 4, p.bottom, pipeWidth + 8, 12);
     }
 
     // Ground
@@ -1286,20 +1029,14 @@ function drawBirdGame() {
     ctx.fillStyle = "#65b945";
     ctx.fillRect(0, 460, GAME_WIDTH, 7);
 
-    // Bird body
+    // Bird
     ctx.fillStyle = "#ffdf38";
 
     ctx.beginPath();
-    ctx.arc(
-        bird.x,
-        bird.y,
-        bird.radius,
-        0,
-        Math.PI * 2
-    );
+    ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
     ctx.fill();
 
-    // Bird wing
+    // Wing
     ctx.fillStyle = "#ffad24";
 
     ctx.beginPath();
@@ -1318,25 +1055,13 @@ function drawBirdGame() {
     ctx.fillStyle = "#ffffff";
 
     ctx.beginPath();
-    ctx.arc(
-        bird.x + 5,
-        bird.y - 4,
-        4,
-        0,
-        Math.PI * 2
-    );
+    ctx.arc(bird.x + 5, bird.y - 4, 4, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = "#111111";
 
     ctx.beginPath();
-    ctx.arc(
-        bird.x + 6,
-        bird.y - 4,
-        2,
-        0,
-        Math.PI * 2
-    );
+    ctx.arc(bird.x + 6, bird.y - 4, 2, 0, Math.PI * 2);
     ctx.fill();
 
     // Beak
@@ -1348,11 +1073,10 @@ function drawBirdGame() {
     ctx.lineTo(bird.x + 12, bird.y + 7);
     ctx.fill();
 
-    // Score
     document.getElementById("birdScoreText").textContent =
         "Score: " + birdScore;
 
-    // Game over overlay
+    // Game over
     if(birdStarted && !birdRunning) {
         ctx.fillStyle = "rgba(0,0,0,.65)";
         ctx.fillRect(35, 185, 290, 105);
@@ -1360,7 +1084,6 @@ function drawBirdGame() {
         ctx.fillStyle = "#ffffff";
         ctx.textAlign = "center";
         ctx.font = "bold 26px Arial";
-
         ctx.fillText("GAME OVER", 180, 220);
 
         ctx.font = "18px Arial";
@@ -1369,10 +1092,7 @@ function drawBirdGame() {
 }
 
 
-// ==============================
-// COLLISION DETECTION
-// ==============================
-
+// Collision detection
 function checkBirdCollision(p) {
     const horizontal =
         bird.x + bird.radius > p.x &&
@@ -1386,18 +1106,16 @@ function checkBirdCollision(p) {
 }
 
 
-// ==============================
-// GAME LOOP
-// ==============================
-
+// Start loop
 function startBirdLoop() {
     if(birdLoopActive) return;
 
     birdLoopActive = true;
-
     birdAnimationId = requestAnimationFrame(updateBirdGame);
 }
 
+
+// Update game
 function updateBirdGame() {
     if(!birdRunning) {
         birdLoopActive = false;
@@ -1408,16 +1126,13 @@ function updateBirdGame() {
 
     birdFrame++;
 
-    // Bird physics
     bird.velocity += birdGravity;
     bird.y += bird.velocity;
 
-    // Create pipes
     if(birdFrame % 95 === 0) {
         addBirdPipe();
     }
 
-    // Move pipes and check collisions
     for(const p of pipes) {
         p.x -= pipeSpeed;
 
@@ -1431,12 +1146,10 @@ function updateBirdGame() {
         }
     }
 
-    // Remove pipes outside screen
     pipes = pipes.filter(function(p) {
         return p.x > -60;
     });
 
-    // Ground and ceiling collision
     if(
         bird.y + bird.radius > 460 ||
         bird.y - bird.radius < 0
@@ -1455,25 +1168,20 @@ function updateBirdGame() {
 }
 
 
-// ==============================
-// MOBILE TOUCH CONTROLS
-// ==============================
-
+// Mobile touch controls
 canvas.addEventListener("pointerdown", function(event) {
     event.preventDefault();
 
-    if(
-        document.getElementById("flappy").classList.contains("active")
-    ) {
+    if(document.getElementById("flappy").classList.contains("active")) {
         birdJump();
     }
 });
 
+
+// Keyboard controls
 document.addEventListener("keydown", function(event) {
     if(event.code === "Space") {
-        if(
-            document.getElementById("flappy").classList.contains("active")
-        ) {
+        if(document.getElementById("flappy").classList.contains("active")) {
             event.preventDefault();
             birdJump();
         }
@@ -1481,14 +1189,17 @@ document.addEventListener("keydown", function(event) {
 });
 
 
-// ==============================
-// INITIAL DISPLAY
-// ==============================
-
+// Initial game display
 birdStarted = false;
 birdRunning = false;
 drawBirdGame();
 
 </script>
 
+</body>
+</html>
+"""
 
+components.html(APP, height=1050, scrolling=True)
+
+ 
