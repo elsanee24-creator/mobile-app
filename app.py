@@ -1,542 +1,830 @@
 
 import streamlit as st
 import streamlit.components.v1 as components
-import random
 
-st.set_page_config(page_title="mobile.app", page_icon="📱", layout="centered")
+st.set_page_config(
+    page_title="mobile.app",
+    page_icon="📱",
+    layout="centered"
+)
 
-# ---------- SESSION ----------
-defaults = {
-    "logged": False,
-    "page": "login",
-    "display": "0",
-    "first": None,
-    "operator": None,
-    "waiting": False,
-    "secret": random.randint(1, 100),
-    "attempts": 0,
-    "game_over": False,
-    "won": False,
-    "feedback": ""
-}
-for k, v in defaults.items():
-    if k not in st.session_state:
-        st.session_state[k] = v
-
-# ---------- MOBILE DESIGN ----------
-st.markdown("""
-<style>
-.stApp {
-    background: #020805;
-    color: #eaffef;
-}
-.block-container {
-    max-width: 460px !important;
-    padding: 22px 12px 30px !important;
-}
-h1,h2,h3 {
-    color: #55ff91 !important;
-    text-align: center;
-}
-p,label {
-    color: #d5ffe3 !important;
-}
-.stButton > button {
-    width: 100%;
-    min-height: 54px;
-    border-radius: 14px;
-    border: 1px solid #20d968;
-    background: #102b1c;
-    color: #55ff91;
-    font-weight: bold;
-}
-.stButton > button:hover {
-    background: #18502d;
-    color: white;
-}
-div[data-testid="column"] .stButton > button {
-    min-height: 100px;
-    padding: 4px;
-    font-size: 13px;
-    white-space: normal;
-    border-radius: 17px;
-}
-.calc-display {
-    background: #001508;
-    border: 2px solid #20d968;
-    border-radius: 15px;
-    padding: 22px 12px;
-    min-height: 85px;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    color: #55ff91;
-    font-size: 30px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-.login-space {
-    height: 35vh;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ---------- CALCULATOR ----------
-def fmt(n):
-    if float(n).is_integer():
-        return str(int(n))
-    return f"{n:.10g}"
-
-def calculate(a, b, op):
-    if op == "+":
-        return a + b
-    if op == "−":
-        return a - b
-    if op == "×":
-        return a * b
-    if op == "÷":
-        return None if b == 0 else a / b
-
-def press(k):
-    d = st.session_state.display
-
-    if k == "AC":
-        st.session_state.display = "0"
-        st.session_state.first = None
-        st.session_state.operator = None
-        st.session_state.waiting = False
-        return
-
-    if k == "DEL":
-        if d not in ("Error", "Cannot divide by zero"):
-            if st.session_state.waiting:
-                return
-            st.session_state.display = d[:-1] or "0"
-        return
-
-    if k in "0123456789":
-        if (
-            d in ("Error", "Cannot divide by zero")
-            or st.session_state.waiting
-            or d == "0"
-        ):
-            st.session_state.display = k
-            st.session_state.waiting = False
-        else:
-            st.session_state.display += k
-        return
-
-    if k == ".":
-        if st.session_state.waiting:
-            st.session_state.display = "0."
-            st.session_state.waiting = False
-        elif "." not in d and d not in ("Error", "Cannot divide by zero"):
-            st.session_state.display += "."
-        return
-
-    if k in ("%", "+/−"):
-        if d not in ("Error", "Cannot divide by zero"):
-            n = float(d)
-            st.session_state.display = fmt(
-                n / 100 if k == "%" else -n
-            )
-        return
-
-    if k in ("+", "−", "×", "÷"):
-        if d in ("Error", "Cannot divide by zero"):
-            return
-
-        current = float(d)
-
-        if st.session_state.operator and not st.session_state.waiting:
-            result = calculate(
-                st.session_state.first,
-                current,
-                st.session_state.operator
-            )
-            if result is None:
-                st.session_state.display = "Cannot divide by zero"
-                st.session_state.first = None
-                st.session_state.operator = None
-                st.session_state.waiting = True
-                return
-            current = result
-            st.session_state.display = fmt(result)
-
-        st.session_state.first = current
-        st.session_state.operator = k
-        st.session_state.waiting = True
-        return
-
-    if k == "=":
-        if st.session_state.operator is not None:
-            if d in ("Error", "Cannot divide by zero"):
-                return
-            result = calculate(
-                st.session_state.first,
-                float(d),
-                st.session_state.operator
-            )
-            st.session_state.display = (
-                "Cannot divide by zero"
-                if result is None else fmt(result)
-            )
-            st.session_state.first = None
-            st.session_state.operator = None
-            st.session_state.waiting = True
-
-# ---------- LOGIN ----------
-if not st.session_state.logged:
-    st.markdown("<div class='login-space'></div>", unsafe_allow_html=True)
-    st.markdown("<h1>📱 mobile.app</h1>", unsafe_allow_html=True)
-    st.markdown(
-        "<p style='text-align:center'>Your little world of useful tools</p>",
-        unsafe_allow_html=True
-    )
-
-    left, middle, right = st.columns([1, 2, 1])
-    with middle:
-        if st.button("LOGIN", key="login"):
-            st.session_state.logged = True
-            st.session_state.page = "home"
-            st.rerun()
-
-# ---------- MAIN APP ----------
-else:
-    st.markdown("<h1>📱 mobile.app</h1>", unsafe_allow_html=True)
-
-    # HOME
-    if st.session_state.page == "home":
-        st.markdown(
-            "<p style='text-align:center'>Choose your tool</p>",
-            unsafe_allow_html=True
-        )
-
-        c1, c2, c3 = st.columns(3, gap="small")
-
-        with c1:
-            if st.button("🧮\nCalculator", key="home_calc"):
-                st.session_state.page = "calculator"
-                st.rerun()
-
-        with c2:
-            if st.button("🎮\nNumber Guessing", key="home_guess"):
-                st.session_state.page = "guess"
-                st.rerun()
-
-        with c3:
-            if st.button("🐦\nFlappy Bird", key="home_flappy"):
-                st.session_state.page = "flappy"
-                st.rerun()
-
-        st.write("")
-        if st.button("LOG OUT"):
-            st.session_state.logged = False
-            st.session_state.page = "login"
-            st.rerun()
-
-    # CALCULATOR
-    elif st.session_state.page == "calculator":
-        st.markdown("<h2>CALCULATOR</h2>", unsafe_allow_html=True)
-
-        st.markdown(
-            f"<div class='calc-display'>{st.session_state.display}</div>",
-            unsafe_allow_html=True
-        )
-
-        rows = [
-            ["AC", "+/−", "%", "÷"],
-            ["7", "8", "9", "×"],
-            ["4", "5", "6", "−"],
-            ["1", "2", "3", "+"],
-            ["DEL", "0", ".", "="]
-        ]
-
-        for ri, row in enumerate(rows):
-            cols = st.columns(4, gap="small")
-            for ci, key in enumerate(row):
-                with cols[ci]:
-                    if st.button(key, key=f"calc_{ri}_{ci}"):
-                        press(key)
-                        st.rerun()
-
-        st.write("")
-        if st.button("⬅ BACK TO HOME"):
-            st.session_state.page = "home"
-            st.rerun()
-
-    # NUMBER GUESSING
-    elif st.session_state.page == "guess":
-        st.markdown("<h2>NUMBER GUESSING GAME</h2>", unsafe_allow_html=True)
-        st.write("Guess a number between 1 and 100.")
-
-        remaining = 10 - st.session_state.attempts
-        st.markdown(f"<h3>Chances remaining: {remaining}/10</h3>",
-                    unsafe_allow_html=True)
-
-        if not st.session_state.game_over:
-            guess = st.number_input(
-                "Your guess",
-                min_value=1,
-                max_value=100,
-                value=50,
-                step=1,
-                key="guess_input"
-            )
-
-            if st.button("SUBMIT GUESS"):
-                st.session_state.attempts += 1
-
-                if guess == st.session_state.secret:
-                    st.session_state.won = True
-                    st.session_state.game_over = True
-                elif st.session_state.attempts >= 10:
-                    st.session_state.game_over = True
-                elif guess < st.session_state.secret:
-                    st.session_state.feedback = "Too low! Try higher."
-                else:
-                    st.session_state.feedback = "Too high! Try lower."
-                st.rerun()
-
-            if st.session_state.feedback:
-                st.info(st.session_state.feedback)
-
-        else:
-            if st.session_state.won:
-                st.success("Yay! You won !!!!")
-            else:
-                st.error("Oops! You're out of tries")
-                st.write(f"The correct number was {st.session_state.secret}")
-
-            if st.button("🔄 NEW GAME"):
-                st.session_state.secret = random.randint(1, 100)
-                st.session_state.attempts = 0
-                st.session_state.game_over = False
-                st.session_state.won = False
-                st.session_state.feedback = ""
-                st.rerun()
-
-        if st.button("⬅ BACK TO HOME"):
-            st.session_state.page = "home"
-            st.rerun()
-
-    # FLAPPY BIRD
-    elif st.session_state.page == "flappy":
-        st.markdown("<h2>🐦 FLAPPY BIRD</h2>", unsafe_allow_html=True)
-
-        flappy_html = """
+APP = r"""
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-* {box-sizing:border-box}
-body {
- margin:0;
- background:#020805;
- color:#55ff91;
- text-align:center;
- font-family:Arial,sans-serif;
+* { box-sizing:border-box; }
+
+html,body {
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    font-family:Arial,sans-serif;
+    background:#020805;
+    color:white;
 }
-canvas {
- display:block;
- width:100%;
- max-width:400px;
- height:auto;
- margin:auto;
- border:2px solid #20d968;
- border-radius:12px;
- background:#65c9ff;
- touch-action:manipulation;
-}
+
 button {
- display:block;
- width:100%;
- max-width:400px;
- height:60px;
- margin:12px auto;
- border:2px solid #20d968;
- border-radius:15px;
- background:#102b1c;
- color:#55ff91;
- font-size:22px;
- font-weight:bold;
- touch-action:manipulation;
+    font-family:Arial,sans-serif;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
 }
-.hint {color:#c7f9d6;font-size:13px;margin:8px}
+
+#app {
+    width:100%;
+    max-width:460px;
+    min-height:850px;
+    margin:auto;
+    padding:20px 14px 35px;
+    background:linear-gradient(155deg,#081b10,#020805);
+    color:white;
+    position:relative;
+    overflow:hidden;
+}
+
+.page { display:none; }
+.page.active { display:block; }
+
+.logo {
+    text-align:center;
+    color:#55ff91;
+    font-size:27px;
+    font-weight:900;
+    margin:15px 0 28px;
+    letter-spacing:1px;
+}
+
+.subtitle {
+    text-align:center;
+    color:#c6e9d0;
+    font-size:14px;
+}
+
+/* LOGIN */
+#login {
+    min-height:810px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    padding:20px;
+}
+#login.active { display:flex; }
+
+.login-logo {
+    color:#55ff91;
+    font-size:35px;
+    font-weight:900;
+    margin-bottom:12px;
+}
+
+.login-sub {
+    color:#b9d9c4;
+    margin-bottom:35px;
+    text-align:center;
+}
+
+.login-btn {
+    width:190px;
+    height:65px;
+    border-radius:18px;
+    border:2px solid #55ff91;
+    background:#123c24;
+    color:#fff;
+    font-size:21px;
+    font-weight:bold;
+    box-shadow:0 0 20px #20d96855;
+}
+
+/* HOME */
+.home-grid {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:9px;
+    width:100%;
+    margin-top:45px;
+}
+
+.home-card {
+    aspect-ratio:1 / 1;
+    min-width:0;
+    border:2px solid #25d968;
+    border-radius:17px;
+    background:linear-gradient(145deg,#164329,#081b10);
+    color:#65ff9c;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    font-weight:bold;
+    font-size:12px;
+    padding:5px;
+    text-align:center;
+    overflow-wrap:anywhere;
+}
+
+.home-icon { font-size:29px; }
+
+.logout {
+    margin-top:45px;
+    width:100%;
+    height:48px;
+    background:#15281c;
+    border:1px solid #55ff91;
+    border-radius:12px;
+    color:#55ff91;
+    font-weight:bold;
+}
+
+/* COMMON */
+.back {
+    width:100%;
+    height:47px;
+    margin-top:22px;
+    background:#102b1c;
+    color:#55ff91;
+    border:1px solid #20d968;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.heading {
+    color:#55ff91;
+    text-align:center;
+    font-size:23px;
+    margin:15px 0 20px;
+}
+
+/* CALCULATOR */
+#calculator {
+    background:#101820;
+    border-radius:20px;
+    padding:14px;
+    border:1px solid #53616c;
+}
+
+.calc-display {
+    width:100%;
+    min-height:105px;
+    padding:20px 12px;
+    margin-bottom:15px;
+    border-radius:13px;
+    background:#edf1f4;
+    color:#18222b;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    font-size:35px;
+    font-weight:bold;
+    overflow-wrap:anywhere;
+    word-break:break-all;
+    text-align:right;
+}
+
+.calc-grid {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:9px;
+}
+
+.calc-key {
+    width:100%;
+    min-width:0;
+    height:65px;
+    border-radius:14px;
+    border:0;
+    background:#f1f3f5;
+    color:#1c252c;
+    font-size:21px;
+    font-weight:bold;
+    box-shadow:0 3px 0 #aab2b8;
+}
+
+.calc-key.operator {
+    background:#ff9638;
+    color:white;
+    box-shadow:0 3px 0 #c96b1d;
+}
+
+.calc-key.equal {
+    background:#ff7e1f;
+    color:white;
+    box-shadow:0 3px 0 #b9560d;
+}
+
+.calc-key:active { transform:scale(.96); }
+
+/* GUESS GAME */
+#guess {
+    background:linear-gradient(145deg,#25115c,#153b8d,#071a49);
+    border-radius:20px;
+    min-height:700px;
+    padding:16px;
+    border:1px solid #7885ff;
+    box-shadow:0 0 22px #554dff33;
+}
+
+.guess-title {
+    text-align:center;
+    color:#d9d5ff;
+    font-size:24px;
+    font-weight:900;
+    margin:15px 0;
+}
+
+.guess-info {
+    text-align:center;
+    color:#d5ddff;
+    font-size:15px;
+    margin:15px 0;
+}
+
+.guess-card {
+    background:#101f56aa;
+    border:1px solid #8290ff;
+    border-radius:16px;
+    padding:17px;
+    text-align:center;
+    margin:20px 0;
+}
+
+#guessInput {
+    width:100%;
+    height:58px;
+    border-radius:13px;
+    border:2px solid #a4aaff;
+    background:#f5f5ff;
+    color:#20204a;
+    text-align:center;
+    font-size:23px;
+    font-weight:bold;
+}
+
+.guess-submit,.new-game {
+    width:100%;
+    height:55px;
+    border:0;
+    border-radius:13px;
+    margin-top:14px;
+    background:linear-gradient(90deg,#8b5cf6,#3679ff);
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.guess-message {
+    min-height:45px;
+    text-align:center;
+    color:white;
+    font-weight:bold;
+    margin-top:18px;
+    font-size:17px;
+}
+
+/* FLAPPY BIRD */
+#flappy {
+    background:#061b2d;
+    border-radius:20px;
+    padding:12px;
+    border:1px solid #28b9ff;
+}
+
+#birdCanvas {
+    width:100%;
+    height:auto;
+    display:block;
+    border:2px solid #5acbff;
+    border-radius:13px;
+    background:#63c9ff;
+    touch-action:manipulation;
+}
+
+.jump-btn {
+    width:100%;
+    height:60px;
+    margin-top:13px;
+    border:2px solid #27d968;
+    border-radius:15px;
+    background:#123b25;
+    color:#65ff9b;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.game-hint {
+    color:#b8eaff;
+    text-align:center;
+    font-size:13px;
+    margin:12px 0 5px;
+}
+
+@media(max-width:350px) {
+    #app { padding-left:9px; padding-right:9px; }
+    .home-grid { gap:5px; }
+    .home-card { font-size:10px; border-radius:12px; }
+    .home-icon { font-size:24px; }
+    .calc-grid { gap:6px; }
+    .calc-key { height:57px; font-size:18px; }
+}
 </style>
 </head>
-<body>
 
-<canvas id="game" width="360" height="480"></canvas>
-<button id="jump">⬆ JUMP</button>
-<div class="hint">Tap JUMP to fly. Avoid the pipes!</div>
+<body>
+<div id="app">
+
+<!-- LOGIN -->
+<section id="login" class="page active">
+    <div class="login-logo">📱 mobile.app</div>
+    <div class="login-sub">Your little world of useful tools</div>
+    <button class="login-btn" onclick="go('home')">LOGIN</button>
+</section>
+
+<!-- HOME -->
+<section id="home" class="page">
+    <div class="logo">📱 mobile.app</div>
+    <div class="subtitle">Choose your tool</div>
+
+    <div class="home-grid">
+        <button class="home-card" onclick="go('calculator')">
+            <span class="home-icon">🧮</span>
+            <span>Calculator</span>
+        </button>
+
+        <button class="home-card" onclick="go('guess')">
+            <span class="home-icon">🎮</span>
+            <span>Number Guessing</span>
+        </button>
+
+        <button class="home-card" onclick="go('flappy')">
+            <span class="home-icon">🐦</span>
+            <span>Flappy Bird</span>
+        </button>
+    </div>
+
+    <button class="logout" onclick="go('login')">LOG OUT</button>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calculator" class="page">
+    <div class="heading">CALCULATOR</div>
+
+    <div class="calc-display" id="calcDisplay">0</div>
+
+    <div class="calc-grid">
+        <button class="calc-key" onclick="calcPress('AC')">AC</button>
+        <button class="calc-key" onclick="calcPress('+/-')">+/−</button>
+        <button class="calc-key" onclick="calcPress('%')">%</button>
+        <button class="calc-key operator" onclick="calcPress('/')">÷</button>
+
+        <button class="calc-key" onclick="calcPress('7')">7</button>
+        <button class="calc-key" onclick="calcPress('8')">8</button>
+        <button class="calc-key" onclick="calcPress('9')">9</button>
+        <button class="calc-key operator" onclick="calcPress('*')">×</button>
+
+        <button class="calc-key" onclick="calcPress('4')">4</button>
+        <button class="calc-key" onclick="calcPress('5')">5</button>
+        <button class="calc-key" onclick="calcPress('6')">6</button>
+        <button class="calc-key operator" onclick="calcPress('-')">−</button>
+
+        <button class="calc-key" onclick="calcPress('1')">1</button>
+        <button class="calc-key" onclick="calcPress('2')">2</button>
+        <button class="calc-key" onclick="calcPress('3')">3</button>
+        <button class="calc-key operator" onclick="calcPress('+')">+</button>
+
+        <button class="calc-key" onclick="calcPress('DEL')">DEL</button>
+        <button class="calc-key" onclick="calcPress('0')">0</button>
+        <button class="calc-key" onclick="calcPress('.')">.</button>
+        <button class="calc-key equal" onclick="calcPress('=')">=</button>
+    </div>
+
+    <button class="back" onclick="go('home')">⬅ BACK TO HOME</button>
+</section>
+
+<!-- NUMBER GUESSING -->
+<section id="guess" class="page">
+    <div class="guess-title">🎮 NUMBER GUESSING</div>
+
+    <div class="guess-info">
+        Guess a secret number between 1 and 100!
+    </div>
+
+    <div class="guess-card">
+        <div style="font-size:45px">🔮</div>
+        <div style="color:#dce2ff;font-size:16px;margin:12px 0">
+            Your remaining chances
+        </div>
+        <div id="chances" style="font-size:32px;font-weight:bold;color:#fff">
+            10 / 10
+        </div>
+    </div>
+
+    <input id="guessInput" type="number" min="1" max="100"
+           placeholder="Enter your number">
+
+    <button class="guess-submit" id="guessSubmit" onclick="submitGuess()">
+        SUBMIT GUESS
+    </button>
+
+    <div class="guess-message" id="guessMessage">
+        Good luck!
+    </div>
+
+    <button class="new-game" onclick="newGame()">↻ NEW GAME</button>
+    <button class="back" onclick="go('home')">⬅ BACK TO HOME</button>
+</section>
+
+<!-- FLAPPY BIRD -->
+<section id="flappy" class="page">
+    <div class="heading">🐦 FLAPPY BIRD</div>
+
+    <canvas id="birdCanvas" width="360" height="480"></canvas>
+
+    <button class="jump-btn" id="jumpButton" onclick="jumpBird()">
+        ⬆ JUMP
+    </button>
+
+    <div class="game-hint">Tap JUMP to fly. Avoid the pipes!</div>
+
+    <button class="back" onclick="go('home')">⬅ BACK TO HOME</button>
+</section>
+
+</div>
 
 <script>
-const canvas=document.getElementById("game");
-const ctx=canvas.getContext("2d");
-const jumpButton=document.getElementById("jump");
+/* ---------- NAVIGATION ---------- */
+function go(id) {
+    document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
 
-let bird,pipes,score,frame,running,started;
-const gravity=0.38;
-const jumpPower=-6.5;
-
-function resetGame(){
- bird={x:75,y:220,velocity:0,radius:12};
- pipes=[];
- score=0;
- frame=0;
- running=false;
- started=false;
- draw();
+    if(id === 'flappy') {
+        drawBirdGame();
+    }
 }
 
-function jump(){
- if(!started){
-  started=true;
-  running=true;
-  bird.velocity=jumpPower;
- }else if(running){
-  bird.velocity=jumpPower;
- }else{
-  resetGame();
-  started=true;
-  running=true;
-  bird.velocity=jumpPower;
- }
+/* ---------- CALCULATOR ---------- */
+let calcValue = "0";
+let calcFirst = null;
+let calcOperator = null;
+let calcWaiting = false;
+
+function showCalc() {
+    document.getElementById('calcDisplay').textContent = calcValue;
 }
 
-jumpButton.addEventListener("click",jump);
-canvas.addEventListener("click",jump);
+function cleanNumber(n) {
+    if(!Number.isFinite(n)) return "Error";
+    return String(Number(n.toPrecision(11)));
+}
 
-document.addEventListener("keydown",function(e){
- if(e.code==="Space" || e.code==="ArrowUp"){
-  e.preventDefault();
-  jump();
- }
+function calcPress(key) {
+    if(key === 'AC') {
+        calcValue = "0";
+        calcFirst = null;
+        calcOperator = null;
+        calcWaiting = false;
+        showCalc();
+        return;
+    }
+
+    if(key === 'DEL') {
+        if(calcWaiting) return;
+        if(calcValue === "Error") {
+            calcValue = "0";
+        } else {
+            calcValue = calcValue.length > 1
+                ? calcValue.slice(0,-1) : "0";
+        }
+        showCalc();
+        return;
+    }
+
+    if(key === '+/-') {
+        if(calcValue !== "Error") {
+            calcValue = cleanNumber(-Number(calcValue));
+        }
+        showCalc();
+        return;
+    }
+
+    if(key === '%') {
+        if(calcValue !== "Error") {
+            calcValue = cleanNumber(Number(calcValue)/100);
+        }
+        showCalc();
+        return;
+    }
+
+    if("0123456789".includes(key)) {
+        if(calcValue === "Error" || calcWaiting || calcValue === "0") {
+            calcValue = key;
+            calcWaiting = false;
+        } else {
+            calcValue += key;
+        }
+        showCalc();
+        return;
+    }
+
+    if(key === '.') {
+        if(calcWaiting || calcValue === "Error") {
+            calcValue = "0.";
+            calcWaiting = false;
+        } else if(!calcValue.includes('.')) {
+            calcValue += '.';
+        }
+        showCalc();
+        return;
+    }
+
+    if(['+','-','*','/'].includes(key)) {
+        if(calcValue === "Error") return;
+
+        let current = Number(calcValue);
+
+        if(calcOperator && !calcWaiting) {
+            let result = calculateCalc(
+                calcFirst,current,calcOperator
+            );
+            if(result === null) {
+                calcValue = "Cannot divide by zero";
+                calcFirst = null;
+                calcOperator = null;
+                calcWaiting = true;
+                showCalc();
+                return;
+            }
+            current = result;
+            calcValue = cleanNumber(result);
+        }
+
+        calcFirst = current;
+        calcOperator = key;
+        calcWaiting = true;
+        showCalc();
+        return;
+    }
+
+    if(key === '=' && calcOperator !== null) {
+        let result = calculateCalc(
+            calcFirst,Number(calcValue),calcOperator
+        );
+
+        calcValue = result === null
+            ? "Cannot divide by zero"
+            : cleanNumber(result);
+
+        calcFirst = null;
+        calcOperator = null;
+        calcWaiting = true;
+        showCalc();
+    }
+}
+
+function calculateCalc(a,b,op) {
+    if(op === '+') return a+b;
+    if(op === '-') return a-b;
+    if(op === '*') return a*b;
+    if(op === '/') return b === 0 ? null : a/b;
+}
+
+/* ---------- NUMBER GUESSING ---------- */
+let secretNumber = Math.floor(Math.random()*100)+1;
+let tries = 0;
+let finished = false;
+
+function updateChances() {
+    document.getElementById('chances').textContent =
+        (10-tries) + " / 10";
+}
+
+function submitGuess() {
+    if(finished) return;
+
+    const input = document.getElementById('guessInput');
+    const guess = Number(input.value);
+    const message = document.getElementById('guessMessage');
+
+    if(!input.value || !Number.isInteger(guess) || guess < 1 || guess > 100) {
+        message.textContent = "Enter a number from 1 to 100!";
+        return;
+    }
+
+    tries++;
+
+    if(guess === secretNumber) {
+        message.textContent = "Yay! You won !!!!";
+        finished = true;
+    } else if(tries >= 10) {
+        message.textContent = "Oops! You're out of tries";
+        finished = true;
+    } else if(guess < secretNumber) {
+        message.textContent = "Too low! Try higher.";
+    } else {
+        message.textContent = "Too high! Try lower.";
+    }
+
+    updateChances();
+
+    if(finished) {
+        document.getElementById('guessSubmit').disabled = true;
+        document.getElementById('guessSubmit').style.opacity = ".5";
+    }
+
+    input.value = "";
+}
+
+function newGame() {
+    secretNumber = Math.floor(Math.random()*100)+1;
+    tries = 0;
+    finished = false;
+
+    document.getElementById('guessMessage').textContent = "Good luck!";
+    document.getElementById('guessInput').value = "";
+    document.getElementById('guessSubmit').disabled = false;
+    document.getElementById('guessSubmit').style.opacity = "1";
+
+    updateChances();
+}
+
+/* ---------- FLAPPY BIRD ---------- */
+const canvas = document.getElementById('birdCanvas');
+const ctx = canvas.getContext('2d');
+
+let bird = {};
+let pipes = [];
+let birdScore = 0;
+let birdFrame = 0;
+let birdRunning = false;
+let birdStarted = false;
+
+function resetBird() {
+    bird = {x:75,y:220,velocity:0,radius:12};
+    pipes = [];
+    birdScore = 0;
+    birdFrame = 0;
+    birdRunning = false;
+    birdStarted = false;
+    drawBirdGame();
+}
+
+function jumpBird() {
+    if(!birdStarted) {
+        birdStarted = true;
+        birdRunning = true;
+        bird.velocity = -6.5;
+    } else if(birdRunning) {
+        bird.velocity = -6.5;
+    } else {
+        resetBird();
+        birdStarted = true;
+        birdRunning = true;
+        bird.velocity = -6.5;
+    }
+}
+
+function drawCloud(x,y,s) {
+    ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(x,y,17*s,0,Math.PI*2);
+    ctx.arc(x+19*s,y-9*s,21*s,0,Math.PI*2);
+    ctx.arc(x+42*s,y,16*s,0,Math.PI*2);
+    ctx.fill();
+}
+
+function drawBirdGame() {
+    const sky = ctx.createLinearGradient(0,0,0,480);
+    sky.addColorStop(0,"#42b7ff");
+    sky.addColorStop(1,"#b9edff");
+
+    ctx.fillStyle = sky;
+    ctx.fillRect(0,0,360,480);
+
+    drawCloud(40,90,.8);
+    drawCloud(225,140,.7);
+    drawCloud(140,45,.5);
+
+    for(const p of pipes) {
+        ctx.fillStyle = "#20b84a";
+        ctx.fillRect(p.x,0,48,p.top);
+        ctx.fillRect(p.x,p.bottom,48,480-p.bottom);
+
+        ctx.fillStyle = "#49e879";
+        ctx.fillRect(p.x-4,p.top-12,56,12);
+        ctx.fillRect(p.x-4,p.bottom,56,12);
+    }
+
+    ctx.fillStyle = "#ffe34a";
+    ctx.beginPath();
+    ctx.arc(bird.x,bird.y,bird.radius,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = "#fff";
+    ctx.beginPath();
+    ctx.arc(bird.x+4,bird.y-4,3,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = "#ff8b32";
+    ctx.beginPath();
+    ctx.moveTo(bird.x+10,bird.y);
+    ctx.lineTo(bird.x+19,bird.y+4);
+    ctx.lineTo(bird.x+10,bird.y+7);
+    ctx.fill();
+
+    ctx.fillStyle = "#143b65";
+    ctx.font = "bold 26px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("Score: "+birdScore,180,35);
+
+    if(!birdStarted) {
+        ctx.font = "bold 20px Arial";
+        ctx.fillText("TAP JUMP TO START",180,250);
+    }
+
+    if(birdStarted && !birdRunning) {
+        ctx.font = "bold 26px Arial";
+        ctx.fillText("GAME OVER",180,220);
+        ctx.font = "18px Arial";
+        ctx.fillText("Tap JUMP to restart",180,255);
+    }
+}
+
+function addBirdPipe() {
+    const gap = 145;
+    const top = 55 + Math.random()*185;
+    pipes.push({
+        x:360,
+        top:top,
+        bottom:top+gap,
+        scored:false
+    });
+}
+
+function updateBirdGame() {
+    if(birdRunning) {
+        birdFrame++;
+        bird.velocity += .38;
+        bird.y += bird.velocity;
+
+        if(birdFrame % 95 === 0) {
+            addBirdPipe();
+        }
+
+        for(const p of pipes) {
+            p.x -= 2.3;
+
+            if(!p.scored && p.x+48 < bird.x) {
+                p.scored = true;
+                birdScore++;
+            }
+
+            const horizontal =
+                bird.x+bird.radius > p.x &&
+                bird.x-bird.radius < p.x+48;
+
+            const vertical =
+                bird.y-bird.radius < p.top ||
+                bird.y+bird.radius > p.bottom;
+
+            if(horizontal && vertical) {
+                birdRunning = false;
+                break;
+            }
+        }
+
+        pipes = pipes.filter(p => p.x > -60);
+
+        if(bird.y+bird.radius >= 480 ||
+           bird.y-bird.radius <= 0) {
+            birdRunning = false;
+        }
+    }
+
+    drawBirdGame();
+    requestAnimationFrame(updateBirdGame);
+}
+
+canvas.addEventListener('click',jumpBird);
+
+document.addEventListener('keydown',function(e) {
+    if(e.code === "Space" || e.code === "ArrowUp") {
+        const flappyPage = document.getElementById('flappy');
+        if(flappyPage.classList.contains('active')) {
+            e.preventDefault();
+            jumpBird();
+        }
+    }
 });
 
-function cloud(x,y,s){
- ctx.fillStyle="white";
- ctx.beginPath();
- ctx.arc(x,y,17*s,0,Math.PI*2);
- ctx.arc(x+19*s,y-9*s,21*s,0,Math.PI*2);
- ctx.arc(x+42*s,y,16*s,0,Math.PI*2);
- ctx.fill();
-}
-
-function addPipe(){
- const gap=145;
- const top=55+Math.random()*185;
- pipes.push({x:360,top:top,bottom:top+gap,scored:false});
-}
-
-function draw(){
- const sky=ctx.createLinearGradient(0,0,0,480);
- sky.addColorStop(0,"#48b9ff");
- sky.addColorStop(1,"#b6edff");
- ctx.fillStyle=sky;
- ctx.fillRect(0,0,360,480);
-
- cloud(45,85,0.8);
- cloud(230,135,0.7);
- cloud(145,40,0.5);
-
- for(const p of pipes){
-  ctx.fillStyle="#24b84a";
-  ctx.fillRect(p.x,0,48,p.top);
-  ctx.fillRect(p.x,p.bottom,48,480-p.bottom);
-  ctx.fillStyle="#42e66c";
-  ctx.fillRect(p.x-4,p.top-12,56,12);
-  ctx.fillRect(p.x-4,p.bottom,56,12);
- }
-
- ctx.fillStyle="#ffe34a";
- ctx.beginPath();
- ctx.arc(bird.x,bird.y,bird.radius,0,Math.PI*2);
- ctx.fill();
-
- ctx.fillStyle="white";
- ctx.beginPath();
- ctx.arc(bird.x+4,bird.y-4,3,0,Math.PI*2);
- ctx.fill();
-
- ctx.fillStyle="#ff8c42";
- ctx.beginPath();
- ctx.moveTo(bird.x+10,bird.y);
- ctx.lineTo(bird.x+19,bird.y+4);
- ctx.lineTo(bird.x+10,bird.y+7);
- ctx.fill();
-
- ctx.fillStyle="#143b65";
- ctx.font="bold 26px Arial";
- ctx.textAlign="center";
- ctx.fillText("Score: "+score,180,35);
-
- if(!started){
-  ctx.font="bold 20px Arial";
-  ctx.fillText("TAP JUMP TO START",180,250);
- }
-
- if(started && !running){
-  ctx.font="bold 26px Arial";
-  ctx.fillText("GAME OVER",180,220);
-  ctx.font="18px Arial";
-  ctx.fillText("Tap JUMP to restart",180,255);
- }
-}
-
-function update(){
- if(running){
-  frame++;
-  bird.velocity+=gravity;
-  bird.y+=bird.velocity;
-
-  if(frame%95===0) addPipe();
-
-  for(const p of pipes){
-   p.x-=2.3;
-
-   if(!p.scored && p.x+48<bird.x){
-    p.scored=true;
-    score++;
-   }
-
-   const horizontal=
-    bird.x+bird.radius>p.x &&
-    bird.x-bird.radius<p.x+48;
-
-   const vertical=
-    bird.y-bird.radius<p.top ||
-    bird.y+bird.radius>p.bottom;
-
-   if(horizontal && vertical){
-    running=false;
-    break;
-   }
-  }
-
-  pipes=pipes.filter(p=>p.x>-60);
-
-  if(bird.y+bird.radius>=480 || bird.y-bird.radius<=0){
-   running=false;
-  }
- }
-
- draw();
- requestAnimationFrame(update);
-}
-
-resetGame();
-update();
+resetBird();
+updateBirdGame();
 </script>
 </body>
 </html>
-        """
+"""
 
-        components.html(flappy_html, height=620, scrolling=False)
-
-        if st.button("⬅ BACK TO HOME"):
-            st.session_state.page = "home"
-            st.rerun()
-    
+components.html(APP, height=900, scrolling=True)
