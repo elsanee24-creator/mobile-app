@@ -398,6 +398,7 @@ button {
     }
 
     .home-grid { gap:5px; }
+
     .home-card {
         font-size:10px;
         border-radius:12px;
@@ -405,6 +406,7 @@ button {
 
     .home-icon { font-size:24px; }
     .calc-grid { gap:6px; }
+
     .calc-key {
         height:57px;
         font-size:18px;
@@ -562,9 +564,7 @@ function go(id) {
 function loginUser() {
     var button = document.getElementById("loginButton");
 
-    if(button.disabled) {
-        return;
-    }
+    if(button.disabled) return;
 
     button.disabled = true;
 
@@ -784,7 +784,7 @@ function newGame() {
     updateChances();
 }
 
-/* ---------- FLAPPY BIRD ---------- */
+/* ---------- FLAPPY BIRD: SETUP ---------- */
 const canvas = document.getElementById('birdCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -904,3 +904,82 @@ function drawBirdGame() {
 function addBirdPipe() {
     const gap = 145;
     const top = 55 + Math.random()*185;
+
+    pipes.push({
+        x:360,
+        top:top,
+        bottom:top+gap,
+        scored:false
+    });
+}
+
+function startBirdLoop() {
+    if(birdLoopActive) return;
+    birdLoopActive = true;
+    requestAnimationFrame(updateBirdGame);
+}
+
+function updateBirdGame() {
+    if(!birdRunning) {
+        birdLoopActive = false;
+        drawBirdGame();
+        return;
+    }
+
+    birdFrame++;
+    bird.velocity += .38;
+    bird.y += bird.velocity;
+
+    if(birdFrame % 95 === 0) {
+        addBirdPipe();
+    }
+
+    for(const p of pipes) {
+        p.x -= 2.3;
+
+        if(!p.scored && p.x+48 < bird.x) {
+            birdScore++;
+            p.scored = true;
+        }
+
+        if(
+            bird.x + bird.radius > p.x &&
+            bird.x - bird.radius < p.x + 48 &&
+            (
+                bird.y - bird.radius < p.top ||
+                bird.y + bird.radius > p.bottom
+            )
+        ) {
+            birdRunning = false;
+        }
+    }
+
+    pipes = pipes.filter(function(p) {
+        return p.x > -60;
+    });
+
+    if(
+        bird.y + bird.radius > 480 ||
+        bird.y - bird.radius < 0
+    ) {
+        birdRunning = false;
+    }
+
+    drawBirdGame();
+
+    if(birdRunning) {
+        requestAnimationFrame(updateBirdGame);
+    } else {
+        birdLoopActive = false;
+    }
+}
+
+resetBird();
+
+</script>
+</body>
+</html>
+"""
+
+components.html(APP, height=900, scrolling=True)
+
