@@ -903,4 +903,4 @@ function drawBirdGame() {
 
 function addBirdPipe() {
     const gap = 145;
-    const top = 55 + Math.random()*1
+    const top = 55 + Math.random()*185;
