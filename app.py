@@ -13,6 +13,7 @@ APP = r"""
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 * { box-sizing:border-box; }
 
@@ -109,7 +110,7 @@ button {
 }
 
 .login-btn:disabled {
-    opacity:.8;
+    opacity:.9;
     cursor:wait;
 }
 
@@ -122,16 +123,31 @@ button {
 }
 
 .login-spinner {
-    width:21px;
-    height:21px;
-    border:3px solid #ffffff55;
+    width:23px;
+    height:23px;
+    border:3px solid #ffffff30;
     border-top:3px solid #72ffb0;
+    border-right:3px solid #36eaff;
     border-radius:50%;
-    animation:loginSpin .7s linear infinite;
+    animation:loginSpin .65s linear infinite;
+    box-shadow:0 0 12px #36eaff66;
 }
 
 @keyframes loginSpin {
-    to { transform:rotate(360deg); }
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
+}
+
+.processing-dots {
+    display:inline-block;
+    width:18px;
+    text-align:left;
+    animation:dots 1s steps(4,end) infinite;
+}
+
+@keyframes dots {
+    0% { width:0; }
+    100% { width:18px; }
 }
 
 .guest-btn {
@@ -508,6 +524,7 @@ button {
 </div>
 
 <script>
+
 /* ---------- NAVIGATION ---------- */
 function go(id) {
     document.querySelectorAll('.page').forEach(function(p) {
@@ -521,7 +538,7 @@ function go(id) {
     }
 }
 
-/* ---------- LOGIN LOADING ---------- */
+/* ---------- LOGIN ANIMATION ---------- */
 function loginUser() {
     var button = document.getElementById("loginButton");
 
@@ -531,7 +548,7 @@ function loginUser() {
 
     button.disabled = true;
 
-    button.innerHTML = '<span class="login-loading"><span class="login-spinner"></span><span>Processing...</span></span>';
+    button.innerHTML = '<span class="login-loading"><span class="login-spinner"></span><span>Processing<span class="processing-dots">...</span></span></span>';
 
     setTimeout(function() {
         button.disabled = false;
@@ -854,17 +871,4 @@ function updateBirdGame() {
         for(const p of pipes) {
             p.x -= 2.3;
 
-            if(!p.scored && p.x+48 < bird.x) {
-                p.scored = true;
-                birdScore++;
-            }
-
-            const horizontal =
-                bird.x+bird.radius > p.x &&
-                bird.x-bird.radius < p.x+48;
-
-            const vertical =
-                bird.y-bird.radius < p.top ||
-                bird.y+bird.radius > p.bottom;
-
-            if(hor
+            if(!p.scored && p.x+48 < bir
