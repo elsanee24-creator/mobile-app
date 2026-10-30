@@ -343,7 +343,6 @@ input:focus, select:focus {
 }
 </style>
 </head>
-"""
 
 <body>
 <div id="app">
