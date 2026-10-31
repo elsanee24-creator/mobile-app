@@ -134,6 +134,11 @@ html,body{height:100%;min-height:0;overflow:hidden;touch-action:pan-y}
 #notesPage .notes-list{padding-bottom:24px}
 .note-actions{padding-bottom:4px}
 @media(max-width:380px){#app{padding:3px 7px 8px}.screen{padding-top:48px;padding-bottom:calc(100px + env(safe-area-inset-bottom))}}
+
+/* Scroll every app page except the login screen */
+#login{overflow:hidden!important;touch-action:none!important}
+.screen:not(#login){flex:1 1 0%;height:0;min-height:0;max-height:100%;overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch;overscroll-behavior-y:auto;touch-action:pan-y!important;scrollbar-width:none}
+.screen:not(#login)::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
@@ -249,6 +254,8 @@ html,body{height:100%;min-height:0;overflow:hidden;touch-action:pan-y}
 <section id="gaming" class="screen hidden">
  <button class="back" onclick="showPage('home')">← Back</button><h2>🧩 Gaming Hub</h2><p class="muted">Choose your game</p>
  <button class="btn" onclick="startGuess()">🔢 Number Guessing</button>
+ <button class="btn" 
+ onclick="startGuess()">🔢 Number Guessing</button>
  <button class="btn" onclick="startFlappy()">🐦 Flappy Bird</button>
  <button class="btn" onclick="startSnake()">🐍 Snake.io</button>
 </section>
