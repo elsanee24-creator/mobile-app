@@ -3,566 +3,434 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(
-    page_title="mobile.app",
+    page_title="Mobile App",
     page_icon="📱",
-    layout="centered"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 APP = r"""
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
 *{box-sizing:border-box}
-html,body{
-    margin:0;padding:0;width:100%;height:100%;
-    overflow:hidden;font-family:Arial,sans-serif;
-    background:#08091b;color:#fff;
-}
-.app{
-    width:100%;max-width:410px;
-    height:calc(100dvh - 12px);
-    min-height:0;margin:6px auto;
-    overflow:hidden;position:relative;
-    border:1px solid #514b83;border-radius:25px;
-    background:
-      radial-gradient(ellipse at 15% 15%,#512b85 0,transparent 42%),
-      radial-gradient(ellipse at 90% 45%,#075b83 0,transparent 40%),
-      linear-gradient(145deg,#10102b,#080d22 65%,#101a37);
-    box-shadow:0 0 35px #5b3b9a55;
-}
-.screen{
-    display:none;height:100%;padding:15px;
-    overflow-y:auto;overscroll-behavior:contain;
-    scrollbar-width:none;
-}
-.screen::-webkit-scrollbar{display:none}
-.screen.active{display:block}
-.glass{
-    background:#ffffff12;border:1px solid #ffffff25;
-    border-radius:18px;padding:14px;
-    backdrop-filter:blur(12px);
-}
-h1,h2,h3{margin-top:0}
-h1{font-size:25px}
-h2{font-size:21px}
-.muted{color:#b7b7d7;font-size:12px}
-input,select{
-    width:100%;padding:11px;margin:6px 0;
-    border-radius:12px;border:1px solid #ffffff35;
-    background:#ffffff12;color:white;font-size:14px;
-    outline:none;
-}
-input::placeholder{color:#aaa}
-button{
-    border:0;border-radius:12px;padding:11px;
-    background:linear-gradient(110deg,#6c42dd,#08a9ce);
-    color:white;font-weight:bold;font-size:13px;
-    cursor:pointer;
-}
-button:active{transform:scale(.97)}
-.primary{width:100%;margin:5px 0}
-.secondary{background:#ffffff18;border:1px solid #ffffff25}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.tile{
-    min-height:82px;text-align:left;padding:11px;
-    background:#ffffff12;border:1px solid #ffffff20;
-    border-radius:16px;color:white;font-size:12px;
-}
-.tile span{display:block;font-size:23px;margin-bottom:5px}
-.top{display:flex;justify-content:space-between;align-items:center}
-.back{background:#ffffff17;padding:8px 12px}
-.clockrow{display:flex;align-items:center;gap:14px;margin:8px 0 18px}
-.clockicon{font-size:51px;color:#69e5ff}
-#time{font-size:35px;font-weight:bold;letter-spacing:1px}
-#date{font-size:12px;color:#b7b7d7}
-.fingerprint{
-    width:55px;height:55px;border-radius:50%;
-    border:1px solid #7beaff;background:#ffffff12;
-    display:block;margin:12px auto;font-size:27px;
-}
-#calcDisplay{
-    width:100%;height:60px;font-size:25px;text-align:right;
-    background:#ffffff14;color:white;
-}
-.calcgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.calcgrid button{height:49px;font-size:18px}
-#gameCanvas{
-    width:100%;background:#07162a;
-    border:1px solid #ffffff35;border-radius:14px;
-    touch-action:none;
-}
-.controls{
-    display:grid;grid-template-columns:repeat(3,1fr);
-    gap:7px;margin:9px auto;max-width:220px
-}
-.controls button{font-size:19px}
-.center{text-align:center}
-.stat{display:flex;justify-content:space-between;margin:8px 0}
-.small{font-size:11px;color:#b7b7d7}
-#guessMessage{min-height:22px}
-
-/* LOGIN LOADING */
-#loadingScreen{
-    display:none;position:absolute;inset:0;z-index:50;
-    background:
-      radial-gradient(ellipse at 50% 40%,#30206b,#080d22 70%);
-    align-items:center;justify-content:center;
-    flex-direction:column;text-align:center;
-}
-#loadingScreen.show{display:flex}
-.loader{
-    width:72px;height:72px;border-radius:50%;
-    border:4px solid #ffffff20;
-    border-top-color:#65eaff;
-    border-right-color:#8b62ff;
-    animation:spin .8s linear infinite;
-    box-shadow:0 0 25px #36cfff55;
-}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#080d20;color:white}
+button,input{font:inherit}
+button{cursor:pointer;border:0;color:white}
+#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:12px;overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative}
+.screen{height:100%;width:100%;overflow-y:auto;overflow-x:hidden;border:1px solid #ffffff22;border-radius:25px;padding:18px;background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006}
+.hidden{display:none!important}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:27px}
+h2{font-size:22px}
+.muted{color:#b8c5dc;font-size:13px}
+.clock{text-align:center;padding:18px 5px 22px}
+.clock-icon{font-size:28px}
+#time{font-size:39px;font-weight:800;letter-spacing:2px;margin:5px}
+#date{color:#c5cde0;font-size:13px}
+.input{width:100%;padding:14px;border:1px solid #ffffff2c;border-radius:13px;background:#101a35;color:white;margin:7px 0;outline:none}
+.btn{padding:13px 15px;border-radius:13px;background:linear-gradient(110deg,#6553e9,#168eae);font-weight:bold;margin:5px 0;width:100%;box-shadow:0 5px 18px #0003}
+.btn.secondary{background:#ffffff14;border:1px solid #ffffff22}
+.btn.small{width:auto;padding:10px 15px}
+.row{display:flex;gap:9px}
+.row>*{flex:1;min-width:0}
+.card{padding:15px;border:1px solid #ffffff20;background:#ffffff0c;border-radius:17px;margin:10px 0}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.home-tile{min-height:83px;border-radius:17px;padding:13px;background:linear-gradient(135deg,#ffffff1b,#ffffff08);border:1px solid #ffffff25;text-align:left}
+.home-tile b{display:block;margin-top:8px}
+.hub{grid-column:1/-1;min-height:105px;background:linear-gradient(120deg,#493b9b,#087e91)}
+.bigicon{font-size:27px}
+.back{background:#ffffff16;padding:9px 13px;border-radius:10px;margin-bottom:12px}
+.game-area{border-radius:18px;overflow:hidden;position:relative;border:1px solid #ffffff22}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+.game-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.game-controls button{background:#ffffff20;border:1px solid #ffffff25;padding:12px 18px;border-radius:12px}
+#guessPage{background:linear-gradient(145deg,#142d52,#14203c)}
+#flappyPage{background:linear-gradient(180deg,#48b8ed,#a4e4f6 58%,#398f56);color:#102e45}
+#snakePage{background:linear-gradient(145deg,#062e36,#071a27)}
+#flappyPage .muted{color:#204c60}
+#calcDisplay{width:100%;font-size:30px;text-align:right;padding:17px;border-radius:14px;border:1px solid #ffffff25;background:#111a35;color:white;margin-bottom:10px}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.calc-grid button{height:58px;border-radius:14px;background:linear-gradient(145deg,#283d70,#182746);font-size:19px}
+.calc-grid button.op{background:linear-gradient(145deg,#7849c7,#42328a)}
+.calc-grid button.eq{background:linear-gradient(145deg,#05a6b7,#087b91)}
+.calc-grid button.clear{background:#a43c66}
+#loading{position:absolute;inset:12px;z-index:20;border-radius:25px;background:#090e24f5;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.spinner{width:54px;height:54px;border:4px solid #ffffff25;border-top-color:#25d9ed;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loadingTitle{
-    margin-top:24px;font-size:21px;font-weight:bold;
-    letter-spacing:1px;
-}
-.loadingText{color:#aebce0;font-size:12px;margin-top:9px}
-.progress{
-    width:190px;height:5px;background:#ffffff20;
-    border-radius:10px;margin-top:22px;overflow:hidden;
-}
-.progressBar{
-    height:100%;width:0%;
-    background:linear-gradient(90deg,#8054ff,#55eaff);
-    border-radius:10px;
-    animation:progress 2s linear forwards;
-}
-@keyframes progress{to{width:100%}}
-#app.fadeIn{animation:enter .35s ease}
-@keyframes enter{
-    from{opacity:.2;transform:scale(.985)}
-    to{opacity:1;transform:scale(1)}
-}
+.bar{height:5px;width:190px;background:#ffffff22;border-radius:8px;margin-top:20px;overflow:hidden}
+.bar:after{content:"";display:block;height:100%;width:0;background:#24d9ed;animation:load 2s linear forwards}
+@keyframes load{to{width:100%}}
+@media(max-height:700px){.screen{padding:12px}.clock{padding:8px 4px 12px}#time{font-size:32px}.home-tile{min-height:68px}.btn{padding:11px}}
 </style>
 </head>
 <body>
-<div class="app" id="app">
+<div id="app">
 
-<!-- LOGIN -->
-<section class="screen active" id="login">
-    <div class="clockrow">
-        <div class="clockicon">◷</div>
-        <div>
-            <div id="time">00:00:00</div>
-            <div id="date">Loading date...</div>
-        </div>
-    </div>
-
-    <div style="margin-top:24px">
-        <div class="center">
-            <div style="font-size:43px">✦</div>
-            <h1>mobile.app</h1>
-            <p class="muted">Your personal digital space</p>
-        </div>
-        <div class="glass">
-            <input id="username" placeholder="Username">
-            <input id="password" type="password" placeholder="Password">
-            <button class="primary" onclick="loginUser()">LOGIN</button>
-            <button class="primary secondary" onclick="guestLogin()">CONTINUE AS GUEST</button>
-            <button class="fingerprint" onclick="fingerprintLogin()" title="Demo fingerprint">♧</button>
-            <p class="small center">Fingerprint button is a demo shortcut.</p>
-        </div>
-    </div>
-</section>
-
-<!-- HOME -->
-<section class="screen" id="home">
-    <div class="top">
-        <div><p class="muted">WELCOME TO</p><h1>mobile.app ✦</h1></div>
-        <button class="back" onclick="goLogin()">Exit</button>
-    </div>
-    <div class="glass" style="margin:12px 0">
-        <h2 id="welcome">Hello!</h2>
-        <p class="muted">Choose an application to continue.</p>
-    </div>
-    <div class="grid">
-        <button class="tile" onclick="openApp('calculator')"><span>🧮</span>Calculator</button>
-        <button class="tile" onclick="openApp('passwordgen')"><span>🔐</span>Password Generator</button>
-        <button class="tile" style="min-height:105px" onclick="openApp('gaming')"><span style="font-size:34px">🧩</span>Gaming Hub</button>
-    </div>
-    <div class="glass" style="margin-top:12px">
-        <div class="top"><b>Appearance</b>
-        <select id="theme" onchange="changeTheme()" style="width:125px;margin:0">
-            <option value="cosmic">Cosmic</option>
-            <option value="blue">Blue</option>
-            <option value="purple">Purple</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-        </select></div>
-    </div>
-</section>
-
-<!-- GAMING HUB -->
-<section class="screen" id="gaming">
-    <div class="top"><h2>🧩 Gaming Hub</h2><button class="back" onclick="goHome()">Back</button></div>
-    <div class="glass" style="padding:18px;margin:12px 0">
-        <div class="center" style="font-size:38px">🧩</div>
-        <h2 class="center">Gaming Zone</h2>
-        <p class="muted center">Choose your game and have fun!</p>
-    </div>
-    <div class="grid">
-        <button class="tile" onclick="openApp('flappy')"><span>🐦</span>Flappy Bird</button>
-        <button class="tile" onclick="openApp('guess')"><span>🔢</span>Number Guess</button>
-        <button class="tile" onclick="openApp('snake')"><span>🐍</span>Snake.io</button>
-    </div>
-</section>
-
-<!-- CALCULATOR -->
-<section class="screen" id="calculator">
-    <div class="top"><h2>🧮 Calculator</h2><button class="back" onclick="goHome()">Back</button></div>
-    <input id="calcDisplay" readonly placeholder="0">
-    <div class="calcgrid">
-        <button class="secondary" onclick="clearCalc()">C</button>
-        <button class="secondary" onclick="calcAdd('(')">(</button>
-        <button class="secondary" onclick="calcAdd(')')">)</button>
-        <button onclick="calcAdd('/')">÷</button>
-        <button class="secondary" onclick="calcAdd('7')">7</button>
-        <button class="secondary" onclick="calcAdd('8')">8</button>
-        <button class="secondary" onclick="calcAdd('9')">9</button>
-        <button onclick="calcAdd('*')">×</button>
-        <button class="secondary" onclick="calcAdd('4')">4</button>
-        <button class="secondary" onclick="calcAdd('5')">5</button>
-        <button class="secondary" onclick="calcAdd('6')">6</button>
-        <button onclick="calcAdd('-')">−</button>
-        <button class="secondary" onclick="calcAdd('1')">1</button>
-        <button class="secondary" onclick="calcAdd('2')">2</button>
-        <button class="secondary" onclick="calcAdd('3')">3</button>
-        <button onclick="calcAdd('+')">+</button>
-        <button class="secondary" onclick="calcAdd('0')">0</button>
-        <button class="secondary" onclick="calcAdd('.')">.</button>
-        <button class="secondary" onclick="calcBack()">⌫</button>
-        <button onclick="calculate()">=</button>
-    </div>
-</section>
-
-<!-- PASSWORD GENERATOR -->
-<section class="screen" id="passwordgen">
-    <div class="top"><h2>🔐 Password Generator</h2><button class="back" onclick="goHome()">Back</button></div>
-    <div class="glass">
-        <label>Password length</label>
-        <input id="passLength" type="number" min="4" max="40" value="16">
-        <button class="primary" onclick="generatePassword()">GENERATE PASSWORD</button>
-        <input id="generatedPass" readonly placeholder="Your password appears here">
-        <button class="primary secondary" onclick="copyPassword()">COPY PASSWORD</button>
-    </div>
-</section>
-
-<!-- NUMBER GUESS -->
-<section class="screen" id="guess">
-    <div class="top"><h2>🔢 Number Guess</h2><button class="back" onclick="backToHub()">Back</button></div>
-    <div class="glass center">
-        <h3>Guess the number!</h3>
-        <p class="muted">Choose a number between 1 and 100.</p>
-        <input id="guessInput" type="number" placeholder="Enter your guess">
-        <button class="primary" onclick="checkGuess()">CHECK</button>
-        <p id="guessMessage"></p>
-        <p id="guessCount" class="muted">Attempts: 0</p>
-        <button class="secondary" onclick="resetGuess()">New Game</button>
-    </div>
-</section>
-
-<!-- FLAPPY BIRD -->
-<section class="screen" id="flappy">
-    <div class="top"><h2>🐦 Flappy Bird</h2><button class="back" onclick="backToHub()">Back</button></div>
-    <p class="muted center">Tap the game to fly.</p>
-    <canvas id="birdCanvas" width="340" height="420" style="width:100%;background:#102d4a;border-radius:15px"></canvas>
-    <button class="primary" onclick="startBird()">START / RESTART</button>
-    <p class="center" id="birdScore">Score: 0</p>
-</section>
-
-<!-- SNAKE -->
-<section class="screen" id="snake">
-    <div class="top"><h2>🐍 Snake.io</h2><button class="back" onclick="backToHub()">Back</button></div>
-    <div class="stat"><b>Score: <span id="snakeScore">0</span></b><b>🏆 Best: <span id="snakeBest">0</span></b></div>
-    <canvas id="gameCanvas" width="360" height="360"></canvas>
-    <button class="primary" onclick="startSnake()">START / RESTART</button>
-    <div class="controls">
-        <span></span><button class="secondary" onclick="setDir(0,-1)">▲</button><span></span>
-        <button class="secondary" onclick="setDir(-1,0)">◀</button>
-        <button class="secondary" onclick="setDir(0,1)">▼</button>
-        <button class="secondary" onclick="setDir(1,0)">▶</button>
-    </div>
-    <p class="small center">Swipe or use arrow buttons to move.</p>
-</section>
-
-<!-- LOADING OVERLAY -->
-<div id="loadingScreen">
-    <div class="loader"></div>
-    <div class="loadingTitle">mobile.app</div>
-    <div class="loadingText" id="loadingText">Initializing mobile.app...</div>
-    <div class="progress"><div class="progressBar" id="progressBar"></div></div>
+<div id="loading" class="hidden">
+  <div class="spinner"></div>
+  <h2 style="margin:20px 0 5px">Loading your app</h2>
+  <div class="muted">Please wait...</div>
+  <div class="bar"></div>
 </div>
 
-</div>
+<section id="login" class="screen">
+  <div class="clock">
+    <div class="clock-icon">◷</div>
+    <div id="time">00:00:00</div>
+    <div id="date">Loading date...</div>
+  </div>
+  <div style="text-align:center;margin-bottom:18px">
+    <h1>Welcome Back</h1>
+    <div class="muted">Your personal mobile space</div>
+  </div>
+  <input id="username" class="input" placeholder="Username" autocomplete="username">
+  <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password">
+  <button class="btn" onclick="loginUser()">LOGIN</button>
+  <button class="btn secondary" onclick="enterApp('Guest')">Continue as Guest</button>
+  <button class="btn secondary" onclick="enterApp('Guest')">◉ &nbsp; Fingerprint Demo</button>
+  <p class="muted" style="text-align:center;margin-top:12px">Fingerprint is a demo shortcut.</p>
+</section>
 
+<section id="home" class="screen hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div><div class="muted">WELCOME</div><h1 id="welcomeName">Home</h1></div>
+    <button class="back" onclick="goLogin()">↪</button>
+  </div>
+  <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+    <div><div class="muted">TODAY</div><b id="homeDate">Loading...</b></div>
+    <div style="font-size:29px">◷</div>
+    <b id="homeTime">00:00</b>
+  </div>
+  <div class="home-grid">
+    <button class="home-tile" onclick="showPage('calculator')"><span class="bigicon">🧮</span><b>Calculator</b><span class="muted">Quick calculations</span></button>
+    <button class="home-tile" onclick="showPage('passwordPage')"><span class="bigicon">🔐</span><b>Password Generator</b><span class="muted">Create passwords</span></button>
+    <button class="home-tile hub" onclick="showPage('gaming')"><span class="bigicon">🧩</span><b>Gaming Hub</b><span class="muted">Play your favourite games</span></button>
+  </div>
+  <div class="card"><b>✨ Your Space</b><p class="muted" style="margin:7px 0 0">Choose an activity and enjoy.</p></div>
+</section>
+
+<section id="calculator" class="screen hidden">
+  <button class="back" onclick="showPage('home')">← Back</button>
+  <h2>🧮 Calculator</h2>
+  <input id="calcDisplay" value="0" readonly>
+  <div class="calc-grid" id="calcButtons"></div>
+</section>
+
+<section id="passwordPage" class="screen hidden">
+  <button class="back" onclick="showPage('home')">← Back</button>
+  <h2>🔐 Password Generator</h2>
+  <div class="card">
+    <label class="muted">Password length</label>
+    <input id="passLength" class="input" type="number" min="6" max="32" value="16">
+    <label><input id="passUpper" type="checkbox" checked> Uppercase letters</label><br><br>
+    <label><input id="passLower" type="checkbox" checked> Lowercase letters</label><br><br>
+    <label><input id="passNumbers" type="checkbox" checked> Numbers</label><br><br>
+    <label><input id="passSymbols" type="checkbox" checked> Symbols</label>
+    <button class="btn" onclick="generatePassword()">Generate Password</button>
+    <input id="passOutput" class="input" readonly placeholder="Your password appears here">
+    <button class="btn secondary" onclick="copyPassword()">Copy Password</button>
+    <div id="passMessage" class="muted"></div>
+  </div>
+</section>
+
+<section id="gaming" class="screen hidden">
+  <button class="back" onclick="showPage('home')">← Back</button>
+  <h2>🧩 Gaming Hub</h2>
+  <p class="muted">Choose your game</p>
+  <button class="btn" onclick="startGuess()">🔢 Number Guessing</button>
+  <button class="btn" onclick="startFlappy()">🐦 Flappy Bird</button>
+  <button class="btn" onclick="startSnake()">🐍 Snake.io</button>
+</section>
+
+<section id="guessPage" class="screen hidden">
+  <button class="back" onclick="showPage('gaming')">← Back</button>
+  <h2>🔢 Number Guessing</h2>
+  <div class="card">
+    <p>Guess a number between <b>1 and 20</b>.</p>
+    <h1 id="attempts">Attempts left: 5</h1>
+    <input id="guessInput" class="input" type="number" min="1" max="20" placeholder="Enter your guess">
+    <button class="btn" onclick="makeGuess()">Submit Guess</button>
+    <div id="guessMessage" style="min-height:25px;margin-top:12px"></div>
+    <button id="guessAgain" class="btn secondary hidden" onclick="startGuess()">Play Again</button>
+  </div>
+</section>
+
+<section id="flappyPage" class="screen hidden">
+  <button class="back" onclick="stopFlappy();showPage('gaming')">← Back</button>
+  <h2>🐦 Flappy Bird</h2>
+  <p class="muted">Tap the game or press SPACE to fly.</p>
+  <div class="game-area">
+    <canvas id="flappyCanvas" width="360" height="480"></canvas>
+  </div>
+  <div class="row">
+    <div class="card"><small>Score</small><h2 id="flappyScore">0</h2></div>
+    <div class="card"><small>Best</small><h2 id="flappyBest">0</h2></div>
+  </div>
+  <button class="btn" onclick="flappyStart()">Start / Restart</button>
+  <button class="btn secondary" onclick="flap()">FLAP ↑</button>
+</section>
+
+<section id="snakePage" class="screen hidden">
+  <button class="back" onclick="stopSnake();showPage('gaming')">← Back</button>
+  <h2>🐍 Snake.io</h2>
+  <p class="muted">Eat apples. Avoid the walls and your tail.</p>
+  <div class="game-area">
+    <canvas id="snakeCanvas" width="360" height="360"></canvas>
+  </div>
+  <div class="row">
+    <div class="card"><small>Score</small><h2 id="snakeScore">0</h2></div>
+    <div class="card"><small>Best</small><h2 id="snakeBest">0</h2></div>
+  </div>
+  <button class="btn" onclick="startSnakeGame()">Start / Restart</button>
+  <div class="game-controls">
+    <button onclick="changeDir(0,-1)">▲</button>
+  </div>
+  <div class="game-controls">
+    <button onclick="changeDir(-1,0)">◀</button>
+    <button onclick="changeDir(0,1)">▼</button>
+    <button onclick="changeDir(1,0)">▶</button>
+  </div>
+</section>
+
+</div>
 <script>
-function showScreen(id){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-let loading=false;
-function enterWithLoading(name){
-    if(loading)return;
-    loading=true;
-    const overlay=document.getElementById('loadingScreen');
-    const bar=document.getElementById('progressBar');
-    const text=document.getElementById('loadingText');
+const $=id=>document.getElementById(id);
+let currentUser="Guest";
 
-    bar.style.animation='none';
-    void bar.offsetWidth;
-    bar.style.animation='progress 2s linear forwards';
-    text.textContent='Initializing mobile.app...';
-    overlay.classList.add('show');
-
-    setTimeout(()=>{
-        document.getElementById('welcome').textContent='Hello, '+name+'!';
-        showScreen('home');
-        overlay.classList.remove('show');
-        document.getElementById('app').classList.remove('fadeIn');
-        void document.getElementById('app').offsetWidth;
-        document.getElementById('app').classList.add('fadeIn');
-        loading=false;
-    },2000);
-}
-function loginUser(){
-    let name=document.getElementById('username').value.trim();
-    let pass=document.getElementById('password').value;
-    if(!name||!pass){alert('Enter username and password.');return;}
-    enterWithLoading(name);
-}
-function guestLogin(){enterWithLoading('Guest')}
-function fingerprintLogin(){enterWithLoading('Guest')}
-function goHome(){stopSnake();stopBird();showScreen('home')}
-function goLogin(){stopSnake();stopBird();showScreen('login')}
-function backToHub(){stopSnake();stopBird();showScreen('gaming')}
-function openApp(id){
-    showScreen(id);
-    if(id==='snake')drawSnake();
-    if(id==='flappy')drawBird();
-}
-function changeTheme(){
-    let t=document.getElementById('theme').value;
-    let app=document.getElementById('app');
-    let themes={
-        cosmic:'radial-gradient(ellipse at 15% 15%,#512b85,transparent 42%),radial-gradient(ellipse at 90% 45%,#075b83,transparent 40%),linear-gradient(145deg,#10102b,#080d22 65%,#101a37)',
-        blue:'linear-gradient(145deg,#061d43,#075b83,#10102b)',
-        purple:'linear-gradient(145deg,#210d40,#632d87,#140d2c)',
-        light:'linear-gradient(145deg,#e4eaff,#c5d8ff,#f1e9ff)',
-        dark:'linear-gradient(145deg,#080808,#20202b,#101018)'
-    };
-    app.style.background=themes[t];
-    app.style.color=t==='light'?'#18203a':'white';
-}
 function updateClock(){
-    let d=new Date();
-    document.getElementById('time').textContent=
-        d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    document.getElementById('date').textContent=
-        d.toLocaleDateString([], {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ const d=new Date();
+ $("time").textContent=d.toLocaleTimeString();
+ $("date").textContent=d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ $("homeTime").textContent=d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+ $("homeDate").textContent=d.toLocaleDateString([],{weekday:"short",day:"numeric",month:"short"});
 }
 updateClock();setInterval(updateClock,1000);
 
-// CALCULATOR
-function calcAdd(v){document.getElementById('calcDisplay').value+=v}
-function clearCalc(){document.getElementById('calcDisplay').value=''}
-function calcBack(){let x=document.getElementById('calcDisplay');x.value=x.value.slice(0,-1)}
-function calculate(){
-    let x=document.getElementById('calcDisplay');
-    try{
-        if(!/^[0-9+\-*/(). ]+$/.test(x.value))throw Error();
-        let result=Function('"use strict";return ('+x.value+')')();
-        if(!Number.isFinite(result))throw Error();
-        x.value=result;
-    }catch(e){x.value='Error'}
+function enterApp(name){
+ currentUser=name;
+ $("loading").classList.remove("hidden");
+ setTimeout(()=>{
+  $("loading").classList.add("hidden");
+  $("welcomeName").textContent=name;
+  showPage("home");
+ },2000);
+}
+function loginUser(){
+ let u=$("username").value.trim(),p=$("password").value;
+ if(!u||!p){alert("Please enter username and password.");return}
+ enterApp(u);
+}
+function goLogin(){showPage("login")}
+function showPage(id){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.add("hidden"));
+ $(id).classList.remove("hidden");
 }
 
-// PASSWORD GENERATOR
+// Calculator
+const keys=["C","⌫","%","÷","7","8","9","×","4","5","6","−","1","2","3","+","±","0",".","="];
+let calc="0",fresh=false;
+function renderCalc(){
+ $("calcDisplay").value=calc;
+}
+function calcPress(k){
+ if(k==="C"){calc="0";fresh=false}
+ else if(k==="⌫"){calc=calc.length>1?calc.slice(0,-1):"0"}
+ else if(k==="±"){calc=String(-Number(calc))}
+ else if(k==="="){
+  try{
+   let expr=calc.replace(/×/g,"*").replace(/÷/g,"/").replace(/−/g,"-").replace(/%/g,"/100");
+   if(!/^[0-9+\-*/.() ]+$/.test(expr))throw Error();
+   let result=Function('"use strict";return ('+expr+')')();
+   calc=Number.isFinite(result)?String(Number(result.toFixed(8))):"Error";
+   fresh=true;
+  }catch(e){calc="Error";fresh=true}
+ }else{
+  if(calc==="Error"||fresh){calc="0";fresh=false}
+  if("÷×−+".includes(k)){
+   if("÷×−+".includes(calc.slice(-1)))calc=calc.slice(0,-1);
+   calc+=k;
+  }else if(k==="."){
+   let part=calc.split(/[+\-×÷]/).pop();
+   if(!part.includes("."))calc+=".";
+  }else calc=calc==="0"?k:calc+k;
+ }
+ renderCalc();
+}
+$("calcButtons").innerHTML=keys.map(k=>`<button class="${k==="="? "eq":k==="C"?"clear":"÷×−+".includes(k)?"op":""}" data-key="${k}">${k}</button>`).join("");
+$("calcButtons").addEventListener("click",e=>{
+ let b=e.target.closest("button");if(b)calcPress(b.dataset.key);
+});
+
+// Password generator
 function generatePassword(){
-    let n=Math.max(4,Math.min(40,Number(document.getElementById('passLength').value)||16));
-    let chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*?';
-    let p='';
-    for(let i=0;i<n;i++)p+=chars[Math.floor(Math.random()*chars.length)];
-    document.getElementById('generatedPass').value=p;
+ let n=Math.max(6,Math.min(32,Number($("passLength").value)||16));
+ let sets=[];
+ if($("passUpper").checked)sets.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+ if($("passLower").checked)sets.push("abcdefghijklmnopqrstuvwxyz");
+ if($("passNumbers").checked)sets.push("0123456789");
+ if($("passSymbols").checked)sets.push("!@#$%^&*()-_=+?");
+ if(!sets.length){$("passMessage").textContent="Select at least one character type.";return}
+ let chars=sets.join(""),out="";
+ for(let i=0;i<n;i++)out+=chars[Math.floor(Math.random()*chars.length)];
+ $("passOutput").value=out;$("passMessage").textContent="Password generated.";
 }
 function copyPassword(){
-    let p=document.getElementById('generatedPass').value;
-    if(p)navigator.clipboard?.writeText(p).then(()=>alert('Copied!')).catch(()=>alert('Copy not supported'));
+ let v=$("passOutput").value;
+ if(!v){$("passMessage").textContent="Generate a password first.";return}
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+  navigator.clipboard.writeText(v).then(()=>$("passMessage").textContent="Copied!").catch(()=>$("passMessage").textContent="Select and copy the password.");
+ }else{$("passOutput").select();$("passMessage").textContent="Select and copy the password."}
 }
 
-// NUMBER GUESS
-let secret=Math.floor(Math.random()*100)+1,attempts=0;
-function checkGuess(){
-    let v=Number(document.getElementById('guessInput').value);
-    let m=document.getElementById('guessMessage');
-    if(!v||v<1||v>100){m.textContent='Enter a number from 1 to 100.';return}
-    attempts++;
-    if(v===secret)m.textContent='🎉 Correct! You won!';
-    else m.textContent=v<secret?'Try a higher number!':'Try a lower number!';
-    document.getElementById('guessCount').textContent='Attempts: '+attempts;
+// Number Guess
+let secret=0,tries=5,guessDone=false;
+function startGuess(){
+ secret=Math.floor(Math.random()*20)+1;tries=5;guessDone=false;
+ $("attempts").textContent="Attempts left: 5";
+ $("guessMessage").textContent="You have five attempts. Good luck!";
+ $("guessInput").value="";$("guessInput").disabled=false;
+ $("guessAgain").classList.add("hidden");showPage("guessPage");
 }
-function resetGuess(){
-    secret=Math.floor(Math.random()*100)+1;attempts=0;
-    document.getElementById('guessInput').value='';
-    document.getElementById('guessMessage').textContent='';
-    document.getElementById('guessCount').textContent='Attempts: 0';
+function makeGuess(){
+ if(guessDone)return;
+ let v=Number($("guessInput").value);
+ if(!Number.isInteger(v)||v<1||v>20){$("guessMessage").textContent="Enter a whole number from 1 to 20.";return}
+ tries--;
+ $("attempts").textContent="Attempts left: "+tries;
+ if(v===secret){
+  $("guessMessage").textContent="🎉 Correct! You won!";
+  guessDone=true;
+ }else if(tries===0){
+  $("guessMessage").textContent="Game over! The number was "+secret+".";
+  guessDone=true;
+ }else{
+  $("guessMessage").textContent=v<secret?"Too low! Try a higher number.":"Too high! Try a lower number.";
+ }
+ if(guessDone){$("guessInput").disabled=true;$("guessAgain").classList.remove("hidden")}
+ $("guessInput").value="";
 }
 
-// FLAPPY BIRD
-const bc=document.getElementById('birdCanvas'),bctx=bc.getContext('2d');
-let bird={y:180,v:0},pipes=[],birdScore=0,birdRun=false,birdRAF;
-function drawBird(){
-    bctx.clearRect(0,0,340,420);
-    bctx.fillStyle='#102d4a';bctx.fillRect(0,0,340,420);
-    bctx.fillStyle='#46d8ff';
-    bctx.beginPath();bctx.arc(90,bird.y,13,0,Math.PI*2);bctx.fill();
-    bctx.fillStyle='#ffdf64';
-    pipes.forEach(p=>{
-        bctx.fillRect(p.x,0,48,p.top);
-        bctx.fillRect(p.x,p.top+115,48,420);
-    });
-    bctx.fillStyle='white';bctx.font='20px Arial';
-    bctx.fillText('Score: '+birdScore,12,28);
+// Flappy Bird
+const fc=$("flappyCanvas"),fx=fc.getContext("2d");
+let bird,pipes,flScore,flRunning=false,flOver=true,flFrame=0,flLoop=null;
+let flBest=Number(localStorage.getItem("flappyBest")||0);
+$("flappyBest").textContent=flBest;
+function startFlappy(){showPage("flappyPage");flappyStart()}
+function flappyStart(){
+ stopFlappy();bird={x:75,y:220,vy:0};pipes=[];flScore=0;flFrame=0;flRunning=true;flOver=false;
+ $("flappyScore").textContent="0";
+ pipes.push({x:390,gapY:190,passed:false});
+ flLoop=setInterval(flappyTick,1000/60);
+ drawFlappy();
 }
-function startBird(){
-    stopBird();bird.y=180;bird.v=0;pipes=[];birdScore=0;birdRun=true;
-    pipes.push({x:350,top:100,scored:false});
-    birdLoop();
+function stopFlappy(){if(flLoop)clearInterval(flLoop);flLoop=null;flRunning=false}
+function flap(){
+ if(!flRunning){if(flOver)flappyStart();return}
+ bird.vy=-5.2;
 }
-function stopBird(){birdRun=false;cancelAnimationFrame(birdRAF)}
-function birdLoop(){
-    if(!birdRun)return;
-    bird.v+=.35;bird.y+=bird.v;
-    if(Math.random()<.012)pipes.push({x:350,top:50+Math.random()*180,scored:false});
-    pipes.forEach(p=>{
-        p.x-=2.3;
-        if(!p.scored&&p.x<90){p.scored=true;birdScore++}
-        if(p.x<103&&p.x+48>77&&(bird.y<p.top||bird.y>p.top+115))birdRun=false;
-    });
-    pipes=pipes.filter(p=>p.x>-55);
-    if(bird.y>410||bird.y<0)birdRun=false;
-    drawBird();
-    document.getElementById('birdScore').textContent='Score: '+birdScore;
-    if(birdRun)birdRAF=requestAnimationFrame(birdLoop);
-    else {bctx.fillStyle='white';bctx.font='24px Arial';bctx.fillText('Game Over',110,210)}
+function flappyTick(){
+ if(!flRunning)return;
+ flFrame++;
+ bird.vy+=0.28;bird.y+=bird.vy;
+ if(flFrame%105===0)pipes.push({x:370,gapY:95+Math.random()*220,passed:false});
+ pipes.forEach(p=>p.x-=2.5);
+ pipes=pipes.filter(p=>p.x>-65);
+ for(let p of pipes){
+  if(bird.x+13>p.x&&bird.x-13<p.x+48&&(bird.y-11<p.gapY-73||bird.y+11>p.gapY+73))return flappyEnd();
+  if(!p.passed&&p.x+48<bird.x){p.passed=true;flScore++;$("flappyScore").textContent=flScore}
+ }
+ if(bird.y<0||bird.y>fc.height-20)return flappyEnd();
+ drawFlappy();
 }
-bc.addEventListener('pointerdown',()=>{if(birdRun)bird.v=-5});
+function drawFlappy(){
+ fx.clearRect(0,0,360,480);
+ let sky=fx.createLinearGradient(0,0,0,480);sky.addColorStop(0,"#55c7f4");sky.addColorStop(1,"#d5f6ff");fx.fillStyle=sky;fx.fillRect(0,0,360,480);
+ fx.fillStyle="#ffffff99";[[55,70],[220,105],[300,55]].forEach(([x,y])=>{fx.beginPath();fx.arc(x,y,19,0,Math.PI*2);fx.arc(x+18,y+4,15,0,Math.PI*2);fx.fill()});
+ pipes.forEach(p=>{
+  fx.fillStyle="#27964c";fx.fillRect(p.x,0,48,p.gapY-73);fx.fillRect(p.x,p.gapY+73,48,480);
+  fx.fillStyle="#176e3c";fx.fillRect(p.x-4,p.gapY-84,56,11);fx.fillRect(p.x-4,p.gapY+73,56,11);
+ });
+ fx.fillStyle="#e8c34b";fx.beginPath();fx.ellipse(bird.x,bird.y,14,11,0,0,Math.PI*2);fx.fill();
+ fx.fillStyle="#fff";fx.beginPath();fx.arc(bird.x+5,bird.y-4,4,0,Math.PI*2);fx.fill();
+ fx.fillStyle="#111";fx.beginPath();fx.arc(bird.x+6,bird.y-4,1.8,0,Math.PI*2);fx.fill();
+ fx.fillStyle="#ed7839";fx.beginPath();fx.moveTo(bird.x+12,bird.y);fx.lineTo(bird.x+23,bird.y+4);fx.lineTo(bird.x+12,bird.y+7);fx.fill();
+ fx.fillStyle="#347b42";fx.fillRect(0,460,360,20);
+ if(flOver){fx.fillStyle="#12384c";fx.textAlign="center";fx.font="bold 23px Arial";fx.fillText("Tap START to play",180,250)}
+}
+function flappyEnd(){
+ stopFlappy();flOver=true;
+ if(flScore>flBest){flBest=flScore;localStorage.setItem("flappyBest",flBest);$("flappyBest").textContent=flBest}
+ drawFlappy();fx.fillStyle="#12384c";fx.textAlign="center";fx.font="bold 24px Arial";fx.fillText("GAME OVER",180,285);
+}
+fc.addEventListener("pointerdown",flap);
+document.addEventListener("keydown",e=>{if(e.code==="Space"&&!$("flappyPage").classList.contains("hidden")){e.preventDefault();flap()}});
 
-// SNAKE.IO
-const sc=document.getElementById('gameCanvas'),ctx=sc.getContext('2d');
-const CELL=18,GRID=20;
-let snake=[],food={},dir={x:1,y:0},nextDir={x:1,y:0};
-let snakeScore=0,snakeRunning=false,snakeRAF=0,lastStep=0;
-let best=Number(localStorage.getItem('snakeBest')||0);
-document.getElementById('snakeBest').textContent=best;
-function newFood(){
-    food={x:Math.floor(Math.random()*GRID),y:Math.floor(Math.random()*GRID)};
-    if(snake.some(s=>s.x===food.x&&s.y===food.y))newFood();
+// Snake
+const sc=$("snakeCanvas"),sx=sc.getContext("2d"),CELL=18,GRID=20;
+let snake,apple,dir,nextDir,snScore=0,snTimer=null,snRunning=false,snOver=true;
+let snBest=Number(localStorage.getItem("snakeBest")||0);
+$("snakeBest").textContent=snBest;
+function startSnake(){showPage("snakePage");startSnakeGame()}
+function stopSnake(){if(snTimer)clearInterval(snTimer);snTimer=null;snRunning=false}
+function randomApple(){
+ let a;do{a={x:Math.floor(Math.random()*GRID),y:Math.floor(Math.random()*GRID)}}while(snake.some(s=>s.x===a.x&&s.y===a.y));
+ return a;
+}
+function startSnakeGame(){
+ stopSnake();snake=[{x:9,y:10},{x:8,y:10},{x:7,y:10}];
+ dir={x:1,y:0};nextDir={x:1,y:0};snScore=0;apple=randomApple();snRunning=true;snOver=false;
+ $("snakeScore").textContent="0";drawSnake();
+ snTimer=setInterval(snakeTick,115);
+}
+function changeDir(x,y){
+ if(!snRunning)return;
+ if(x===-dir.x&&y===-dir.y)return;
+ nextDir={x,y};
+}
+function snakeTick(){
+ if(!snRunning)return;
+ dir=nextDir;
+ let head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+ if(head.x<0||head.x>=GRID||head.y<0||head.y>=GRID||snake.some((s,i)=>i<snake.length-1&&s.x===head.x&&s.y===head.y)){snakeEnd();return}
+ snake.unshift(head);
+ if(head.x===apple.x&&head.y===apple.y){
+  snScore++;$("snakeScore").textContent=snScore;apple=randomApple();
+ }else snake.pop();
+ drawSnake();
 }
 function drawSnake(){
-    ctx.clearRect(0,0,360,360);
-    ctx.fillStyle='#07162a';ctx.fillRect(0,0,360,360);
-    ctx.strokeStyle='#ffffff0c';
-    for(let i=0;i<=360;i+=CELL){
-        ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,360);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(360,i);ctx.stroke();
-    }
-    ctx.shadowColor='#ff254e';ctx.shadowBlur=15;
-    ctx.fillStyle='#ff254e';
-    ctx.beginPath();ctx.arc(food.x*CELL+9,food.y*CELL+9,7,0,Math.PI*2);ctx.fill();
-    ctx.shadowBlur=0;
-    ctx.fillStyle='#66ef9b';
-    ctx.fillRect(food.x*CELL+10,food.y*CELL,3,6);
-    snake.forEach((s,i)=>{
-        let g=ctx.createLinearGradient(s.x*CELL,s.y*CELL,s.x*CELL+CELL,s.y*CELL+CELL);
-        g.addColorStop(0,i===0?'#8cf5ff':'#268cff');
-        g.addColorStop(1,'#0752c7');
-        ctx.fillStyle=g;ctx.shadowColor='#168bff';ctx.shadowBlur=i===0?12:5;
-        ctx.beginPath();ctx.roundRect(s.x*CELL+1,s.y*CELL+1,CELL-2,CELL-2,6);ctx.fill();
-    });
-    ctx.shadowBlur=0;
-    if(snake.length){
-        ctx.fillStyle='white';
-        ctx.beginPath();ctx.arc(snake[0].x*CELL+6,snake[0].y*CELL+6,2,0,Math.PI*2);ctx.fill();
-        ctx.beginPath();ctx.arc(snake[0].x*CELL+13,snake[0].y*CELL+6,2,0,Math.PI*2);ctx.fill();
-    }
+ sx.fillStyle="#082c35";sx.fillRect(0,0,360,360);
+ sx.strokeStyle="#ffffff0b";
+ for(let i=0;i<=GRID;i++){sx.beginPath();sx.moveTo(i*CELL,0);sx.lineTo(i*CELL,360);sx.stroke();sx.beginPath();sx.moveTo(0,i*CELL);sx.lineTo(360,i*CELL);sx.stroke()}
+ sx.fillStyle="#ff4e59";sx.beginPath();sx.arc(apple.x*CELL+9,apple.y*CELL+9,7,0,Math.PI*2);sx.fill();
+ snake.forEach((s,i)=>{sx.fillStyle=i===0?"#6cecff":"#168ed5";sx.beginPath();sx.roundRect(s.x*CELL+1,s.y*CELL+1,16,16,5);sx.fill()});
+ if(snOver){sx.fillStyle="#fff";sx.textAlign="center";sx.font="bold 22px Arial";sx.fillText("Press Start to play",180,190)}
 }
-function startSnake(){
-    cancelAnimationFrame(snakeRAF);
-    snake=[{x:8,y:10},{x:7,y:10},{x:6,y:10}];
-    dir={x:1,y:0};nextDir={x:1,y:0};
-    snakeScore=0;snakeRunning=true;lastStep=0;
-    document.getElementById('snakeScore').textContent=0;
-    newFood();drawSnake();
-    snakeRAF=requestAnimationFrame(snakeLoop);
+function snakeEnd(){
+ stopSnake();snOver=true;
+ if(snScore>snBest){snBest=snScore;localStorage.setItem("snakeBest",snBest);$("snakeBest").textContent=snBest}
+ drawSnake();sx.fillStyle="#fff";sx.textAlign="center";sx.font="bold 24px Arial";sx.fillText("GAME OVER",180,225);
 }
-function stopSnake(){snakeRunning=false;cancelAnimationFrame(snakeRAF)}
-function setDir(x,y){
-    if(x===-dir.x&&y===-dir.y)return;
-    nextDir={x,y};
-}
-function snakeLoop(t){
-    if(!snakeRunning)return;
-    let speed=Math.max(65,125-snakeScore*2);
-    if(t-lastStep>speed){
-        lastStep=t;dir=nextDir;
-        let head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
-        let eating=head.x===food.x&&head.y===food.y;
-        if(head.x<0||head.x>=GRID||head.y<0||head.y>=GRID||
-           snake.slice(0,eating?snake.length:snake.length-1).some(s=>s.x===head.x&&s.y===head.y)){
-            endSnake();return;
-        }
-        snake.unshift(head);
-        if(eating){
-            snakeScore+=5;
-            document.getElementById('snakeScore').textContent=snakeScore;
-            if(snakeScore>best){
-                best=snakeScore;localStorage.setItem('snakeBest',best);
-                document.getElementById('snakeBest').textContent=best;
-            }
-            newFood();
-        }else snake.pop();
-        drawSnake();
-    }
-    snakeRAF=requestAnimationFrame(snakeLoop);
-}
-function endSnake(){
-    snakeRunning=false;
-    drawSnake();
-    ctx.fillStyle='#0009';ctx.fillRect(0,135,360,90);
-    ctx.fillStyle='white';ctx.textAlign='center';
-    ctx.font='bold 25px Arial';ctx.fillText('GAME OVER',180,177);
-    ctx.font='15px Arial';ctx.fillText('Score: '+snakeScore+'  •  Press Restart',180,205);
-    ctx.textAlign='left';
-}
-let touchX=0,touchY=0;
-sc.addEventListener('touchstart',e=>{
-    touchX=e.touches[0].clientX;touchY=e.touches[0].clientY;
-},{passive:true});
-sc.addEventListener('touchend',e=>{
-    let dx=e.changedTouches[0].clientX-touchX;
-    let dy=e.changedTouches[0].clientY-touchY;
-    if(Math.abs(dx)>Math.abs(dy))setDir(dx>0?1:-1,0);
-    else if(Math.abs(dy)>0)setDir(0,dy>0?1:-1);
-},{passive:true});
-document.addEventListener('keydown',e=>{
-    if(!document.getElementById('snake').classList.contains('active'))return;
-    if(e.key==='ArrowUp')setDir(0,-1);
-    if(e.key==='ArrowDown')setDir(0,1);
-    if(e.key==='ArrowLeft')setDir(-1,0);
-    if(e.key==='ArrowRight')setDir(1,0);
+document.addEventListener("keydown",e=>{
+ if($("snakePage").classList.contains("hidden"))return;
+ const map={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]};
+ if(map[e.key]){e.preventDefault();changeDir(...map[e.key])}
 });
+let touchX=0,touchY=0;
+sc.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].clientX;touchY=e.changedTouches[0].clientY},{passive:true});
+sc.addEventListener("touchend",e=>{
+ let dx=e.changedTouches[0].clientX-touchX,dy=e.changedTouches[0].clientY-touchY;
+ if(Math.max(Math.abs(dx),Math.abs(dy))<15)return;
+ if(Math.abs(dx)>Math.abs(dy))changeDir(dx>0?1:-1,0);else changeDir(0,dy>0?1:-1);
+},{passive:true});
+
+drawFlappy();drawSnake();
 </script>
 </body>
 </html>
 """
 
-components.html(APP, height=720, scrolling=False)
+components.html(APP, height=880, scrolling=False)
