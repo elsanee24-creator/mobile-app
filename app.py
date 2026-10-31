@@ -15,81 +15,133 @@ APP = r"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 *{box-sizing:border-box}
-body{
-    margin:0;padding:8px;
-    font-family:Arial,sans-serif;
+html,body{
+    margin:0;padding:0;width:100%;height:100%;
+    overflow:hidden;font-family:Arial,sans-serif;
     background:#08091b;color:#fff;
 }
 .app{
-    max-width:410px;height:840px;max-height:calc(100vh - 16px);
-    min-height:600px;margin:auto;overflow:hidden;
-    position:relative;border:1px solid #514b83;border-radius:30px;
+    width:100%;max-width:410px;
+    height:calc(100dvh - 12px);
+    min-height:0;margin:6px auto;
+    overflow:hidden;position:relative;
+    border:1px solid #514b83;border-radius:25px;
     background:
       radial-gradient(ellipse at 15% 15%,#512b85 0,transparent 42%),
       radial-gradient(ellipse at 90% 45%,#075b83 0,transparent 40%),
       linear-gradient(145deg,#10102b,#080d22 65%,#101a37);
     box-shadow:0 0 35px #5b3b9a55;
 }
-.screen{display:none;height:100%;padding:22px;overflow-y:auto}
+.screen{
+    display:none;height:100%;padding:15px;
+    overflow-y:auto;overscroll-behavior:contain;
+    scrollbar-width:none;
+}
+.screen::-webkit-scrollbar{display:none}
 .screen.active{display:block}
 .glass{
     background:#ffffff12;border:1px solid #ffffff25;
-    border-radius:18px;padding:17px;
+    border-radius:18px;padding:14px;
     backdrop-filter:blur(12px);
 }
 h1,h2,h3{margin-top:0}
-h1{font-size:29px}
-.muted{color:#b7b7d7;font-size:13px}
+h1{font-size:25px}
+h2{font-size:21px}
+.muted{color:#b7b7d7;font-size:12px}
 input,select{
-    width:100%;padding:14px;margin:8px 0;
+    width:100%;padding:11px;margin:6px 0;
     border-radius:12px;border:1px solid #ffffff35;
-    background:#ffffff12;color:white;font-size:15px;
+    background:#ffffff12;color:white;font-size:14px;
     outline:none;
 }
 input::placeholder{color:#aaa}
 button{
-    border:0;border-radius:13px;padding:13px;
+    border:0;border-radius:12px;padding:11px;
     background:linear-gradient(110deg,#6c42dd,#08a9ce);
-    color:white;font-weight:bold;font-size:14px;
+    color:white;font-weight:bold;font-size:13px;
     cursor:pointer;
 }
 button:active{transform:scale(.97)}
-.primary{width:100%;margin:7px 0}
+.primary{width:100%;margin:5px 0}
 .secondary{background:#ffffff18;border:1px solid #ffffff25}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .tile{
-    min-height:112px;text-align:left;padding:16px;
+    min-height:82px;text-align:left;padding:11px;
     background:#ffffff12;border:1px solid #ffffff20;
-    border-radius:18px;color:white;
+    border-radius:16px;color:white;font-size:12px;
 }
-.tile span{display:block;font-size:29px;margin-bottom:10px}
+.tile span{display:block;font-size:23px;margin-bottom:5px}
 .top{display:flex;justify-content:space-between;align-items:center}
-.back{background:#ffffff17;padding:9px 14px}
-.clockrow{display:flex;align-items:center;gap:12px;margin:12px 0 30px}
-.clockicon{font-size:35px;color:#69e5ff}
-#time{font-size:28px;font-weight:bold}
+.back{background:#ffffff17;padding:8px 12px}
+.clockrow{display:flex;align-items:center;gap:14px;margin:8px 0 18px}
+.clockicon{font-size:51px;color:#69e5ff}
+#time{font-size:35px;font-weight:bold;letter-spacing:1px}
 #date{font-size:12px;color:#b7b7d7}
 .fingerprint{
-    width:62px;height:62px;border-radius:50%;
+    width:55px;height:55px;border-radius:50%;
     border:1px solid #7beaff;background:#ffffff12;
-    display:block;margin:17px auto;font-size:30px;
+    display:block;margin:12px auto;font-size:27px;
 }
 #calcDisplay{
-    width:100%;height:65px;font-size:27px;text-align:right;
+    width:100%;height:60px;font-size:25px;text-align:right;
     background:#ffffff14;color:white;
 }
-.calcgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.calcgrid button{height:54px;font-size:19px}
+.calcgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.calcgrid button{height:49px;font-size:18px}
 #gameCanvas{
-    width:100%;background:#07162a;border:1px solid #ffffff35;
-    border-radius:14px;touch-action:none;
+    width:100%;background:#07162a;
+    border:1px solid #ffffff35;border-radius:14px;
+    touch-action:none;
 }
-.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px auto;max-width:230px}
-.controls button{font-size:20px}
+.controls{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:7px;margin:9px auto;max-width:220px
+}
+.controls button{font-size:19px}
 .center{text-align:center}
-.stat{display:flex;justify-content:space-between;margin:10px 0}
-.small{font-size:12px;color:#b7b7d7}
-#guessMessage{min-height:25px}
+.stat{display:flex;justify-content:space-between;margin:8px 0}
+.small{font-size:11px;color:#b7b7d7}
+#guessMessage{min-height:22px}
+
+/* LOGIN LOADING */
+#loadingScreen{
+    display:none;position:absolute;inset:0;z-index:50;
+    background:
+      radial-gradient(ellipse at 50% 40%,#30206b,#080d22 70%);
+    align-items:center;justify-content:center;
+    flex-direction:column;text-align:center;
+}
+#loadingScreen.show{display:flex}
+.loader{
+    width:72px;height:72px;border-radius:50%;
+    border:4px solid #ffffff20;
+    border-top-color:#65eaff;
+    border-right-color:#8b62ff;
+    animation:spin .8s linear infinite;
+    box-shadow:0 0 25px #36cfff55;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loadingTitle{
+    margin-top:24px;font-size:21px;font-weight:bold;
+    letter-spacing:1px;
+}
+.loadingText{color:#aebce0;font-size:12px;margin-top:9px}
+.progress{
+    width:190px;height:5px;background:#ffffff20;
+    border-radius:10px;margin-top:22px;overflow:hidden;
+}
+.progressBar{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,#8054ff,#55eaff);
+    border-radius:10px;
+    animation:progress 2s linear forwards;
+}
+@keyframes progress{to{width:100%}}
+#app.fadeIn{animation:enter .35s ease}
+@keyframes enter{
+    from{opacity:.2;transform:scale(.985)}
+    to{opacity:1;transform:scale(1)}
+}
 </style>
 </head>
 <body>
@@ -97,18 +149,17 @@ button:active{transform:scale(.97)}
 
 <!-- LOGIN -->
 <section class="screen active" id="login">
-    <div style="height:18px"></div>
     <div class="clockrow">
         <div class="clockicon">◷</div>
         <div>
-            <div id="time">00:00</div>
+            <div id="time">00:00:00</div>
             <div id="date">Loading date...</div>
         </div>
     </div>
 
-    <div style="margin-top:45px">
+    <div style="margin-top:24px">
         <div class="center">
-            <div style="font-size:48px">✦</div>
+            <div style="font-size:43px">✦</div>
             <h1>mobile.app</h1>
             <p class="muted">Your personal digital space</p>
         </div>
@@ -129,16 +180,16 @@ button:active{transform:scale(.97)}
         <div><p class="muted">WELCOME TO</p><h1>mobile.app ✦</h1></div>
         <button class="back" onclick="goLogin()">Exit</button>
     </div>
-    <div class="glass" style="margin:18px 0">
+    <div class="glass" style="margin:12px 0">
         <h2 id="welcome">Hello!</h2>
         <p class="muted">Choose an application to continue.</p>
     </div>
     <div class="grid">
         <button class="tile" onclick="openApp('calculator')"><span>🧮</span>Calculator</button>
         <button class="tile" onclick="openApp('passwordgen')"><span>🔐</span>Password Generator</button>
-        <button class="tile" onclick="openApp('gaming')"><span>🎮</span>Gaming Hub</button>
+        <button class="tile" style="min-height:105px" onclick="openApp('gaming')"><span style="font-size:34px">🧩</span>Gaming Hub</button>
     </div>
-    <div class="glass" style="margin-top:18px">
+    <div class="glass" style="margin-top:12px">
         <div class="top"><b>Appearance</b>
         <select id="theme" onchange="changeTheme()" style="width:125px;margin:0">
             <option value="cosmic">Cosmic</option>
@@ -152,7 +203,12 @@ button:active{transform:scale(.97)}
 
 <!-- GAMING HUB -->
 <section class="screen" id="gaming">
-    <div class="top"><h2>🎮 Gaming Hub</h2><button class="back" onclick="goHome()">Back</button></div>
+    <div class="top"><h2>🧩 Gaming Hub</h2><button class="back" onclick="goHome()">Back</button></div>
+    <div class="glass" style="padding:18px;margin:12px 0">
+        <div class="center" style="font-size:38px">🧩</div>
+        <h2 class="center">Gaming Zone</h2>
+        <p class="muted center">Choose your game and have fun!</p>
+    </div>
     <div class="grid">
         <button class="tile" onclick="openApp('flappy')"><span>🐦</span>Flappy Bird</button>
         <button class="tile" onclick="openApp('guess')"><span>🔢</span>Number Guess</button>
@@ -238,6 +294,14 @@ button:active{transform:scale(.97)}
     <p class="small center">Swipe or use arrow buttons to move.</p>
 </section>
 
+<!-- LOADING OVERLAY -->
+<div id="loadingScreen">
+    <div class="loader"></div>
+    <div class="loadingTitle">mobile.app</div>
+    <div class="loadingText" id="loadingText">Initializing mobile.app...</div>
+    <div class="progress"><div class="progressBar" id="progressBar"></div></div>
+</div>
+
 </div>
 
 <script>
@@ -245,18 +309,38 @@ function showScreen(id){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
+let loading=false;
+function enterWithLoading(name){
+    if(loading)return;
+    loading=true;
+    const overlay=document.getElementById('loadingScreen');
+    const bar=document.getElementById('progressBar');
+    const text=document.getElementById('loadingText');
+
+    bar.style.animation='none';
+    void bar.offsetWidth;
+    bar.style.animation='progress 2s linear forwards';
+    text.textContent='Initializing mobile.app...';
+    overlay.classList.add('show');
+
+    setTimeout(()=>{
+        document.getElementById('welcome').textContent='Hello, '+name+'!';
+        showScreen('home');
+        overlay.classList.remove('show');
+        document.getElementById('app').classList.remove('fadeIn');
+        void document.getElementById('app').offsetWidth;
+        document.getElementById('app').classList.add('fadeIn');
+        loading=false;
+    },2000);
+}
 function loginUser(){
     let name=document.getElementById('username').value.trim();
     let pass=document.getElementById('password').value;
     if(!name||!pass){alert('Enter username and password.');return;}
-    enterHome(name);
+    enterWithLoading(name);
 }
-function guestLogin(){enterHome('Guest')}
-function fingerprintLogin(){enterHome('Guest')}
-function enterHome(name){
-    document.getElementById('welcome').textContent='Hello, '+name+'!';
-    showScreen('home');
-}
+function guestLogin(){enterWithLoading('Guest')}
+function fingerprintLogin(){enterWithLoading('Guest')}
 function goHome(){stopSnake();stopBird();showScreen('home')}
 function goLogin(){stopSnake();stopBird();showScreen('login')}
 function backToHub(){stopSnake();stopBird();showScreen('gaming')}
@@ -280,8 +364,10 @@ function changeTheme(){
 }
 function updateClock(){
     let d=new Date();
-    document.getElementById('time').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    document.getElementById('date').textContent=d.toLocaleDateString([], {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    document.getElementById('time').textContent=
+        d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('date').textContent=
+        d.toLocaleDateString([], {weekday:'long',day:'numeric',month:'long',year:'numeric'});
 }
 updateClock();setInterval(updateClock,1000);
 
@@ -389,14 +475,12 @@ function drawSnake(){
         ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,360);ctx.stroke();
         ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(360,i);ctx.stroke();
     }
-    // Apple
     ctx.shadowColor='#ff254e';ctx.shadowBlur=15;
     ctx.fillStyle='#ff254e';
     ctx.beginPath();ctx.arc(food.x*CELL+9,food.y*CELL+9,7,0,Math.PI*2);ctx.fill();
     ctx.shadowBlur=0;
     ctx.fillStyle='#66ef9b';
     ctx.fillRect(food.x*CELL+10,food.y*CELL,3,6);
-
     snake.forEach((s,i)=>{
         let g=ctx.createLinearGradient(s.x*CELL,s.y*CELL,s.x*CELL+CELL,s.y*CELL+CELL);
         g.addColorStop(0,i===0?'#8cf5ff':'#268cff');
@@ -481,4 +565,4 @@ document.addEventListener('keydown',e=>{
 </html>
 """
 
-components.html(APP, height=880, scrolling=False)
+components.html(APP, height=720, scrolling=False)
