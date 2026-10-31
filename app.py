@@ -18,8 +18,8 @@ APP = r"""
 html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#080d20;color:white}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0;color:white}
-#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:12px 9px calc(22px + env(safe-area-inset-bottom));overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative;display:flex;flex-direction:column}
-.screen{height:100%;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ffffff22;border-radius:30px;padding:15px 15px calc(76px + env(safe-area-inset-bottom));background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006;scrollbar-width:none}
+#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:3px 9px calc(12px + env(safe-area-inset-bottom));overflow:hidden;border-radius:42px;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative;display:flex;flex-direction:column}
+.screen{height:100%;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;border:1px solid #ffffff22;border-radius:30px;padding:15px 15px calc(150px + env(safe-area-inset-bottom));background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .hidden{display:none!important}
 h1,h2,h3,p{margin-top:0}
@@ -82,8 +82,8 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .notes-empty{text-align:center;padding:18px 12px;border:1px dashed #ffffff35;border-radius:15px;color:#b8c5dc}
 .notes-message{min-height:17px;color:#8ce8d8;font-size:12px;margin-top:5px}
 #notesPage h3{margin-bottom:7px}
-#notesPage{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
-#settingsPage,#aboutPage{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+#notesPage{padding-bottom:calc(180px + env(safe-area-inset-bottom))}
+#settingsPage,#aboutPage{padding-bottom:calc(180px + env(safe-area-inset-bottom))}
 @media(max-height:700px){.notes-content{min-height:72px} .notes-editor{padding:9px;margin:5px 0 9px}}
 
 /* Compact Snake game only */
@@ -102,9 +102,9 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 #snakePage .snake-controls .horizontal{display:flex;gap:7px}
 
 /* Final polish: lifted rounded phone frame + iPhone-inspired Dynamic Island */
-#app:before{content:"";position:absolute;top:15px;left:50%;transform:translateX(-50%);width:104px;height:27px;border-radius:18px;background:#020306;border:1px solid #252833;z-index:30;box-shadow:0 2px 10px #0008;pointer-events:none}
-#app:after{content:"";position:absolute;top:25px;left:calc(50% + 31px);width:7px;height:7px;border-radius:50%;background:#101d35;box-shadow:inset 0 0 3px #42618e;z-index:31;pointer-events:none}
-.screen{padding-top:42px;border-radius:30px}
+#app:before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:104px;height:27px;border-radius:18px;background:#020306;border:1px solid #252833;z-index:30;box-shadow:0 2px 10px #0008;pointer-events:none}
+#app:after{content:"";position:absolute;top:18px;left:calc(50% + 31px);width:7px;height:7px;border-radius:50%;background:#101d35;box-shadow:inset 0 0 3px #42618e;z-index:31;pointer-events:none}
+.screen{padding-top:48px;padding-bottom:calc(160px + env(safe-area-inset-bottom));border-radius:34px}
 #home .home-grid{padding-bottom:12px}
 #settingsPage .card,#aboutPage .card{margin-bottom:12px}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ffffff18}
@@ -573,4 +573,4 @@ drawFlappy();drawSnake();
 </html>
 """
 
-components.html(APP, height=980, scrolling=False)
+components.html(APP, height=1080, scrolling=False)
