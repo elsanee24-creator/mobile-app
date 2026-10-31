@@ -18,8 +18,8 @@ APP = r"""
 html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#080d20;color:white}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0;color:white}
-#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:5px;overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative;display:flex;flex-direction:column}
-.screen{height:100%;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ffffff22;border-radius:23px;padding:15px;background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006;scrollbar-width:none}
+#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:5px 5px calc(10px + env(safe-area-inset-bottom));overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative;display:flex;flex-direction:column}
+.screen{height:100%;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ffffff22;border-radius:23px;padding:15px 15px calc(34px + env(safe-area-inset-bottom));background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .hidden{display:none!important}
 h1,h2,h3,p{margin-top:0}
@@ -62,8 +62,8 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .fingerprint-btn{width:66px;height:66px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#253d72,#111e3b);border:1px solid #48d8ee88;box-shadow:0 0 15px #24c9e944,inset 0 0 12px #ffffff12;color:#52dff1;padding:0}
 .fingerprint-btn:active{transform:scale(.94);box-shadow:0 0 22px #24c9e9aa}
 .fingerprint-btn svg{width:36px;height:36px;stroke:#63e5f5}
-@media(max-height:700px){.screen{padding:10px}.clock{padding:8px 4px 12px}#time{font-size:32px}.home-tile{min-height:68px}.btn{padding:11px}.fingerprint-btn{width:58px;height:58px}}
-@media(max-width:380px){#app{padding:3px}.screen{padding:11px;border-radius:19px}h1{font-size:24px}.clock{padding:9px 4px 12px}#time{font-size:33px}.input{padding:12px}.home-tile{padding:10px}}
+@media(max-height:700px){.screen{padding:38px 10px calc(42px + env(safe-area-inset-bottom))}.clock{padding:8px 4px 12px}#time{font-size:32px}.home-tile{min-height:68px}.btn{padding:11px}.fingerprint-btn{width:58px;height:58px}}
+@media(max-width:380px){#app{padding:3px 3px calc(9px + env(safe-area-inset-bottom))}.screen{padding:38px 11px calc(40px + env(safe-area-inset-bottom));border-radius:19px}h1{font-size:24px}.clock{padding:9px 4px 12px}#time{font-size:33px}.input{padding:12px}.home-tile{padding:10px}}
 
 /* Notes */
 #notesPage{background:radial-gradient(ellipse at 10% 5%,#5944a0 0,transparent 40%),radial-gradient(ellipse at 90% 90%,#075b77 0,transparent 40%),linear-gradient(145deg,#151b3b,#102d43)}
@@ -77,7 +77,7 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .note-card p{white-space:pre-wrap;color:#d5deef;font-size:13px;margin:0 0 10px;max-height:120px;overflow-y:auto}
 .note-meta{font-size:11px;color:#aebbd2;margin-bottom:10px}
 .note-actions{display:flex;gap:8px}
-.note-actions button{flex:1;min-height:40px;padding:9px;border-radius:10px;background:#ffffff18;border:1px solid #ffffff25;font-weight:bold}
+.note-actions button{flex:1;min-height:44px;padding:9px;border-radius:10px;background:#ffffff18;border:1px solid #ffffff25;font-weight:bold}
 .note-actions .delete-note{background:#b735584d;border:1px solid #ff829c88;color:#fff}
 .notes-empty{text-align:center;padding:18px 12px;border:1px dashed #ffffff35;border-radius:15px;color:#b8c5dc}
 .notes-message{min-height:17px;color:#8ce8d8;font-size:12px;margin-top:5px}
@@ -98,6 +98,30 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 #snakePage .snake-controls{display:flex;flex-direction:column;align-items:center;gap:5px;margin:5px 0 7px}
 #snakePage .snake-controls button{width:43px;height:38px;padding:4px;border-radius:10px;background:#ffffff20;border:1px solid #ffffff35;font-size:18px}
 #snakePage .snake-controls .horizontal{display:flex;gap:7px}
+
+/* Final polish: safe bottom space + iPhone-inspired Dynamic Island */
+#app:before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:104px;height:27px;border-radius:18px;background:#020306;border:1px solid #252833;z-index:30;box-shadow:0 2px 10px #0008;pointer-events:none}
+#app:after{content:"";position:absolute;top:18px;left:calc(50% + 31px);width:7px;height:7px;border-radius:50%;background:#101d35;box-shadow:inset 0 0 3px #42618e;z-index:31;pointer-events:none}
+.screen{padding-top:38px}
+#home .home-grid{padding-bottom:12px}
+#settingsPage .card,#aboutPage .card{margin-bottom:12px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ffffff18}
+.setting-row:last-child{border-bottom:0}.setting-row small{display:block;color:#b8c5dc;margin-top:3px}
+.toggle{width:48px;height:27px;border-radius:20px;background:#536078;position:relative;flex:none}
+.toggle:after{content:"";position:absolute;width:21px;height:21px;left:3px;top:3px;border-radius:50%;background:white;transition:.2s}
+.toggle.on{background:#13a9a6}.toggle.on:after{left:24px}
+#lockOverlay{position:absolute;inset:5px;z-index:50;border-radius:23px;background:#080d20f5;display:none;align-items:center;justify-content:center;padding:24px}
+#lockOverlay.active{display:flex}
+.lock-box{width:100%;max-width:330px;text-align:center;padding:22px;border:1px solid #ffffff25;border-radius:20px;background:#ffffff10}
+#lockOverlay input{letter-spacing:8px;text-align:center;font-size:22px}
+#lockMessage{min-height:20px;color:#ff9ca9;font-size:12px}
+body.light-mode #app{background:linear-gradient(145deg,#e8f1ff,#d9f4f2)}
+body.light-mode .screen{background:#ffffffd9;color:#17233b;border-color:#ffffff}
+body.light-mode .muted,body.light-mode #date{color:#52627d}
+body.light-mode .card,body.light-mode .home-tile{background:#ffffff;border-color:#d9e2f1;color:#17233b}
+body.light-mode .input,body.light-mode .notes-title,body.light-mode .notes-content{background:#f4f7fc;color:#17233b;border-color:#d5deec}
+body.light-mode .notes-heading{background:#eaf0fb}
+body.light-mode .back{background:#dce6f5;color:#17233b}
 </style>
 </head>
 <body>
@@ -105,6 +129,12 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 <div id="loading" class="hidden">
  <div class="spinner"></div><h2 style="margin:20px 0 5px">Loading your app</h2>
  <div class="muted">Please wait...</div><div class="bar"></div>
+</div>
+<div id="lockOverlay">
+ <div class="lock-box"><div style="font-size:38px">🔐</div><h2 id="lockTitle">App Locked</h2><p class="muted">Enter your PIN to continue</p>
+ <input id="unlockPin" class="input" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+ <button class="btn" onclick="unlockApp()">Unlock</button><div id="lockMessage"></div>
+ </div>
 </div>
 
 <section id="login" class="screen">
@@ -132,7 +162,7 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 
 <section id="home" class="screen hidden">
  <div style="display:flex;justify-content:space-between;align-items:center">
-  <div><div class="muted">WELCOME</div><h1 id="welcomeName">Home</h1></div>
+  <div><div class="muted" id="homeAppName">WELCOME</div><h1 id="welcomeName">Home</h1></div>
   <button class="back" onclick="goLogin()">↪</button>
  </div>
  <div class="card" style="display:flex;justify-content:space-between;align-items:center">
@@ -143,6 +173,8 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
   <button class="home-tile" onclick="showPage('passwordPage')"><span class="bigicon">🔐</span><b>Password Generator</b><span class="muted">Create passwords</span></button>
   <button class="home-tile" onclick="openNotes()"><span class="bigicon">📝</span><b>Notes</b><span class="muted">Write your thoughts</span></button>
   <button class="home-tile hub" onclick="showPage('gaming')"><span class="bigicon">🧩</span><b>Gaming Hub</b><span class="muted">Play your favourite games</span></button>
+  <button class="home-tile" onclick="showPage('settingsPage')"><span class="bigicon">⚙️</span><b>Settings</b><span class="muted">Personalize your app</span></button>
+  <button class="home-tile" onclick="showPage('aboutPage')"><span class="bigicon">ℹ️</span><b>About</b><span class="muted">App information</span></button>
  </div>
  <div class="card"><b>✨ Your Space</b><p class="muted" style="margin:7px 0 0">Choose an activity and enjoy.</p></div>
 </section>
@@ -180,6 +212,26 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
   <div id="notesMessage" class="notes-message"></div>
  </div>
  <h3>📚 Saved Notes</h3><div id="notesList" class="notes-list"></div>
+</section>
+
+<section id="settingsPage" class="screen hidden">
+ <button class="back" onclick="showPage('home')">← Back</button><h2>⚙️ Settings</h2>
+ <div class="card">
+  <div class="setting-row"><div><b>Light mode</b><small>Switch the app appearance</small></div><button id="themeToggle" class="toggle" onclick="toggleTheme()" aria-label="Toggle light mode"></button></div>
+  <div class="setting-row"><div><b>Haptic feedback</b><small>Vibration on supported phones</small></div><button id="hapticToggle" class="toggle on" onclick="toggleHaptics()" aria-label="Toggle haptic feedback"></button></div>
+  <div class="setting-row"><div><b>App display name</b><small id="appNameLabel">Mobile.app</small></div><button class="btn small secondary" onclick="changeAppName()">Change</button></div>
+ </div>
+ <div class="card"><h3>🔐 App Lock</h3><p class="muted">Set a 4-digit PIN for this app on this device.</p>
+  <button class="btn" onclick="setAppPin()">Set / Change PIN</button><button class="btn secondary" onclick="lockNow()">Lock Now</button><button class="btn secondary" onclick="removeAppPin()">Turn Off App Lock</button>
+  <p class="muted" style="margin:8px 0 0">Note: This is a basic app-level lock, not device-grade security.</p>
+ </div>
+ <div class="card"><h3>Data</h3><p class="muted">Clear saved notes and app preferences from this device.</p><button class="btn secondary" style="background:#8e3048" onclick="resetAppData()">Reset App Data</button></div>
+</section>
+
+<section id="aboutPage" class="screen hidden">
+ <button class="back" onclick="showPage('home')">← Back</button><div style="text-align:center;padding:16px 0"><div style="font-size:54px">📱</div><h1 id="aboutAppName">Mobile.app</h1><div class="muted">Your personal mobile space</div></div>
+ <div class="card"><div class="setting-row"><b>Version</b><span class="muted">1.0</span></div><div class="setting-row"><b>Created by</b><span class="muted">Kashan</span></div><div class="setting-row"><b>Includes</b><span class="muted">Tools, Notes & Games</span></div></div>
+ <p class="muted" style="text-align:center">Made with care. Thanks for using Mobile.app ✨</p>
 </section>
 
 <section id="gaming" class="screen hidden">
@@ -226,6 +278,24 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 <script>
 const $=id=>document.getElementById(id);
 let currentUser="Guest";
+const PIN_KEY="mobileAppPin",THEME_KEY="mobileAppLight",HAPTIC_KEY="mobileAppHaptics",APP_NAME_KEY="mobileAppDisplayName";
+let hapticsEnabled=localStorage.getItem(HAPTIC_KEY)!=="false";
+function applyPreferences(){
+ const light=localStorage.getItem(THEME_KEY)==="true";document.body.classList.toggle("light-mode",light);$("themeToggle").classList.toggle("on",light);
+ $("hapticToggle").classList.toggle("on",hapticsEnabled);
+ const name=localStorage.getItem(APP_NAME_KEY)||"Mobile.app";$("appNameLabel").textContent=name;$("aboutAppName").textContent=name;$("homeAppName").textContent=name.toUpperCase();
+}
+function buzz(){if(hapticsEnabled&&navigator.vibrate)navigator.vibrate(18)}
+function toggleTheme(){const next=!document.body.classList.contains("light-mode");localStorage.setItem(THEME_KEY,String(next));applyPreferences();buzz()}
+function toggleHaptics(){hapticsEnabled=!hapticsEnabled;localStorage.setItem(HAPTIC_KEY,String(hapticsEnabled));applyPreferences();buzz()}
+function changeAppName(){const current=localStorage.getItem(APP_NAME_KEY)||"Mobile.app";const value=prompt("Enter app display name:",current);if(value&&value.trim()){localStorage.setItem(APP_NAME_KEY,value.trim().slice(0,24));applyPreferences()}}
+function setAppPin(){const pin=prompt("Create a 4-digit PIN:");if(!/^\d{4}$/.test(pin||"")){alert("PIN must contain exactly 4 digits.");return}const again=prompt("Confirm your 4-digit PIN:");if(pin!==again){alert("PINs do not match.");return}localStorage.setItem(PIN_KEY,pin);alert("App Lock is now enabled.")}
+function unlockApp(){const pin=$("unlockPin").value;if(pin===localStorage.getItem(PIN_KEY)){$("lockOverlay").classList.remove("active");$("unlockPin").value="";$("lockMessage").textContent=""}else{$("lockMessage").textContent="Incorrect PIN. Try again.";$("unlockPin").value=""}}
+function lockNow(){if(!localStorage.getItem(PIN_KEY)){alert("Set a PIN first.");return}$("lockTitle").textContent="App Locked";$("lockOverlay").classList.add("active");$("unlockPin").focus()}
+function removeAppPin(){if(!localStorage.getItem(PIN_KEY)){alert("App Lock is not enabled.");return}const pin=prompt("Enter your current PIN to turn off App Lock:");if(pin===localStorage.getItem(PIN_KEY)){localStorage.removeItem(PIN_KEY);alert("App Lock turned off.")}else alert("Incorrect PIN.")}
+function resetAppData(){if(!confirm("This will delete saved notes and app preferences. Continue?"))return;["mobileAppNotes",PIN_KEY,THEME_KEY,HAPTIC_KEY,APP_NAME_KEY].forEach(k=>localStorage.removeItem(k));hapticsEnabled=true;applyPreferences();alert("App data has been reset.");showPage("home")}
+applyPreferences();
+if(localStorage.getItem(PIN_KEY)){$("lockOverlay").classList.add("active")};
 
 function updateClock(){
  const d=new Date();
@@ -237,6 +307,7 @@ function updateClock(){
 updateClock();setInterval(updateClock,1000);
 
 function enterApp(name){
+ if(localStorage.getItem(PIN_KEY)&&$("lockOverlay").classList.contains("active")){return}
  currentUser=name;$("loading").classList.remove("hidden");
  setTimeout(()=>{$("loading").classList.add("hidden");$("welcomeName").textContent=name;showPage("home")},2000);
 }
@@ -248,7 +319,7 @@ function loginUser(){
 function goLogin(){showPage("login")}
 function showPage(id){
  document.querySelectorAll(".screen").forEach(s=>s.classList.add("hidden"));
- $(id).classList.remove("hidden");
+ $(id).classList.remove("hidden");$(id).scrollTop=0;buzz();
 }
 
 /* Calculator */
