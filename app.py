@@ -254,8 +254,7 @@ html,body{height:100%;min-height:0;overflow:hidden;touch-action:pan-y}
 <section id="gaming" class="screen hidden">
  <button class="back" onclick="showPage('home')">← Back</button><h2>🧩 Gaming Hub</h2><p class="muted">Choose your game</p>
  <button class="btn" onclick="startGuess()">🔢 Number Guessing</button>
- <button class="btn" 
- onclick="startGuess()">🔢 Number Guessing</button>
+ <button class="btn" onclick="startTypingGame()">⌨️ Typing Speed Game</button>
  <button class="btn" onclick="startFlappy()">🐦 Flappy Bird</button>
  <button class="btn" onclick="startSnake()">🐍 Snake.io</button>
 </section>
@@ -263,11 +262,23 @@ html,body{height:100%;min-height:0;overflow:hidden;touch-action:pan-y}
 <section id="guessPage" class="screen hidden">
  <button class="back" onclick="showPage('gaming')">← Back</button><h2>🔢 Number Guessing</h2>
  <div class="card">
-  <p>Guess a number between <b>1 and 20</b>.</p><h1 id="attempts">Attempts left: 5</h1>
-  <input id="guessInput" class="input" type="number" min="1" max="20" placeholder="Enter your guess">
+  <p>Guess a number between <b>1 and 100</b>.</p><h1 id="attempts">Attempts left: 5</h1>
+  <input id="guessInput" class="input" type="number" min="1" max="100" placeholder="Enter your guess">
   <button class="btn" onclick="makeGuess()">Submit Guess</button>
   <div id="guessMessage" style="min-height:25px;margin-top:12px"></div>
   <button id="guessAgain" class="btn secondary hidden" onclick="startGuess()">Play Again</button>
+ </div>
+</section>
+
+<section id="typingPage" class="screen hidden">
+ <button class="back" onclick="stopTypingGame();showPage('gaming')">← Back</button><h2>⌨️ Typing Speed Game</h2>
+ <div class="card">
+  <div class="row"><div><div class="muted">⏱️ TIME LEFT</div><h1 id="typingTimer">60s</h1></div><div><div class="muted">📄 PARAGRAPHS</div><h1 id="typingParagraphCount">0</h1></div></div>
+  <p class="muted">Type the paragraph below. A new paragraph appears when you finish this one.</p>
+  <div id="typingPrompt" style="padding:14px;border-radius:13px;background:#101a35;border:1px solid #ffffff25;line-height:1.8;font-size:15px;min-height:125px">Press Start to begin ⌨️</div>
+  <textarea id="typingInput" class="input" rows="4" placeholder="Your typing will appear here..." disabled autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
+  <button id="typingStart" class="btn" onclick="startTypingGame()">▶️ Start 1-Minute Game</button>
+  <div id="typingResult" class="card hidden" style="margin-bottom:0"><h3>🏁 Your Result</h3><p id="typingWordsResult">You spelled 0 words correctly.</p><h2 id="typingAccuracyResult">Accuracy: 0%</h2><p id="typingExtraResult" class="muted"></p><button class="btn secondary" onclick="startTypingGame()">🔄 Play Again</button></div>
  </div>
 </section>
 
@@ -451,20 +462,69 @@ function renderNotes(){
 /* Number Guess */
 let secret=0,tries=5,guessDone=false;
 function startGuess(){
- secret=Math.floor(Math.random()*20)+1;tries=5;guessDone=false;
+ secret=Math.floor(Math.random()*100)+1;tries=5;guessDone=false;
  $("attempts").textContent="Attempts left: 5";$("guessMessage").textContent="You have five attempts. Good luck!";
  $("guessInput").value="";$("guessInput").disabled=false;$("guessAgain").classList.add("hidden");showPage("guessPage");
 }
 function makeGuess(){
  if(guessDone)return;
  let v=Number($("guessInput").value);
- if(!Number.isInteger(v)||v<1||v>20){$("guessMessage").textContent="Enter a whole number from 1 to 20.";return}
+ if(!Number.isInteger(v)||v<1||v>100){$("guessMessage").textContent="Enter a whole number from 1 to 100.";return}
  tries--;$("attempts").textContent="Attempts left: "+tries;
  if(v===secret){$("guessMessage").textContent="🎉 Correct! You won!";guessDone=true}
  else if(tries===0){$("guessMessage").textContent="Game over! The number was "+secret+".";guessDone=true}
  else $("guessMessage").textContent=v<secret?"Too low! Try a higher number.":"Too high! Try a lower number.";
  if(guessDone){$("guessInput").disabled=true;$("guessAgain").classList.remove("hidden")}
  $("guessInput").value="";
+}
+
+/* Typing Speed Game */
+const typingParagraphs=[
+ "Technology makes our daily life easier and faster. We use computers and mobile phones to learn new skills, communicate with others, and solve different problems. Learning something new every day helps us become more confident.",
+ "A good student manages time wisely and stays curious. Small efforts made regularly can create great results. Reading books, asking questions, and practising new skills are useful habits that help us improve step by step.",
+ "The world around us is full of interesting things to discover. Nature gives us beautiful views, fresh air, and many lessons. We should keep our surroundings clean and treat people, animals, and the environment with care.",
+ "Success does not happen in a single day. It comes from patience, practice, and learning from mistakes. When a task feels difficult, taking a calm approach and trying again can make it easier to understand."
+];
+let typingTimer=null,typingEndAt=0,typingRunning=false,typingParagraphIndex=0,typingCorrectWords=0,typingCorrectChars=0,typingTotalChars=0,typingCompletedParagraphs=0;
+function showTypingParagraph(){
+ const text=typingParagraphs[typingParagraphIndex%typingParagraphs.length];
+ $("typingPrompt").textContent=text;$("typingParagraphCount").textContent=String(typingCompletedParagraphs+1);
+ $("typingInput").value="";$("typingInput").focus();
+}
+function startTypingGame(){
+ stopTypingGame();typingRunning=true;typingParagraphIndex=Math.floor(Math.random()*typingParagraphs.length);typingCorrectWords=0;typingCorrectChars=0;typingTotalChars=0;typingCompletedParagraphs=0;
+ $("typingResult").classList.add("hidden");$("typingStart").classList.add("hidden");$("typingInput").disabled=false;$("typingTimer").textContent="60s";
+ showPage("typingPage");showTypingParagraph();typingEndAt=Date.now()+60000;
+ typingTimer=setInterval(()=>{const left=Math.max(0,Math.ceil((typingEndAt-Date.now())/1000));$("typingTimer").textContent=left+"s";if(left<=0)finishTypingGame()},200);
+}
+function countCorrectTypedWords(target,typed){
+ const expected=target.trim().split(/\s+/),entered=typed.trim().split(/\s+/);let count=0;
+ for(let i=0;i<entered.length&&i<expected.length;i++)if(entered[i]===expected[i])count++;
+ return count;
+}
+function handleTypingInput(){
+ if(!typingRunning)return;
+ const target=$("typingPrompt").textContent,typed=$("typingInput").value;
+ if(typed.length>target.length){$("typingInput").value=typed.slice(0,target.length);return}
+ if(typed===target){
+  typingCorrectWords+=target.trim().split(/\s+/).length;typingCorrectChars+=target.length;typingTotalChars+=target.length;typingCompletedParagraphs++;
+  typingParagraphIndex++;showTypingParagraph();return;
+ }
+}
+$("typingInput").addEventListener("input",handleTypingInput);
+function stopTypingGame(){if(typingTimer){clearInterval(typingTimer);typingTimer=null}typingRunning=false}
+function finishTypingGame(){
+ if(!typingRunning)return;
+ const target=$("typingPrompt").textContent,typed=$("typingInput").value;
+ typingCorrectWords+=countCorrectTypedWords(target,typed);
+ let correctInCurrent=0;for(let i=0;i<typed.length;i++)if(typed[i]===target[i])correctInCurrent++;
+ typingCorrectChars+=correctInCurrent;typingTotalChars+=typed.length;
+ stopTypingGame();$("typingInput").disabled=true;$("typingStart").classList.remove("hidden");$("typingStart").textContent="🔄 Play Again";
+ const accuracy=typingTotalChars?Math.round(typingCorrectChars/typingTotalChars*100):0;
+ $("typingWordsResult").textContent="You spelled "+typingCorrectWords+" words correctly. ✅";
+ $("typingAccuracyResult").textContent="Accuracy: "+accuracy+"%";
+ $("typingExtraResult").textContent="Completed paragraphs: "+typingCompletedParagraphs+" • Great effort! 🌟";
+ $("typingResult").classList.remove("hidden");$("typingTimer").textContent="0s";
 }
 
 /* Flappy Bird */
