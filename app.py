@@ -124,6 +124,16 @@ body.light-mode .card,body.light-mode .home-tile{background:#ffffff;border-color
 body.light-mode .input,body.light-mode .notes-title,body.light-mode .notes-content{background:#f4f7fc;color:#17233b;border-color:#d5deec}
 body.light-mode .notes-heading{background:#eaf0fb}
 body.light-mode .back{background:#dce6f5;color:#17233b}
+
+/* Reliable mobile swipe scrolling: each active page owns its scroll area */
+html,body{height:100%;min-height:0;overflow:hidden;touch-action:pan-y}
+#app{height:100%;min-height:0;max-height:none;overflow:hidden;display:flex;flex-direction:column}
+.screen{flex:1 1 0%;height:0;min-height:0;max-height:100%;overflow-y:scroll;overflow-x:hidden;touch-action:pan-y pinch-zoom;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;pointer-events:auto;padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+.screen.hidden{display:none!important}
+#notesPage,#settingsPage,#aboutPage{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+#notesPage .notes-list{padding-bottom:24px}
+.note-actions{padding-bottom:4px}
+@media(max-width:380px){#app{padding:3px 7px 8px}.screen{padding-top:48px;padding-bottom:calc(100px + env(safe-area-inset-bottom))}}
 </style>
 </head>
 <body>
@@ -573,4 +583,4 @@ drawFlappy();drawSnake();
 </html>
 """
 
-components.html(APP, height=1080, scrolling=False)
+components.html(APP, height=900, scrolling=True)
