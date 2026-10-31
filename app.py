@@ -16,11 +16,43 @@ APP = r"""
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#080d20;color:white}
+html,body{
+ margin:0;width:100%;height:100%;overflow:hidden;
+ font-family:Arial,sans-serif;background:#080d20;color:white
+}
 button,input{font:inherit}
 button{cursor:pointer;border:0;color:white}
-#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:12px;overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative}
-.screen{height:100%;width:100%;overflow-y:auto;overflow-x:hidden;border:1px solid #ffffff22;border-radius:25px;padding:18px;background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006}
+
+/* MOBILE FRAME: FIT THE AVAILABLE SCREEN */
+#app{
+ height:100dvh;
+ width:100%;
+ max-width:650px;
+ margin:auto;
+ padding:5px;
+ overflow:hidden;
+ background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);
+ position:relative;
+ display:flex;
+ flex-direction:column;
+}
+.screen{
+ height:100%;
+ min-height:0;
+ width:100%;
+ overflow-y:auto;
+ overflow-x:hidden;
+ overscroll-behavior:contain;
+ -webkit-overflow-scrolling:touch;
+ border:1px solid #ffffff22;
+ border-radius:23px;
+ padding:15px;
+ background:#ffffff09;
+ backdrop-filter:blur(18px);
+ box-shadow:0 15px 50px #0006;
+ scrollbar-width:none;
+}
+.screen::-webkit-scrollbar{display:none}
 .hidden{display:none!important}
 h1,h2,h3,p{margin-top:0}
 h1{font-size:27px}
@@ -30,17 +62,36 @@ h2{font-size:22px}
 .clock-icon{font-size:28px}
 #time{font-size:39px;font-weight:800;letter-spacing:2px;margin:5px}
 #date{color:#c5cde0;font-size:13px}
-.input{width:100%;padding:14px;border:1px solid #ffffff2c;border-radius:13px;background:#101a35;color:white;margin:7px 0;outline:none}
-.btn{padding:13px 15px;border-radius:13px;background:linear-gradient(110deg,#6553e9,#168eae);font-weight:bold;margin:5px 0;width:100%;box-shadow:0 5px 18px #0003}
+.input{
+ width:100%;padding:14px;border:1px solid #ffffff2c;
+ border-radius:13px;background:#101a35;color:white;
+ margin:7px 0;outline:none
+}
+.btn{
+ padding:13px 15px;border-radius:13px;
+ background:linear-gradient(110deg,#6553e9,#168eae);
+ font-weight:bold;margin:5px 0;width:100%;
+ box-shadow:0 5px 18px #0003
+}
 .btn.secondary{background:#ffffff14;border:1px solid #ffffff22}
 .btn.small{width:auto;padding:10px 15px}
 .row{display:flex;gap:9px}
 .row>*{flex:1;min-width:0}
-.card{padding:15px;border:1px solid #ffffff20;background:#ffffff0c;border-radius:17px;margin:10px 0}
+.card{
+ padding:15px;border:1px solid #ffffff20;
+ background:#ffffff0c;border-radius:17px;margin:10px 0
+}
 .home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.home-tile{min-height:83px;border-radius:17px;padding:13px;background:linear-gradient(135deg,#ffffff1b,#ffffff08);border:1px solid #ffffff25;text-align:left}
+.home-tile{
+ min-height:83px;border-radius:17px;padding:13px;
+ background:linear-gradient(135deg,#ffffff1b,#ffffff08);
+ border:1px solid #ffffff25;text-align:left
+}
 .home-tile b{display:block;margin-top:8px}
-.hub{grid-column:1/-1;min-height:105px;background:linear-gradient(120deg,#493b9b,#087e91)}
+.hub{
+ grid-column:1/-1;min-height:105px;
+ background:linear-gradient(120deg,#493b9b,#087e91)
+}
 .bigicon{font-size:27px}
 .back{background:#ffffff16;padding:9px 13px;border-radius:10px;margin-bottom:12px}
 .game-area{border-radius:18px;overflow:hidden;position:relative;border:1px solid #ffffff22}
@@ -51,19 +102,76 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 #flappyPage{background:linear-gradient(180deg,#48b8ed,#a4e4f6 58%,#398f56);color:#102e45}
 #snakePage{background:linear-gradient(145deg,#062e36,#071a27)}
 #flappyPage .muted{color:#204c60}
-#calcDisplay{width:100%;font-size:30px;text-align:right;padding:17px;border-radius:14px;border:1px solid #ffffff25;background:#111a35;color:white;margin-bottom:10px}
+#calcDisplay{
+ width:100%;font-size:30px;text-align:right;padding:17px;
+ border-radius:14px;border:1px solid #ffffff25;
+ background:#111a35;color:white;margin-bottom:10px
+}
 .calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.calc-grid button{height:58px;border-radius:14px;background:linear-gradient(145deg,#283d70,#182746);font-size:19px}
+.calc-grid button{
+ height:58px;border-radius:14px;
+ background:linear-gradient(145deg,#283d70,#182746);font-size:19px
+}
 .calc-grid button.op{background:linear-gradient(145deg,#7849c7,#42328a)}
 .calc-grid button.eq{background:linear-gradient(145deg,#05a6b7,#087b91)}
 .calc-grid button.clear{background:#a43c66}
-#loading{position:absolute;inset:12px;z-index:20;border-radius:25px;background:#090e24f5;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.spinner{width:54px;height:54px;border:4px solid #ffffff25;border-top-color:#25d9ed;border-radius:50%;animation:spin .8s linear infinite}
+#loading{
+ position:absolute;inset:5px;z-index:20;border-radius:23px;
+ background:#090e24f5;display:flex;flex-direction:column;
+ align-items:center;justify-content:center
+}
+.spinner{
+ width:54px;height:54px;border:4px solid #ffffff25;
+ border-top-color:#25d9ed;border-radius:50%;
+ animation:spin .8s linear infinite
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-.bar{height:5px;width:190px;background:#ffffff22;border-radius:8px;margin-top:20px;overflow:hidden}
-.bar:after{content:"";display:block;height:100%;width:0;background:#24d9ed;animation:load 2s linear forwards}
+.bar{
+ height:5px;width:190px;background:#ffffff22;
+ border-radius:8px;margin-top:20px;overflow:hidden
+}
+.bar:after{
+ content:"";display:block;height:100%;width:0;
+ background:#24d9ed;animation:load 2s linear forwards
+}
 @keyframes load{to{width:100%}}
-@media(max-height:700px){.screen{padding:12px}.clock{padding:8px 4px 12px}#time{font-size:32px}.home-tile{min-height:68px}.btn{padding:11px}}
+
+/* CIRCULAR FINGERPRINT BUTTON */
+.fingerprint-wrap{
+ display:flex;justify-content:center;align-items:center;
+ margin:12px auto 5px
+}
+.fingerprint-btn{
+ width:66px;height:66px;border-radius:50%;
+ display:flex;align-items:center;justify-content:center;
+ background:linear-gradient(145deg,#253d72,#111e3b);
+ border:1px solid #48d8ee88;
+ box-shadow:0 0 15px #24c9e944,inset 0 0 12px #ffffff12;
+ color:#52dff1;padding:0
+}
+.fingerprint-btn:active{
+ transform:scale(.94);
+ box-shadow:0 0 22px #24c9e9aa
+}
+.fingerprint-btn svg{width:36px;height:36px;stroke:#63e5f5}
+
+@media(max-height:700px){
+ .screen{padding:10px}
+ .clock{padding:8px 4px 12px}
+ #time{font-size:32px}
+ .home-tile{min-height:68px}
+ .btn{padding:11px}
+ .fingerprint-btn{width:58px;height:58px}
+}
+@media(max-width:380px){
+ #app{padding:3px}
+ .screen{padding:11px;border-radius:19px}
+ h1{font-size:24px}
+ .clock{padding:9px 4px 12px}
+ #time{font-size:33px}
+ .input{padding:12px}
+ .home-tile{padding:10px}
+}
 </style>
 </head>
 <body>
@@ -90,8 +198,27 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
   <input id="password" class="input" type="password" placeholder="Password" autocomplete="current-password">
   <button class="btn" onclick="loginUser()">LOGIN</button>
   <button class="btn secondary" onclick="enterApp('Guest')">Continue as Guest</button>
-  <button class="btn secondary" onclick="enterApp('Guest')">◉ &nbsp; Fingerprint Demo</button>
-  <p class="muted" style="text-align:center;margin-top:12px">Fingerprint is a demo shortcut.</p>
+
+  <div class="fingerprint-wrap">
+    <button class="fingerprint-btn" onclick="enterApp('Guest')" aria-label="Fingerprint demo">
+      <svg viewBox="0 0 48 48" fill="none" stroke-width="2.1" stroke-linecap="round">
+        <path d="M24 5C14 5 8 12 8 21"/>
+        <path d="M24 10C17 10 12 15 12 22"/>
+        <path d="M24 15C19 15 16 18 16 23"/>
+        <path d="M24 20C21 20 20 22 20 25"/>
+        <path d="M24 5C34 5 40 12 40 21"/>
+        <path d="M24 10C31 10 36 15 36 22"/>
+        <path d="M24 15C29 15 32 18 32 23"/>
+        <path d="M24 20C27 20 28 22 28 25"/>
+        <path d="M8 25C8 33 12 39 16 43"/>
+        <path d="M14 27C14 34 17 39 20 42"/>
+        <path d="M34 27C34 34 31 39 28 42"/>
+        <path d="M40 25C40 33 36 39 32 43"/>
+        <path d="M24 25C24 33 23 39 22 44"/>
+      </svg>
+    </button>
+  </div>
+  <p class="muted" style="text-align:center;margin-top:7px">Fingerprint is a demo shortcut.</p>
 </section>
 
 <section id="home" class="screen hidden">
@@ -376,7 +503,7 @@ $("snakeBest").textContent=snBest;
 function startSnake(){showPage("snakePage");startSnakeGame()}
 function stopSnake(){if(snTimer)clearInterval(snTimer);snTimer=null;snRunning=false}
 function randomApple(){
- let a;do{a={x:Math.floor(Math.random()*GRID),y:Math.floor(Math.random()*GRID)}}while(snake.some(s=>s.x===a.x&&s.y===a.y));
+let a;do{a={x:Math.floor(Math.random()*GRID),y:Math.floor(Math.random()*GRID)}}while(snake.some(s=>s.x===a.x&&s.y===a.y));
  return a;
 }
 function startSnakeGame(){
@@ -434,3 +561,4 @@ drawFlappy();drawSnake();
 """
 
 components.html(APP, height=880, scrolling=False)
+
