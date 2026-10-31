@@ -18,8 +18,8 @@ APP = r"""
 html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#080d20;color:white}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0;color:white}
-#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:5px 5px calc(10px + env(safe-area-inset-bottom));overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative;display:flex;flex-direction:column}
-.screen{height:100%;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ffffff22;border-radius:23px;padding:15px 15px calc(34px + env(safe-area-inset-bottom));background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006;scrollbar-width:none}
+#app{height:100dvh;width:100%;max-width:650px;margin:auto;padding:12px 9px calc(22px + env(safe-area-inset-bottom));overflow:hidden;background:radial-gradient(ellipse at 15% 10%,#35216c 0,transparent 40%),radial-gradient(ellipse at 90% 80%,#075b77 0,transparent 38%),linear-gradient(145deg,#090e24,#15102e 60%,#071c2b);position:relative;display:flex;flex-direction:column}
+.screen{height:100%;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1px solid #ffffff22;border-radius:30px;padding:15px 15px calc(76px + env(safe-area-inset-bottom));background:#ffffff09;backdrop-filter:blur(18px);box-shadow:0 15px 50px #0006;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .hidden{display:none!important}
 h1,h2,h3,p{margin-top:0}
@@ -63,7 +63,7 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .fingerprint-btn:active{transform:scale(.94);box-shadow:0 0 22px #24c9e9aa}
 .fingerprint-btn svg{width:36px;height:36px;stroke:#63e5f5}
 @media(max-height:700px){.screen{padding:38px 10px calc(42px + env(safe-area-inset-bottom))}.clock{padding:8px 4px 12px}#time{font-size:32px}.home-tile{min-height:68px}.btn{padding:11px}.fingerprint-btn{width:58px;height:58px}}
-@media(max-width:380px){#app{padding:3px 3px calc(9px + env(safe-area-inset-bottom))}.screen{padding:38px 11px calc(40px + env(safe-area-inset-bottom));border-radius:19px}h1{font-size:24px}.clock{padding:9px 4px 12px}#time{font-size:33px}.input{padding:12px}.home-tile{padding:10px}}
+@media(max-width:380px){#app{padding:10px 7px calc(20px + env(safe-area-inset-bottom))}.screen{padding:38px 11px calc(76px + env(safe-area-inset-bottom));border-radius:26px}h1{font-size:24px}.clock{padding:9px 4px 12px}#time{font-size:33px}.input{padding:12px}.home-tile{padding:10px}}
 
 /* Notes */
 #notesPage{background:radial-gradient(ellipse at 10% 5%,#5944a0 0,transparent 40%),radial-gradient(ellipse at 90% 90%,#075b77 0,transparent 40%),linear-gradient(145deg,#151b3b,#102d43)}
@@ -82,6 +82,8 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 .notes-empty{text-align:center;padding:18px 12px;border:1px dashed #ffffff35;border-radius:15px;color:#b8c5dc}
 .notes-message{min-height:17px;color:#8ce8d8;font-size:12px;margin-top:5px}
 #notesPage h3{margin-bottom:7px}
+#notesPage{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+#settingsPage,#aboutPage{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
 @media(max-height:700px){.notes-content{min-height:72px} .notes-editor{padding:9px;margin:5px 0 9px}}
 
 /* Compact Snake game only */
@@ -99,10 +101,10 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 #snakePage .snake-controls button{width:43px;height:38px;padding:4px;border-radius:10px;background:#ffffff20;border:1px solid #ffffff35;font-size:18px}
 #snakePage .snake-controls .horizontal{display:flex;gap:7px}
 
-/* Final polish: safe bottom space + iPhone-inspired Dynamic Island */
-#app:before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:104px;height:27px;border-radius:18px;background:#020306;border:1px solid #252833;z-index:30;box-shadow:0 2px 10px #0008;pointer-events:none}
-#app:after{content:"";position:absolute;top:18px;left:calc(50% + 31px);width:7px;height:7px;border-radius:50%;background:#101d35;box-shadow:inset 0 0 3px #42618e;z-index:31;pointer-events:none}
-.screen{padding-top:38px}
+/* Final polish: lifted rounded phone frame + iPhone-inspired Dynamic Island */
+#app:before{content:"";position:absolute;top:15px;left:50%;transform:translateX(-50%);width:104px;height:27px;border-radius:18px;background:#020306;border:1px solid #252833;z-index:30;box-shadow:0 2px 10px #0008;pointer-events:none}
+#app:after{content:"";position:absolute;top:25px;left:calc(50% + 31px);width:7px;height:7px;border-radius:50%;background:#101d35;box-shadow:inset 0 0 3px #42618e;z-index:31;pointer-events:none}
+.screen{padding-top:42px;border-radius:30px}
 #home .home-grid{padding-bottom:12px}
 #settingsPage .card,#aboutPage .card{margin-bottom:12px}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ffffff18}
@@ -571,4 +573,4 @@ drawFlappy();drawSnake();
 </html>
 """
 
-components.html(APP, height=880, scrolling=False)
+components.html(APP, height=980, scrolling=False)
