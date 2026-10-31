@@ -67,20 +67,22 @@ canvas{display:block;width:100%;height:auto;touch-action:none}
 
 /* Notes */
 #notesPage{background:radial-gradient(ellipse at 10% 5%,#5944a0 0,transparent 40%),radial-gradient(ellipse at 90% 90%,#075b77 0,transparent 40%),linear-gradient(145deg,#151b3b,#102d43)}
-.notes-heading{display:flex;justify-content:space-between;align-items:center}
-.notes-editor{background:#ffffff10;border:1px solid #ffffff25;border-radius:18px;padding:13px;margin:10px 0 15px}
-.notes-title{width:100%;padding:12px;border-radius:11px;border:1px solid #ffffff25;background:#101a35;color:white;outline:none;margin:5px 0 9px}
-.notes-content{width:100%;min-height:125px;resize:vertical;padding:12px;border-radius:11px;border:1px solid #ffffff25;background:#101a35;color:white;outline:none}
-.notes-list{display:flex;flex-direction:column;gap:10px}
-.note-card{background:linear-gradient(135deg,#ffffff19,#ffffff08);border:1px solid #ffffff25;border-radius:15px;padding:13px;overflow-wrap:anywhere}
+.notes-heading{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-10px;z-index:3;background:#172342ed;padding:5px 0 8px}
+.notes-editor{background:#ffffff10;border:1px solid #ffffff25;border-radius:18px;padding:11px;margin:7px 0 12px}
+.notes-title{width:100%;padding:11px;border-radius:11px;border:1px solid #ffffff25;background:#101a35;color:white;outline:none;margin:5px 0 8px}
+.notes-content{width:100%;min-height:88px;max-height:150px;resize:vertical;padding:11px;border-radius:11px;border:1px solid #ffffff25;background:#101a35;color:white;outline:none}
+.notes-list{display:flex;flex-direction:column;gap:9px;padding-bottom:16px}
+.note-card{background:linear-gradient(135deg,#ffffff19,#ffffff08);border:1px solid #ffffff25;border-radius:15px;padding:12px;overflow-wrap:anywhere}
 .note-card h3{margin:0 0 7px;font-size:17px}
-.note-card p{white-space:pre-wrap;color:#d5deef;font-size:13px;margin:0 0 10px}
+.note-card p{white-space:pre-wrap;color:#d5deef;font-size:13px;margin:0 0 10px;max-height:120px;overflow-y:auto}
 .note-meta{font-size:11px;color:#aebbd2;margin-bottom:10px}
 .note-actions{display:flex;gap:8px}
-.note-actions button{flex:1;padding:9px;border-radius:10px;background:#ffffff18;border:1px solid #ffffff25}
-.note-actions .delete-note{background:#a43c6644}
-.notes-empty{text-align:center;padding:22px 12px;border:1px dashed #ffffff35;border-radius:15px;color:#b8c5dc}
+.note-actions button{flex:1;min-height:40px;padding:9px;border-radius:10px;background:#ffffff18;border:1px solid #ffffff25;font-weight:bold}
+.note-actions .delete-note{background:#b735584d;border:1px solid #ff829c88;color:#fff}
+.notes-empty{text-align:center;padding:18px 12px;border:1px dashed #ffffff35;border-radius:15px;color:#b8c5dc}
 .notes-message{min-height:17px;color:#8ce8d8;font-size:12px;margin-top:5px}
+#notesPage h3{margin-bottom:7px}
+@media(max-height:700px){.notes-content{min-height:72px} .notes-editor{padding:9px;margin:5px 0 9px}}
 
 /* Compact Snake game only */
 #snakePage{padding:10px}
@@ -303,7 +305,7 @@ function getNotes(){
  catch(e){return []}
 }
 function storeNotes(notes){localStorage.setItem(NOTES_KEY,JSON.stringify(notes))}
-function openNotes(){clearNoteEditor();renderNotes();showPage("notesPage")}
+function openNotes(){clearNoteEditor();renderNotes();showPage("notesPage");$("notesPage").scrollTop=0}
 function clearNoteEditor(){
  $("noteTitle").value="";$("noteContent").value="";
  $("noteEditorHeading").textContent="Create a note";
@@ -351,7 +353,7 @@ function renderNotes(){
   const meta=document.createElement("div");meta.className="note-meta";meta.textContent="Updated: "+(note.updatedAt||"");
   const actions=document.createElement("div");actions.className="note-actions";
   const edit=document.createElement("button");edit.textContent="✏️ Edit";edit.addEventListener("click",()=>editNote(note.id));
-  const del=document.createElement("button");del.className="delete-note";del.textContent="🗑 Delete";del.addEventListener("click",()=>deleteNote(note.id));
+  const del=document.createElement("button");del.className="delete-note";del.textContent="🗑 Delete Note";del.setAttribute("aria-label","Delete note: "+(note.title||"Untitled"));del.addEventListener("click",()=>deleteNote(note.id));
   actions.append(edit,del);card.append(title,content,meta,actions);list.appendChild(card);
  });
 }
