@@ -731,21 +731,60 @@ body.light-mode .back{
 
 <body>
 
+    </section>
+
+                <button onclick="appendCalc('9')">9</button>
+                <button onclick="appendCalc('*')" class="calc-operator">×</button>
+
+                <button onclick="appendCalc('4')">4</button>
+                <button onclick="appendCalc('5')">5</button>
+                <button onclick="appendCalc('6')">6</button>
+                <button onclick="appendCalc('-')" class="calc-operator">−</button>
+
+                <button onclick="appendCalc('1')">1</button>
+                <button onclick="appendCalc('2')">2</button>
+                <button onclick="appendCalc('3')">3</button>
+                <button onclick="appendCalc('+')" class="calc-operator">+</button>
+
+                <button onclick="appendCalc('0')" class="calc-zero">0</button>
+                <button onclick="appendCalc('.')">.</button>
+                <button onclick="calculateResult()" class="calc-equal">=</button>
+
+            </div>
+        </div>
+
+    </section>
+
+    
+
+            
+            <textarea
+                id="typingInput"
+                placeholder="Start typing here..."
+                rows="5"
+            ></textarea>
+
+            <div class="typing-stats">
+                <p>Time: <span id="typingTime">60</span>s</p>
+                <p>WPM: <span id="typingWpm">0</span></p>
+                <p>Accuracy: <span id="typingAccuracy">100</span>%</p>
+            </div>
+
+            <button class="primary-btn" onclick="startTypingGame()">
+                Start Typing Test
+            </button>
+
+        </div>
+
+    </section>
+
+    
 <!-- =========================================================
                      PART 2
               MOBILE.APP — APP STRUCTURE
      ========================================================= -->
 
 <div id="app">
-
-    <!-- LOADING SCREEN -->
-    <div id="loadingScreen" class="screen">
-        <div class="loading-content">
-            <div class="app-logo">M</div>
-            <h1>mobile.app</h1>
-            <p>Preparing your experience...</p>
-        </div>
-    </div>
 
     <!-- APP LOCK SCREEN -->
     <div id="lockOverlay" class="screen hidden">
@@ -1203,7 +1242,11 @@ body.light-mode .back{
 
     </section>
 
+</div>
+
 <!-- PART 2 ENDS HERE: NEXT PART CONTINUES WITH JAVASCRIPT -->
+<!-- ========================================================= -->
+
 <!-- =========================================================
                      PART 3
           JAVASCRIPT — APP CORE & NAVIGATION
