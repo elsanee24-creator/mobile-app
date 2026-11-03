@@ -298,6 +298,7 @@ canvas{
 
 <script>
 """
+APP += r"""
 // APP JAVASCRIPT
 
 const $ = id => document.getElementById(id);
