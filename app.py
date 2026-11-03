@@ -135,7 +135,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .wide-desc{font-size:11px;color:#effffb;line-height:1.45}
 .row-tile{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-top:10px;border-radius:16px;text-align:left;color:#f2fffc;background:#ffffff16;border:1px solid #ffffff30}
 .row-tile .emoji{font-size:22px}
-.logout-btn{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
 .page-head{display:flex;align-items:center;gap:12px;margin:6px 0 18px}
 .back{padding:10px 13px;border-radius:12px;color:#effffb;background:#ffffff1c;border:1px solid #ffffff35}
 .field{width:100%;padding:13px;border-radius:13px;border:1px solid #ffffff55;background:#ffffffed;color:#183a42;font-size:14px;margin:5px 0 12px}
@@ -226,7 +225,8 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
      <div class="digital-date" id="digital-date">Loading date...</div>
     </div>
    </div>
-      <div class="login-title">Welcome</div>
+
+   <div class="login-title">Welcome</div>
    <h2 style="color:#f5fffc;margin:5px 0">Your space. Your apps.</h2>
    <p class="login-sub">A little world of useful tools, notes and games—made for you.</p>
 
@@ -261,7 +261,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    <div class="section">
     <button class="row-tile" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>Settings</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile" onclick="openPage('about-page')"><span class="emoji">✨</span><b>About</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile logout-btn" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
+    <button class="row-tile" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
    </div>
   </section>
 
@@ -366,7 +366,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <p>Tap the game area to flap and avoid the obstacles.</p>
     <canvas id="flappy-canvas" class="game-canvas" width="360" height="460"></canvas>
     <button class="primary" onclick="startFlappy()">PLAY / RESTART</button>
-        <p id="flappy-score">Score: 0</p>
+         <p id="flappy-score">Score: 0</p>
    </div>
   </section>
 
@@ -450,6 +450,7 @@ APP += r"""
 // ===============================
 // MOBILE.APP - MAIN JAVASCRIPT
 // ===============================
+
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -492,6 +493,7 @@ let flappyScore = 0;
 let snakeFrame = null;
 let snakeRunning = false;
 let snakeBody = [];
+let snakePreviousBody = [];
 let snakeFood = null;
 let snakeDir = {x:1,y:0};
 let snakeNextDir = {x:1,y:0};
@@ -505,7 +507,7 @@ let carFrame = null;
 let carRunning = false;
 let carLastTime = 0;
 let carPlayerLane = 1;
-let carPlayerX = 0;
+let carPlayerX = 170;
 let carObstacles = [];
 let carScore = 0;
 let carSpeed = 190;
@@ -867,7 +869,7 @@ function resetGuess() {
   guessCount = 0;
   guessFinished = false;
 
-  $("guess-input").value = "";
+ $("guess-input").value = "";
   $("guess-message").textContent =
     "10 chances remaining. Guess from 1 to 100.";
 }
@@ -1241,6 +1243,7 @@ function resetSnake() {
     {x:4,y:7},
     {x:3,y:7}
   ];
+  snakePreviousBody = snakeBody.map(p => ({...p}));
 
   snakeDir = {x:1,y:0};
   snakeNextDir = {x:1,y:0};
@@ -1257,65 +1260,90 @@ function resetSnake() {
 function drawSnake() {
   const w = sc.width;
   const h = sc.height;
-
   const bg = sx.createLinearGradient(0, 0, w, h);
-  bg.addColorStop(0, "#092b25");
-  bg.addColorStop(1, "#174b38");
-
+  bg.addColorStop(0, "#123d35");
+  bg.addColorStop(0.55, "#17634b");
+  bg.addColorStop(1, "#092a35");
   sx.fillStyle = bg;
   sx.fillRect(0, 0, w, h);
 
-  sx.strokeStyle = "#ffffff12";
-  sx.lineWidth = 1;
-
-  for (let i = 0; i <= gridSize; i++) {
+  // Soft leafy background instead of a distracting dotted grid.
+  sx.save();
+  sx.globalAlpha = 0.13;
+  for (let i = 0; i < 12; i++) {
+    const x = (i * 53 + 17) % w;
+    const y = (i * 79 + 23) % h;
+    sx.fillStyle = i % 2 ? "#b5ffd1" : "#6de8c1";
     sx.beginPath();
-    sx.moveTo(i * cell, 0);
-    sx.lineTo(i * cell, h);
-    sx.stroke();
-
-    sx.beginPath();
-    sx.moveTo(0, i * cell);
-    sx.lineTo(w, i * cell);
-    sx.stroke();
+    sx.ellipse(x, y, 17, 6, -0.65, 0, Math.PI * 2);
+    sx.fill();
   }
+  sx.restore();
 
+  const blend = snakeRunning ? Math.min(1, snakeAccumulator / snakeStep) : 1;
+  const points = snakeBody.map((p, i) => {
+    const old = snakePreviousBody[i] || p;
+    return {
+      x: (old.x + (p.x - old.x) * blend) * cell + cell / 2,
+      y: (old.y + (p.y - old.y) * blend) * cell + cell / 2
+    };
+  });
+
+  // Apple-shaped food, deliberately small but clearly visible.
   if (snakeFood) {
-    sx.shadowColor = "#ffb347";
-    sx.shadowBlur = 16;
-    sx.fillStyle = "#ffb347";
-
+    const fx = snakeFood.x * cell + cell / 2;
+    const fy = snakeFood.y * cell + cell / 2 + 1;
+    sx.save();
+    sx.shadowColor = "#ff4b55";
+    sx.shadowBlur = 9;
+    sx.fillStyle = "#ff4054";
     sx.beginPath();
-    sx.arc(
-      snakeFood.x * cell + 10,
-      snakeFood.y * cell + 10,
-      7, 0, Math.PI * 2
-    );
+    sx.moveTo(fx, fy + 6);
+    sx.bezierCurveTo(fx - 9, fy + 1, fx - 6, fy - 8, fx, fy - 4);
+    sx.bezierCurveTo(fx + 7, fy - 9, fx + 9, fy + 1, fx, fy + 6);
     sx.fill();
     sx.shadowBlur = 0;
+    sx.strokeStyle = "#8b352b";
+    sx.lineWidth = 1.5;
+    sx.beginPath(); sx.moveTo(fx, fy - 5); sx.lineTo(fx + 1, fy - 9); sx.stroke();
+    sx.fillStyle = "#8cff9d";
+    sx.beginPath(); sx.ellipse(fx + 4, fy - 8, 3.5, 1.8, -0.5, 0, Math.PI * 2); sx.fill();
+    sx.restore();
   }
 
-  snakeBody.forEach((p, i) => {
-    sx.fillStyle = i === 0 ? "#b5ff9c" : "#43d99b";
-
+  // One connected rounded body, with a contrasting head and visible mouth.
+  if (points.length > 1) {
+    sx.save();
+    sx.lineCap = "round";
+    sx.lineJoin = "round";
+    sx.strokeStyle = "#ffcf58";
+    sx.lineWidth = 13;
     sx.beginPath();
-    sx.roundRect(
-      p.x * cell + 2,
-      p.y * cell + 2,
-      cell - 4,
-      cell - 4,
-      6
-    );
-    sx.fill();
+    points.forEach((p, i) => i ? sx.lineTo(p.x, p.y) : sx.moveTo(p.x, p.y));
+    sx.stroke();
+    points.slice(1).forEach((p, i) => {
+      sx.fillStyle = i % 2 ? "#f2a93b" : "#ffd36a";
+      sx.beginPath(); sx.arc(p.x, p.y, 6.3, 0, Math.PI * 2); sx.fill();
+    });
+    sx.restore();
+  }
 
-    if (i === 0) {
-      sx.fillStyle = "#173c2a";
-      sx.beginPath();
-      sx.arc(p.x * cell + 7, p.y * cell + 8, 1.8, 0, Math.PI * 2);
-      sx.arc(p.x * cell + 13, p.y * cell + 8, 1.8, 0, Math.PI * 2);
-      sx.fill();
-    }
-  });
+  if (points.length) {
+    const head = points[0];
+    sx.save();
+    sx.translate(head.x, head.y);
+    sx.fillStyle = "#fff0a6";
+    sx.beginPath(); sx.arc(0, 0, 8, 0, Math.PI * 2); sx.fill();
+    const eyeX = snakeDir.x === 0 ? 3 : snakeDir.x * 3;
+    const eyeY = snakeDir.y === 0 ? -3 : snakeDir.y * 3;
+    sx.fillStyle = "#172a2a";
+    sx.beginPath(); sx.arc(eyeX - (snakeDir.y ? 3 : 0), eyeY - (snakeDir.x ? 3 : 0), 1.5, 0, Math.PI * 2); sx.fill();
+    sx.beginPath(); sx.arc(eyeX + (snakeDir.y ? 3 : 0), eyeY + (snakeDir.x ? 3 : 0), 1.5, 0, Math.PI * 2); sx.fill();
+    sx.strokeStyle = "#9c3e32";
+    sx.lineWidth = 1.6;
+    sx.beginPath(); sx.moveTo(-3, 4); sx.lineTo(3, 4); sx.stroke();
+    sx.restore();
+  }
 
   if (!snakeRunning) {
     sx.fillStyle = "#fff";
@@ -1324,8 +1352,8 @@ function drawSnake() {
     sx.fillText("Press PLAY to start", w / 2, h / 2);
   }
 }
-
 function snakeMove() {
+  snakePreviousBody = snakeBody.map(p => ({...p}));
   snakeDir = {...snakeNextDir};
 
   const head = {
@@ -1370,19 +1398,16 @@ function snakeMove() {
 
 function snakeAnimation(timestamp) {
   if (!snakeRunning) return;
-
   if (!snakeLastTime) snakeLastTime = timestamp;
-
   const delta = Math.min(timestamp - snakeLastTime, 50);
   snakeLastTime = timestamp;
   snakeAccumulator += delta;
-
   while (snakeAccumulator >= snakeStep && snakeRunning) {
     snakeAccumulator -= snakeStep;
     snakeMove();
   }
-
   if (snakeRunning) {
+    drawSnake();
     snakeFrame = requestAnimationFrame(snakeAnimation);
   }
 }
@@ -1447,9 +1472,6 @@ function carLaneX(lane) {
   return carRoad.left + carRoad.laneWidth * lane +
     carRoad.laneWidth / 2;
 }
-
-// Keep the player's car centered on the road before the game starts.
-carPlayerX = carLaneX(1);
 
 function drawCarVehicle(ctx, x, y, color, scale=1) {
   ctx.save();
@@ -1580,7 +1602,7 @@ function startCarGame() {
   carPlayerX = carLaneX(1);
   carObstacles = [];
   carScore = 0;
-  carSpeed = 190;
+  carSpeed = 275;
   carSpawnTimer = 0;
   carRoadOffset = 0;
   carLastTime = 0;
@@ -1603,12 +1625,12 @@ function carAnimation(timestamp) {
   carLastTime = timestamp;
 
   carScore += delta * 2;
-  carSpeed = Math.min(390, 190 + carScore * 2.2);
+  carSpeed = Math.min(560, 275 + carScore * 4.2);
   carRoadOffset += carSpeed * delta;
 
   carSpawnTimer += delta;
 
-  if (carSpawnTimer >= Math.max(0.55, 1.15 - carScore * 0.008)) {
+  if (carSpawnTimer >= Math.max(0.38, 0.78 - carScore * 0.006)) {
     carSpawnTimer = 0;
 
     const lane = Math.floor(Math.random() * 3);
@@ -1658,30 +1680,23 @@ function endCarGame() {
   drawCar();
 }
 
-cc.addEventListener("pointerdown", e => {
-  carTouchStart = {x:e.clientX,y:e.clientY};
+cc.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  carTouchStart = {x:t.clientX,y:t.clientY};
 }, {passive:true});
 
-cc.addEventListener("pointerup", e => {
-  if (!carTouchStart) return;
+cc.addEventListener("touchend", e => {
+  if (!carTouchStart || !carRunning) return;
 
-  const dx = e.clientX - carTouchStart.x;
-  const dy = e.clientY - carTouchStart.y;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - carTouchStart.x;
 
-  if (!carRunning) {
-    if (Math.max(Math.abs(dx), Math.abs(dy)) <= 20) {
-      startCarGame();
-    }
-  } else if (Math.abs(dx) > 20) {
+  if (Math.abs(dx) > 20) {
     moveCar(dx > 0 ? 1 : -1);
   }
 
   carTouchStart = null;
-});
-
-cc.addEventListener("pointercancel", () => {
-  carTouchStart = null;
-});
+}, {passive:true});
 
 document.addEventListener("keydown", e => {
   if (!$("car-page") || $("car-page").classList.contains("hidden")) {
