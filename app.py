@@ -135,6 +135,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .wide-desc{font-size:11px;color:#effffb;line-height:1.45}
 .row-tile{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-top:10px;border-radius:16px;text-align:left;color:#f2fffc;background:#ffffff16;border:1px solid #ffffff30}
 .row-tile .emoji{font-size:22px}
+.logout-btn{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
 .page-head{display:flex;align-items:center;gap:12px;margin:6px 0 18px}
 .back{padding:10px 13px;border-radius:12px;color:#effffb;background:#ffffff1c;border:1px solid #ffffff35}
 .field{width:100%;padding:13px;border-radius:13px;border:1px solid #ffffff55;background:#ffffffed;color:#183a42;font-size:14px;margin:5px 0 12px}
@@ -261,7 +262,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    <div class="section">
     <button class="row-tile" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>Settings</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile" onclick="openPage('about-page')"><span class="emoji">✨</span><b>About</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
+    <button class="row-tile logout-btn" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
    </div>
   </section>
 
@@ -364,9 +365,10 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Flappy Bird</h2></div>
    <div class="card">
     <p>Tap the game area to flap and avoid the obstacles.</p>
-    <canvas id="flappy-canvas" class="game-canvas" width="360" height="460"></canvas>
+    <canvas id="flappy-canvas" class="game-canvas" width="360"
+height="460"></canvas>
     <button class="primary" onclick="startFlappy()">PLAY / RESTART</button>
-         <p id="flappy-score">Score: 0</p>
+        <p id="flappy-score">Score: 0</p>
    </div>
   </section>
 
@@ -507,7 +509,7 @@ let carFrame = null;
 let carRunning = false;
 let carLastTime = 0;
 let carPlayerLane = 1;
-let carPlayerX = 170;
+let carPlayerX = 0;
 let carObstacles = [];
 let carScore = 0;
 let carSpeed = 190;
@@ -861,7 +863,6 @@ function saveSettings() {
   alert("Settings saved successfully.");
   goHome();
 }
-
 // NUMBER GUESSING GAME
 
 function resetGuess() {
@@ -869,7 +870,7 @@ function resetGuess() {
   guessCount = 0;
   guessFinished = false;
 
- $("guess-input").value = "";
+  $("guess-input").value = "";
   $("guess-message").textContent =
     "10 chances remaining. Guess from 1 to 100.";
 }
@@ -1260,88 +1261,104 @@ function resetSnake() {
 function drawSnake() {
   const w = sc.width;
   const h = sc.height;
+
+  // Calm, layered green garden background.
   const bg = sx.createLinearGradient(0, 0, w, h);
-  bg.addColorStop(0, "#123d35");
-  bg.addColorStop(0.55, "#17634b");
-  bg.addColorStop(1, "#092a35");
+  bg.addColorStop(0, "#174b3b");
+  bg.addColorStop(0.52, "#0d684d");
+  bg.addColorStop(1, "#123b50");
   sx.fillStyle = bg;
   sx.fillRect(0, 0, w, h);
 
-  // Soft leafy background instead of a distracting dotted grid.
+  // Subtle leafy shapes add texture without a distracting dotted grid.
   sx.save();
-  sx.globalAlpha = 0.13;
-  for (let i = 0; i < 12; i++) {
-    const x = (i * 53 + 17) % w;
-    const y = (i * 79 + 23) % h;
-    sx.fillStyle = i % 2 ? "#b5ffd1" : "#6de8c1";
+  sx.globalAlpha = 0.12;
+  for (let i = 0; i < 14; i++) {
+    const x = (i * 47 + 19) % w;
+    const y = (i * 71 + 13) % h;
+    sx.fillStyle = i % 2 ? "#c4ffcf" : "#69e6b0";
     sx.beginPath();
-    sx.ellipse(x, y, 17, 6, -0.65, 0, Math.PI * 2);
+    sx.ellipse(x, y, 18, 6, -0.6, 0, Math.PI * 2);
     sx.fill();
   }
   sx.restore();
 
-  const blend = snakeRunning ? Math.min(1, snakeAccumulator / snakeStep) : 1;
+  // Interpolate between grid steps so the snake glides instead of jumping.
+  const progress = snakeRunning ? Math.min(1, snakeAccumulator / snakeStep) : 1;
   const points = snakeBody.map((p, i) => {
     const old = snakePreviousBody[i] || p;
     return {
-      x: (old.x + (p.x - old.x) * blend) * cell + cell / 2,
-      y: (old.y + (p.y - old.y) * blend) * cell + cell / 2
+      x: (old.x + (p.x - old.x) * progress) * cell + cell / 2,
+      y: (old.y + (p.y - old.y) * progress) * cell + cell / 2
     };
   });
 
-  // Apple-shaped food, deliberately small but clearly visible.
+  // Small, clearly visible apple.
   if (snakeFood) {
     const fx = snakeFood.x * cell + cell / 2;
-    const fy = snakeFood.y * cell + cell / 2 + 1;
+    const fy = snakeFood.y * cell + cell / 2;
     sx.save();
-    sx.shadowColor = "#ff4b55";
-    sx.shadowBlur = 9;
-    sx.fillStyle = "#ff4054";
+    sx.shadowColor = "#ff4355";
+    sx.shadowBlur = 8;
+    sx.fillStyle = "#ff4055";
     sx.beginPath();
-    sx.moveTo(fx, fy + 6);
-    sx.bezierCurveTo(fx - 9, fy + 1, fx - 6, fy - 8, fx, fy - 4);
-    sx.bezierCurveTo(fx + 7, fy - 9, fx + 9, fy + 1, fx, fy + 6);
+    sx.arc(fx - 3, fy + 1, 5, 0, Math.PI * 2);
+    sx.arc(fx + 3, fy + 1, 5, 0, Math.PI * 2);
     sx.fill();
     sx.shadowBlur = 0;
-    sx.strokeStyle = "#8b352b";
+    sx.strokeStyle = "#74452a";
     sx.lineWidth = 1.5;
-    sx.beginPath(); sx.moveTo(fx, fy - 5); sx.lineTo(fx + 1, fy - 9); sx.stroke();
-    sx.fillStyle = "#8cff9d";
-    sx.beginPath(); sx.ellipse(fx + 4, fy - 8, 3.5, 1.8, -0.5, 0, Math.PI * 2); sx.fill();
+    sx.beginPath();
+    sx.moveTo(fx, fy - 3);
+    sx.lineTo(fx + 1, fy - 8);
+    sx.stroke();
+    sx.fillStyle = "#9cff9c";
+    sx.beginPath();
+    sx.ellipse(fx + 4, fy - 6, 3, 1.7, -0.5, 0, Math.PI * 2);
+    sx.fill();
     sx.restore();
   }
 
-  // One connected rounded body, with a contrasting head and visible mouth.
+  // Continuous rounded snake body, not separate dotted blocks.
   if (points.length > 1) {
     sx.save();
     sx.lineCap = "round";
     sx.lineJoin = "round";
-    sx.strokeStyle = "#ffcf58";
-    sx.lineWidth = 13;
+    sx.strokeStyle = "#f3ad35";
+    sx.lineWidth = 14;
     sx.beginPath();
-    points.forEach((p, i) => i ? sx.lineTo(p.x, p.y) : sx.moveTo(p.x, p.y));
-    sx.stroke();
-    points.slice(1).forEach((p, i) => {
-      sx.fillStyle = i % 2 ? "#f2a93b" : "#ffd36a";
-      sx.beginPath(); sx.arc(p.x, p.y, 6.3, 0, Math.PI * 2); sx.fill();
+    points.forEach((point, i) => {
+      if (i === 0) sx.moveTo(point.x, point.y);
+      else sx.lineTo(point.x, point.y);
     });
+    sx.stroke();
+    sx.strokeStyle = "#ffd36b";
+    sx.lineWidth = 9;
+    sx.stroke();
     sx.restore();
   }
-
+  // Distinct head, eyes and a small mouth.
   if (points.length) {
     const head = points[0];
     sx.save();
     sx.translate(head.x, head.y);
+    const angle = Math.atan2(snakeDir.y, snakeDir.x);
+    sx.rotate(angle);
     sx.fillStyle = "#fff0a6";
-    sx.beginPath(); sx.arc(0, 0, 8, 0, Math.PI * 2); sx.fill();
-    const eyeX = snakeDir.x === 0 ? 3 : snakeDir.x * 3;
-    const eyeY = snakeDir.y === 0 ? -3 : snakeDir.y * 3;
-    sx.fillStyle = "#172a2a";
-    sx.beginPath(); sx.arc(eyeX - (snakeDir.y ? 3 : 0), eyeY - (snakeDir.x ? 3 : 0), 1.5, 0, Math.PI * 2); sx.fill();
-    sx.beginPath(); sx.arc(eyeX + (snakeDir.y ? 3 : 0), eyeY + (snakeDir.x ? 3 : 0), 1.5, 0, Math.PI * 2); sx.fill();
-    sx.strokeStyle = "#9c3e32";
-    sx.lineWidth = 1.6;
-    sx.beginPath(); sx.moveTo(-3, 4); sx.lineTo(3, 4); sx.stroke();
+    sx.beginPath();
+    sx.arc(0, 0, 8, 0, Math.PI * 2);
+    sx.fill();
+    sx.fillStyle = "#17352b";
+    sx.beginPath();
+    sx.arc(2, -3, 1.5, 0, Math.PI * 2);
+    sx.arc(2, 3, 1.5, 0, Math.PI * 2);
+    sx.fill();
+    sx.strokeStyle = "#9b3c36";
+    sx.lineWidth = 1.5;
+    sx.beginPath();
+    sx.moveTo(5, 0);
+    sx.lineTo(9, 0);
+    sx.stroke();
     sx.restore();
   }
 
@@ -1398,16 +1415,19 @@ function snakeMove() {
 
 function snakeAnimation(timestamp) {
   if (!snakeRunning) return;
+
   if (!snakeLastTime) snakeLastTime = timestamp;
+
   const delta = Math.min(timestamp - snakeLastTime, 50);
   snakeLastTime = timestamp;
   snakeAccumulator += delta;
+
   while (snakeAccumulator >= snakeStep && snakeRunning) {
     snakeAccumulator -= snakeStep;
     snakeMove();
   }
+
   if (snakeRunning) {
-    drawSnake();
     snakeFrame = requestAnimationFrame(snakeAnimation);
   }
 }
@@ -1472,6 +1492,9 @@ function carLaneX(lane) {
   return carRoad.left + carRoad.laneWidth * lane +
     carRoad.laneWidth / 2;
 }
+
+// Keep the player's car centered on the road before the game starts.
+carPlayerX = carLaneX(1);
 
 function drawCarVehicle(ctx, x, y, color, scale=1) {
   ctx.save();
@@ -1602,7 +1625,7 @@ function startCarGame() {
   carPlayerX = carLaneX(1);
   carObstacles = [];
   carScore = 0;
-  carSpeed = 275;
+  carSpeed = 260;
   carSpawnTimer = 0;
   carRoadOffset = 0;
   carLastTime = 0;
@@ -1625,12 +1648,12 @@ function carAnimation(timestamp) {
   carLastTime = timestamp;
 
   carScore += delta * 2;
-  carSpeed = Math.min(560, 275 + carScore * 4.2);
+  carSpeed = Math.min(520, 260 + carScore * 3.8);
   carRoadOffset += carSpeed * delta;
 
   carSpawnTimer += delta;
 
-  if (carSpawnTimer >= Math.max(0.38, 0.78 - carScore * 0.006)) {
+  if (carSpawnTimer >= Math.max(0.42, 0.82 - carScore * 0.004)) {
     carSpawnTimer = 0;
 
     const lane = Math.floor(Math.random() * 3);
@@ -1680,23 +1703,30 @@ function endCarGame() {
   drawCar();
 }
 
-cc.addEventListener("touchstart", e => {
-  const t = e.touches[0];
-  carTouchStart = {x:t.clientX,y:t.clientY};
+cc.addEventListener("pointerdown", e => {
+  carTouchStart = {x:e.clientX,y:e.clientY};
 }, {passive:true});
 
-cc.addEventListener("touchend", e => {
-  if (!carTouchStart || !carRunning) return;
+cc.addEventListener("pointerup", e => {
+  if (!carTouchStart) return;
 
-  const t = e.changedTouches[0];
-  const dx = t.clientX - carTouchStart.x;
+  const dx = e.clientX - carTouchStart.x;
+  const dy = e.clientY - carTouchStart.y;
 
-  if (Math.abs(dx) > 20) {
+  if (!carRunning) {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) <= 20) {
+      startCarGame();
+    }
+  } else if (Math.abs(dx) > 20) {
     moveCar(dx > 0 ? 1 : -1);
   }
 
   carTouchStart = null;
-}, {passive:true});
+});
+
+cc.addEventListener("pointercancel", () => {
+  carTouchStart = null;
+});
 
 document.addEventListener("keydown", e => {
   if (!$("car-page") || $("car-page").classList.contains("hidden")) {
@@ -1738,4 +1768,4 @@ showPage("login-page");
 
 components.html(APP, height=950, scrolling=True)
 
-
+    
