@@ -445,10 +445,10 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
  </main>
 </div>
 
-<script>
 APP += r"""
+<script>
 // ===============================
-// MOBILE.APP — MAIN JAVASCRIPT
+// MOBILE.APP - MAIN JAVASCRIPT
 // ===============================
 
 const $ = id => document.getElementById(id);
