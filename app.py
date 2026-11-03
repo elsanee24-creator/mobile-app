@@ -446,9 +446,11 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 </div>
 
 <script>
-"""
 APP += r"""
-<script>
+// ===============================
+// MOBILE.APP — MAIN JAVASCRIPT
+// ===============================
+
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -461,32 +463,32 @@ const store = {
     }
   },
   set(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); }
-    catch (e) {}
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {}
   }
 };
 
 let userName = store.get("mobile_name", "Guest");
 let appPin = store.get("mobile_pin", "");
 let isGuest = false;
-
 let calcExpression = "";
 let secretNumber = 0;
 let guessCount = 0;
 let guessFinished = false;
 
-let typingTimer = null;
-let typingStartTime = 0;
 let typingStarted = false;
-let typingDuration = 60;
-let typingParagraph = "";
+let typingStartTime = 0;
+let typingTimer = null;
+let typingSeconds = 60;
+let typingText = "";
+let typingUsed = [];
 
 let flappyTimer = null;
 let flappyRunning = false;
 let flappyBird = null;
 let flappyPipes = [];
 let flappyScore = 0;
-let flappyLastTime = 0;
 
 let snakeFrame = null;
 let snakeRunning = false;
@@ -500,339 +502,347 @@ let snakeAccumulator = 0;
 let snakeStep = 115;
 let snakeTouchStart = null;
 
-let raceFrame = null;
-let raceRunning = false;
-let raceLastTime = 0;
-let raceElapsed = 0;
-let raceScore = 0;
-let racePlayerLane = 1;
-let racePlayerX = 0;
-let raceTraffic = [];
-let raceSpawnTimer = 0;
-let raceRoadOffset = 0;
-let raceTouchStart = null;
+let carFrame = null;
+let carRunning = false;
+let carLastTime = 0;
+let carPlayerLane = 1;
+let carPlayerX = 0;
+let carObstacles = [];
+let carScore = 0;
+let carSpeed = 190;
+let carSpawnTimer = 0;
+let carRoadOffset = 0;
+let carTouchStart = null;
 
-const typingParagraphs = [
-  "Success comes from small efforts repeated every single day. Stay focused, keep learning, and never stop improving.",
-  "Technology has changed the way people communicate, learn, and solve problems. It helps us connect with the world.",
-  "A good habit can make a big difference in life. Practice regularly and give yourself time to improve.",
-  "Learning something new requires patience and consistency. Every mistake is an opportunity to understand something better.",
-  "The future belongs to people who keep learning and adapting. Work hard, stay curious, and believe in your progress.",
-  "Reading improves knowledge, vocabulary, and imagination. Even a few minutes of reading every day can be useful.",
-  "Time is valuable, so use it wisely. Set clear goals and take small steps towards achieving them.",
-  "Computers are useful machines that help people perform many tasks. They are used in education, business, science, and communication."
-];
-
-/* CLOCK */
 function updateClock() {
   const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+  const s = now.getSeconds();
+
+  const hour = (h % 12) * 30 + m * 0.5;
+  const minute = m * 6 + s * 0.1;
+  const second = s * 6;
+
+  if ($("hour-hand"))
+    $("hour-hand").style.transform =
+      `translateX(-50%) rotate(${hour}deg)`;
+
+  if ($("minute-hand"))
+    $("minute-hand").style.transform =
+      `translateX(-50%) rotate(${minute}deg)`;
+
+  if ($("second-hand"))
+    $("second-hand").style.transform =
+      `translateX(-50%) rotate(${second}deg)`;
+
   const time = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  });
-  const date = now.toLocaleDateString([], {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric"
+    hour:"2-digit", minute:"2-digit", second:"2-digit"
   });
 
-  if ($("clock-time")) $("clock-time").textContent = time;
-  if ($("clock-date")) $("clock-date").textContent = date;
+  if ($("digital-time")) $("digital-time").textContent = time;
 
-  const seconds = now.getSeconds();
-  const minutes = now.getMinutes();
-  const hours = now.getHours() % 12;
+  if ($("top-time")) {
+    $("top-time").textContent = now.toLocaleTimeString([], {
+      hour:"2-digit", minute:"2-digit"
+    });
+  }
 
-  const secondHand = $("second-hand");
-  const minuteHand = $("minute-hand");
-  const hourHand = $("hour-hand");
-
-  if (secondHand) secondHand.style.transform =
-    `rotate(${seconds * 6}deg)`;
-  if (minuteHand) minuteHand.style.transform =
-    `rotate(${minutes * 6 + seconds * 0.1}deg)`;
-  if (hourHand) hourHand.style.transform =
-    `rotate(${hours * 30 + minutes * 0.5}deg)`;
+  if ($("digital-date")) {
+    $("digital-date").textContent = now.toLocaleDateString([], {
+      weekday:"long", day:"numeric", month:"long", year:"numeric"
+    });
+  }
 }
 
 updateClock();
 setInterval(updateClock, 1000);
 
-/* NAVIGATION */
+// PAGE NAVIGATION
+
 const pages = [
-  "login-page",
-  "home-page",
-  "calculator-page",
-  "password-page",
-  "notes-page",
-  "settings-page",
-  "about-page",
-  "games-page",
-  "guess-page",
-  "typing-page",
-  "flappy-page",
-  "snake-page",
-  "pin-page",
-  "racing-page"
+  "login-page","home-page","calculator-page","password-page",
+  "notes-page","games-page","guess-page","typing-page",
+  "flappy-page","snake-page","car-page","settings-page",
+  "about-page","pin-page"
 ];
 
-function stopTyping() {
-  if (typingTimer) clearInterval(typingTimer);
-  typingTimer = null;
-  typingStarted = false;
-}
-
 function stopFlappy() {
+  if (flappyTimer !== null) {
+    clearInterval(flappyTimer);
+    flappyTimer = null;
+  }
   flappyRunning = false;
-  if (flappyTimer) cancelAnimationFrame(flappyTimer);
-  flappyTimer = null;
 }
 
 function stopSnake() {
+  if (snakeFrame !== null) {
+    cancelAnimationFrame(snakeFrame);
+    snakeFrame = null;
+  }
   snakeRunning = false;
-  if (snakeFrame) cancelAnimationFrame(snakeFrame);
-  snakeFrame = null;
 }
 
-function stopRacing() {
-  raceRunning = false;
-  if (raceFrame) cancelAnimationFrame(raceFrame);
-  raceFrame = null;
+function stopTyping() {
+  if (typingTimer !== null) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
+  typingStarted = false;
 }
 
-function showPage(pageId) {
-  stopTyping();
+function stopCar() {
+  if (carFrame !== null) {
+    cancelAnimationFrame(carFrame);
+    carFrame = null;
+  }
+  carRunning = false;
+}
+
+function showPage(id) {
   stopFlappy();
   stopSnake();
-  stopRacing();
+  stopTyping();
+  stopCar();
 
-  pages.forEach(id => {
-    const page = $(id);
-    if (page) page.classList.toggle("hidden", id !== pageId);
+  pages.forEach(page => {
+    const el = $(page);
+    if (el) el.classList.toggle("hidden", page !== id);
   });
 
-  if (pageId === "notes-page") renderNotes();
-  if (pageId === "settings-page") loadSettings();
-  if (pageId === "guess-page") resetGuess();
-  if (pageId === "typing-page") prepareTyping();
-  if (pageId === "flappy-page") drawFlappy();
-  if (pageId === "snake-page") drawSnake();
-  if (pageId === "racing-page") drawRacing();
+  if (id === "notes-page") renderNotes();
 
-  window.scrollTo({top:0, behavior:"smooth"});
+  if (id === "settings-page") {
+    $("setting-name").value = store.get("mobile_name", "Guest");
+    $("setting-pin").value = "";
+  }
+
+  if (id === "flappy-page") drawFlappy();
+  if (id === "snake-page") drawSnake();
+  if (id === "car-page") drawCar();
 }
 
-function openPage(pageId) {
-  showPage(pageId);
+function openPage(id) {
+  showPage(id);
 }
 
-function enterHome() {
-  if ($("welcome-name")) {
-    $("welcome-name").textContent = isGuest ? "Guest" : userName;
+function goHome() {
+  if (appPin && !isGuest) {
+    showPage("pin-page");
+    return;
   }
   showPage("home-page");
 }
 
+// LOGIN / LOGOUT
+
 function login() {
+  isGuest = false;
+
   if (appPin) {
     showPage("pin-page");
-    if ($("pin-entry")) $("pin-entry").focus();
-  } else {
-    isGuest = false;
-    enterHome();
-  }
-}
-
-function loginAsGuest() {
-  isGuest = true;
-  enterHome();
-}
-
-function unlockApp() {
-  const entered = $("pin-entry")?.value || "";
-  if (entered === appPin) {
-    isGuest = false;
-    if ($("pin-entry")) $("pin-entry").value = "";
-    if ($("pin-message")) $("pin-message").textContent = "";
-    enterHome();
-  } else {
-    if ($("pin-message")) {
-      $("pin-message").textContent = "Incorrect PIN. Try again.";
-    }
-  }
-}
-
-/* LOGOUT BUTTON */
-function addLogoutButton() {
-  const home = $("home-page");
-  if (!home || $("mobile-logout-button")) return;
-
-  const button = document.createElement("button");
-  button.id = "mobile-logout-button";
-  button.className = "secondary";
-  button.textContent = "LOG OUT";
-  button.style.cssText =
-    "width:100%;margin-top:16px;padding:13px;border-radius:14px;";
-
-  button.onclick = logout;
-  home.appendChild(button);
-}
-
-function logout() {
-  isGuest = false;
-  userName = store.get("mobile_name", "Guest");
-
-  stopTyping();
-  stopFlappy();
-  stopSnake();
-  stopRacing();
-
-  if ($("pin-entry")) $("pin-entry").value = "";
-  if ($("pin-message")) $("pin-message").textContent = "";
-
-  showPage("login-page");
-}
-
-/* CALCULATOR */
-function calculatorPress(value) {
-  const display = $("calc-display");
-  if (!display) return;
-
-  if (value === "AC") {
-    calcExpression = "";
-  } else if (value === "DEL") {
-    calcExpression = calcExpression.slice(0, -1);
-  } else if (value === "=") {
-    try {
-      if (!/^[0-9+\-*/().%\s]+$/.test(calcExpression)) {
-        throw Error("Invalid");
-      }
-
-      const result = Function('"use strict";return (' +
-        calcExpression + ')')();
-
-      if (!Number.isFinite(result)) throw Error("Invalid");
-      calcExpression = String(Number(result.toFixed(8)));
-    } catch (e) {
-      calcExpression = "";
-      display.value = "Error";
-      return;
-    }
-  } else {
-    calcExpression += value;
-  }
-
-  display.value = calcExpression;
-}
-
-/* PASSWORD GENERATOR */
-function generatePassword() {
-  const lengthInput = $("password-length");
-  const output = $("password-result");
-  if (!output) return;
-
-  let length = Number(lengthInput?.value || 12);
-  length = Math.max(4, Math.min(40, length));
-
-  const chars =
-    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*";
-
-  let result = "";
-  const randomValues = new Uint32Array(length);
-
-  if (window.crypto?.getRandomValues) {
-    crypto.getRandomValues(randomValues);
-    for (let i = 0; i < length; i++) {
-      result += chars[randomValues[i] % chars.length];
-    }
-  } else {
-    for (let i = 0; i < length; i++) {
-      result += chars[Math.floor(Math.random() * chars.length)];
-    }
-  }
-
-  output.value = result;
-}
-
-function copyPassword() {
-  const output = $("password-result");
-  if (!output?.value) return;
-
-  navigator.clipboard?.writeText(output.value)
-    .then(() => alert("Password copied!"))
-    .catch(() => {
-      output.select();
-      document.execCommand("copy");
-      alert("Password copied!");
-    });
-}
-
-/* NOTES */
-function renderNotes() {
-  const list = $("notes-list");
-  if (!list) return;
-
-  list.innerHTML = "";
-  const notes = store.get("mobile_notes", []);
-
-  if (!notes.length) {
-    list.innerHTML =
-      '<p style="opacity:.65;text-align:center">No notes yet.</p>';
     return;
   }
 
-  notes.forEach((note, index) => {
+  enterHome();
+}
+
+function guestLogin() {
+  isGuest = true;
+  userName = "Guest";
+  enterHome();
+}
+
+function enterHome() {
+  $("welcome-name").textContent = "Hello, " + userName + "!";
+  showPage("home-page");
+}
+
+function logout() {
+  stopFlappy();
+  stopSnake();
+  stopTyping();
+  stopCar();
+
+  isGuest = false;
+  $("pin-entry").value = "";
+  $("pin-message").textContent = "";
+  showPage("login-page");
+}
+
+function unlockApp() {
+  const entered = $("pin-entry").value;
+
+  if (entered === appPin) {
+    $("pin-entry").value = "";
+    $("pin-message").textContent = "";
+    enterHome();
+  } else {
+    $("pin-message").textContent = "Incorrect PIN. Try again.";
+  }
+}
+
+// CALCULATOR
+
+function calcUpdate() {
+  $("calc-display").textContent = calcExpression || "0";
+}
+
+function calcInput(value) {
+  if (calcExpression.length > 35) return;
+
+  if (calcExpression === "Error") calcExpression = "";
+
+  calcExpression += value;
+  calcUpdate();
+}
+
+function calcClear() {
+  calcExpression = "";
+  calcUpdate();
+}
+
+function calcBack() {
+  calcExpression = calcExpression.slice(0, -1);
+  calcUpdate();
+}
+
+function calcResult() {
+  try {
+    if (
+      !calcExpression ||
+      !/^[0-9+\-*/%.() ]+$/.test(calcExpression)
+    ) throw Error();
+
+    const result = Function(
+      '"use strict";return (' + calcExpression + ')'
+    )();
+
+    if (!Number.isFinite(result)) throw Error();
+
+    calcExpression = String(Number(result.toFixed(10)));
+  } catch (e) {
+    calcExpression = "Error";
+  }
+
+  calcUpdate();
+}
+
+// PASSWORD GENERATOR
+
+function generatePassword() {
+  let length = parseInt($("pass-length").value, 10);
+
+  if (!Number.isFinite(length)) length = 16;
+  length = Math.max(6, Math.min(40, length));
+
+  $("pass-length").value = length;
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*?";
+
+  let result = "";
+  const random = new Uint32Array(length);
+
+  if (window.crypto && window.crypto.getRandomValues) {
+    window.crypto.getRandomValues(random);
+  } else {
+    for (let i = 0; i < length; i++) {
+      random[i] = Math.floor(Math.random() * 100000);
+    }
+  }
+
+  for (let i = 0; i < length; i++) {
+    result += chars[random[i] % chars.length];
+  }
+
+  $("password-output").textContent = result;
+}
+
+async function copyPassword() {
+  const value = $("password-output").textContent;
+
+  if (!value || value === "Your password appears here.") return;
+
+  try {
+    await navigator.clipboard.writeText(value);
+    $("password-output").textContent = value + "  ✓ Copied";
+  } catch (e) {
+    $("password-output").textContent = value + "  (Select to copy)";
+  }
+}
+
+// NOTES
+
+function getNotes() {
+  return store.get("mobile_notes", []);
+}
+
+function saveNote() {
+  const title = $("note-title").value.trim();
+  const body = $("note-body").value.trim();
+
+  if (!title && !body) return;
+
+  const notes = getNotes();
+
+  notes.unshift({
+    id: Date.now(),
+    title: title || "Untitled",
+    body
+  });
+
+  store.set("mobile_notes", notes);
+
+  $("note-title").value = "";
+  $("note-body").value = "";
+
+  renderNotes();
+}
+
+function renderNotes() {
+  const notes = getNotes();
+  $("notes-list").innerHTML = "";
+
+  if (!notes.length) {
+    $("notes-list").innerHTML =
+      '<p class="small-note">No notes yet. Create your first note.</p>';
+    return;
+  }
+
+  notes.forEach(note => {
     const card = document.createElement("div");
     card.className = "card";
     card.style.marginBottom = "10px";
 
+    const heading = document.createElement("h3");
+    heading.textContent = note.title;
+
     const content = document.createElement("p");
-    content.textContent = note;
-    content.style.whiteSpace = "pre-wrap";
+    content.textContent = note.body;
 
     const remove = document.createElement("button");
     remove.className = "secondary";
     remove.textContent = "DELETE";
+
     remove.onclick = () => {
-      const updated = store.get("mobile_notes", []);
-      updated.splice(index, 1);
-      store.set("mobile_notes", updated);
+      store.set(
+        "mobile_notes",
+        getNotes().filter(n => n.id !== note.id)
+      );
       renderNotes();
     };
 
-    card.appendChild(content);
-    card.appendChild(remove);
-    list.appendChild(card);
+    card.append(heading, content, remove);
+    $("notes-list").appendChild(card);
   });
 }
 
-function addNote() {
-  const input = $("note-input");
-  if (!input || !input.value.trim()) return;
-
-  const notes = store.get("mobile_notes", []);
-  notes.unshift(input.value.trim());
-  store.set("mobile_notes", notes);
-
-  input.value = "";
-  renderNotes();
-}
-
-/* SETTINGS */
-function loadSettings() {
-  if ($("setting-name")) {
-    $("setting-name").value = store.get("mobile_name", "Guest");
-  }
-  if ($("setting-pin")) {
-    $("setting-pin").value = store.get("mobile_pin", "");
-  }
-}
+// SETTINGS
 
 function saveSettings() {
-  const name = $("setting-name")?.value.trim() || "Guest";
-  const pin = $("setting-pin")?.value.trim() || "";
+  const name = $("setting-name").value.trim() || "Guest";
+  const pin = $("setting-pin").value.trim();
 
   if (pin && !/^\d{4,8}$/.test(pin)) {
     alert("PIN must contain 4 to 8 digits.");
@@ -842,38 +852,35 @@ function saveSettings() {
   userName = name;
   appPin = pin;
 
-  store.set("mobile_name", userName);
-  store.set("mobile_pin", appPin);
+  store.set("mobile_name", name);
+  store.set("mobile_pin", pin);
 
-  alert("Settings saved successfully!");
-  enterHome();
+  $("welcome-name").textContent = "Hello, " + userName + "!";
+
+  alert("Settings saved successfully.");
+  goHome();
 }
 
-/* NUMBER GUESSING GAME */
+// NUMBER GUESSING GAME
+
 function resetGuess() {
   secretNumber = Math.floor(Math.random() * 100) + 1;
   guessCount = 0;
   guessFinished = false;
 
-  if ($("guess-result")) {
-    $("guess-result").textContent =
-      "Guess a number between 1 and 100.";
-  }
-  if ($("guess-input")) $("guess-input").value = "";
-  if ($("guess-count")) $("guess-count").textContent = "Chances: 10";
+  $("guess-input").value = "";
+  $("guess-message").textContent =
+    "10 chances remaining. Guess from 1 to 100.";
 }
 
 function makeGuess() {
   if (guessFinished) return;
 
-  const input = $("guess-input");
-  const result = $("guess-result");
-  if (!input || !result) return;
-
-  const guess = Number(input.value);
+  const guess = Number($("guess-input").value);
 
   if (!Number.isInteger(guess) || guess < 1 || guess > 100) {
-    result.textContent = "Enter a number from 1 to 100.";
+    $("guess-message").textContent =
+      "Enter a number from 1 to 100.";
     return;
   }
 
@@ -881,301 +888,350 @@ function makeGuess() {
   const remaining = 10 - guessCount;
 
   if (guess === secretNumber) {
-    result.textContent =
-      "Correct! You guessed the number in " + guessCount + " tries.";
+    $("guess-message").textContent =
+      "🎉 Correct! You guessed it in " + guessCount + " attempts.";
     guessFinished = true;
-  } else if (remaining <= 0) {
-    result.textContent =
+  } else if (guessCount >= 10) {
+    $("guess-message").textContent =
       "Game over! The number was " + secretNumber + ".";
     guessFinished = true;
   } else {
-    result.textContent = guess < secretNumber
-      ? "Too low! Try a higher number."
-      : "Too high! Try a lower number.";
+    $("guess-message").textContent =
+      (guess < secretNumber
+        ? "Too low! Try higher."
+        : "Too high! Try lower.") +
+      " " + remaining + " chances left.";
   }
 
-  if ($("guess-count")) {
-    $("guess-count").textContent =
-      guessFinished ? "Game finished" : "Chances: " + remaining;
-  }
-
-  input.value = "";
+  $("guess-input").value = "";
 }
 
-/* TYPING SPEED GAME */
-function prepareTyping() {
-  stopTyping();
+// TYPING SPEED GAME
 
-  const sentence = $("typing-sentence");
-  const input = $("typing-input");
-  const result = $("typing-result");
+const typingParagraphs = [
+  "Technology has changed the way people communicate, learn and work. Every day, new ideas and inventions make life more connected. Learning how to use these tools wisely can help us become more creative and productive.",
+  "Success is not always about doing something quickly. It is about staying consistent, learning from mistakes and improving a little every day. Small efforts can create meaningful results over time.",
+  "A peaceful morning can make the entire day feel better. Fresh air, a clear mind and a positive attitude help us focus on important tasks. Good habits often begin with simple daily actions.",
+  "Reading is a powerful way to explore new ideas and understand the world. Books introduce us to different people, places and experiences. Even a few minutes of reading can improve knowledge and vocabulary.",
+  "The world around us is full of interesting discoveries. Science helps us understand nature, space, energy and the human body. Asking questions and exploring answers is an important part of learning.",
+  "Time is valuable, so it is important to use it carefully. Planning our tasks can reduce stress and help us achieve our goals. A balanced routine also leaves room for rest and enjoyment.",
+  "Good communication is an important skill in everyday life. Listening carefully, choosing clear words and respecting other opinions can make conversations more meaningful. Practice helps people express ideas with confidence.",
+  "Nature gives us beautiful landscapes, fresh air and many useful resources. Protecting the environment is a shared responsibility. Simple actions such as saving water and reducing waste can make a difference.",
+  "Every challenge gives us a chance to learn something new. Instead of giving up when a task becomes difficult, we can try another approach. Patience and practice help us move forward.",
+  "A healthy routine includes enough sleep, regular movement and balanced meals. These habits support concentration and energy throughout the day. Taking care of ourselves helps us enjoy everyday activities."
+];
 
-  if (sentence) sentence.textContent =
-    "Press START / RESET to begin a new 60-second test.";
-  if (input) {
-    input.value = "";
-    input.disabled = true;
+function getRandomTypingParagraph() {
+  let available = typingParagraphs
+    .map((p, i) => i)
+    .filter(i => !typingUsed.includes(i));
+
+  if (!available.length) {
+    typingUsed = [];
+    available = typingParagraphs.map((p, i) => i);
   }
-  if (result) result.textContent = "Timer: 60 seconds";
+
+  const selected =
+    available[Math.floor(Math.random() * available.length)];
+
+  typingUsed.push(selected);
+  return typingParagraphs[selected];
 }
 
 function startTyping() {
   stopTyping();
 
-  const sentence = $("typing-sentence");
-  const input = $("typing-input");
-  const result = $("typing-result");
-  if (!sentence || !input || !result) return;
-
-  let choices = typingParagraphs.filter(p => p !== typingParagraph);
-  if (!choices.length) choices = typingParagraphs;
-
-  typingParagraph =
-    choices[Math.floor(Math.random() * choices.length)];
-
-  sentence.textContent = typingParagraph;
-  input.value = "";
-  input.disabled = false;
-  input.focus();
-
+  typingText = getRandomTypingParagraph();
+  typingSeconds = 60;
   typingStarted = true;
   typingStartTime = Date.now();
 
-  let secondsLeft = 60;
-  result.textContent = "Time left: 60 seconds";
+  $("typing-sentence").textContent = typingText;
+  $("typing-input").value = "";
+  $("typing-input").disabled = false;
+  $("typing-input").focus();
+
+  $("typing-time").textContent = "60";
+  $("typing-live-wpm").textContent = "0";
+  $("typing-results").classList.add("hidden");
+  $("typing-result").textContent = "";
+  $("typing-start-button").textContent = "RESTART TEST";
+
+  $("typing-input").oninput = updateTypingProgress;
 
   typingTimer = setInterval(() => {
-    const elapsed = Math.floor((Date.now() - typingStartTime) / 1000);
-    secondsLeft = Math.max(0, 60 - elapsed);
+    const elapsed = Math.floor(
+      (Date.now() - typingStartTime) / 1000
+    );
 
-    result.textContent = "Time left: " + secondsLeft + " seconds";
+    typingSeconds = Math.max(0, 60 - elapsed);
+    $("typing-time").textContent = typingSeconds;
 
-    if (secondsLeft <= 0) {
-      finishTyping();
-    }
-  }, 200);
+    updateTypingStats();
+
+    if (typingSeconds <= 0) finishTyping();
+  }, 250);
+}
+
+function getTypingStats() {
+  const typed = $("typing-input").value;
+  let correct = 0;
+  let mistakes = 0;
+
+  for (let i = 0; i < typed.length; i++) {
+    if (typed[i] === typingText[i]) correct++;
+    else mistakes++;
+  }
+
+  const total = typed.length;
+  const accuracy = total ? Math.round(correct / total * 100) : 0;
+  const elapsed = Math.max(
+    1,
+    (Date.now() - typingStartTime) / 1000
+  );
+
+  const wpm = Math.round((correct / 5) / (elapsed / 60));
+
+  return {typed, correct, mistakes, total, accuracy, wpm};
+}
+
+function updateTypingStats() {
+  if (!typingStarted) return;
+
+  const stats = getTypingStats();
+  $("typing-live-wpm").textContent = stats.wpm;
+}
+
+function updateTypingProgress() {
+  if (!typingStarted) return;
+
+  const stats = getTypingStats();
+  $("typing-live-wpm").textContent = stats.wpm;
+
+  if (stats.typed === typingText) finishTyping();
 }
 
 function finishTyping() {
   if (!typingStarted) return;
 
-  const input = $("typing-input");
-  const result = $("typing-result");
-  if (!input || !result) return;
+  const stats = getTypingStats();
+  stopTyping();
 
-  typingStarted = false;
-  if (typingTimer) clearInterval(typingTimer);
-  typingTimer = null;
+  $("typing-input").disabled = true;
+  $("typing-time").textContent = "0";
 
-  const typed = input.value;
-  let correct = 0;
+  $("typing-final-wpm").textContent = stats.wpm;
+  $("typing-accuracy").textContent = stats.accuracy + "%";
+  $("typing-correct").textContent = stats.correct;
+  $("typing-mistakes").textContent = stats.mistakes;
 
-  for (let i = 0; i < typed.length; i++) {
-    if (typed[i] === typingParagraph[i]) correct++;
-  }
+  $("typing-result").textContent =
+    stats.typed === typingText
+      ? "Paragraph completed! Excellent work."
+      : "Time is up! Here is your result.";
 
-  const errors = typed.length - correct;
-  const elapsed = Math.min(
-    60,
-    Math.max(1, (Date.now() - typingStartTime) / 1000)
-  );
-
-  const accuracy = typed.length
-    ? (correct / typed.length) * 100
-    : 0;
-
-  const wpm = (correct / 5) / (elapsed / 60);
-
-  input.disabled = true;
-
-  result.innerHTML =
-    "<b>Test finished!</b><br>" +
-    "WPM: " + Math.round(wpm) + "<br>" +
-    "Accuracy: " + accuracy.toFixed(1) + "%<br>" +
-    "Correct characters: " + correct + "<br>" +
-    "Errors: " + errors + "<br>" +
-    "Time: " + Math.round(elapsed) + " seconds";
+  $("typing-results").classList.remove("hidden");
+  $("typing-start-button").textContent = "START NEW TEST";
 }
 
-if ($("typing-input")) {
-  $("typing-input").addEventListener("input", () => {
-    if (!typingStarted) return;
+// FLAPPY BIRD
 
-    if ($("typing-input").value.length >= typingParagraph.length) {
-      finishTyping();
-    }
-  });
-}
-
-/* FLAPPY BIRD */
-const flappyCanvas = $("flappy-canvas");
-const fc = flappyCanvas?.getContext("2d");
+const fc = $("flappy-canvas");
+const fx = fc.getContext("2d");
 
 function drawFlappy() {
-  if (!fc || !flappyCanvas) return;
+  const w = fc.width;
+  const h = fc.height;
 
-  fc.clearRect(0, 0, 360, 460);
+  const sky = fx.createLinearGradient(0, 0, 0, h);
+  sky.addColorStop(0, "#51c9f5");
+  sky.addColorStop(1, "#d3f7ff");
 
-  const sky = fc.createLinearGradient(0, 0, 0, 460);
-  sky.addColorStop(0, "#63c9ff");
-  sky.addColorStop(1, "#d6f4ff");
-  fc.fillStyle = sky;
-  fc.fillRect(0, 0, 360, 460);
+  fx.fillStyle = sky;
+  fx.fillRect(0, 0, w, h);
 
-  fc.fillStyle = "rgba(255,255,255,.8)";
-  [[65,65],[245,105],[145,160]].forEach(([x,y]) => {
-    fc.beginPath();
-    fc.arc(x,y,20,0,Math.PI*2);
-    fc.arc(x+22,y-8,24,0,Math.PI*2);
-    fc.arc(x+45,y,18,0,Math.PI*2);
-    fc.fill();
+  fx.fillStyle = "#ffffff99";
+
+  [[55,65,20],[175,105,27],[285,55,23]].forEach(([x,y,r]) => {
+    fx.beginPath();
+    fx.arc(x, y, r, 0, Math.PI * 2);
+    fx.arc(x + r, y - 8, r * 0.8, 0, Math.PI * 2);
+    fx.arc(x + r * 2, y, r, 0, Math.PI * 2);
+    fx.fill();
   });
 
-  fc.fillStyle = "#65bd53";
-  fc.fillRect(0, 425, 360, 35);
-  fc.fillStyle = "#d8b66c";
-  fc.fillRect(0, 425, 360, 8);
+  fx.fillStyle = "#75d68b";
+  fx.fillRect(0, h - 35, w, 35);
 
-  if (!flappyBird) {
-    flappyBird = {x:95,y:210,velocity:0};
-    flappyPipes = [];
-    flappyScore = 0;
+  fx.fillStyle = "#3eae74";
+  fx.fillRect(0, h - 35, w, 7);
+
+  if (flappyBird) {
+    fx.save();
+    fx.translate(flappyBird.x, flappyBird.y);
+    fx.rotate(
+      Math.max(-0.45, Math.min(0.65, flappyBird.velocity * 0.055))
+    );
+
+    fx.fillStyle = "#ffd447";
+    fx.beginPath();
+    fx.ellipse(0, 0, 16, 12, 0, 0, Math.PI * 2);
+    fx.fill();
+
+    fx.fillStyle = "#f3a928";
+    fx.beginPath();
+    fx.ellipse(-5, Math.sin(Date.now() / 65) * 4, 9, 5, -0.3, 0, Math.PI * 2);
+    fx.fill();
+
+    fx.fillStyle = "#ed9c30";
+    fx.beginPath();
+    fx.moveTo(-13, -2);
+    fx.lineTo(-21, -8);
+    fx.lineTo(-19, 2);
+    fx.closePath();
+    fx.fill();
+
+    fx.fillStyle = "#fff";
+    fx.beginPath();
+    fx.arc(7, -6, 5, 0, Math.PI * 2);
+    fx.fill();
+
+    fx.fillStyle = "#172c42";
+    fx.beginPath();
+    fx.arc(9, -6, 2.2, 0, Math.PI * 2);
+    fx.fill();
+
+    fx.fillStyle = "#f07836";
+    fx.beginPath();
+    fx.moveTo(14, -1);
+    fx.lineTo(25, 3);
+    fx.lineTo(14, 6);
+    fx.closePath();
+    fx.fill();
+
+    fx.restore();
   }
 
-  flappyPipes.forEach(pipe => {
-    fc.fillStyle = "#168d37";
-    fc.fillRect(pipe.x, 0, 48, pipe.top);
-    fc.fillRect(pipe.x-5, pipe.top-18, 58, 18);
-    fc.fillRect(pipe.x, pipe.bottom, 48, 425-pipe.bottom);
-    fc.fillRect(pipe.x-5, pipe.bottom, 58, 18);
+  flappyPipes.forEach(p => {
+    const gradient = fx.createLinearGradient(p.x, 0, p.x + 48, 0);
+    gradient.addColorStop(0, "#168b77");
+    gradient.addColorStop(0.5, "#43d5a1");
+    gradient.addColorStop(1, "#137b70");
+
+    fx.fillStyle = gradient;
+    fx.fillRect(p.x, 0, 48, p.top);
+    fx.fillRect(p.x, p.top - 12, 48, 12);
+    fx.fillRect(p.x, p.bottom, 48, h - p.bottom - 35);
+    fx.fillRect(p.x, p.bottom, 48, 12);
   });
 
-  fc.fillStyle = "#ffd43b";
-  fc.beginPath();
-  fc.ellipse(flappyBird.x,flappyBird.y,17,13,0,0,Math.PI*2);
-  fc.fill();
-
-  fc.fillStyle = "#fff";
-  fc.beginPath();
-  fc.arc(flappyBird.x+6,flappyBird.y-5,5,0,Math.PI*2);
-  fc.fill();
-
-  fc.fillStyle = "#111";
-  fc.beginPath();
-  fc.arc(flappyBird.x+8,flappyBird.y-5,2,0,Math.PI*2);
-  fc.fill();
-
-  fc.fillStyle = "#ff812c";
-  fc.beginPath();
-  fc.moveTo(flappyBird.x+14,flappyBird.y);
-  fc.lineTo(flappyBird.x+27,flappyBird.y+4);
-  fc.lineTo(flappyBird.x+14,flappyBird.y+8);
-  fc.fill();
-
-  fc.fillStyle = "#172b42";
-  fc.font = "bold 24px Arial";
-  fc.fillText("Score: " + flappyScore, 12, 32);
+  if (!flappyRunning) {
+    fx.fillStyle = "#174b61";
+    fx.textAlign = "center";
+    fx.font = "bold 19px Arial";
+    fx.fillText("Tap PLAY to start", w / 2, h / 2);
+  }
 }
 
 function startFlappy() {
   stopFlappy();
-  if (!fc) return;
 
-  flappyBird = {x:95,y:210,velocity:0};
+  flappyBird = {x:80, y:200, velocity:0};
   flappyPipes = [];
   flappyScore = 0;
-  flappyLastTime = 0;
+
+  $("flappy-score").textContent = "Score: 0";
   flappyRunning = true;
 
-  function frame(time) {
+  let frame = 0;
+
+  flappyTimer = setInterval(() => {
     if (!flappyRunning) return;
 
-    const delta = flappyLastTime ? Math.min(2,(time-flappyLastTime)/16.67) : 1;
-    flappyLastTime = time;
+    frame++;
 
-    flappyBird.velocity += 0.42 * delta;
-    flappyBird.y += flappyBird.velocity * delta;
+    flappyBird.velocity += 0.45;
+    flappyBird.y += flappyBird.velocity;
 
-    if (!flappyPipes.length ||
-        flappyPipes[flappyPipes.length-1].x < 175) {
-      const top = 65 + Math.random()*175;
+    if (frame % 78 === 0) {
+      const top = 65 + Math.random() * 145;
+
       flappyPipes.push({
-        x:360,
+        x:fc.width,
         top,
-        bottom:top+112,
-        scored:false
+        bottom:top + 105,
+        passed:false
       });
     }
 
-    flappyPipes.forEach(pipe => {
-      pipe.x -= 2.8 * delta;
+    flappyPipes.forEach(p => {
+      p.x -= 3.4;
 
-      if (!pipe.scored && pipe.x+48 < flappyBird.x) {
-        pipe.scored = true;
+      if (!p.passed && p.x + 48 < flappyBird.x) {
+        p.passed = true;
         flappyScore++;
+        $("flappy-score").textContent = "Score: " + flappyScore;
       }
 
-      const hitX =
-        flappyBird.x+14 > pipe.x && flappyBird.x-14 < pipe.x+48;
-      const hitY =
-        flappyBird.y-12 < pipe.top ||
-        flappyBird.y+12 > pipe.bottom;
+      const overlaps =
+        flappyBird.x + 11 > p.x &&
+        flappyBird.x - 11 < p.x + 48;
 
-      if (hitX && hitY) endFlappy();
+      const hitsPipe =
+        flappyBird.y - 11 < p.top ||
+        flappyBird.y + 11 > p.bottom;
+
+      if (overlaps && hitsPipe) endFlappy();
     });
 
-    flappyPipes = flappyPipes.filter(p => p.x > -65);
+    flappyPipes = flappyPipes.filter(p => p.x > -55);
 
-    if (flappyBird.y > 413 || flappyBird.y < 0) {
-      endFlappy();
-    }
+    if (
+      flappyBird.y > fc.height - 48 ||
+      flappyBird.y < 10
+    ) endFlappy();
 
     drawFlappy();
-    if (flappyRunning) {
-      flappyTimer = requestAnimationFrame(frame);
-    }
-  }
-
-  flappyTimer = requestAnimationFrame(frame);
+  }, 25);
 }
 
 function flap() {
-  if (!flappyRunning) {
-    startFlappy();
-    return;
-  }
+  if (!flappyRunning) return;
   flappyBird.velocity = -6.8;
 }
 
 function endFlappy() {
   if (!flappyRunning) return;
+
   stopFlappy();
   drawFlappy();
-  if ($("flappy-result")) {
-    $("flappy-result").textContent =
-      "Game over! Score: " + flappyScore;
-  }
+
+  $("flappy-score").textContent =
+    "Game over! Score: " + flappyScore;
 }
 
-if (flappyCanvas) {
-  flappyCanvas.addEventListener("pointerdown", flap);
-}
+fc.addEventListener("pointerdown", flap);
 
-/* SNAKE */
-const snakeCanvas = $("snake-canvas");
-const sc = snakeCanvas?.getContext("2d");
-const snakeCell = 20;
-const snakeGrid = 14;
+// SNAKE
 
-function randomSnakeFood() {
-  let food;
+const sc = $("snake-canvas");
+const sx = sc.getContext("2d");
+const cell = 20;
+const gridSize = 14;
+
+function newSnakeFood() {
+  let point;
+
   do {
-    food = {
-      x:Math.floor(Math.random()*snakeGrid),
-      y:Math.floor(Math.random()*snakeGrid)
+    point = {
+      x:Math.floor(Math.random() * gridSize),
+      y:Math.floor(Math.random() * gridSize)
     };
-  } while (snakeBody.some(p => p.x===food.x && p.y===food.y));
-  return food;
+  } while (
+    snakeBody.some(p => p.x === point.x && p.y === point.y)
+  );
+
+  return point;
 }
 
 function resetSnake() {
@@ -1189,503 +1245,465 @@ function resetSnake() {
 
   snakeDir = {x:1,y:0};
   snakeNextDir = {x:1,y:0};
+  snakeFood = newSnakeFood();
   snakePoints = 0;
   snakeStep = 115;
   snakeAccumulator = 0;
   snakeLastTime = 0;
-  snakeFood = randomSnakeFood();
 
-  if ($("snake-result")) $("snake-result").textContent = "Score: 0";
+  $("snake-score").textContent = "Score: 0";
   drawSnake();
 }
 
 function drawSnake() {
-  if (!sc || !snakeCanvas) return;
+  const w = sc.width;
+  const h = sc.height;
 
-  sc.clearRect(0,0,288,288);
+  const bg = sx.createLinearGradient(0, 0, w, h);
+  bg.addColorStop(0, "#092b25");
+  bg.addColorStop(1, "#174b38");
 
-  const bg = sc.createLinearGradient(0,0,288,288);
-  bg.addColorStop(0,"#03150c");
-  bg.addColorStop(1,"#0c321c");
-  sc.fillStyle = bg;
-  sc.fillRect(0,0,288,288);
+  sx.fillStyle = bg;
+  sx.fillRect(0, 0, w, h);
 
-  sc.strokeStyle = "rgba(100,255,150,.08)";
-  for (let i=0;i<=snakeGrid;i++) {
-    sc.beginPath();
-    sc.moveTo(i*snakeCell,0);
-    sc.lineTo(i*snakeCell,288);
-    sc.stroke();
+  sx.strokeStyle = "#ffffff12";
+  sx.lineWidth = 1;
 
-    sc.beginPath();
-    sc.moveTo(0,i*snakeCell);
-    sc.lineTo(288,i*snakeCell);
-    sc.stroke();
+  for (let i = 0; i <= gridSize; i++) {
+    sx.beginPath();
+    sx.moveTo(i * cell, 0);
+    sx.lineTo(i * cell, h);
+    sx.stroke();
+
+    sx.beginPath();
+    sx.moveTo(0, i * cell);
+    sx.lineTo(w, i * cell);
+    sx.stroke();
   }
 
   if (snakeFood) {
-    sc.fillStyle = "#ff5252";
-    sc.beginPath();
-    sc.arc(
-      snakeFood.x*snakeCell+10,
-      snakeFood.y*snakeCell+10,
-      7,0,Math.PI*2
+    sx.shadowColor = "#ffb347";
+    sx.shadowBlur = 16;
+    sx.fillStyle = "#ffb347";
+
+    sx.beginPath();
+    sx.arc(
+      snakeFood.x * cell + 10,
+      snakeFood.y * cell + 10,
+      7, 0, Math.PI * 2
     );
-    sc.fill();
+    sx.fill();
+    sx.shadowBlur = 0;
   }
 
-  snakeBody.forEach((part,index) => {
-    sc.fillStyle = index===0 ? "#aaff72" : "#43d878";
-    sc.beginPath();
-    sc.roundRect(
-      part.x*snakeCell+1,
-      part.y*snakeCell+1,
-      18,18,5
+  snakeBody.forEach((p, i) => {
+    sx.fillStyle = i === 0 ? "#b5ff9c" : "#43d99b";
+
+    sx.beginPath();
+    sx.roundRect(
+      p.x * cell + 2,
+      p.y * cell + 2,
+      cell - 4,
+      cell - 4,
+      6
     );
-    sc.fill();
-  });
-}
+    sx.fill();
 
-function snakeDirection(direction) {
-  const directions = {
-    up:{x:0,y:-1},
-    down:{x:0,y:1},
-    left:{x:-1,y:0},
-    right:{x:1,y:0}
-  };
-
-  const next = directions[direction];
-  if (!next) return;
-
-  if (next.x === -snakeDir.x && next.y === -snakeDir.y) return;
-  snakeNextDir = next;
-
-  if (!snakeRunning) startSnake();
-}
-
-function startSnake() {
-  if (snakeRunning) return;
-  if (!snakeBody.length) resetSnake();
-
-  snakeRunning = true;
-  snakeLastTime = 0;
-  snakeAccumulator = 0;
-
-  function frame(time) {
-    if (!snakeRunning) return;
-
-    if (!snakeLastTime) snakeLastTime = time;
-    const delta = Math.min(100,time-snakeLastTime);
-    snakeLastTime = time;
-    snakeAccumulator += delta;
-
-    if (snakeAccumulator >= snakeStep) {
-      snakeAccumulator = 0;
-      moveSnake();
+    if (i === 0) {
+      sx.fillStyle = "#173c2a";
+      sx.beginPath();
+      sx.arc(p.x * cell + 7, p.y * cell + 8, 1.8, 0, Math.PI * 2);
+      sx.arc(p.x * cell + 13, p.y * cell + 8, 1.8, 0, Math.PI * 2);
+      sx.fill();
     }
+  });
 
-    drawSnake();
-    if (snakeRunning) snakeFrame = requestAnimationFrame(frame);
+  if (!snakeRunning) {
+    sx.fillStyle = "#fff";
+    sx.textAlign = "center";
+    sx.font = "bold 16px Arial";
+    sx.fillText("Press PLAY to start", w / 2, h / 2);
   }
-
-  snakeFrame = requestAnimationFrame(frame);
 }
 
-function moveSnake() {
-  snakeDir = snakeNextDir;
+function snakeMove() {
+  snakeDir = {...snakeNextDir};
 
   const head = {
-    x:snakeBody[0].x+snakeDir.x,
-    y:snakeBody[0].y+snakeDir.y
+    x:snakeBody[0].x + snakeDir.x,
+    y:snakeBody[0].y + snakeDir.y
   };
 
+  const eating =
+    head.x === snakeFood.x &&
+    head.y === snakeFood.y;
+
+  const bodyToCheck = eating
+    ? snakeBody
+    : snakeBody.slice(0, -1);
+
   if (
-    head.x<0 || head.x>=snakeGrid ||
-    head.y<0 || head.y>=snakeGrid ||
-    snakeBody.some(p => p.x===head.x && p.y===head.y)
+    head.x < 0 || head.y < 0 ||
+    head.x >= gridSize || head.y >= gridSize ||
+    bodyToCheck.some(p => p.x === head.x && p.y === head.y)
   ) {
     stopSnake();
-    if ($("snake-result")) {
-      $("snake-result").textContent =
-        "Game over! Score: " + snakePoints;
-    }
+    $("snake-score").textContent =
+      "Game over! Score: " + snakePoints;
+    drawSnake();
     return;
   }
 
   snakeBody.unshift(head);
 
-  if (head.x===snakeFood.x && head.y===snakeFood.y) {
+  if (eating) {
     snakePoints++;
-    snakeStep = Math.max(65,115-snakePoints*3);
-    snakeFood = randomSnakeFood();
+    snakeFood = newSnakeFood();
 
-    if ($("snake-result")) {
-      $("snake-result").textContent = "Score: " + snakePoints;
-    }
+    $("snake-score").textContent = "Score: " + snakePoints;
+    snakeStep = Math.max(65, 115 - snakePoints * 3);
   } else {
     snakeBody.pop();
   }
+
+  drawSnake();
 }
 
-if (snakeCanvas) {
-  snakeCanvas.addEventListener("touchstart", e => {
-    const touch = e.touches[0];
-    snakeTouchStart = {x:touch.clientX,y:touch.clientY};
-  },{passive:true});
+function snakeAnimation(timestamp) {
+  if (!snakeRunning) return;
 
-  snakeCanvas.addEventListener("touchend", e => {
-    if (!snakeTouchStart) return;
+  if (!snakeLastTime) snakeLastTime = timestamp;
 
-    const touch = e.changedTouches[0];
-    const dx = touch.clientX-snakeTouchStart.x;
-    const dy = touch.clientY-snakeTouchStart.y;
+  const delta = Math.min(timestamp - snakeLastTime, 50);
+  snakeLastTime = timestamp;
+  snakeAccumulator += delta;
 
-    if (Math.abs(dx)>Math.abs(dy)) {
-      snakeDirection(dx>0?"right":"left");
+  while (snakeAccumulator >= snakeStep && snakeRunning) {
+    snakeAccumulator -= snakeStep;
+    snakeMove();
+  }
+
+  if (snakeRunning) {
+    snakeFrame = requestAnimationFrame(snakeAnimation);
+  }
+}
+
+function startSnake() {
+  resetSnake();
+
+  snakeRunning = true;
+  drawSnake();
+
+  snakeFrame = requestAnimationFrame(snakeAnimation);
+}
+
+function snakeDirection(x, y) {
+  if (!snakeRunning) return;
+
+  if (x === -snakeDir.x && y === -snakeDir.y) return;
+
+  snakeNextDir = {x,y};
+}
+
+sc.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  snakeTouchStart = {x:t.clientX,y:t.clientY};
+}, {passive:true});
+
+sc.addEventListener("touchmove", e => {
+  if (snakeTouchStart) e.preventDefault();
+}, {passive:false});
+
+sc.addEventListener("touchend", e => {
+  if (!snakeTouchStart) return;
+
+  const t = e.changedTouches[0];
+  const dx = t.clientX - snakeTouchStart.x;
+  const dy = t.clientY - snakeTouchStart.y;
+
+  if (Math.max(Math.abs(dx), Math.abs(dy)) > 20) {
+    if (Math.abs(dx) > Math.abs(dy)) {
+      snakeDirection(dx > 0 ? 1 : -1, 0);
     } else {
-      snakeDirection(dy>0?"down":"up");
+      snakeDirection(0, dy > 0 ? 1 : -1);
     }
+  }
 
-    snakeTouchStart = null;
-  },{passive:true});
+  snakeTouchStart = null;
+}, {passive:true});
+
+// CAR RACING GAME
+
+const cc = $("car-canvas");
+const cx = cc.getContext("2d");
+
+const carRoad = {
+  left:35,
+  right:305,
+  width:270,
+  laneWidth:90
+};
+
+function carLaneX(lane) {
+  return carRoad.left + carRoad.laneWidth * lane +
+    carRoad.laneWidth / 2;
 }
 
-/* RACING GAME — ADDED TO GAMING HUB */
-function createRacingGame() {
-  if ($("racing-page")) return;
+function drawCarVehicle(ctx, x, y, color, scale=1) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
 
-  const main = document.querySelector("main") ||
-               document.querySelector(".screen") ||
-               document.body;
-
-  const tileGrid = $("games-page")?.querySelector(".tile-grid");
-
-  if (tileGrid) {
-    const tile = document.createElement("button");
-    tile.className = "tile";
-    tile.innerHTML =
-      '<span style="font-size:30px">🏎️</span>' +
-      '<b>Racing Game</b>';
-    tile.onclick = () => openPage("racing-page");
-    tileGrid.appendChild(tile);
-  }
-
-  const section = document.createElement("section");
-  section.id = "racing-page";
-  section.className = "hidden";
-
-  section.innerHTML = `
-    <div style="padding:12px 0">
-      <button class="back" onclick="openPage('games-page')">
-        ‹ Games
-      </button>
-      <h2 style="text-align:center;margin:12px 0">🏎️ Racing Game</h2>
-
-      <div style="display:flex;justify-content:space-between;
-        font-weight:bold;margin:10px 4px">
-        <span id="race-score">Distance: 0</span>
-        <span id="race-level">Level: 1</span>
-      </div>
-
-      <div style="width:100%;display:flex;justify-content:center">
-        <canvas id="racing-canvas" width="360" height="520"
-          style="width:100%;max-width:360px;height:auto;
-          border-radius:18px;touch-action:none;
-          display:block;background:#17231b;
-          box-shadow:0 8px 25px #0005">
-        </canvas>
-      </div>
-
-      <p id="race-result" style="text-align:center;font-weight:bold">
-        Avoid the traffic and survive!
-      </p>
-
-      <button class="primary" id="race-start"
-        onclick="startRacing()" style="width:100%">
-        START RACING
-      </button>
-
-      <p style="text-align:center;font-size:13px;opacity:.75">
-        Mobile: swipe left or right. Laptop: use ← → or A / D.
-        Your car moves forward automatically.
-      </p>
-    </div>
-  `;
-
-  main.appendChild(section);
-}
-
-function drawRacing() {
-  const canvas = $("racing-canvas");
-  const ctx = canvas?.getContext("2d");
-  if (!ctx) return;
-
-  const w = 360, h = 520;
-  ctx.clearRect(0,0,w,h);
-
-  ctx.fillStyle = "#17632b";
-  ctx.fillRect(0,0,w,h);
-
-  // Road
-  const roadX = 42;
-  const roadW = 276;
-  ctx.fillStyle = "#34383d";
-  ctx.fillRect(roadX,0,roadW,h);
-
-  // Road edges
-  ctx.fillStyle = "#f5f5f5";
-  ctx.fillRect(roadX,0,5,h);
-  ctx.fillRect(roadX+roadW-5,0,5,h);
-
-  // Roadside bushes
-  for (let y=-40;y<h+40;y+=75) {
-    const offset = raceRoadOffset % 75;
-    [12,330].forEach(x => {
-      ctx.fillStyle = "#0b421b";
-      ctx.beginPath();
-      ctx.arc(x,y+offset,13,0,Math.PI*2);
-      ctx.fill();
-
-      ctx.fillStyle = "#269b42";
-      ctx.beginPath();
-      ctx.arc(x+5,y+offset-5,8,0,Math.PI*2);
-      ctx.fill();
-    });
-  }
-
-  // Four lanes
-  const laneW = roadW/4;
-  ctx.strokeStyle = "#f5f0a8";
-  ctx.lineWidth = 3;
-  ctx.setLineDash([24,22]);
-
-  for (let i=1;i<4;i++) {
-    const x = roadX+laneW*i;
-    ctx.beginPath();
-    ctx.moveTo(x,-60+(raceRoadOffset%46));
-    ctx.lineTo(x,h);
-    ctx.stroke();
-  }
-  ctx.setLineDash([]);
-
-  // Traffic
-  raceTraffic.forEach(car => {
-    drawTrafficVehicle(ctx,roadX+laneW*(car.lane+.5),car.y,car.type,car.color);
-  });
-
-  // Player car
-  drawTrafficVehicle(
-    ctx,
-    racePlayerX || roadX+laneW*(racePlayerLane+.5),
-    425,
-    "player",
-    "#39e6ff"
-  );
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 15px Arial";
-  ctx.fillText("🏁", 8, 24);
-}
-
-function drawTrafficVehicle(ctx,x,y,type,color) {
-  if (type === "bike") {
-    ctx.fillStyle = "#111";
-    ctx.beginPath();
-    ctx.arc(x,y+12,7,0,Math.PI*2);
-    ctx.arc(x,y+34,7,0,Math.PI*2);
-    ctx.fill();
-
-    ctx.fillStyle = color;
-    ctx.fillRect(x-5,y+10,10,25);
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(x-3,y+8,6,5);
-    return;
-  }
-
-  ctx.fillStyle = "#101317";
-  ctx.beginPath();
-  ctx.roundRect(x-17,y-29,34,58,8);
-  ctx.fill();
+  ctx.fillStyle = "#111d20";
+  ctx.fillRect(-15, -25, 30, 52);
 
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.roundRect(x-14,y-27,28,54,7);
+  ctx.roundRect(-12, -25, 24, 50, 7);
   ctx.fill();
 
-  ctx.fillStyle = "#bceaff";
-  ctx.fillRect(x-10,y-19,20,12);
+  ctx.fillStyle = "#bdefff";
+  ctx.fillRect(-9, -16, 18, 10);
 
-  ctx.fillStyle = "#ffe98a";
-  ctx.fillRect(x-12,y+19,7,5);
-  ctx.fillRect(x+5,y+19,7,5);
+  ctx.fillStyle = "#263b43";
+  ctx.fillRect(-9, 5, 18, 9);
 
-  ctx.fillStyle = "#171717";
-  ctx.fillRect(x-19,y-17,4,12);
-  ctx.fillRect(x+15,y-17,4,12);
-  ctx.fillRect(x-19,y+12,4,12);
-  ctx.fillRect(x+15,y+12,4,12);
+  ctx.fillStyle = "#fff4bb";
+  ctx.fillRect(-10, -23, 5, 4);
+  ctx.fillRect(5, -23, 5, 4);
+
+  ctx.fillStyle = "#f65d5d";
+  ctx.fillRect(-10, 20, 5, 4);
+  ctx.fillRect(5, 20, 5, 4);
+
+  ctx.restore();
 }
 
-function startRacing() {
-  stopRacing();
+function drawCar() {
+  const w = cc.width;
+  const h = cc.height;
 
-  raceRunning = true;
-  raceLastTime = 0;
-  raceElapsed = 0;
-  raceScore = 0;
-  racePlayerLane = 1;
-  racePlayerX = 42+(276/4)*(racePlayerLane+.5);
-  raceTraffic = [];
-  raceSpawnTimer = 0;
-  raceRoadOffset = 0;
+  cx.fillStyle = "#286b4d";
+  cx.fillRect(0, 0, w, h);
 
-  if ($("race-result")) {
-    $("race-result").textContent = "Go! Avoid the traffic!";
+  // Road
+  cx.fillStyle = "#343b42";
+  cx.fillRect(carRoad.left, 0, carRoad.width, h);
+
+  // Road edges
+  cx.fillStyle = "#f4f1d4";
+  cx.fillRect(carRoad.left - 5, 0, 5, h);
+  cx.fillRect(carRoad.right, 0, 5, h);
+
+  // Roadside stripes
+  for (let y = -50; y < h + 50; y += 65) {
+    const offset = carRoadOffset % 65;
+
+    cx.fillStyle = "#f5d66b";
+    cx.fillRect(10, y + offset, 12, 27);
+    cx.fillRect(318, y + offset, 12, 27);
+
+    cx.fillStyle = "#19543e";
+    cx.beginPath();
+    cx.arc(16, y + offset - 15, 10, 0, Math.PI * 2);
+    cx.arc(324, y + offset - 15, 10, 0, Math.PI * 2);
+    cx.fill();
   }
-  if ($("race-start")) $("race-start").textContent = "RESTART";
 
-  function frame(time) {
-    if (!raceRunning) return;
+  // Lane markings
+  cx.fillStyle = "#ffffffaa";
 
-    if (!raceLastTime) raceLastTime = time;
-    const dt = Math.min(40,time-raceLastTime)/1000;
-    raceLastTime = time;
+  for (let lane = 1; lane <= 2; lane++) {
+    const x = carRoad.left + lane * carRoad.laneWidth - 2;
 
-    raceElapsed += dt;
-    raceScore = Math.floor(raceElapsed*10);
-
-    const level = 1+Math.floor(raceElapsed/15);
-    const speed = 190+Math.min(180,raceElapsed*5);
-    const spawnGap = Math.max(.48,1.15-raceElapsed*.012);
-
-    raceRoadOffset += speed*dt;
-    raceSpawnTimer += dt;
-
-    const roadX = 42;
-    const laneW = 276/4;
-
-    // Smooth player movement
-    const targetX = roadX+laneW*(racePlayerLane+.5);
-    racePlayerX += (targetX-racePlayerX)*Math.min(1,dt*12);
-
-    // Spawn traffic
-    if (raceSpawnTimer >= spawnGap) {
-      raceSpawnTimer = 0;
-
-      const lane = Math.floor(Math.random()*4);
-      const type = Math.random()<.27 ? "bike" : "car";
-      const colors = ["#ff5151","#ffb52e","#a66bff","#f2f2f2","#42d66b"];
-
-      raceTraffic.push({
-        lane,
-        y:-55,
-        type,
-        color:colors[Math.floor(Math.random()*colors.length)]
-      });
+    for (let y = -70; y < h + 70; y += 85) {
+      cx.fillRect(x, y + (carRoadOffset % 85), 4, 42);
     }
+  }
 
-    raceTraffic.forEach(vehicle => {
-      vehicle.y += speed*dt;
-    });
-
-    raceTraffic = raceTraffic.filter(vehicle => vehicle.y<580);
-
-    // Collision detection
-    const playerLane = Math.round(
-      (racePlayerX-roadX)/laneW-.5
+  // Traffic
+  carObstacles.forEach(obstacle => {
+    drawCarVehicle(
+      cx,
+      obstacle.x,
+      obstacle.y,
+      obstacle.color,
+      0.95
     );
+  });
 
-    const collision = raceTraffic.some(vehicle => {
-      const closeY = vehicle.y>385 && vehicle.y<475;
-      const sameLane = vehicle.lane===playerLane;
-      return closeY && sameLane;
-    });
-
-    if (collision) {
-      endRacing();
-      return;
-    }
-
-    if ($("race-score")) {
-      $("race-score").textContent = "Distance: " + raceScore;
-    }
-    if ($("race-level")) {
-      $("race-level").textContent = "Level: " + level;
-    }
-
-    drawRacing();
-    raceFrame = requestAnimationFrame(frame);
-  }
-
-  raceFrame = requestAnimationFrame(frame);
-}
-
-function endRacing() {
-  stopRacing();
-  drawRacing();
-
-  if ($("race-result")) {
-    $("race-result").textContent =
-      "Crash! Distance: " + raceScore + " — Tap RESTART to play again.";
-  }
-}
-
-function changeRaceLane(direction) {
-  if (!raceRunning) return;
-
-  racePlayerLane = Math.max(
-    0,
-    Math.min(3,racePlayerLane+direction)
+  // Player car
+  drawCarVehicle(
+    cx,
+    carPlayerX,
+    420,
+    "#45d9ff",
+    1.12
   );
+
+  if (!carRunning) {
+    cx.fillStyle = "#ffffff";
+    cx.textAlign = "center";
+    cx.font = "bold 19px Arial";
+    cx.fillText("Tap PLAY to start", w / 2, 250);
+  }
 }
+
+function updateCarScore() {
+  $("car-score").textContent = Math.floor(carScore);
+  $("car-level").textContent =
+    Math.floor(carScore / 10) + 1;
+
+  $("car-speed").textContent =
+    (carSpeed / 190).toFixed(1) + "x";
+}
+
+function moveCar(direction) {
+  if (!carRunning) return;
+
+  carPlayerLane = Math.max(
+    0,
+    Math.min(2, carPlayerLane + direction)
+  );
+
+  carPlayerX = carLaneX(carPlayerLane);
+  drawCar();
+}
+
+function startCarGame() {
+  stopCar();
+
+  carRunning = true;
+  carPlayerLane = 1;
+  carPlayerX = carLaneX(1);
+  carObstacles = [];
+  carScore = 0;
+  carSpeed = 190;
+  carSpawnTimer = 0;
+  carRoadOffset = 0;
+  carLastTime = 0;
+
+  $("car-message").textContent =
+    "Use swipe, arrow keys or A/D to drive.";
+
+  updateCarScore();
+  drawCar();
+
+  carFrame = requestAnimationFrame(carAnimation);
+}
+
+function carAnimation(timestamp) {
+  if (!carRunning) return;
+
+  if (!carLastTime) carLastTime = timestamp;
+
+  const delta = Math.min((timestamp - carLastTime) / 1000, 0.05);
+  carLastTime = timestamp;
+
+  carScore += delta * 2;
+  carSpeed = Math.min(390, 190 + carScore * 2.2);
+  carRoadOffset += carSpeed * delta;
+
+  carSpawnTimer += delta;
+
+  if (carSpawnTimer >= Math.max(0.55, 1.15 - carScore * 0.008)) {
+    carSpawnTimer = 0;
+
+    const lane = Math.floor(Math.random() * 3);
+
+    carObstacles.push({
+      lane,
+      x:carLaneX(lane),
+      y:-45,
+      color:["#ff765f","#ffd166","#b28cff","#f1f4f5"][
+        Math.floor(Math.random() * 4)
+      ]
+    });
+  }
+
+  carObstacles.forEach(obstacle => {
+    obstacle.y += carSpeed * delta;
+
+    const closeX = Math.abs(obstacle.x - carPlayerX) < 30;
+    const closeY = Math.abs(obstacle.y - 420) < 42;
+
+    if (closeX && closeY) {
+      endCarGame();
+    }
+  });
+
+  carObstacles = carObstacles.filter(
+    obstacle => obstacle.y < cc.height + 60
+  );
+
+  updateCarScore();
+  drawCar();
+
+  if (carRunning) {
+    carFrame = requestAnimationFrame(carAnimation);
+  }
+}
+
+function endCarGame() {
+  if (!carRunning) return;
+
+  stopCar();
+
+  $("car-message").textContent =
+    "Game over! Final score: " + Math.floor(carScore) +
+    ". Press PLAY to try again.";
+
+  drawCar();
+}
+
+cc.addEventListener("touchstart", e => {
+  const t = e.touches[0];
+  carTouchStart = {x:t.clientX,y:t.clientY};
+}, {passive:true});
+
+cc.addEventListener("touchend", e => {
+  if (!carTouchStart || !carRunning) return;
+
+  const t = e.changedTouches[0];
+  const dx = t.clientX - carTouchStart.x;
+
+  if (Math.abs(dx) > 20) {
+    moveCar(dx > 0 ? 1 : -1);
+  }
+
+  carTouchStart = null;
+}, {passive:true});
 
 document.addEventListener("keydown", e => {
-  if (!$("racing-page") ||
-      $("racing-page").classList.contains("hidden")) return;
+  if (!$("car-page") || $("car-page").classList.contains("hidden")) {
+    return;
+  }
 
-  if (["ArrowLeft","ArrowRight","a","A","d","D"].includes(e.key)) {
+  if (
+    e.key === "ArrowLeft" ||
+    e.key === "a" ||
+    e.key === "A"
+  ) {
     e.preventDefault();
+    moveCar(-1);
   }
 
-  if (e.key==="ArrowLeft" || e.key==="a" || e.key==="A") {
-    changeRaceLane(-1);
-  }
-  if (e.key==="ArrowRight" || e.key==="d" || e.key==="D") {
-    changeRaceLane(1);
+  if (
+    e.key === "ArrowRight" ||
+    e.key === "d" ||
+    e.key === "D"
+  ) {
+    e.preventDefault();
+    moveCar(1);
   }
 });
 
-function setupRaceSwipe() {
-  const canvas = $("racing-canvas");
-  if (!canvas) return;
-
-  canvas.addEventListener("touchstart", e => {
-    const touch = e.touches[0];
-    raceTouchStart = {x:touch.clientX,y:touch.clientY};
-  },{passive:true});
-
-  canvas.addEventListener("touchend", e => {
-    if (!raceTouchStart || !raceRunning) return;
-
-    const touch = e.changedTouches[0];
-    const dx = touch.clientX-raceTouchStart.x;
-
-    if (Math.abs(dx)>20) {
-      changeRaceLane(dx>0?1:-1);
-    }
-
-    raceTouchStart = null;
-  },{passive:true});
-}
-
-/* INITIAL SETUP */
-createRacingGame();
-addLogoutButton();
-setupRaceSwipe();
+// INITIAL SETUP
 
 resetGuess();
-drawFlappy();
 resetSnake();
+drawFlappy();
+drawCar();
 renderNotes();
 showPage("login-page");
 
@@ -1695,3 +1713,5 @@ showPage("login-page");
 """
 
 components.html(APP, height=950, scrolling=True)
+
+    
