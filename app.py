@@ -3535,19 +3535,116 @@ if (guessInputElement) {
 
 
 // ============================================================
+// END OF PART 7
+// PART 8 WILL FINISH THE APP SCRIPT
+// ============================================================
+
+
+// ============================================================
+//                     PART 8
+//          FINAL INITIALIZATION & EVENT LISTENERS
+// ============================================================
+
+
+// ============================================================
+// INITIALIZE APP AFTER ALL FUNCTIONS ARE DEFINED
+// ============================================================
+
+function startMobileApp() {
+    initializeApp();
+
+    updateCalcDisplay();
+
+    resetGuessGame();
+    prepareTypingGame();
+    resetFlappyGame();
+    resetSnakeGame();
+
+    updateSettingsInputs();
+
+    const homeTitle = getElement("homeTitle");
+
+    if (homeTitle) {
+        homeTitle.textContent = appSettings.name;
+    }
+}
+
+
+// ============================================================
+// KEYBOARD SUPPORT FOR CALCULATOR
+// ============================================================
+
+document.addEventListener("keydown", event => {
+
+    if (currentPage !== "calculator") return;
+
+    const key = event.key;
+
+    if (/^[0-9.]$/.test(key)) {
+        appendCalc(key);
+        return;
+    }
+
+    if (["+", "-", "*", "/", "%"].includes(key)) {
+        appendCalc(key);
+        return;
+    }
+
+    if (key === "Enter" || key === "=") {
+        event.preventDefault();
+        calculateResult();
+        return;
+    }
+
+    if (key === "Backspace") {
+        deleteCalc();
+        return;
+    }
+
+    if (key === "Escape") {
+        clearCalc();
+    }
+});
+
+
+// ============================================================
+// NUMBER GUESSING ENTER KEY SUPPORT
+// ============================================================
+
+const guessInputElement = getElement("guessInput");
+
+if (guessInputElement) {
+
+    guessInputElement.addEventListener("keydown", event => {
+
+        if (event.key === "Enter") {
+            event.preventDefault();
+            makeGuess();
+        }
+
+    });
+
+}
+
+
+// ============================================================
 // LIGHT MODE CHANGE
 // ============================================================
 
 const lightModeElement = getElement("lightModeToggle");
 
 if (lightModeElement) {
+
     lightModeElement.addEventListener("change", () => {
+
         appSettings.theme = lightModeElement.checked
             ? "light"
             : "dark";
 
         applyTheme();
+
     });
+
 }
 
 
@@ -3558,9 +3655,13 @@ if (lightModeElement) {
 const hapticElement = getElement("hapticToggle");
 
 if (hapticElement) {
+
     hapticElement.addEventListener("change", () => {
+
         appSettings.haptics = hapticElement.checked;
+
     });
+
 }
 
 
@@ -3569,13 +3670,17 @@ if (hapticElement) {
 // ============================================================
 
 if (document.readyState === "loading") {
+
     document.addEventListener(
         "DOMContentLoaded",
         startMobileApp,
         { once: true }
     );
+
 } else {
+
     startMobileApp();
+
 }
 
 
@@ -3590,9 +3695,9 @@ if (document.readyState === "loading") {
 """
 
 
-// ============================================================
-// STREAMLIT APP DISPLAY
-// ============================================================
+# ============================================================
+# STREAMLIT APP DISPLAY
+# ============================================================
 
 components.html(
     APP,
