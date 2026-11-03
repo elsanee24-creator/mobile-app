@@ -135,6 +135,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .wide-desc{font-size:11px;color:#effffb;line-height:1.45}
 .row-tile{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-top:10px;border-radius:16px;text-align:left;color:#f2fffc;background:#ffffff16;border:1px solid #ffffff30}
 .row-tile .emoji{font-size:22px}
+.logout-btn{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
 .page-head{display:flex;align-items:center;gap:12px;margin:6px 0 18px}
 .back{padding:10px 13px;border-radius:12px;color:#effffb;background:#ffffff1c;border:1px solid #ffffff35}
 .field{width:100%;padding:13px;border-radius:13px;border:1px solid #ffffff55;background:#ffffffed;color:#183a42;font-size:14px;margin:5px 0 12px}
@@ -225,8 +226,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
      <div class="digital-date" id="digital-date">Loading date...</div>
     </div>
    </div>
-
-   <div class="login-title">Welcome</div>
+      <div class="login-title">Welcome</div>
    <h2 style="color:#f5fffc;margin:5px 0">Your space. Your apps.</h2>
    <p class="login-sub">A little world of useful tools, notes and games—made for you.</p>
 
@@ -261,7 +261,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    <div class="section">
     <button class="row-tile" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>Settings</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile" onclick="openPage('about-page')"><span class="emoji">✨</span><b>About</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
+    <button class="row-tile logout-btn" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
    </div>
   </section>
 
@@ -450,7 +450,6 @@ APP += r"""
 // ===============================
 // MOBILE.APP - MAIN JAVASCRIPT
 // ===============================
-
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -1449,6 +1448,9 @@ function carLaneX(lane) {
     carRoad.laneWidth / 2;
 }
 
+// Keep the player's car centered on the road before the game starts.
+carPlayerX = carLaneX(1);
+
 function drawCarVehicle(ctx, x, y, color, scale=1) {
   ctx.save();
   ctx.translate(x, y);
@@ -1656,23 +1658,30 @@ function endCarGame() {
   drawCar();
 }
 
-cc.addEventListener("touchstart", e => {
-  const t = e.touches[0];
-  carTouchStart = {x:t.clientX,y:t.clientY};
+cc.addEventListener("pointerdown", e => {
+  carTouchStart = {x:e.clientX,y:e.clientY};
 }, {passive:true});
 
-cc.addEventListener("touchend", e => {
-  if (!carTouchStart || !carRunning) return;
+cc.addEventListener("pointerup", e => {
+  if (!carTouchStart) return;
 
-  const t = e.changedTouches[0];
-  const dx = t.clientX - carTouchStart.x;
+  const dx = e.clientX - carTouchStart.x;
+  const dy = e.clientY - carTouchStart.y;
 
-  if (Math.abs(dx) > 20) {
+  if (!carRunning) {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) <= 20) {
+      startCarGame();
+    }
+  } else if (Math.abs(dx) > 20) {
     moveCar(dx > 0 ? 1 : -1);
   }
 
   carTouchStart = null;
-}, {passive:true});
+});
+
+cc.addEventListener("pointercancel", () => {
+  carTouchStart = null;
+});
 
 document.addEventListener("keydown", e => {
   if (!$("car-page") || $("car-page").classList.contains("hidden")) {
@@ -1714,4 +1723,4 @@ showPage("login-page");
 
 components.html(APP, height=950, scrolling=True)
 
-    
+
