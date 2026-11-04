@@ -217,59 +217,33 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .school-text-card h3{margin:10px 0 6px;color:#10232b;font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;font-size:20px;font-weight:800}
 .school-text-card ol{padding-left:24px;margin:8px 0 0;color:#10232b}
 .school-text-card li{margin:8px 0;color:#10232b}
-/* NEXUS — isolated styles; existing mobile.app styling remains unchanged */
-#nexus-page{color:#f2f7ff;background:radial-gradient(ellipse at 12% 4%,rgba(30,120,133,.22),transparent 36%),radial-gradient(ellipse at 90% 28%,rgba(104,68,166,.19),transparent 34%),linear-gradient(160deg,#0b1421,#080d18 60%,#080a13);border-radius:20px;padding:14px 11px;overflow:hidden}
-#nexus-page .nx-top{display:flex;justify-content:space-between;align-items:center;margin:2px 0 16px}
-#nexus-page .nx-brand{font-size:14px;font-weight:900;letter-spacing:.22em;color:#dffff3}
-#nexus-page .nx-tag{font-size:8px;color:#8fa6b8;letter-spacing:.14em;margin-top:3px}
-#nexus-page .nx-status{font-size:8px;color:#8fffd0;border:1px solid #8fffd044;padding:6px 8px;border-radius:20px}
-#nexus-page .nx-hero{padding:17px 14px;border:1px solid #b4daf029;border-radius:20px;background:linear-gradient(135deg,#182c3bd6,#0f1425aa);box-shadow:0 12px 30px #0005}
-#nexus-page .nx-eyebrow{font-size:8px;letter-spacing:.18em;color:#8fffd0}
-#nexus-page .nx-hero h2{font-size:27px;line-height:1.05;margin:9px 0;color:#f2f7ff}
-#nexus-page .nx-gradient{background:linear-gradient(90deg,#f2fff9,#9dffe0 48%,#88dcff);-webkit-background-clip:text;background-clip:text;color:transparent}
-#nexus-page .nx-desc{font-size:10px;line-height:1.6;color:#a8b8c9;margin:0}
-#nexus-page .nx-section-title{font-size:12px;font-weight:900;margin:18px 2px 9px;color:#f2f7ff}
-#nexus-page .nx-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
-#nexus-page .nx-realm{min-width:0;min-height:112px;padding:9px 6px;border-radius:15px;border:1px solid #afcde129;background:linear-gradient(155deg,#1f3041e0,#0d1422);color:#f2f7ff;text-align:left}
-#nexus-page .nx-art{height:48px;border-radius:10px;margin-bottom:8px;background:radial-gradient(circle,#79ffdc55,transparent 65%),linear-gradient(145deg,#142e3c,#17182f);position:relative}
-#nexus-page .nx-art:after{content:'✧';position:absolute;inset:0;display:grid;place-items:center;font-size:29px;color:#a5ffe1;text-shadow:0 0 15px #8fffd0}
-#nexus-page .nx-art.mystery{background:linear-gradient(145deg,#24203e,#121a2c)}
-#nexus-page .nx-art.mystery:after{color:#c2a8ff}
-#nexus-page .nx-art.creature{background:linear-gradient(145deg,#142d40,#171d34)}
-#nexus-page .nx-art.creature:after{content:'◉';color:#8be3ff}
-#nexus-page .nx-realm b{display:block;font-size:9px;white-space:nowrap}
-#nexus-page .nx-realm small{display:block;font-size:7px;color:#8ea2b7;margin-top:4px}
-#nexus-page .nx-bottom{font-size:7px;color:#71849a;text-align:center;letter-spacing:.1em;margin:14px 0 2px}
-#nexus-page .nx-screen{display:none}
-#nexus-page .nx-screen.active{display:block}
-#nexus-page .nx-back{border:1px solid #ffffff22;background:#ffffff0a;color:#c8d6e4;border-radius:10px;padding:8px 10px;font-size:9px;margin:0 0 10px}
-#nexus-page .nx-panel{border:1px solid #ffffff20;background:linear-gradient(145deg,#172335e0,#0b111eee);border-radius:17px;padding:13px}
-#nexus-page .nx-panel h3{font-size:21px;margin:0 0 6px;color:#f2f7ff}
-#nexus-page .nx-panel p{font-size:10px;color:#9aacc0;line-height:1.6}
-#nexus-page .nx-action{border:1px solid #8fffd044;background:linear-gradient(120deg,#8fffd026,#71dfff1a);color:#dffff3;border-radius:10px;padding:9px 11px;font-size:9px}
-#nexus-page .nx-secondary{border:1px solid #ffffff22;background:#ffffff0a;color:#c7d5e3;border-radius:10px;padding:9px 11px;font-size:9px}
-#nexus-page .nx-row{display:flex;gap:7px;flex-wrap:wrap}
-#nexus-page .nx-portal{height:175px;position:relative;overflow:hidden;border-radius:13px;background:radial-gradient(ellipse at 50% 75%,#26a39144,transparent 42%),linear-gradient(145deg,#172b3b,#0b1120);display:grid;place-items:center;border:1px solid #8fffd033}
-#nexus-page .nx-ring{width:105px;height:105px;border:2px solid #8fffd0bb;border-radius:50%;box-shadow:0 0 22px #8fffd044,inset 0 0 22px #8fffd028;animation:nxspin 12s linear infinite}
-#nexus-page .nx-core{position:absolute;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#dffff4,#65d9c5 35%,#216b78 75%);box-shadow:0 0 30px #6fffda88;animation:nxpulse 3s infinite}
-@keyframes nxspin{to{transform:rotate(360deg)}}@keyframes nxpulse{50%{transform:scale(1.1);filter:brightness(1.2)}}
-#nexus-page .nx-rooms{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:10px}
-#nexus-page .nx-room{padding:10px;border:1px solid #ffffff22;border-radius:11px;background:#ffffff09;color:#dce9f5;text-align:left;font-size:9px}
-#nexus-page .nx-room small{display:block;color:#8298ad;font-size:7px;margin-top:3px}
-#nexus-page .nx-toast{font-size:9px;color:#8fffd0;min-height:16px;margin-top:8px}
-#nexus-page .nx-mission{padding:10px;border:1px solid #ffffff22;border-radius:11px;margin:8px 0;background:#ffffff08}
-#nexus-page .nx-mission strong{font-size:10px;color:#eee}
-#nexus-page .nx-mission p{margin:5px 0 8px}
-#nexus-page .nx-code{font:11px monospace;letter-spacing:.12em;padding:10px;border-radius:10px;background:#080e1b;border:1px solid #b99cff44;color:#cbb8ff;text-align:center}
-#nexus-page .nx-input{width:100%;padding:10px;border-radius:10px;border:1px solid #b99cff44;background:#0a1120;color:white;font:11px monospace;margin:7px 0}
-#nexus-page .nx-petstage{height:170px;border-radius:13px;background:radial-gradient(ellipse at 50% 72%,#43b4d233,transparent 50%),linear-gradient(145deg,#12283a,#11172b);border:1px solid #71dfff33;display:grid;place-items:center}
-#nexus-page .nx-pet{width:88px;height:96px;border-radius:48% 48% 42% 42%;background:radial-gradient(circle at 35% 25%,#e3ffff,#78d9ee 35%,#286d91 76%);box-shadow:0 12px 28px #2eb8e140;position:relative;animation:nxfloat 3s ease-in-out infinite}
-#nexus-page .nx-pet:before{content:'• •';white-space:pre;position:absolute;top:36px;left:27px;color:#10233a;font-size:19px;letter-spacing:7px}
-@keyframes nxfloat{50%{transform:translateY(-7px)}}
-#nexus-page .nx-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:9px 0}
-#nexus-page .nx-meter{padding:8px;border:1px solid #ffffff22;border-radius:10px;background:#ffffff08}
-#nexus-page .nx-meter span{font-size:7px;color:#8298ad}
-#nexus-page .nx-meter b{display:block;font-size:11px;margin-top:3px;color:#f2f7ff}
+
+/* SPACE EXPLORER — self-contained styles */
+#space-page{color:#eff8ff;background:radial-gradient(ellipse at 15% 0%,#234b72 0%,transparent 42%),linear-gradient(155deg,#071426,#101a35 55%,#211b43);border:1px solid #8bdcff33;border-radius:22px;padding:13px;overflow:hidden}
+#space-page .sp-hero{padding:17px;border:1px solid #8bdcff35;border-radius:18px;background:linear-gradient(135deg,#183c5ddd,#171d3ddd);box-shadow:0 12px 30px #0005}
+#space-page .sp-kicker{font-size:8px;letter-spacing:.2em;color:#8fe8ff;font-weight:900}
+#space-page h2{color:#f2f8ff}#space-page h3{font-size:13px;color:#dff5ff;margin:17px 2px 9px}
+#space-page p{font-size:10px;line-height:1.6;color:#a9bfd6}
+#space-page .sp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}
+#space-page .sp-stat{padding:9px 5px;border-radius:12px;background:#ffffff0c;border:1px solid #ffffff18;text-align:center}
+#space-page .sp-stat b{display:block;font-size:17px;color:#fff}#space-page .sp-stat small{font-size:7px;color:#91b8d2;letter-spacing:.1em}
+#space-page .sp-panel{padding:12px;border-radius:16px;border:1px solid #8bdcff28;background:linear-gradient(145deg,#ffffff12,#ffffff06);margin-top:9px}
+#space-page .sp-map{height:190px;position:relative;border-radius:15px;overflow:hidden;background:radial-gradient(circle at 50% 50%,#273f70,#101a39 65%,#080f23);border:1px solid #8bdcff30}
+#space-page .sp-map:before{content:'';position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:27px 25px;opacity:.45}
+#space-page .sp-orbit{position:absolute;border:1px solid #8edbff55;border-radius:50%;transform:rotate(-18deg)}
+#space-page .sp-planet{position:absolute;border:0;border-radius:50%;width:46px;height:46px;font-size:24px;box-shadow:0 0 22px #7bdfff55;z-index:2;background:#ffffff12}
+#space-page .sp-planet:disabled{filter:grayscale(1);opacity:.42}#space-page .sp-planet.active{outline:2px solid #b6f3ff;outline-offset:4px}
+#space-page .sp-p0{left:12%;top:39%}#space-page .sp-p1{left:39%;top:13%}#space-page .sp-p2{right:20%;top:47%}#space-page .sp-p3{left:45%;bottom:8%}
+#space-page .sp-action{border:1px solid #8deaff66;background:linear-gradient(110deg,#176b91,#5145a0);color:white;border-radius:11px;padding:11px 13px;font-size:9px;font-weight:900;letter-spacing:.06em}
+#space-page .sp-action:disabled{opacity:.4}#space-page .sp-ghost{background:#ffffff0c;border:1px solid #ffffff25;color:#dceeff;border-radius:10px;padding:9px;font-size:9px}
+#space-page .sp-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+#space-page .sp-progress{height:7px;border-radius:20px;background:#ffffff18;overflow:hidden;margin:8px 0}#space-page .sp-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#51e6d0,#7ebdff);transition:width .25s}
+#space-page .sp-mission{padding:10px;border-radius:12px;background:#07132688;border:1px solid #ffffff18;margin:7px 0}
+#space-page .sp-mission b{font-size:10px;color:#eaf7ff}#space-page .sp-mission small{font-size:8px;color:#91abc4;display:block;margin:4px 0}
+#space-page .sp-log{max-height:100px;overflow:auto;font-size:8px;color:#9debdc;line-height:1.7}
+#space-page canvas{width:100%;display:block;border-radius:13px;background:#071326;border:1px solid #8bdcff33;touch-action:pan-y}
+#space-page .sp-upgrade{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px;border-bottom:1px solid #ffffff14;font-size:9px}
+#space-page .sp-upgrade:last-child{border:0}#space-page .sp-upgrade span{color:#a9bfd6}
 
 </style>
 </head>
@@ -293,7 +267,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
      <div class="hand hour-hand" id="hour-hand"></div>
      <div class="hand minute-hand" id="minute-hand"></div>
      <div class="hand second-hand" id="second-hand"></div>
-        <div class="clock-pin"></div>
+     <div class="clock-pin"></div>
     </div>
     <div class="time-info">
      <div class="digital-time" id="digital-time">00:00:00</div>
@@ -337,26 +311,20 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <button class="row-tile" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>Settings</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile" onclick="openPage('about-page')"><span class="emoji">✨</span><b>About</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile school-home-btn" onclick="openPage('school-page')"><span class="emoji">🏫</span><b>About My School</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile nexus-home-btn" onclick="openPage('nexus-page')"><span class="emoji">✦</span><b>NEXUS — Digital Realms</b><span style="margin-left:auto">›</span></button>
+    <button class="row-tile" style="background:linear-gradient(110deg,#173b66,#3c4387);border-color:#8bdcff66" onclick="openPage('space-page');spaceInit()"><span class="emoji">🚀</span><b>Space Explorer</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile logout-btn" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
    </div>
   </section>
 
-  <section id="nexus-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2 style="color:#f2f7ff">NEXUS</h2></div>
-   <div id="nx-home" class="nx-screen active">
-    <div class="nx-top"><div><div class="nx-brand">✦ NEXUS</div><div class="nx-tag">DIGITAL REALMS / 001</div></div><div class="nx-status">● SYSTEM ONLINE</div></div>
-    <div class="nx-hero"><div class="nx-eyebrow">A WORLD BEYOND THE SCREEN</div><h2>Enter the <span class="nx-gradient">unknown.</span></h2><p class="nx-desc">Three connected experiences. Explore hidden spaces, decode strange signals, and raise a living digital companion.</p></div>
-    <div class="nx-section-title">Choose your realm</div>
-    <div class="nx-grid">
-     <button class="nx-realm" onclick="nxOpen('world')"><div class="nx-art"></div><b>Secret World</b><small>Explore · Discover</small></button>
-     <button class="nx-realm" onclick="nxOpen('mystery')"><div class="nx-art mystery"></div><b>Cyber Mystery</b><small>Decode · Solve</small></button>
-     <button class="nx-realm" onclick="nxOpen('creature')"><div class="nx-art creature"></div><b>Virtual Creature</b><small>Care · Evolve</small></button>
-    </div><div class="nx-bottom">DESIGNED FOR CURIOSITY · BUILT TO EXPLORE</div>
-   </div>
-   <div id="nx-world" class="nx-screen"><button class="nx-back" onclick="nxOpen('home')">← ALL REALMS</button><div class="nx-panel"><div class="nx-eyebrow">REALM 01 / EXPLORATION</div><h3>Secret World</h3><p>A quiet digital dimension. Enter the floating gateway and discover hidden rooms.</p><div class="nx-portal"><div class="nx-ring"></div><div class="nx-core"></div></div><div class="nx-toast">DISCOVERIES <b id="nx-discoveries">0 / 4</b></div><div class="nx-rooms"><button class="nx-room" onclick="nxDiscover(0)"><b>01 · The Atrium</b><small>First signal detected</small></button><button class="nx-room" onclick="nxDiscover(1)"><b>02 · Glass Garden</b><small>A quiet hidden place</small></button><button class="nx-room" onclick="nxDiscover(2)"><b>03 · Echo Vault</b><small>Something is preserved</small></button><button class="nx-room" onclick="nxDiscover(3)"><b>04 · Star Chamber</b><small>Final constellation</small></button></div><div id="nx-world-toast" class="nx-toast">Choose a room to explore.</div></div></div>
-   <div id="nx-mystery" class="nx-screen"><button class="nx-back" onclick="nxOpen('home')">← ALL REALMS</button><div class="nx-panel"><div class="nx-eyebrow">REALM 02 / INTELLIGENCE</div><h3>Cyber Mystery</h3><p>A signal has been intercepted. Decode the clue and enter the access code.</p><div class="nx-mission"><strong>MISSION 01 — THE FIRST SIGNAL</strong><p>“I am the number of sides on a triangle, doubled, then add one.”</p><div class="nx-code">_ _ _ _</div><input id="nx-answer" class="nx-input" inputmode="numeric" maxlength="4" placeholder="ENTER ACCESS CODE"><div class="nx-row"><button class="nx-action" onclick="nxCheckCode()">Verify signal</button><button class="nx-secondary" onclick="document.getElementById('nx-mystery-toast').textContent='Hint: 3 sides × 2, then add 1.'">Hint</button></div><div id="nx-mystery-toast" class="nx-toast">One correct code unlocks the signal.</div></div><div class="nx-mission"><strong>MISSION 02 — PATTERN TRACE</strong><p>Complete: 2, 4, 8, 16, __</p><input id="nx-answer2" class="nx-input" inputmode="numeric" maxlength="3" placeholder="NEXT NUMBER"><button class="nx-action" onclick="nxCheckPattern()">Submit answer</button><div id="nx-pattern-toast" class="nx-toast"></div></div></div></div>
-   <div id="nx-creature" class="nx-screen"><button class="nx-back" onclick="nxOpen('home')">← ALL REALMS</button><div class="nx-panel"><div class="nx-eyebrow">REALM 03 / COMPANIONSHIP</div><h3>Virtual Creature</h3><p>Care for your digital companion, restore its energy, and grow your bond.</p><div class="nx-petstage"><div class="nx-pet"></div></div><div class="nx-stats"><div class="nx-meter"><span>ENERGY</span><b id="nx-energy">72 / 100</b></div><div class="nx-meter"><span>HAPPINESS</span><b id="nx-happy">64 / 100</b></div><div class="nx-meter"><span>BOND LEVEL</span><b id="nx-bond">01 · New friend</b></div><div class="nx-meter"><span>CARE POINTS</span><b id="nx-points">0</b></div></div><div class="nx-row"><button class="nx-action" onclick="nxCare('feed')">✦ Feed</button><button class="nx-action" onclick="nxCare('play')">◎ Play</button><button class="nx-secondary" onclick="nxCare('rest')">☾ Rest</button></div><div id="nx-pet-toast" class="nx-toast">Your companion is happy to meet you.</div></div></div>
+  <section id="space-page" class="hidden">
+   <div class="page-head"><button class="back" onclick="spaceStop();goHome()">‹ Back</button><h2>🚀 Space Explorer</h2></div>
+   <div class="sp-hero"><div class="sp-kicker">DEEP SPACE EXPEDITION / 07</div><h2 style="font-size:25px;margin:8px 0">Beyond the known.</h2><p>Chart distant worlds, collect science data, complete missions and build a stronger exploration ship.</p><div class="sp-stats"><div class="sp-stat"><b id="sp-credits">0</b><small>✦ CREDITS</small></div><div class="sp-stat"><b id="sp-xp">0</b><small>EXPERIENCE</small></div><div class="sp-stat"><b id="sp-rank">1</b><small>COMMAND RANK</small></div></div></div>
+   <h3>🌌 GALAXY NAVIGATION</h3><div class="sp-map"><div class="sp-orbit" style="width:260px;height:120px;left:8%;top:20%"></div><div class="sp-orbit" style="width:190px;height:90px;left:23%;top:32%"></div><button class="sp-planet sp-p0 active" data-sp-planet="0" onclick="spaceSelect(0)">🌍</button><button class="sp-planet sp-p1" data-sp-planet="1" onclick="spaceSelect(1)">🪐</button><button class="sp-planet sp-p2" data-sp-planet="2" onclick="spaceSelect(2)">🔴</button><button class="sp-planet sp-p3" data-sp-planet="3" onclick="spaceSelect(3)">🌊</button></div>
+   <div class="sp-panel"><div class="sp-row" style="justify-content:space-between"><b id="sp-planet-name">Verdantia</b><small id="sp-planet-state">AVAILABLE</small></div><p id="sp-planet-desc">A world of floating forests and ancient energy traces.</p><p id="sp-planet-secret">Potential discovery: Crystal Grove</p><div class="sp-row"><button class="sp-action" id="sp-explore" onclick="spaceExplore()">BEGIN SURVEY</button><button class="sp-ghost" id="sp-unlock" onclick="spaceUnlock()">UNLOCK DESTINATION</button></div></div>
+   <h3>🧭 EXPEDITION MISSIONS</h3><div id="sp-missions" class="sp-panel"></div>
+   <h3>🛸 SHIP CONTROL & UPGRADES</h3><div class="sp-panel"><div class="sp-row" style="justify-content:space-between"><b>ORION EXPLORER</b><small id="sp-ship-level">MK-I</small></div><p id="sp-ship-desc">A reliable survey craft. Upgrade its systems to reach tougher worlds.</p><div id="sp-upgrades"></div></div>
+   <h3>☄️ ASTEROID NAVIGATION CHALLENGE</h3><div class="sp-panel"><p>Steer your ship between drifting asteroids. Swipe left or right, or use the controls. Earn credits for distance.</p><canvas id="sp-canvas" width="340" height="220"></canvas><div class="sp-row" style="justify-content:space-between;margin:8px 0"><b id="sp-run-score">DISTANCE 0</b><small id="sp-run-best">BEST 0</small></div><div class="sp-row"><button class="sp-action" id="sp-run-button" onclick="spaceRunToggle()">START FLIGHT</button><button class="sp-ghost" onclick="spaceSteer(-1)">◀ LEFT</button><button class="sp-ghost" onclick="spaceSteer(1)">RIGHT ▶</button></div></div>
+   <h3>📡 EXPEDITION RECORD</h3><div class="sp-panel"><div class="sp-progress"><span id="sp-progress"></span></div><small id="sp-progress-label">0 / 4 worlds surveyed</small><div id="sp-log" class="sp-log" style="margin-top:9px">Mission control online. Select a destination to begin.</div></div>
   </section>
 
   <section id="calculator-page" class="hidden">
@@ -532,7 +500,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <div class="school-menu">
      <button class="school-option history-option" onclick="openPage('school-history-page')">📚 &nbsp; History of UPSS <span>›</span></button>
      <button class="school-option mission-option" onclick="openPage('school-mission-page')">🌟 &nbsp; Mission of UPSS <span>›</span></button>
-     <button class="school-option myself-option" onclick="openPage('school-myself-page')">👤 &nbsp; About Myself <span>›</span></button>
     </div>
    </div>
   </section>
@@ -565,10 +532,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
      <li>Protection of Ideology of Pakistan</li>
     </ol>
    </div>
-  </section>
-
-  <section id="school-myself-page" class="hidden school-detail myself-detail">
-   <div class="page-head"><button class="back" onclick="openPage('school-page')">‹ School</button><h2>About Myself</h2></div>
   </section>
 
   <section id="pin-page" class="hidden">
@@ -703,7 +666,7 @@ const pages = [
   "login-page","home-page","calculator-page","password-page",
   "notes-page","games-page","guess-page","typing-page",
   "flappy-page","snake-page","car-page","settings-page",
-  "about-page","school-page","school-history-page","school-mission-page","school-myself-page","nexus-page","pin-page"
+  "about-page","school-page","school-history-page","school-mission-page","space-page","pin-page"
 ];
 
 function stopFlappy() {
@@ -990,7 +953,7 @@ function saveSettings() {
 
   userName = name;
   appPin = pin;
-
+  
   store.set("mobile_name", name);
   store.set("mobile_pin", pin);
 
@@ -1122,7 +1085,7 @@ function getTypingStats() {
     else mistakes++;
   }
 
-const total = typed.length;
+  const total = typed.length;
   const accuracy = total ? Math.round(correct / total * 100) : 0;
   const elapsed = Math.max(
     1,
@@ -1733,6 +1696,7 @@ function drawCar() {
     cx.fillText("Tap PLAY to start", w / 2, 250);
   }
 }
+
 function updateCarScore() {
   $("car-score").textContent = Math.floor(carScore);
   $("car-level").textContent =
@@ -1804,7 +1768,6 @@ function carAnimation(timestamp) {
       ]
     });
   }
-
   carObstacles.forEach(obstacle => {
     obstacle.y += carSpeed * delta;
 
@@ -1889,6 +1852,47 @@ document.addEventListener("keydown", e => {
   }
 });
 
+
+// ================= SPACE EXPLORER: COMPLETE GAME SYSTEM =================
+const spWorlds=[
+ {name:'Verdantia',icon:'🌍',desc:'A lush world of floating forests, ancient ruins and bioluminescent valleys.',secret:'Crystal Grove',cost:0,reward:55,danger:1},
+ {name:'Cryon',icon:'🪐',desc:'A frozen moon with deep ice caverns, magnetic storms and buried research pods.',secret:'The Aurora Vault',cost:90,reward:85,danger:2},
+ {name:'Pyrrhos',icon:'🔴',desc:'A rust-red volcanic planet with obsidian plains and rare thermal crystals.',secret:'Ember Observatory',cost:175,reward:125,danger:3},
+ {name:'Pelagia',icon:'🌊',desc:'An ocean planet of luminous seas, floating reefs and deep-water stations.',secret:'The Blue Trench',cost:290,reward:175,danger:4}
+];
+const spMissionDefs=[
+ {id:'survey',title:'First Contact Survey',desc:'Complete a planetary survey on Verdantia.',goal:1,reward:45},
+ {id:'worlds',title:'Cartographer',desc:'Unlock three different destinations.',goal:3,reward:90},
+ {id:'upgrade',title:'Shipwright',desc:'Purchase two ship upgrades.',goal:2,reward:75},
+ {id:'pilot',title:'Skilled Navigator',desc:'Travel 250 distance in asteroid flight.',goal:250,reward:100},
+ {id:'discover',title:'Secrets of the Stars',desc:'Record discoveries on all four worlds.',goal:4,reward:150}
+];
+const spDefault={credits:60,xp:0,rank:1,unlocked:[0],selected:0,surveyed:[],upgrades:{hull:1,scanner:1,engine:1},upgradeCount:0,best:0,flightTotal:0,logs:['Mission control online. Welcome, commander.'],claimed:[]};
+let spData=spaceLoad(),spActive=false,spFrame=0,spLast=0,spDistance=0,spShipX=170,spAsteroids=[],spSpawn=0,spTouch=null,spCanvas=null,spCtx=null;
+function spaceLoad(){try{const d=JSON.parse(localStorage.getItem('mobile_space_explorer_v1')||'null');if(!d)return JSON.parse(JSON.stringify(spDefault));return {...JSON.parse(JSON.stringify(spDefault)),...d,upgrades:{...spDefault.upgrades,...(d.upgrades||{})},logs:Array.isArray(d.logs)?d.logs:[],unlocked:Array.isArray(d.unlocked)?d.unlocked:[0],surveyed:Array.isArray(d.surveyed)?d.surveyed:[],claimed:Array.isArray(d.claimed)?d.claimed:[]};}catch(e){return JSON.parse(JSON.stringify(spDefault));}}
+function spaceSave(){try{localStorage.setItem('mobile_space_explorer_v1',JSON.stringify(spData));}catch(e){spaceLog('Progress could not be saved by this browser.');}spaceRender();}
+function spaceLog(msg){spData.logs.unshift(msg);spData.logs=spData.logs.slice(0,12);const el=document.getElementById('sp-log');if(el)el.innerHTML=spData.logs.map(x=>'• '+spaceEscape(x)).join('<br>');}
+function spaceEscape(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function spaceRank(){return 1+Math.floor(spData.xp/180);}
+function spaceRender(){const root=document.getElementById('space-page');if(!root)return;if(!Number.isInteger(spData.selected)||spData.selected<0||spData.selected>=spWorlds.length)spData.selected=0;spData.rank=spaceRank();document.getElementById('sp-credits').textContent=spData.credits;document.getElementById('sp-xp').textContent=spData.xp;document.getElementById('sp-rank').textContent=spData.rank;document.getElementById('sp-planet-name').textContent=spWorlds[spData.selected].name;document.getElementById('sp-planet-desc').textContent=spWorlds[spData.selected].desc;document.getElementById('sp-planet-secret').textContent='Potential discovery: '+spWorlds[spData.selected].secret;const open=spData.unlocked.includes(spData.selected);document.getElementById('sp-planet-state').textContent=open?'DESTINATION AVAILABLE':'LOCKED · '+spWorlds[spData.selected].cost+' CREDITS';document.querySelectorAll('[data-sp-planet]').forEach(b=>{const i=Number(b.dataset.spPlanet);b.disabled=!spData.unlocked.includes(i);b.classList.toggle('active',spData.selected===i);});document.getElementById('sp-explore').disabled=!open||spData.surveyed.includes(spData.selected);document.getElementById('sp-explore').textContent=spData.surveyed.includes(spData.selected)?'SURVEY COMPLETE':'BEGIN SURVEY';document.getElementById('sp-unlock').hidden=open;document.getElementById('sp-unlock').textContent='UNLOCK · '+spWorlds[spData.selected].cost+' CREDITS';document.getElementById('sp-ship-level').textContent='MK-'+(spData.rank>=5?'V':spData.rank>=3?'III':spData.rank>=2?'II':'I');document.getElementById('sp-ship-desc').textContent='Hull '+spData.upgrades.hull+' · Scanner '+spData.upgrades.scanner+' · Engine '+spData.upgrades.engine;const up=[['hull','Hull integrity','Reduces asteroid collision risk'],['scanner','Deep scanner','Improves survey rewards'],['engine','Ion engine','Increases flight speed bonus']];document.getElementById('sp-upgrades').innerHTML=up.map(([id,n,d])=>{const lv=spData.upgrades[id],cost=45*lv;return '<div class="sp-upgrade"><div><b>'+n+' · LV '+lv+'</b><br><span>'+d+'</span></div><button class="sp-ghost" '+(spData.credits<cost||lv>=5?'disabled':'')+' onclick="spaceUpgrade(\''+id+'\')">'+(lv>=5?'MAX':'✦ '+cost)+'</button></div>';}).join('');document.getElementById('sp-missions').innerHTML=spMissionDefs.map(m=>{const val=spaceMissionValue(m.id),done=spData.claimed.includes(m.id),ready=val>=m.goal&&!done;return '<div class="sp-mission"><b>'+m.title+'</b><small>'+m.desc+'</small><div class="sp-progress"><span style="width:'+Math.min(100,val/m.goal*100)+'%"></span></div><div class="sp-row" style="justify-content:space-between"><small>'+Math.min(val,m.goal)+' / '+m.goal+' · REWARD '+m.reward+'</small><button class="sp-ghost" '+(!ready?'disabled':'')+' onclick="spaceClaim(\''+m.id+'\')">'+(done?'CLAIMED':ready?'COLLECT':'IN PROGRESS')+'</button></div></div>';}).join('');document.getElementById('sp-progress').style.width=(spData.surveyed.length/4*100)+'%';document.getElementById('sp-progress-label').textContent=spData.surveyed.length+' / 4 worlds surveyed';document.getElementById('sp-log').innerHTML=spData.logs.map(x=>'• '+spaceEscape(x)).join('<br>');document.getElementById('sp-run-best').textContent='BEST '+spData.best;}
+function spaceInit(){spaceRender();spaceDraw();}
+function spaceSelect(i){if(!spWorlds[i])return;spData.selected=i;spaceRender();}
+function spaceUnlock(){const i=spData.selected,w=spWorlds[i];if(spData.unlocked.includes(i))return;if(spData.credits<w.cost){spaceLog('Not enough credits. Complete missions or flights to earn more.');spaceRender();return;}spData.credits-=w.cost;spData.unlocked.push(i);spaceDataLog(w.name+' destination unlocked.');spaceSave();}
+function spaceDataLog(m){spData.logs.unshift(m);spData.logs=spData.logs.slice(0,12);}
+function spaceExplore(){const i=spData.selected,w=spWorlds[i];if(!spData.unlocked.includes(i)||spData.surveyed.includes(i))return;const reward=w.reward+(spData.upgrades.scanner-1)*15;spData.surveyed.push(i);spData.credits+=reward;spData.xp+=70+w.danger*12;spaceDataLog('Survey complete on '+w.name+'. '+w.secret+' recorded. +'+reward+' credits.');spaceSave();}
+function spaceMissionValue(id){if(id==='survey')return spData.surveyed.length?1:0;if(id==='worlds')return spData.unlocked.length;if(id==='upgrade')return spData.upgradeCount;if(id==='pilot')return spData.flightTotal;if(id==='discover')return spData.surveyed.length;return 0;}
+function spaceClaim(id){const m=spMissionDefs.find(x=>x.id===id);if(!m||spData.claimed.includes(id)||spaceMissionValue(id)<m.goal)return;spData.claimed.push(id);spData.credits+=m.reward;spData.xp+=45;spaceDataLog('Mission reward collected: '+m.title+' · +'+m.reward+' credits.');spaceSave();}
+function spaceUpgrade(id){const lv=spData.upgrades[id],cost=45*lv;if(lv>=5||spData.credits<cost)return;spData.credits-=cost;spData.upgrades[id]++;spData.upgradeCount++;spData.xp+=20;spaceDataLog(id.toUpperCase()+' upgraded to level '+(lv+1)+'.');spaceSave();}
+function spaceDraw(){spCanvas=document.getElementById('sp-canvas');if(!spCanvas)return;spCtx=spCanvas.getContext('2d');spCtx.clearRect(0,0,spCanvas.width,spCanvas.height);const grad=spCtx.createLinearGradient(0,0,0,220);grad.addColorStop(0,'#101d42');grad.addColorStop(1,'#050b19');spCtx.fillStyle=grad;spCtx.fillRect(0,0,340,220);for(let i=0;i<42;i++){const x=(i*73)%340,y=(i*47)%220;spCtx.fillStyle='#d8efff';spCtx.globalAlpha=.25+(i%4)*.15;spCtx.fillRect(x,y,1.5,1.5);}spCtx.globalAlpha=1;spAsteroids.forEach(a=>{spCtx.fillStyle='#8192a8';spCtx.beginPath();spCtx.arc(a.x,a.y,a.r,0,Math.PI*2);spCtx.fill();spCtx.strokeStyle='#c0d2e4';spCtx.stroke();});spCtx.fillStyle='#70e8ff';spCtx.beginPath();spCtx.moveTo(spShipX,180);spCtx.lineTo(spShipX-11,205);spCtx.lineTo(spShipX,199);spCtx.lineTo(spShipX+11,205);spCtx.closePath();spCtx.fill();spCtx.fillStyle='#ffce75';spCtx.fillRect(spShipX-3,205,6,7);if(!spActive){spCtx.fillStyle='#d8eaff';spCtx.font='12px Arial';spCtx.textAlign='center';spCtx.fillText('ORION EXPLORER',170,28);}}
+function spaceRunToggle(){if(spActive){spaceEndRun(false);return;}spActive=true;spDistance=0;spAsteroids=[];spSpawn=0;spLast=0;document.getElementById('sp-run-button').textContent='ABORT FLIGHT';spFrame=requestAnimationFrame(spaceLoop);}
+function spaceLoop(t){if(!spActive)return;const dt=Math.min(40,t-(spLast||t));spLast=t;spDistance+=dt*.035*(1+spData.upgrades.engine*.04);spSpawn+=dt;if(spSpawn>Math.max(320,760-spData.upgrades.engine*45)){spSpawn=0;spAsteroids.push({x:20+Math.random()*300,y:-15,r:8+Math.random()*9,v:1.4+Math.random()*1.4+spData.upgrades.engine*.15});}spAsteroids.forEach(a=>a.y+=a.v*dt*.07);spAsteroids=spAsteroids.filter(a=>a.y<240);const hit=spAsteroids.some(a=>Math.hypot(a.x-spShipX,a.y-195)<a.r+7);document.getElementById('sp-run-score').textContent='DISTANCE '+Math.floor(spDistance);spaceDraw();if(hit){spaceEndRun(true);return;}spFrame=requestAnimationFrame(spaceLoop);}
+function spaceEndRun(hit){if(!spActive)return;spActive=false;cancelAnimationFrame(spFrame);const score=Math.floor(spDistance);spData.best=Math.max(spData.best,score);spData.flightTotal+=score;const reward=Math.floor(score/12);if(reward){spData.credits+=reward;spData.xp+=Math.floor(score/5);spaceDataLog('Flight ended at '+score+' distance. Earned '+reward+' credits.');}document.getElementById('sp-run-button').textContent='FLIGHT AGAIN';document.getElementById('sp-run-score').textContent=(hit?'ASTEROID CONTACT · ':'FLIGHT ENDED · ')+score;spaceSave();spaceDraw();}
+function spaceStop(){if(spActive)spaceEndRun(false);}
+function spaceSteer(dir){if(!spActive)return;spShipX=Math.max(18,Math.min(322,spShipX+dir*25));spaceDraw();}
+(function(){const c=document.getElementById('sp-canvas');if(!c)return;c.addEventListener('pointerdown',e=>{spTouch=e.clientX;});c.addEventListener('pointerup',e=>{if(spTouch===null)return;const dx=e.clientX-spTouch;if(Math.abs(dx)>8)spaceSteer(dx>0?1:-1);spTouch=null;});c.addEventListener('pointercancel',()=>spTouch=null);})();
+// ================= END SPACE EXPLORER =================
+
+
 // INITIAL SETUP
 
 resetGuess();
@@ -1898,21 +1902,9 @@ drawCar();
 renderNotes();
 showPage("login-page");
 
-// NEXUS — separate namespace; does not modify existing app features
-function nxOpen(id){['home','world','mystery','creature'].forEach(x=>{const el=document.getElementById('nx-'+x);if(el)el.classList.toggle('active',x===id);});}
-let nxFound=new Set();
-const nxRoomMessages=['A warm light welcomes you. First room discovered.','Luminous leaves react to your presence. Discovery logged.','An echo reveals: “Look closer.”','A constellation appears. All four rooms discovered!'];
-function nxDiscover(n){const t=document.getElementById('nx-world-toast');if(nxFound.has(n)){t.textContent='You have already discovered this room.';return;}nxFound.add(n);document.getElementById('nx-discoveries').textContent=nxFound.size+' / 4';t.textContent=nxRoomMessages[n];}
-function nxCheckCode(){const v=document.getElementById('nx-answer').value.trim(),t=document.getElementById('nx-mystery-toast');t.textContent=v==='7'?'ACCESS GRANTED — signal decoded. Mission complete.':'Signal rejected. Re-read the clue and try again.';t.style.color=v==='7'?'#8fffd0':'#ff9aab';}
-function nxCheckPattern(){const v=document.getElementById('nx-answer2').value.trim(),t=document.getElementById('nx-pattern-toast');t.textContent=v==='32'?'Correct. Pattern trace complete.':'Not quite. Each number doubles.';t.style.color=v==='32'?'#8fffd0':'#ff9aab';}
-let nxEnergy=72,nxHappy=64,nxPoints=0;
-function nxCare(kind){let msg='';if(kind==='feed'){nxEnergy=Math.min(100,nxEnergy+14);nxHappy=Math.min(100,nxHappy+3);nxPoints+=5;msg='A tasty treat! Energy restored.';}if(kind==='play'){nxHappy=Math.min(100,nxHappy+14);nxEnergy=Math.max(0,nxEnergy-7);nxPoints+=7;msg='Your companion had fun playing!';}if(kind==='rest'){nxEnergy=Math.min(100,nxEnergy+18);nxHappy=Math.min(100,nxHappy+2);nxPoints+=3;msg='A peaceful rest. Feeling refreshed.';}document.getElementById('nx-energy').textContent=nxEnergy+' / 100';document.getElementById('nx-happy').textContent=nxHappy+' / 100';document.getElementById('nx-points').textContent=nxPoints;document.getElementById('nx-bond').textContent=nxPoints>=50?'03 · Best friends':nxPoints>=20?'02 · Growing bond':'01 · New friend';document.getElementById('nx-pet-toast').textContent=msg;}
-
 </script>
 </body>
 </html>
 """
 
 components.html(APP, height=950, scrolling=True)
-
-
