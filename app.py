@@ -245,23 +245,31 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 /* LIVE EARTH — isolated dashboard styles */
 .earth-hero{background:radial-gradient(circle at 50% 42%,#123d4b,#071722 65%,#040b13);border:1px solid #55d9dc55;border-radius:24px;padding:14px;overflow:hidden;box-shadow:0 15px 40px #00121c88}
 .earth-kicker{font-size:10px;letter-spacing:2px;color:#71e7dc;font-weight:800}
-.earth-layout{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:8px;align-items:center}
-#earth-globe{width:100%;height:300px;min-width:0;touch-action:pan-y;cursor:grab}
+.earth-layout{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:8px;align-items:center}
+#earth-globe{width:100%;height:310px;min-width:0;touch-action:pan-y;cursor:grab;position:relative}
 #earth-globe:active{cursor:grabbing}
 .earth-side{display:grid;gap:8px}
-.earth-stat{background:#ffffff0c;border:1px solid #8ce8e433;border-radius:13px;padding:10px 8px;min-width:0}
-.earth-stat b{display:block;color:#e8ffff;font-size:17px;line-height:1.2;overflow-wrap:anywhere}
-.earth-stat small{display:block;color:#91bfc5;font-size:9px;letter-spacing:.8px;margin-top:5px}
-.earth-live-dot{display:inline-block;width:7px;height:7px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:6px}
+.earth-stat{background:linear-gradient(145deg,#ffffff12,#ffffff05);border:1px solid #8ce8e455;border-radius:13px;padding:10px 7px;min-width:0;box-shadow:inset 0 0 18px #49d9df0b}
+.earth-stat b{display:block;color:#e8ffff;font-size:16px;line-height:1.2;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.earth-stat small{display:block;color:#91bfc5;font-size:9px;letter-spacing:.7px;margin-top:5px}
+.earth-live-dot{display:inline-block;width:7px;height:7px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:6px;animation:earthPulse 1.5s infinite}
+@keyframes earthPulse{50%{opacity:.35;box-shadow:0 0 2px #55f0a2}}
 .earth-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.earth-btn{border:1px solid #69ded866;background:#10303a;color:#dffefa;border-radius:12px;padding:10px 12px;font-weight:700;font-size:12px}
+.earth-btn{border:1px solid #69ded866;background:linear-gradient(135deg,#10303a,#174753);color:#dffefa;border-radius:12px;padding:10px 12px;font-weight:700;font-size:12px}
 .earth-info{background:#0b202b;border:1px solid #64d8d533;border-radius:16px;padding:13px;margin-top:12px}
 .earth-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
 .earth-info-cell{background:#ffffff0a;padding:9px;border-radius:10px}
 .earth-info-cell small{display:block;color:#9ac1c6;font-size:10px}.earth-info-cell b{font-size:13px;color:#e8ffff}
 .earth-note{font-size:10px;color:#9bbbc1;line-height:1.5;margin:9px 2px 0}
-@media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 100px}#earth-globe{height:260px}.earth-stat b{font-size:14px}}
-
+.earth-search{display:grid;grid-template-columns:1fr auto;gap:7px;margin:10px 0 0}
+.earth-search input{width:100%;min-width:0;background:#071a25;color:#eaffff;border:1px solid #67d8d866;border-radius:11px;padding:11px;font-size:12px;outline:none}
+.earth-search input:focus{border-color:#71f3dc;box-shadow:0 0 0 2px #71f3dc22}
+.earth-search button{background:#14515b;color:#eaffff;border:1px solid #69ded866;border-radius:11px;padding:0 14px;font-weight:700}
+.earth-suggest{display:none;max-height:150px;overflow:auto;background:#0b202b;border:1px solid #64d8d555;border-radius:10px;margin-top:5px}
+.earth-suggest button{display:block;width:100%;text-align:left;padding:9px 11px;background:transparent;color:#eaffff;border:0;border-bottom:1px solid #ffffff12;font-size:12px}
+.earth-suggest button:last-child{border:0}
+.earth-status{font-size:10px;color:#a8d2d5;min-height:15px;margin:5px 2px}
+@media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:270px}.earth-stat b{font-size:13px}}
 </style>
 <script src="https://unpkg.com/globe.gl"></script>
 </head>
@@ -347,9 +355,9 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
   <section id="earth-page" class="hidden">
    <div class="page-head"><button class="back" onclick="earthStop();goHome()">‹ Back</button><h2>🌍 Live Earth</h2></div>
    <div class="earth-hero">
-    <div class="earth-kicker"><span class="earth-live-dot"></span>EARTH OBSERVATORY · LIVE VIEW</div>
+    <div class="earth-kicker"><span class="earth-live-dot"></span>EARTH OBSERVATORY · CONTINUOUS 3D VIEW</div>
     <h2 style="font-size:22px;margin:7px 0 3px">Our planet, in motion.</h2>
-    <p style="font-size:11px;color:#a9cbd0;margin:0 0 8px">Drag to rotate · Pinch or use controls to zoom</p>
+    <p style="font-size:11px;color:#a9cbd0;margin:0 0 8px">Drag to rotate · Pinch or use controls to zoom · Animated day/night globe</p>
     <div class="earth-layout"><div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
      <div class="earth-side">
       <div class="earth-stat"><b id="earth-pop">8.2B</b><small>EST. POPULATION</small></div>
@@ -359,10 +367,13 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
      </div>
     </div>
     <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ Zoom in</button><button class="earth-btn" onclick="earthZoom(.74)">－ Zoom out</button><button class="earth-btn" onclick="earthReset()">◎ Reset view</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ Pause rotation</button></div>
-    <p class="earth-note">*Birth and death figures are estimates calculated from annual global rates, not verified live individual events. Globe imagery and borders require an internet connection.</p>
+    <p class="earth-note">*Global population and daily births/deaths are model-based estimates, not exact live counts. Country search works with the online country database or a small offline fallback. Globe textures and borders need internet access. “4D” here means animated time, lighting and rotation effects on a 3D globe.</p>
    </div>
-   <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div><h3 id="earth-country-name" style="margin:7px 0">Select a country</h3><p id="earth-country-desc" style="font-size:12px;color:#b5d2d5;margin:0">Tap a highlighted country on the globe to view basic information.</p>
-    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>CAPITAL</small><b id="earth-capital">—</b></div></div>
+   <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div>
+    <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search country or capital…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button></div>
+    <div id="earth-suggest" class="earth-suggest"></div><div id="earth-search-status" class="earth-status">Search by country or capital, or tap a country on the globe.</div>
+    <h3 id="earth-country-name" style="margin:7px 0">Select a country</h3><p id="earth-country-desc" style="font-size:12px;color:#b5d2d5;margin:0">Explore country details on the interactive globe.</p>
+    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>CAPITAL</small><b id="earth-capital">—</b></div><div class="earth-info-cell"><small>POPULATION</small><b id="earth-country-pop">—</b></div><div class="earth-info-cell"><small>AREA</small><b id="earth-country-area">—</b></div></div>
    </div>
   </section>
 
@@ -532,7 +543,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
   </section>
-  
+
   <section id="school-page" class="hidden school-page" style="--school-bg:url(1000015111.jpg)">
    <div class="school-overlay">
     <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>About My School</h2></div>
@@ -658,9 +669,9 @@ let carTouchStart = null;
 
 function updateClock() {
   const now = new Date();
-  const h = now.getHours();
+    const h = now.getHours();
   const m = now.getMinutes();
-    const s = now.getSeconds();
+  const s = now.getSeconds();
 
   const hour = (h % 12) * 30 + m * 0.5;
   const minute = m * 6 + s * 0.1;
@@ -1322,14 +1333,14 @@ function startFlappy() {
       const hitsPipe =
         flappyBird.y - 11 < p.top ||
         flappyBird.y + 11 > p.bottom;
-        
+
       if (overlaps && hitsPipe) endFlappy();
     });
 
     flappyPipes = flappyPipes.filter(p => p.x > -55);
 
     if (
-      flappyBird.y > fc.height - 48 ||
+          flappyBird.y > fc.height - 48 ||
       flappyBird.y < 10
     ) endFlappy();
 
@@ -1925,63 +1936,4 @@ function breakoutLoop(t){if(!nbRunning)return;const dt=Math.min(2,(t-(nbLast||t)
  if(!nbBricks.length&&!nbLevelWon){nbLevelWon=true;nbRunning=false;nbSave.cleared=Array.from(new Set([...nbSave.cleared,nbLevel]));nbSave.unlocked=Math.max(nbSave.unlocked,Math.min(30,nbLevel+1));nbSave.best=Math.max(nbSave.best,nbScore);nbSave.coins=nbCoins;nbPersist();nbMessage=nbLevel===30?'ALL 30 LEVELS CLEARED!':'STAGE CLEAR · NEXT LEVEL UNLOCKED';}
  nbDraw();nbUpdateHud();if(nbRunning)nbFrame=requestAnimationFrame(breakoutLoop);}
 function breakoutNext(){if(nbLevel<30){nbLevel++;breakoutRestart();breakoutToggle();}}
-function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPath();c.roundRect(nbPaddle.x,NB_H-48,nbPaddle.w,10,5);c.fill();c.shadowBlur=0;for(const b of nbBalls){c.shadowBlur=14;c.shadowColor='#fff';c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,b.r,0,Math.PI*2);c.fill();c.shadowBlur=0;}if(!nbRunning){c.fillStyle='rgba(3,8,20,.52)';c.fillRect(0,NB_H/2-26,NB_W,52);c.fillStyle='#eafcff';c.font='bold 14px Arial';c.textAlign='center';c.fillText(nbMessage,NB_W/2,NB_H/2+5);c.textAlign='left';}}
-if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;const b=nbBalls.find(x=>x.stuck);if(b){b.stuck=false;nbMessage='Good luck!';}if(!nbRunning&&!nbLevelWon&&nbLives>0&&nbPaused===false){/* start remains explicit */}});nbCanvas.addEventListener('pointermove',e=>{if(nbPointer===null&&e.buttons===0)return;const r=nbCanvas.getBoundingClientRect();const x=(e.clientX-r.left)*NB_W/r.width;nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,x-nbPaddle.w/2));if(nbBalls[0]?.stuck)nbBalls[0].x=nbPaddle.x+nbPaddle.w/2;});nbCanvas.addEventListener('pointerup',()=>nbPointer=null);nbCanvas.addEventListener('pointercancel',()=>nbPointer=null);}
-// Replace start button behavior after stage clear with next stage.
-const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
-nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
-// ================= END NEON BREAKOUT =================
-
-
-// ================= LIVE EARTH DASHBOARD =================
-let earthGlobe=null,earthSpin=true,earthTimer=null,earthBasePopulation=8200000000,earthBirthRate=4.3,earthDeathRate=2.0,earthStartedAt=Date.now();
-const earthCountries={
- 'Pakistan':['Asia','Islamabad','South Asia'], 'India':['Asia','New Delhi','South Asia'], 'China':['Asia','Beijing','East Asia'], 'United States of America':['North America','Washington, D.C.','North America'], 'United States':['North America','Washington, D.C.','North America'], 'Brazil':['South America','Brasília','South America'], 'United Kingdom':['Europe','London','Western Europe'], 'France':['Europe','Paris','Western Europe'], 'Germany':['Europe','Berlin','Central Europe'], 'Japan':['Asia','Tokyo','East Asia'], 'Australia':['Oceania','Canberra','Oceania'], 'Canada':['North America','Ottawa','North America'], 'Egypt':['Africa','Cairo','North Africa'], 'South Africa':['Africa','Pretoria','Southern Africa'], 'Saudi Arabia':['Asia','Riyadh','Middle East'], 'Turkey':['Asia / Europe','Ankara','Western Asia']
-};
-function earthInit(){
- const host=document.getElementById('earth-globe');if(!host)return;
- if(!earthGlobe){
-  if(typeof Globe!=='function'){host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">3D globe library load nahi hui. Internet connection check karke page dobara kholo.</div>';return;}
-  try{
-   earthGlobe=Globe()(host)
-    .backgroundColor('rgba(0,0,0,0)')
-    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
-    .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
-    .showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.19)
-    .width(host.clientWidth||260).height(host.clientHeight||300)
-    .enablePointerInteraction(true)
-    .onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
-   earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
-   fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson').then(r=>{if(!r.ok)throw Error('geojson');return r.json();}).then(data=>{if(!earthGlobe)return;earthGlobe.polygonsData(data.features).polygonCapColor(()=> 'rgba(35,160,170,0.08)').polygonSideColor(()=> 'rgba(70,210,220,0.12)').polygonStrokeColor(()=> 'rgba(145,235,235,0.55)').polygonAltitude(.004).onPolygonClick(f=>earthSelectCountry(f));}).catch(()=>{});
-   window.addEventListener('resize',earthResize);
-  }catch(e){host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe load error. Please refresh and try again.</div>';earthGlobe=null;return;}
- }
- earthGlobe.width(host.clientWidth||260).height(host.clientHeight||300);
- earthStartCounters();
-}
-function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||300);}
-function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||'Selected region',known=earthCountries[name]||null;document.getElementById('earth-country-name').textContent=name;document.getElementById('earth-country-desc').textContent='Country/territory selected on the interactive globe.';document.getElementById('earth-region').textContent=known?known[2]:'Not available';document.getElementById('earth-capital').textContent=known?known[1]:'Not available';}
-function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°. Select a country border for country details.';document.getElementById('earth-region').textContent='Coordinates';document.getElementById('earth-capital').textContent='—';}
-function earthZoom(f){if(!earthGlobe)return;const p=earthGlobe.pointOfView();earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.65,Math.min(5,p.altitude/f))},350);}
-function earthReset(){if(earthGlobe)earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},700);}
-function earthToggleSpin(){earthSpin=!earthSpin;if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;document.getElementById('earth-spin').textContent=earthSpin?'Ⅱ Pause rotation':'▶ Resume rotation';}
-function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);earthStartedAt=Date.now();const update=()=>{const elapsed=(Date.now()-earthStartedAt)/1000;const pop=earthBasePopulation+elapsed*(earthBirthRate-earthDeathRate);document.getElementById('earth-pop').textContent=(pop/1e9).toFixed(3)+'B';document.getElementById('earth-births').textContent='+'+Math.floor(elapsed*earthBirthRate);document.getElementById('earth-deaths').textContent='+'+Math.floor(elapsed*earthDeathRate);document.getElementById('earth-clock').textContent=new Date().toISOString().slice(11,19);};update();earthTimer=setInterval(update,1000);if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;}
-function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe)earthGlobe.controls().autoRotate=false;}
-// ================= END LIVE EARTH =================
-
-// INITIAL SETUP
-
-resetGuess();
-resetSnake();
-drawFlappy();
-drawCar();
-renderNotes();
-showPage("login-page");
-
-</script>
-</body>
-</html>
-"""
-
-components.html(APP, height=950, scrolling=True)
-
+function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPat
