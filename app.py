@@ -206,11 +206,9 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .school-option span{font-size:23px}
 .history-option{background:linear-gradient(110deg,#174d79,#247d83)}
 .mission-option{background:linear-gradient(110deg,#80501e,#b17b2e)}
-.myself-option{background:linear-gradient(110deg,#563b83,#8b477d)}
 .school-detail{min-height:760px;padding:12px;border-radius:22px;}
 .history-detail{background:linear-gradient(145deg,#102f49,#176b70)}
 .mission-detail{background:linear-gradient(145deg,#3a2c60,#80502e)}
-.myself-detail{background:linear-gradient(145deg,#263b67,#613b71)}
 .school-text-card{padding:16px;border-radius:18px;background:#fffdf5f5;color:#10232b;line-height:1.75;font-size:16px;font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;font-weight:600;text-shadow:0 0 0 transparent}
 .school-text-card p{margin:0 0 15px;color:#10232b}
 .school-text-card p:last-child{margin-bottom:0}
@@ -351,9 +349,9 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Number Guess</h2></div>
    <div class="card">
     <p>Guess the secret number from 1 to 100. You have 10 chances.</p>
-        <input class="field" id="guess-input" type="number" min="1" max="100" placeholder="Your guess">
+    <input class="field" id="guess-input" type="number" min="1" max="100" placeholder="Your guess">
     <button class="primary" onclick="makeGuess()">GUESS</button>
-    <p id="guess-message">10 chances remaining.</p>
+        <p id="guess-message">10 chances remaining.</p>
     <button class="secondary" onclick="resetGuess()">RESTART GAME</button>
    </div>
   </section>
@@ -460,7 +458,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <div class="school-menu">
      <button class="school-option history-option" onclick="openPage('school-history-page')">📚 &nbsp; History of UPSS <span>›</span></button>
      <button class="school-option mission-option" onclick="openPage('school-mission-page')">🌟 &nbsp; Mission of UPSS <span>›</span></button>
-     <button class="school-option myself-option" onclick="openPage('school-myself-page')">👤 &nbsp; About Myself <span>›</span></button>
     </div>
    </div>
   </section>
@@ -495,10 +492,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    </div>
   </section>
 
-  <section id="school-myself-page" class="hidden school-detail myself-detail">
-   <div class="page-head"><button class="back" onclick="openPage('school-page')">‹ School</button><h2>About Myself</h2></div>
-  </section>
-
   <section id="pin-page" class="hidden">
    <div class="login-wrap" style="min-height:650px">
     <h1>Welcome back</h1>
@@ -517,6 +510,7 @@ APP += r"""
 // ===============================
 // MOBILE.APP - MAIN JAVASCRIPT
 // ===============================
+
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -594,8 +588,7 @@ function updateClock() {
   if ($("hour-hand"))
     $("hour-hand").style.transform =
       `translateX(-50%) rotate(${hour}deg)`;
-
-  if ($("minute-hand"))
+      if ($("minute-hand"))
     $("minute-hand").style.transform =
       `translateX(-50%) rotate(${minute}deg)`;
 
@@ -631,7 +624,7 @@ const pages = [
   "login-page","home-page","calculator-page","password-page",
   "notes-page","games-page","guess-page","typing-page",
   "flappy-page","snake-page","car-page","settings-page",
-  "about-page","school-page","school-history-page","school-mission-page","school-myself-page","pin-page"
+  "about-page","school-page","school-history-page","school-mission-page","pin-page"
 ];
 
 function stopFlappy() {
@@ -904,6 +897,7 @@ function renderNotes() {
     $("notes-list").appendChild(card);
   });
 }
+
 // SETTINGS
 
 function saveSettings() {
@@ -1126,7 +1120,7 @@ function drawFlappy() {
     fx.fill();
   });
 
-  fx.fillStyle = "#75d68b";
+fx.fillStyle = "#75d68b";
   fx.fillRect(0, h - 35, w, 35);
 
   fx.fillStyle = "#3eae74";
@@ -1219,19 +1213,19 @@ function startFlappy() {
     flappyBird.velocity += 0.45;
     flappyBird.y += flappyBird.velocity;
 
-    if (frame % 78 === 0) {
-      const top = 65 + Math.random() * 145;
+    if (frame % 68 === 0) {
+      const top = 55 + Math.random() * 135;
 
       flappyPipes.push({
         x:fc.width,
         top,
-        bottom:top + 105,
+        bottom:top + 82,
         passed:false
       });
     }
 
     flappyPipes.forEach(p => {
-      p.x -= 3.4;
+      p.x -= 4.2;
 
       if (!p.passed && p.x + 48 < flappyBird.x) {
         p.passed = true;
@@ -1321,6 +1315,7 @@ function resetSnake() {
   $("snake-score").textContent = "Score: 0";
   drawSnake();
 }
+
 function drawSnake() {
   const w = sc.width;
   const h = sc.height;
@@ -1647,7 +1642,7 @@ function drawCar() {
   drawCarVehicle(
     cx,
     carPlayerX,
-    420,
+    365,
     "#45d9ff",
     1.12
   );
@@ -1680,7 +1675,6 @@ function moveCar(direction) {
   carPlayerX = carLaneX(carPlayerLane);
   drawCar();
 }
-
 function startCarGame() {
   stopCar();
 
@@ -1689,7 +1683,7 @@ function startCarGame() {
   carPlayerX = carLaneX(1);
   carObstacles = [];
   carScore = 0;
-  carSpeed = 260;
+  carSpeed = 320;
   carSpawnTimer = 0;
   carRoadOffset = 0;
   carLastTime = 0;
@@ -1712,12 +1706,12 @@ function carAnimation(timestamp) {
   carLastTime = timestamp;
 
   carScore += delta * 2;
-  carSpeed = Math.min(520, 260 + carScore * 3.8);
+  carSpeed = Math.min(620, 320 + carScore * 5.0);
   carRoadOffset += carSpeed * delta;
 
   carSpawnTimer += delta;
 
-  if (carSpawnTimer >= Math.max(0.42, 0.82 - carScore * 0.004)) {
+  if (carSpawnTimer >= Math.max(0.32, 0.68 - carScore * 0.005)) {
     carSpawnTimer = 0;
 
     const lane = Math.floor(Math.random() * 3);
@@ -1736,7 +1730,7 @@ function carAnimation(timestamp) {
     obstacle.y += carSpeed * delta;
 
     const closeX = Math.abs(obstacle.x - carPlayerX) < 30;
-    const closeY = Math.abs(obstacle.y - 420) < 42;
+    const closeY = Math.abs(obstacle.y - 365) < 42;
 
     if (closeX && closeY) {
       endCarGame();
