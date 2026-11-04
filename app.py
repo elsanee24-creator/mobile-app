@@ -309,7 +309,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <button class="primary" onclick="login()">LOGIN</button>
     <button class="secondary" onclick="guestLogin()">EXPLORE AS GUEST</button>
    </div>
-   <p class="small-note" style="margin-top:24px">A brighter way to use your phone.</p>
+  <p class="small-note" style="margin-top:24px">A brighter way to use your phone.</p>
   </section>
 
   <section id="home-page" class="hidden">
@@ -543,6 +543,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
   </section>
+
   <section id="school-page" class="hidden school-page" style="--school-bg:url(1000015111.jpg)">
    <div class="school-overlay">
     <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>About My School</h2></div>
@@ -1057,6 +1058,7 @@ function makeGuess() {
 
   $("guess-input").value = "";
 }
+
 // TYPING SPEED GAME
 
 const typingParagraphs = [
@@ -1262,7 +1264,6 @@ function drawFlappy() {
 
     fx.restore();
   }
-
   flappyPipes.forEach(p => {
     const gradient = fx.createLinearGradient(p.x, 0, p.x + 48, 0);
     gradient.addColorStop(0, "#168b77");
@@ -1879,8 +1880,7 @@ cc.addEventListener("pointercancel", () => {
 });
 
 document.addEventListener("keydown", e => {
-  if (!$("car-page") || $("car-page").classList.contains("hidden")) 
-{
+  if (!$("car-page") || $("car-page").classList.contains("hidden")) {
     return;
   }
 
@@ -1968,13 +1968,13 @@ function earthInit(){
  if(!earthGlobe){
   if(typeof Globe!=='function'){if(!host.dataset.globeRetry){host.dataset.globeRetry='1';host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">Loading 3D globe…</div>';setTimeout(()=>{host.dataset.globeRetry='';earthInit();},1200);return;}host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">Globe library load nahi hui. Internet on karke page dobara kholo.</div>';return;}
   try{
-   earthGlobe=Globe()(host).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.12).rendererConfig({antialias:false,alpha:true,powerPreference:'low-power',precision:'mediump'}).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
-  earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
-   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.28;ctl.enableDamping=true;ctl.dampingFactor=.06;ctl.minDistance=125;ctl.maxDistance=600;try{const renderer=earthGlobe.renderer();if(renderer&&renderer.setPixelRatio)renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1));}catch(e){}
+   earthGlobe=Globe()(host,{rendererConfig:{antialias:false,alpha:true,powerPreference:'low-power'}}).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.12).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+   earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
+   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.28;ctl.enableDamping=true;ctl.dampingFactor=.06;ctl.minDistance=125;ctl.maxDistance=600;
    /* Heavy global polygon mesh disabled for smoother mobile rendering. Country/capital search remains available. */
    window.addEventListener('resize',earthResize);
    document.addEventListener('visibilitychange',earthVisibility);
-  }catch(e){host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe load error. Please refresh and try again.</div>';earthGlobe=null;return;}
+  }catch(e){console.error('Earth globe initialization failed:',e);host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe could not start on this browser. Please reopen the page.</div>';earthGlobe=null;return;}
  }
  earthGlobe.width(host.clientWidth||260).height(host.clientHeight||310);earthLoadCountries();earthStartCounters();earthEnsureSpin();
 }
@@ -2011,3 +2011,4 @@ showPage("login-page");
 """
 
 components.html(APP, height=950, scrolling=True)
+
