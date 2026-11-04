@@ -246,7 +246,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .earth-hero{background:radial-gradient(circle at 50% 42%,#123d4b,#071722 65%,#040b13);border:1px solid #55d9dc55;border-radius:24px;padding:14px;overflow:hidden;box-shadow:0 15px 40px #00121c88}
 .earth-kicker{font-size:10px;letter-spacing:2px;color:#71e7dc;font-weight:800}
 .earth-layout{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:8px;align-items:center}
-#earth-globe{width:100%;height:310px;min-width:0;touch-action:pan-y;cursor:grab;position:relative}
+#earth-globe{width:100%;height:270px;min-width:0;touch-action:pan-y;cursor:grab;position:relative}
 #earth-globe:active{cursor:grabbing}
 .earth-side{display:grid;gap:8px}
 .earth-stat{background:linear-gradient(145deg,#ffffff12,#ffffff05);border:1px solid #8ce8e455;border-radius:13px;padding:10px 7px;min-width:0;box-shadow:inset 0 0 18px #49d9df0b}
@@ -269,7 +269,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .earth-suggest button{display:block;width:100%;text-align:left;padding:9px 11px;background:transparent;color:#eaffff;border:0;border-bottom:1px solid #ffffff12;font-size:12px}
 .earth-suggest button:last-child{border:0}
 .earth-status{font-size:10px;color:#a8d2d5;min-height:15px;margin:5px 2px}
-@media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:270px}.earth-stat b{font-size:13px}}
+@media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:240px}.earth-stat b{font-size:13px}}
 </style>
 <script src="https://unpkg.com/globe.gl"></script>
 </head>
@@ -367,7 +367,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
      </div>
     </div>
     <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ Zoom in</button><button class="earth-btn" onclick="earthZoom(.74)">－ Zoom out</button><button class="earth-btn" onclick="earthReset()">◎ Reset view</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ Pause rotation</button></div>
-    <p class="earth-note">*Global population and daily births/deaths are model-based estimates, not exact live counts. Country search works with the online country database or a small offline fallback. Globe textures and borders need internet access. “4D” here means animated time, lighting and rotation effects on a 3D globe.</p>
+    <p class="earth-note">*Global population and daily births/deaths are model-based estimates, not exact live counts. Country search works with the online country database or a small offline fallback. Globe texture and country database need internet access. “4D” here means animated time, lighting and rotation effects on a 3D globe.</p>
    </div>
    <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div>
     <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search country or capital…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button></div>
@@ -669,7 +669,7 @@ let carTouchStart = null;
 
 function updateClock() {
   const now = new Date();
-    const h = now.getHours();
+  const h = now.getHours();
   const m = now.getMinutes();
   const s = now.getSeconds();
 
@@ -788,7 +788,6 @@ function goHome() {
 }
 
 // LOGIN / LOGOUT
-
 function login() {
   isGuest = false;
 
@@ -1340,7 +1339,7 @@ function startFlappy() {
     flappyPipes = flappyPipes.filter(p => p.x > -55);
 
     if (
-          flappyBird.y > fc.height - 48 ||
+      flappyBird.y > fc.height - 48 ||
       flappyBird.y < 10
     ) endFlappy();
 
@@ -1513,7 +1512,6 @@ function drawSnake() {
     sx.stroke();
     sx.restore();
   }
-
   if (!snakeRunning) {
     sx.fillStyle = "#fff";
     sx.textAlign = "center";
@@ -1943,7 +1941,6 @@ const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStart
 nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
 // ================= END NEON BREAKOUT =================
 
-
 // ================= LIVE EARTH DASHBOARD =================
 let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
 const earthFallback=[
@@ -1969,10 +1966,10 @@ function earthInit(){
  if(!earthGlobe){
   if(typeof Globe!=='function'){host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">3D globe library load nahi hui. Internet connection check karke page dobara kholo.</div>';return;}
   try{
-   earthGlobe=Globe()(host).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.22).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+   earthGlobe=Globe()(host).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.12).rendererConfig({antialias:false,alpha:true,powerPreference:'low-power',precision:'mediump'}).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
    earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
-   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.42;ctl.enableDamping=true;ctl.dampingFactor=.08;ctl.minDistance=125;ctl.maxDistance=600;
-   fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson').then(r=>{if(!r.ok)throw Error('country map');return r.json();}).then(data=>{if(!earthGlobe)return;earthGlobe.polygonsData(data.features).polygonCapColor(()=> 'rgba(35,160,170,0.045)').polygonSideColor(()=> 'rgba(70,210,220,0.13)').polygonStrokeColor(()=> 'rgba(145,235,235,0.62)').polygonAltitude(.006).onPolygonClick(f=>earthSelectCountry(f));}).catch(()=>{document.getElementById('earth-search-status').textContent='Country outlines unavailable; use country search instead.';});
+   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.28;ctl.enableDamping=true;ctl.dampingFactor=.06;ctl.minDistance=125;ctl.maxDistance=600;try{const renderer=earthGlobe.renderer();if(renderer&&renderer.setPixelRatio)renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1));}catch(e){}
+   /* Heavy global polygon mesh disabled for smoother mobile rendering. Country/capital search remains available. */
    window.addEventListener('resize',earthResize);
    document.addEventListener('visibilitychange',earthVisibility);
   }catch(e){host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe load error. Please refresh and try again.</div>';earthGlobe=null;return;}
