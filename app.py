@@ -241,7 +241,29 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 #breakout-page .nb-power b{color:#fff}
 #breakout-page .nb-status{font-size:9px;color:#8df5ff;min-height:16px}
 
+
+/* LIVE EARTH — isolated dashboard styles */
+.earth-hero{background:radial-gradient(circle at 50% 42%,#123d4b,#071722 65%,#040b13);border:1px solid #55d9dc55;border-radius:24px;padding:14px;overflow:hidden;box-shadow:0 15px 40px #00121c88}
+.earth-kicker{font-size:10px;letter-spacing:2px;color:#71e7dc;font-weight:800}
+.earth-layout{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:8px;align-items:center}
+#earth-globe{width:100%;height:300px;min-width:0;touch-action:pan-y;cursor:grab}
+#earth-globe:active{cursor:grabbing}
+.earth-side{display:grid;gap:8px}
+.earth-stat{background:#ffffff0c;border:1px solid #8ce8e433;border-radius:13px;padding:10px 8px;min-width:0}
+.earth-stat b{display:block;color:#e8ffff;font-size:17px;line-height:1.2;overflow-wrap:anywhere}
+.earth-stat small{display:block;color:#91bfc5;font-size:9px;letter-spacing:.8px;margin-top:5px}
+.earth-live-dot{display:inline-block;width:7px;height:7px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:6px}
+.earth-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.earth-btn{border:1px solid #69ded866;background:#10303a;color:#dffefa;border-radius:12px;padding:10px 12px;font-weight:700;font-size:12px}
+.earth-info{background:#0b202b;border:1px solid #64d8d533;border-radius:16px;padding:13px;margin-top:12px}
+.earth-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+.earth-info-cell{background:#ffffff0a;padding:9px;border-radius:10px}
+.earth-info-cell small{display:block;color:#9ac1c6;font-size:10px}.earth-info-cell b{font-size:13px;color:#e8ffff}
+.earth-note{font-size:10px;color:#9bbbc1;line-height:1.5;margin:9px 2px 0}
+@media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 100px}#earth-globe{height:260px}.earth-stat b{font-size:14px}}
+
 </style>
+<script src="https://unpkg.com/globe.gl"></script>
 </head>
 
 <body>
@@ -308,17 +330,40 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <button class="row-tile" onclick="openPage('about-page')"><span class="emoji">✨</span><b>About</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile school-home-btn" onclick="openPage('school-page')"><span class="emoji">🏫</span><b>About My School</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile" style="background:linear-gradient(110deg,#102d50,#49327e);border-color:#72eaff66" onclick="openPage('breakout-page');breakoutInit()"><span class="emoji">🟣</span><b>NEON BREAKOUT</b><span style="margin-left:auto">›</span></button>
+    <button class="row-tile" style="background:linear-gradient(110deg,#062b38,#125a60);border-color:#55dedb77" onclick="openPage('earth-page');earthInit()"><span class="emoji">🌍</span><b>LIVE EARTH 4D</b><span style="margin-left:auto">›</span></button>
     <button class="row-tile logout-btn" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
    </div>
   </section>
 
-   <section id="breakout-page" class="hidden">
+  <section id="breakout-page" class="hidden">
    <div class="page-head"><button class="back" onclick="breakoutStop();goHome()">‹ Back</button><h2>🟣 Neon Breakout</h2></div>
    <div class="nb-hero"><div class="nb-kicker">ARCADE CHALLENGE / SEASON 01</div><h2 style="font-size:24px;margin:8px 0">BREAK THE GRID.</h2><p>Control the energy paddle, smash neon blocks, collect power-ups and clear 30 handcrafted stages.</p><div class="nb-stats"><div class="nb-stat"><b id="nb-score">0</b><small>SCORE</small></div><div class="nb-stat"><b id="nb-lives">3</b><small>LIVES</small></div><div class="nb-stat"><b id="nb-best">0</b><small>BEST</small></div></div></div>
    <h3>⚡ ARCADE ARENA</h3><div class="nb-panel"><canvas id="nb-canvas" width="360" height="520"></canvas><div class="nb-row" style="justify-content:space-between;margin:9px 0"><b id="nb-level-label">LEVEL 01 / 30</b><span id="nb-status" class="nb-status">Tap START to play</span></div><div class="nb-row"><button class="nb-btn" id="nb-start" onclick="breakoutToggle()">START GAME</button><button class="nb-ghost" onclick="breakoutPause()">Ⅱ PAUSE</button><button class="nb-ghost" onclick="breakoutRestart()">↻ RESTART</button></div><p style="margin-bottom:0">Controls: drag your finger across the arena, or use the buttons below.</p><div class="nb-row" style="justify-content:center;margin-top:8px"><button class="nb-ghost" onpointerdown="breakoutMove(-1)" onpointerup="breakoutMove(0)" onpointerleave="breakoutMove(0)">◀ LEFT</button><button class="nb-ghost" onpointerdown="breakoutMove(1)" onpointerup="breakoutMove(0)" onpointerleave="breakoutMove(0)">RIGHT ▶</button></div></div>
    <h3>🧩 STAGE SELECT</h3><div class="nb-panel"><div id="nb-levels" class="nb-levels"></div><p>Clear a stage to unlock the next one. Your unlocked stages and best score are saved on this device.</p></div>
    <h3>✨ POWER-UP GUIDE</h3><div class="nb-panel"><div class="nb-power">🟢 <b>WIDE PADDLE</b> — temporarily increases paddle width.</div><div class="nb-power">🔵 <b>SLOW BALL</b> — slows the ball for easier control.</div><div class="nb-power">🟣 <b>MULTI-BALL</b> — releases extra balls into the arena.</div><div class="nb-power">🟠 <b>LASER</b> — activates a short burst of paddle lasers.</div><p style="margin-bottom:0">Some blocks need two hits. Explosive blocks clear nearby blocks when broken.</p></div>
    <h3>🏆 PROGRESS</h3><div class="nb-panel"><div class="nb-row" style="justify-content:space-between"><b id="nb-progress-label">0 / 30 stages cleared</b><b id="nb-coins">0 ✦</b></div><div style="height:7px;background:#ffffff18;border-radius:20px;overflow:hidden;margin-top:9px"><div id="nb-progress" style="height:100%;width:0;background:linear-gradient(90deg,#4ce7e9,#b16cff)"></div></div></div>
+  </section>
+
+  <section id="earth-page" class="hidden">
+   <div class="page-head"><button class="back" onclick="earthStop();goHome()">‹ Back</button><h2>🌍 Live Earth</h2></div>
+   <div class="earth-hero">
+    <div class="earth-kicker"><span class="earth-live-dot"></span>EARTH OBSERVATORY · LIVE VIEW</div>
+    <h2 style="font-size:22px;margin:7px 0 3px">Our planet, in motion.</h2>
+    <p style="font-size:11px;color:#a9cbd0;margin:0 0 8px">Drag to rotate · Pinch or use controls to zoom</p>
+    <div class="earth-layout"><div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
+     <div class="earth-side">
+      <div class="earth-stat"><b id="earth-pop">8.2B</b><small>EST. POPULATION</small></div>
+      <div class="earth-stat"><b id="earth-births">+0</b><small>BIRTHS TODAY*</small></div>
+      <div class="earth-stat"><b id="earth-deaths">+0</b><small>DEATHS TODAY*</small></div>
+      <div class="earth-stat"><b id="earth-clock">--:--:--</b><small>UTC TIME</small></div>
+     </div>
+    </div>
+    <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ Zoom in</button><button class="earth-btn" onclick="earthZoom(.74)">－ Zoom out</button><button class="earth-btn" onclick="earthReset()">◎ Reset view</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ Pause rotation</button></div>
+    <p class="earth-note">*Birth and death figures are estimates calculated from annual global rates, not verified live individual events. Globe imagery and borders require an internet connection.</p>
+   </div>
+   <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div><h3 id="earth-country-name" style="margin:7px 0">Select a country</h3><p id="earth-country-desc" style="font-size:12px;color:#b5d2d5;margin:0">Tap a highlighted country on the globe to view basic information.</p>
+    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>CAPITAL</small><b id="earth-capital">—</b></div></div>
+   </div>
   </section>
 
   <section id="calculator-page" class="hidden">
@@ -487,7 +532,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
   </section>
-
+  
   <section id="school-page" class="hidden school-page" style="--school-bg:url(1000015111.jpg)">
    <div class="school-overlay">
     <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>About My School</h2></div>
@@ -615,7 +660,7 @@ function updateClock() {
   const now = new Date();
   const h = now.getHours();
   const m = now.getMinutes();
-  const s = now.getSeconds();
+    const s = now.getSeconds();
 
   const hour = (h % 12) * 30 + m * 0.5;
   const minute = m * 6 + s * 0.1;
@@ -661,7 +706,7 @@ const pages = [
   "login-page","home-page","calculator-page","password-page",
   "notes-page","games-page","guess-page","typing-page",
   "flappy-page","snake-page","car-page","settings-page",
-  "about-page","school-page","school-history-page","school-mission-page","breakout-page","pin-page"
+  "about-page","school-page","school-history-page","school-mission-page","breakout-page","earth-page","pin-page"
 ];
 
 function stopFlappy() {
@@ -1277,7 +1322,7 @@ function startFlappy() {
       const hitsPipe =
         flappyBird.y - 11 < p.top ||
         flappyBird.y + 11 > p.bottom;
-
+        
       if (overlaps && hitsPipe) endFlappy();
     });
 
@@ -1880,27 +1925,4 @@ function breakoutLoop(t){if(!nbRunning)return;const dt=Math.min(2,(t-(nbLast||t)
  if(!nbBricks.length&&!nbLevelWon){nbLevelWon=true;nbRunning=false;nbSave.cleared=Array.from(new Set([...nbSave.cleared,nbLevel]));nbSave.unlocked=Math.max(nbSave.unlocked,Math.min(30,nbLevel+1));nbSave.best=Math.max(nbSave.best,nbScore);nbSave.coins=nbCoins;nbPersist();nbMessage=nbLevel===30?'ALL 30 LEVELS CLEARED!':'STAGE CLEAR · NEXT LEVEL UNLOCKED';}
  nbDraw();nbUpdateHud();if(nbRunning)nbFrame=requestAnimationFrame(breakoutLoop);}
 function breakoutNext(){if(nbLevel<30){nbLevel++;breakoutRestart();breakoutToggle();}}
-function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPath();c.roundRect(nbPaddle.x,NB_H-48,nbPaddle.w,10,5);c.fill();c.shadowBlur=0;for(const b of nbBalls){c.shadowBlur=14;c.shadowColor='#fff';c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,b.r,0,Math.PI*2);c.fill();c.shadowBlur=0;}if(!nbRunning){c.fillStyle='rgba(3,8,20,.52)';c.fillRect(0,NB_H/2-26,NB_W,52);c.fillStyle='#eafcff';c.font='bold 14px Arial';c.textAlign='center';c.fillText(nbMessage,NB_W/2,NB_H/2+5);c.textAlign='left';}}
-if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;const b=nbBalls.find(x=>x.stuck);if(b){b.stuck=false;nbMessage='Good luck!';}if(!nbRunning&&!nbLevelWon&&nbLives>0&&nbPaused===false){/* start remains explicit */}});nbCanvas.addEventListener('pointermove',e=>{if(nbPointer===null&&e.buttons===0)return;const r=nbCanvas.getBoundingClientRect();const x=(e.clientX-r.left)*NB_W/r.width;nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,x-nbPaddle.w/2));if(nbBalls[0]?.stuck)nbBalls[0].x=nbPaddle.x+nbPaddle.w/2;});nbCanvas.addEventListener('pointerup',()=>nbPointer=null);nbCanvas.addEventListener('pointercancel',()=>nbPointer=null);}
-// Replace start button behavior after stage clear with next stage.
-const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
-nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
-// ================= END NEON BREAKOUT =================
-
-
-// INITIAL SETUP
-
-resetGuess();
-resetSnake();
-drawFlappy();
-drawCar();
-renderNotes();
-showPage("login-page");
-
-</script>
-</body>
-</html>
-"""
-
-components.html(APP, height=950, scrolling=True)
-
+function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.f
