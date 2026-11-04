@@ -1925,4 +1925,63 @@ function breakoutLoop(t){if(!nbRunning)return;const dt=Math.min(2,(t-(nbLast||t)
  if(!nbBricks.length&&!nbLevelWon){nbLevelWon=true;nbRunning=false;nbSave.cleared=Array.from(new Set([...nbSave.cleared,nbLevel]));nbSave.unlocked=Math.max(nbSave.unlocked,Math.min(30,nbLevel+1));nbSave.best=Math.max(nbSave.best,nbScore);nbSave.coins=nbCoins;nbPersist();nbMessage=nbLevel===30?'ALL 30 LEVELS CLEARED!':'STAGE CLEAR · NEXT LEVEL UNLOCKED';}
  nbDraw();nbUpdateHud();if(nbRunning)nbFrame=requestAnimationFrame(breakoutLoop);}
 function breakoutNext(){if(nbLevel<30){nbLevel++;breakoutRestart();breakoutToggle();}}
-function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.f
+function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPath();c.roundRect(nbPaddle.x,NB_H-48,nbPaddle.w,10,5);c.fill();c.shadowBlur=0;for(const b of nbBalls){c.shadowBlur=14;c.shadowColor='#fff';c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,b.r,0,Math.PI*2);c.fill();c.shadowBlur=0;}if(!nbRunning){c.fillStyle='rgba(3,8,20,.52)';c.fillRect(0,NB_H/2-26,NB_W,52);c.fillStyle='#eafcff';c.font='bold 14px Arial';c.textAlign='center';c.fillText(nbMessage,NB_W/2,NB_H/2+5);c.textAlign='left';}}
+if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;const b=nbBalls.find(x=>x.stuck);if(b){b.stuck=false;nbMessage='Good luck!';}if(!nbRunning&&!nbLevelWon&&nbLives>0&&nbPaused===false){/* start remains explicit */}});nbCanvas.addEventListener('pointermove',e=>{if(nbPointer===null&&e.buttons===0)return;const r=nbCanvas.getBoundingClientRect();const x=(e.clientX-r.left)*NB_W/r.width;nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,x-nbPaddle.w/2));if(nbBalls[0]?.stuck)nbBalls[0].x=nbPaddle.x+nbPaddle.w/2;});nbCanvas.addEventListener('pointerup',()=>nbPointer=null);nbCanvas.addEventListener('pointercancel',()=>nbPointer=null);}
+// Replace start button behavior after stage clear with next stage.
+const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
+nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
+// ================= END NEON BREAKOUT =================
+
+
+// ================= LIVE EARTH DASHBOARD =================
+let earthGlobe=null,earthSpin=true,earthTimer=null,earthBasePopulation=8200000000,earthBirthRate=4.3,earthDeathRate=2.0,earthStartedAt=Date.now();
+const earthCountries={
+ 'Pakistan':['Asia','Islamabad','South Asia'], 'India':['Asia','New Delhi','South Asia'], 'China':['Asia','Beijing','East Asia'], 'United States of America':['North America','Washington, D.C.','North America'], 'United States':['North America','Washington, D.C.','North America'], 'Brazil':['South America','Brasília','South America'], 'United Kingdom':['Europe','London','Western Europe'], 'France':['Europe','Paris','Western Europe'], 'Germany':['Europe','Berlin','Central Europe'], 'Japan':['Asia','Tokyo','East Asia'], 'Australia':['Oceania','Canberra','Oceania'], 'Canada':['North America','Ottawa','North America'], 'Egypt':['Africa','Cairo','North Africa'], 'South Africa':['Africa','Pretoria','Southern Africa'], 'Saudi Arabia':['Asia','Riyadh','Middle East'], 'Turkey':['Asia / Europe','Ankara','Western Asia']
+};
+function earthInit(){
+ const host=document.getElementById('earth-globe');if(!host)return;
+ if(!earthGlobe){
+  if(typeof Globe!=='function'){host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">3D globe library load nahi hui. Internet connection check karke page dobara kholo.</div>';return;}
+  try{
+   earthGlobe=Globe()(host)
+    .backgroundColor('rgba(0,0,0,0)')
+    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+    .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+    .showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.19)
+    .width(host.clientWidth||260).height(host.clientHeight||300)
+    .enablePointerInteraction(true)
+    .onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+   earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
+   fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson').then(r=>{if(!r.ok)throw Error('geojson');return r.json();}).then(data=>{if(!earthGlobe)return;earthGlobe.polygonsData(data.features).polygonCapColor(()=> 'rgba(35,160,170,0.08)').polygonSideColor(()=> 'rgba(70,210,220,0.12)').polygonStrokeColor(()=> 'rgba(145,235,235,0.55)').polygonAltitude(.004).onPolygonClick(f=>earthSelectCountry(f));}).catch(()=>{});
+   window.addEventListener('resize',earthResize);
+  }catch(e){host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe load error. Please refresh and try again.</div>';earthGlobe=null;return;}
+ }
+ earthGlobe.width(host.clientWidth||260).height(host.clientHeight||300);
+ earthStartCounters();
+}
+function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||300);}
+function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||'Selected region',known=earthCountries[name]||null;document.getElementById('earth-country-name').textContent=name;document.getElementById('earth-country-desc').textContent='Country/territory selected on the interactive globe.';document.getElementById('earth-region').textContent=known?known[2]:'Not available';document.getElementById('earth-capital').textContent=known?known[1]:'Not available';}
+function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°. Select a country border for country details.';document.getElementById('earth-region').textContent='Coordinates';document.getElementById('earth-capital').textContent='—';}
+function earthZoom(f){if(!earthGlobe)return;const p=earthGlobe.pointOfView();earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.65,Math.min(5,p.altitude/f))},350);}
+function earthReset(){if(earthGlobe)earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},700);}
+function earthToggleSpin(){earthSpin=!earthSpin;if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;document.getElementById('earth-spin').textContent=earthSpin?'Ⅱ Pause rotation':'▶ Resume rotation';}
+function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);earthStartedAt=Date.now();const update=()=>{const elapsed=(Date.now()-earthStartedAt)/1000;const pop=earthBasePopulation+elapsed*(earthBirthRate-earthDeathRate);document.getElementById('earth-pop').textContent=(pop/1e9).toFixed(3)+'B';document.getElementById('earth-births').textContent='+'+Math.floor(elapsed*earthBirthRate);document.getElementById('earth-deaths').textContent='+'+Math.floor(elapsed*earthDeathRate);document.getElementById('earth-clock').textContent=new Date().toISOString().slice(11,19);};update();earthTimer=setInterval(update,1000);if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;}
+function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe)earthGlobe.controls().autoRotate=false;}
+// ================= END LIVE EARTH =================
+
+// INITIAL SETUP
+
+resetGuess();
+resetSnake();
+drawFlappy();
+drawCar();
+renderNotes();
+showPage("login-page");
+
+</script>
+</body>
+</html>
+"""
+
+components.html(APP, height=950, scrolling=True)
+
