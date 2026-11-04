@@ -1936,4 +1936,79 @@ function breakoutLoop(t){if(!nbRunning)return;const dt=Math.min(2,(t-(nbLast||t)
  if(!nbBricks.length&&!nbLevelWon){nbLevelWon=true;nbRunning=false;nbSave.cleared=Array.from(new Set([...nbSave.cleared,nbLevel]));nbSave.unlocked=Math.max(nbSave.unlocked,Math.min(30,nbLevel+1));nbSave.best=Math.max(nbSave.best,nbScore);nbSave.coins=nbCoins;nbPersist();nbMessage=nbLevel===30?'ALL 30 LEVELS CLEARED!':'STAGE CLEAR · NEXT LEVEL UNLOCKED';}
  nbDraw();nbUpdateHud();if(nbRunning)nbFrame=requestAnimationFrame(breakoutLoop);}
 function breakoutNext(){if(nbLevel<30){nbLevel++;breakoutRestart();breakoutToggle();}}
-function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPat
+function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPath();c.roundRect(nbPaddle.x,NB_H-48,nbPaddle.w,10,5);c.fill();c.shadowBlur=0;for(const b of nbBalls){c.shadowBlur=14;c.shadowColor='#fff';c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,b.r,0,Math.PI*2);c.fill();c.shadowBlur=0;}if(!nbRunning){c.fillStyle='rgba(3,8,20,.52)';c.fillRect(0,NB_H/2-26,NB_W,52);c.fillStyle='#eafcff';c.font='bold 14px Arial';c.textAlign='center';c.fillText(nbMessage,NB_W/2,NB_H/2+5);c.textAlign='left';}}
+if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;const b=nbBalls.find(x=>x.stuck);if(b){b.stuck=false;nbMessage='Good luck!';}if(!nbRunning&&!nbLevelWon&&nbLives>0&&nbPaused===false){/* start remains explicit */}});nbCanvas.addEventListener('pointermove',e=>{if(nbPointer===null&&e.buttons===0)return;const r=nbCanvas.getBoundingClientRect();const x=(e.clientX-r.left)*NB_W/r.width;nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,x-nbPaddle.w/2));if(nbBalls[0]?.stuck)nbBalls[0].x=nbPaddle.x+nbPaddle.w/2;});nbCanvas.addEventListener('pointerup',()=>nbPointer=null);nbCanvas.addEventListener('pointercancel',()=>nbPointer=null);}
+// Replace start button behavior after stage clear with next stage.
+const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
+nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
+// ================= END NEON BREAKOUT =================
+
+
+// ================= LIVE EARTH DASHBOARD =================
+let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
+const earthFallback=[
+ {name:'Pakistan',capital:'Islamabad',region:'Asia',subregion:'Southern Asia',population:255000000,area:881912,lat:30.3753,lng:69.3451},
+ {name:'India',capital:'New Delhi',region:'Asia',subregion:'Southern Asia',population:1460000000,area:3287263,lat:20.5937,lng:78.9629},
+ {name:'China',capital:'Beijing',region:'Asia',subregion:'Eastern Asia',population:1410000000,area:9596961,lat:35.8617,lng:104.1954},
+ {name:'United States',capital:'Washington, D.C.',region:'Americas',subregion:'North America',population:347000000,area:9833520,lat:37.0902,lng:-95.7129},
+ {name:'Brazil',capital:'Brasília',region:'Americas',subregion:'South America',population:212000000,area:8515767,lat:-14.235,lng:-51.9253},
+ {name:'United Kingdom',capital:'London',region:'Europe',subregion:'Northern Europe',population:69600000,area:243610,lat:55.3781,lng:-3.436},
+ {name:'France',capital:'Paris',region:'Europe',subregion:'Western Europe',population:66500000,area:551695,lat:46.2276,lng:2.2137},
+ {name:'Germany',capital:'Berlin',region:'Europe',subregion:'Western Europe',population:84000000,area:357114,lat:51.1657,lng:10.4515},
+ {name:'Japan',capital:'Tokyo',region:'Asia',subregion:'Eastern Asia',population:123000000,area:377975,lat:36.2048,lng:138.2529},
+ {name:'Australia',capital:'Canberra',region:'Oceania',subregion:'Australia and New Zealand',population:27000000,area:7692024,lat:-25.2744,lng:133.7751},
+ {name:'Canada',capital:'Ottawa',region:'Americas',subregion:'North America',population:41300000,area:9984670,lat:56.1304,lng:-106.3468},
+ {name:'Egypt',capital:'Cairo',region:'Africa',subregion:'Northern Africa',population:118000000,area:1002450,lat:26.8206,lng:30.8025},
+ {name:'South Africa',capital:'Pretoria',region:'Africa',subregion:'Southern Africa',population:64000000,area:1221037,lat:-30.5595,lng:22.9375},
+ {name:'Saudi Arabia',capital:'Riyadh',region:'Asia',subregion:'Western Asia',population:34500000,area:2149690,lat:23.8859,lng:45.0792},
+ {name:'Turkey',capital:'Ankara',region:'Asia',subregion:'Western Asia',population:87000000,area:783562,lat:38.9637,lng:35.2433}
+];
+const earthNum=n=>Number(n||0).toLocaleString('en-US');
+function earthInit(){
+ const host=document.getElementById('earth-globe');if(!host)return;
+ if(!earthGlobe){
+  if(typeof Globe!=='function'){host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">3D globe library load nahi hui. Internet connection check karke page dobara kholo.</div>';return;}
+  try{
+   earthGlobe=Globe()(host).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.22).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+   earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
+   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.42;ctl.enableDamping=true;ctl.dampingFactor=.08;ctl.minDistance=125;ctl.maxDistance=600;
+   fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson').then(r=>{if(!r.ok)throw Error('country map');return r.json();}).then(data=>{if(!earthGlobe)return;earthGlobe.polygonsData(data.features).polygonCapColor(()=> 'rgba(35,160,170,0.045)').polygonSideColor(()=> 'rgba(70,210,220,0.13)').polygonStrokeColor(()=> 'rgba(145,235,235,0.62)').polygonAltitude(.006).onPolygonClick(f=>earthSelectCountry(f));}).catch(()=>{document.getElementById('earth-search-status').textContent='Country outlines unavailable; use country search instead.';});
+   window.addEventListener('resize',earthResize);
+   document.addEventListener('visibilitychange',earthVisibility);
+  }catch(e){host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe load error. Please refresh and try again.</div>';earthGlobe=null;return;}
+ }
+ earthGlobe.width(host.clientWidth||260).height(host.clientHeight||310);earthLoadCountries();earthStartCounters();earthEnsureSpin();
+}
+function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();}
+function earthEnsureSpin(){if(!earthGlobe||!earthSpin)return;const c=earthGlobe.controls();c.autoRotate=true;c.autoRotateSpeed=.42;}
+function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||310);}
+function earthLoadCountries(){if(earthCountryReady)return;earthCountryReady=true;earthCountriesData=earthFallback.slice();fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]||0,lng:x.latlng?.[1]||0})).filter(x=>x.name).sort((a,b)=>a.name.localeCompare(b.name));document.getElementById('earth-search-status').textContent='Country database loaded · '+earthCountriesData.length+' countries';}).catch(()=>{document.getElementById('earth-search-status').textContent='Offline country list active · '+earthCountriesData.length+' countries available';});}
+function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=(value||'').trim().toLowerCase();if(!q){box.style.display='none';box.innerHTML='';return;}const found=earthCountriesData.filter(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q)).slice(0,8);box.innerHTML=found.map((c,i)=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.capital)+'</span></button>').join('');box.style.display=found.length?'block':'none';if(!found.length)document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
+function earthChooseFirst(){const q=(document.getElementById('earth-country-input').value||'').trim().toLowerCase();if(!q)return;const found=earthCountriesData.find(c=>c.name.toLowerCase()===q||c.capital.toLowerCase()===q)||earthCountriesData.find(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q));if(found)earthPickCountry(earthCountriesData.indexOf(found));else document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
+function earthEsc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function earthPickCountry(i){const c=earthCountriesData[i];if(!c)return;document.getElementById('earth-suggest').style.display='none';document.getElementById('earth-country-input').value=c.name;earthShowCountry(c);if(earthGlobe)earthGlobe.pointOfView({lat:c.lat,lng:c.lng,altitude:1.35},900);}
+function earthShowCountry(c){document.getElementById('earth-country-name').textContent=c.name;document.getElementById('earth-country-desc').textContent='Country overview · population and area are published estimates/data, not a live headcount.';document.getElementById('earth-region').textContent=(c.region||'—')+' · '+(c.subregion||'');document.getElementById('earth-capital').textContent=c.capital||'—';document.getElementById('earth-country-pop').textContent=earthNum(c.population);document.getElementById('earth-country-area').textContent=earthNum(Math.round(c.area))+' km²';document.getElementById('earth-search-status').textContent='Selected · '+c.name;}
+function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||'';const c=earthCountriesData.find(x=>x.name.toLowerCase()===name.toLowerCase())||earthCountriesData.find(x=>name.toLowerCase().includes(x.name.toLowerCase())||x.name.toLowerCase().includes(name.toLowerCase()));if(c)earthShowCountry(c);else{document.getElementById('earth-country-name').textContent=name||'Selected country';document.getElementById('earth-country-desc').textContent='Country selected on globe. Search by name to load detailed information.';}}
+function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°.';document.getElementById('earth-region').textContent='Coordinates';document.getElementById('earth-capital').textContent='—';document.getElementById('earth-country-pop').textContent='—';document.getElementById('earth-country-area').textContent='—';}
+function earthZoom(f){if(!earthGlobe)return;const p=earthGlobe.pointOfView();earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.58,Math.min(5,p.altitude/f))},400);}
+function earthReset(){if(earthGlobe)earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},700);earthSpin=true;earthEnsureSpin();const b=document.getElementById('earth-spin');if(b)b.textContent='Ⅱ Pause rotation';}
+function earthToggleSpin(){earthSpin=!earthSpin;if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;const b=document.getElementById('earth-spin');if(b)b.textContent=earthSpin?'Ⅱ Pause rotation':'▶ Resume rotation';}
+function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);const dayStart=new Date();dayStart.setUTCHours(0,0,0,0);earthStartedAt=dayStart.getTime();const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};put('earth-pop', (pop/1e9).toFixed(3)+'B');put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));put('earth-clock',new Date().toISOString().slice(11,19));};update();earthTimer=setInterval(update,1000);}
+function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;}
+// ================= END LIVE EARTH =================
+
+// INITIAL SETUP
+
+resetGuess();
+resetSnake();
+drawFlappy();
+drawCar();
+renderNotes();
+showPage("login-page");
+
+</script>
+</body>
+</html>
+"""
+
+components.html(APP, height=950, scrolling=True)
