@@ -211,12 +211,12 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .history-detail{background:linear-gradient(145deg,#102f49,#176b70)}
 .mission-detail{background:linear-gradient(145deg,#3a2c60,#80502e)}
 .myself-detail{background:linear-gradient(145deg,#263b67,#613b71)}
-.school-text-card{padding:16px;border-radius:18px;background:#f8fffdf0;color:#17313a;line-height:1.65;font-size:14px}
-.school-text-card p{margin:0 0 15px}
+.school-text-card{padding:16px;border-radius:18px;background:#fffdf5f5;color:#10232b;line-height:1.75;font-size:16px;font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;font-weight:600;text-shadow:0 0 0 transparent}
+.school-text-card p{margin:0 0 15px;color:#10232b}
 .school-text-card p:last-child{margin-bottom:0}
-.school-text-card h3{margin:8px 0;color:#174f55}
-.school-text-card ol{padding-left:22px;margin:8px 0 0}
-.school-text-card li{margin:7px 0}
+.school-text-card h3{margin:10px 0 6px;color:#10232b;font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;font-size:20px;font-weight:800}
+.school-text-card ol{padding-left:24px;margin:8px 0 0;color:#10232b}
+.school-text-card li{margin:8px 0;color:#10232b}
 </style>
 </head>
 
@@ -351,12 +351,13 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Number Guess</h2></div>
    <div class="card">
     <p>Guess the secret number from 1 to 100. You have 10 chances.</p>
-    <input class="field" id="guess-input" type="number" min="1" max="100" placeholder="Your guess">
+        <input class="field" id="guess-input" type="number" min="1" max="100" placeholder="Your guess">
     <button class="primary" onclick="makeGuess()">GUESS</button>
     <p id="guess-message">10 chances remaining.</p>
     <button class="secondary" onclick="resetGuess()">RESTART GAME</button>
    </div>
   </section>
+
   <section id="typing-page" class="hidden">
    <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Typing Speed</h2></div>
    <div class="card">
@@ -516,7 +517,6 @@ APP += r"""
 // ===============================
 // MOBILE.APP - MAIN JAVASCRIPT
 // ===============================
-
 const $ = id => document.getElementById(id);
 
 const store = {
@@ -904,7 +904,6 @@ function renderNotes() {
     $("notes-list").appendChild(card);
   });
 }
-
 // SETTINGS
 
 function saveSettings() {
@@ -1127,7 +1126,7 @@ function drawFlappy() {
     fx.fill();
   });
 
-fx.fillStyle = "#75d68b";
+  fx.fillStyle = "#75d68b";
   fx.fillRect(0, h - 35, w, 35);
 
   fx.fillStyle = "#3eae74";
@@ -1322,7 +1321,6 @@ function resetSnake() {
   $("snake-score").textContent = "Score: 0";
   drawSnake();
 }
-
 function drawSnake() {
   const w = sc.width;
   const h = sc.height;
@@ -1653,6 +1651,7 @@ function drawCar() {
     "#45d9ff",
     1.12
   );
+
   if (!carRunning) {
     cx.fillStyle = "#ffffff";
     cx.textAlign = "center";
@@ -1833,6 +1832,4 @@ showPage("login-page");
 
 components.html(APP, height=950, scrolling=True)
 
-    
 
-  
