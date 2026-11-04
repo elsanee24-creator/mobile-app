@@ -271,7 +271,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .earth-status{font-size:10px;color:#a8d2d5;min-height:15px;margin:5px 2px}
 @media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:240px}.earth-stat b{font-size:13px}}
 </style>
-<script src="https://unpkg.com/globe.gl"></script>
+<script src="https://cdn.jsdelivr.net/npm/globe.gl" onerror="this.onerror=null;this.src='https://unpkg.com/globe.gl'"></script>
 </head>
 
 <body>
@@ -543,7 +543,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
   </section>
-
   <section id="school-page" class="hidden school-page" style="--school-bg:url(1000015111.jpg)">
    <div class="school-overlay">
     <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>About My School</h2></div>
@@ -788,6 +787,7 @@ function goHome() {
 }
 
 // LOGIN / LOGOUT
+
 function login() {
   isGuest = false;
 
@@ -1057,7 +1057,6 @@ function makeGuess() {
 
   $("guess-input").value = "";
 }
-
 // TYPING SPEED GAME
 
 const typingParagraphs = [
@@ -1512,6 +1511,7 @@ function drawSnake() {
     sx.stroke();
     sx.restore();
   }
+
   if (!snakeRunning) {
     sx.fillStyle = "#fff";
     sx.textAlign = "center";
@@ -1879,7 +1879,8 @@ cc.addEventListener("pointercancel", () => {
 });
 
 document.addEventListener("keydown", e => {
-  if (!$("car-page") || $("car-page").classList.contains("hidden")) {
+  if (!$("car-page") || $("car-page").classList.contains("hidden")) 
+{
     return;
   }
 
@@ -1941,6 +1942,7 @@ const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStart
 nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
 // ================= END NEON BREAKOUT =================
 
+
 // ================= LIVE EARTH DASHBOARD =================
 let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
 const earthFallback=[
@@ -1964,10 +1966,10 @@ const earthNum=n=>Number(n||0).toLocaleString('en-US');
 function earthInit(){
  const host=document.getElementById('earth-globe');if(!host)return;
  if(!earthGlobe){
-  if(typeof Globe!=='function'){host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">3D globe library load nahi hui. Internet connection check karke page dobara kholo.</div>';return;}
+  if(typeof Globe!=='function'){if(!host.dataset.globeRetry){host.dataset.globeRetry='1';host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">Loading 3D globe…</div>';setTimeout(()=>{host.dataset.globeRetry='';earthInit();},1200);return;}host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">Globe library load nahi hui. Internet on karke page dobara kholo.</div>';return;}
   try{
-   earthGlobe=Globe()(host).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.12).rendererConfig({antialias:false,alpha:true,powerPreference:'low-power',precision:'mediump'}).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
-   earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
+   earthGlobe=Globe()(host).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.12).rendererConfig({antialias:false,alpha:true,powerPreference:'low-power',precision:'mediump'}).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+  earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
    const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.28;ctl.enableDamping=true;ctl.dampingFactor=.06;ctl.minDistance=125;ctl.maxDistance=600;try{const renderer=earthGlobe.renderer();if(renderer&&renderer.setPixelRatio)renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1));}catch(e){}
    /* Heavy global polygon mesh disabled for smoother mobile rendering. Country/capital search remains available. */
    window.addEventListener('resize',earthResize);
