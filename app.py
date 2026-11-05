@@ -270,6 +270,10 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .earth-suggest button:last-child{border:0}
 .earth-status{font-size:10px;color:#a8d2d5;min-height:15px;margin:5px 2px}
 @media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:240px}.earth-stat b{font-size:13px}}
+
+/* SMALL BACKGROUND MUSIC SWITCH — isolated addition */
+#music-toggle{position:fixed;right:12px;bottom:12px;z-index:99999;width:54px;height:32px;padding:0;border-radius:18px;border:1px solid #8ce9df99;background:linear-gradient(135deg,#123d49,#292c5a);color:#eafffa;font-size:10px;font-weight:900;box-shadow:0 4px 14px #00121c88;letter-spacing:.3px}
+#music-toggle.is-on{background:linear-gradient(100deg,#167b65,#176b80);border-color:#65f5c1}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl" onerror="this.onerror=null;this.src='https://unpkg.com/globe.gl'"></script>
 </head>
@@ -301,7 +305,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
 
-   <div class="login-title">Welcome</div>
+  <div class="login-title">Welcome</div>
    <h2 style="color:#f5fffc;margin:5px 0">Your space. Your apps.</h2>
    <p class="login-sub">A little world of useful tools, notes and games—made for you.</p>
 
@@ -309,7 +313,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <button class="primary" onclick="login()">LOGIN</button>
     <button class="secondary" onclick="guestLogin()">EXPLORE AS GUEST</button>
    </div>
-  <p class="small-note" style="margin-top:24px">A brighter way to use your phone.</p>
+   <p class="small-note" style="margin-top:24px">A brighter way to use your phone.</p>
   </section>
 
   <section id="home-page" class="hidden">
@@ -595,6 +599,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
   </section>
 
  </main>
+ <button id="music-toggle" type="button" onclick="toggleBackgroundMusic()" aria-label="Turn background music on">♫ OFF</button>
 </div>
 """
 APP += r"""
@@ -1264,6 +1269,7 @@ function drawFlappy() {
 
     fx.restore();
   }
+
   flappyPipes.forEach(p => {
     const gradient = fx.createLinearGradient(p.x, 0, p.x + 48, 0);
     gradient.addColorStop(0, "#168b77");
@@ -1468,7 +1474,6 @@ function drawSnake() {
     sx.fill();
     sx.restore();
   }
-
   // Continuous rounded snake body, not separate dotted blocks.
   if (points.length > 1) {
     sx.save();
@@ -1942,7 +1947,6 @@ const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStart
 nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
 // ================= END NEON BREAKOUT =================
 
-
 // ================= LIVE EARTH DASHBOARD =================
 let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
 const earthFallback=[
@@ -1996,6 +2000,69 @@ function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);const dayS
 function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;}
 // ================= END LIVE EARTH =================
 
+
+// ===============================
+// OPTIONAL ORIGINAL BACKGROUND BEAT
+// Small isolated addition; starts only after the user taps ON.
+// ===============================
+let musicAudio = null;
+let musicTimer = null;
+let musicStep = 0;
+let musicNoiseBuffer = null;
+function musicSetButton(on){
+ const b=document.getElementById('music-toggle');
+ if(!b)return;
+ b.textContent=on?'♫ ON':'♫ OFF';
+ b.classList.toggle('is-on',on);
+ b.setAttribute('aria-label',on?'Turn background music off':'Turn background music on');
+}
+function musicMakeNoiseBuffer(){
+ const length=Math.floor(musicAudio.sampleRate*.22);
+ const buffer=musicAudio.createBuffer(1,length,musicAudio.sampleRate);
+ const data=buffer.getChannelData(0);
+ for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);
+ return buffer;
+}
+function musicKick(time){
+ const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
+ osc.type='sine';osc.frequency.setValueAtTime(125,time);osc.frequency.exponentialRampToValueAtTime(43,time+.13);
+ gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.34,time+.008);gain.gain.exponentialRampToValueAtTime(.0001,time+.19);
+ osc.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.2);
+}
+function musicSnare(time){
+ const noise=musicAudio.createBufferSource(),filter=musicAudio.createBiquadFilter(),gain=musicAudio.createGain();
+ noise.buffer=musicNoiseBuffer;filter.type='highpass';filter.frequency.value=1200;
+ gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.12,time+.004);gain.gain.exponentialRampToValueAtTime(.0001,time+.13);
+ noise.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);noise.start(time);noise.stop(time+.14);
+}
+function musicHat(time){
+ const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
+ osc.type='square';osc.frequency.value=7800;
+ gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.022,time+.002);gain.gain.exponentialRampToValueAtTime(.0001,time+.035);
+ osc.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.04);
+}
+function musicSchedule(){
+ if(!musicAudio||musicAudio.state!=='running')return;
+ const now=musicAudio.currentTime+.025,step=musicStep%16;
+ if(step===0||step===8)musicKick(now);
+ if(step===4||step===12)musicSnare(now);
+ if(step%2===0)musicHat(now);
+ musicStep++; 
+}
+async function toggleBackgroundMusic(){
+ const b=document.getElementById('music-toggle');
+ if(musicTimer!==null){clearInterval(musicTimer);musicTimer=null;if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}musicNoiseBuffer=null;musicSetButton(false);return;}
+ try{
+  const AudioCtx=window.AudioContext||window.webkitAudioContext;
+  if(!AudioCtx)throw new Error('Audio unavailable');
+  musicAudio=new AudioCtx();
+  await musicAudio.resume();
+  musicNoiseBuffer=musicMakeNoiseBuffer();musicStep=0;
+  musicSchedule();musicTimer=setInterval(musicSchedule,125);musicSetButton(true);
+ }catch(e){if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}musicSetButton(false);if(b)b.textContent='♫ N/A';}
+}
+// ================= END BACKGROUND MUSIC =================
+
 // INITIAL SETUP
 
 resetGuess();
@@ -2011,4 +2078,3 @@ showPage("login-page");
 """
 
 components.html(APP, height=950, scrolling=True)
-
