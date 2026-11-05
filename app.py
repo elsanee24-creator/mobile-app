@@ -108,6 +108,8 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 
 .login-wrap{min-height:620px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px 5px}
 .clock-panel{width:100%;display:flex;align-items:center;justify-content:center;gap:20px;margin:0 auto 16px;padding:15px 12px;border-radius:25px;background:linear-gradient(135deg,#ffffff20,#ffffff09);border:1px solid #ffffff40;box-shadow:0 12px 35px #071b3740}
+.login-wrap .clock-panel{transform:translateY(-10px)}
+.login-wrap .login-actions{transform:translateY(-10px)}
 .clock-face{width:116px;height:116px;position:relative;flex-shrink:0;border-radius:50%;background:radial-gradient(circle at 35% 25%,#fff,#d7fff1 55%,#91d9d0);border:5px solid #f5fffc;box-shadow:0 0 0 5px #70f5c155,0 8px 25px #061b3a70}
 .clock-face:before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px solid #7aa9a2}
 .clock-face .number{position:absolute;color:#24515a;font-size:10px;font-weight:900;transform:translate(-50%,-50%)}
@@ -150,6 +152,10 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .screen{box-shadow:inset 0 2px 4px #ffffff30,inset 0 -22px 38px #07142635,0 12px 28px #07142635}
 .screen:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:linear-gradient(145deg,#ffffff0b,transparent 32%,#0000000b 100%);box-shadow:inset 0 1px 0 #ffffff25,inset 0 0 28px #ffffff08}
 .screen>*{position:relative;z-index:1}
+/* Extra layered depth on the existing pastel background — original colors retained. */
+body{background-attachment:fixed;background-image:radial-gradient(ellipse at 12% 12%,#ffffffa8 0,transparent 26%),radial-gradient(ellipse at 88% 18%,#ffffff70 0,transparent 24%),radial-gradient(ellipse at 50% 92%,#ffffff55 0,transparent 32%),radial-gradient(ellipse at 50% 50%,#8bc8ff20 0,transparent 62%),linear-gradient(135deg,#d7fff1,#d9e7ff 52%,#f1ddff)}
+.phone{background-image:linear-gradient(145deg,#ffffffa8 0%,#e5fff7 10%,#8be7d3 25%,#92aaff 58%,#d6a9ff 82%,#ffe0a0 100%);box-shadow:0 34px 82px #263d6a75,0 8px 18px #ffffffa0,inset 0 3px 5px #ffffffd0,inset 0 -10px 22px #20345a30}
+.screen{background-image:radial-gradient(ellipse at 12% 8%,#ffffff20,transparent 32%),radial-gradient(ellipse at 88% 25%,#8b9dff20,transparent 36%),radial-gradient(ellipse at 50% 100%,#00000018,transparent 48%),radial-gradient(circle at 50% 50%,#ffffff08,transparent 70%),linear-gradient(145deg,#153d49,#173c50 45%,#292c5a 100%)}
 button{position:relative;overflow:hidden;transform:translateZ(0);box-shadow:inset 0 2px 0 #ffffff55,inset 0 -4px 0 #00000020,0 7px 14px #06172b38;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
 button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 0 3px 5px #00000022,0 2px 5px #06172b35}
 .card,.clock-panel,.tile,.wide-tile,.row-tile,.home-shortcut,.nb-panel,.earth-panel,.school-option,.school-text-card{box-shadow:inset 0 2px 0 #ffffff35,inset 0 -5px 0 #00000018,0 10px 20px #06172b38}
@@ -289,36 +295,68 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
 #breakout-page .nb-status{font-size:9px;color:#8df5ff;min-height:16px}
 
 
-/* LIVE EARTH — isolated dashboard styles */
-.earth-hero{background:radial-gradient(circle at 50% 42%,#123d4b,#071722 65%,#040b13);border:1px solid #55d9dc55;border-radius:24px;padding:14px;overflow:hidden;box-shadow:0 15px 40px #00121c88}
-.earth-kicker{font-size:10px;letter-spacing:2px;color:#71e7dc;font-weight:800}
-.earth-layout{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:8px;align-items:center}
-#earth-globe{width:100%;height:270px;min-width:0;touch-action:pan-y;cursor:grab;position:relative}
+/* LIVE EARTH — compact single-screen observatory */
+#earth-page{display:flex;flex-direction:column;gap:8px}
+#earth-page .page-head{margin:1px 0 2px;gap:9px}
+#earth-page .page-head h2{font-size:18px;margin:0}
+#earth-page .back{padding:7px 10px;font-size:11px}
+.earth-hero{position:relative;background:radial-gradient(circle at 50% 42%,#16495a,#071722 65%,#040b13);border:1px solid #55d9dc66;border-radius:20px;padding:10px;overflow:hidden;box-shadow:0 18px 42px #00121c99,inset 0 1px 0 #ffffff20}
+.earth-kicker{font-size:9px;letter-spacing:1.5px;color:#71e7dc;font-weight:800}
+.earth-hero h2{font-size:17px!important;margin:5px 0 1px!important}
+.earth-hero>p{font-size:9px!important;margin:0!important;line-height:1.3!important}
+.earth-layout{display:block;position:relative}
+.earth-orbit{position:relative;width:100%;height:282px;overflow:hidden}
+#earth-globe{width:100%;height:282px;min-width:0;touch-action:pan-y;cursor:grab;position:relative;z-index:1}
 #earth-globe:active{cursor:grabbing}
-.earth-side{display:grid;gap:8px}
-.earth-stat{background:linear-gradient(145deg,#ffffff12,#ffffff05);border:1px solid #8ce8e455;border-radius:13px;padding:10px 7px;min-width:0;box-shadow:inset 0 0 18px #49d9df0b}
-.earth-stat b{display:block;color:#e8ffff;font-size:16px;line-height:1.2;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-.earth-stat small{display:block;color:#91bfc5;font-size:9px;letter-spacing:.7px;margin-top:5px}
-.earth-live-dot{display:inline-block;width:7px;height:7px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:6px;animation:earthPulse 1.5s infinite}
+.earth-sun{position:absolute;z-index:3;left:10px;top:18px;width:48px;height:48px;border-radius:50%;pointer-events:none;background-color:#ff9d35;background-image:radial-gradient(circle at 34% 28%,#fff9b8 0 3%,#ffd36a 13%,#ff9a32 38%,#e84c18 72%,#8e1c16 100%),url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg');background-blend-mode:screen,soft-light;background-size:cover;background-position:center;box-shadow:0 0 12px 5px #ff9b3b88,0 0 34px 13px #ff6b2c55,inset -7px -5px 13px #7b170b99;animation:earthSunTurn 42s linear infinite}
+.earth-sun:after{content:"";position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,#ffb34b22 42%,#ff8a2b18 60%,transparent 72%);filter:blur(3px)}
+@keyframes earthSunTurn{to{transform:rotate(360deg)}}
+.earth-stats-overlay{position:absolute;z-index:4;right:5px;top:8px;width:91px;display:grid;gap:5px;pointer-events:none}
+.earth-stat{background:linear-gradient(145deg,#102f3bdc,#071721df);border:1px solid #8ce8e477;border-radius:9px;padding:5px 6px;min-width:0;box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;backdrop-filter:blur(5px)}
+.earth-stat b{display:block;color:#e8ffff;font-size:12px;line-height:1.15;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.earth-stat small{display:block;color:#91cbd0;font-size:7px;letter-spacing:.45px;margin-top:3px}
+.earth-live-dot{display:inline-block;width:6px;height:6px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:5px;animation:earthPulse 1.5s infinite}
 @keyframes earthPulse{50%{opacity:.35;box-shadow:0 0 2px #55f0a2}}
-.earth-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.earth-btn{border:1px solid #69ded866;background:linear-gradient(135deg,#10303a,#174753);color:#dffefa;border-radius:12px;padding:10px 12px;font-weight:700;font-size:12px}
-.earth-info{background:#0b202b;border:1px solid #64d8d533;border-radius:16px;padding:13px;margin-top:12px}
-.earth-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
-.earth-info-cell{background:#ffffff0a;padding:9px;border-radius:10px}
-.earth-info-cell small{display:block;color:#9ac1c6;font-size:10px}.earth-info-cell b{font-size:13px;color:#e8ffff}
-.earth-note{font-size:10px;color:#9bbbc1;line-height:1.5;margin:9px 2px 0}
-.earth-search{display:grid;grid-template-columns:1fr auto;gap:7px;margin:10px 0 0}
-.earth-search input{width:100%;min-width:0;background:#071a25;color:#eaffff;border:1px solid #67d8d866;border-radius:11px;padding:11px;font-size:12px;outline:none}
+.earth-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}
+.earth-btn{min-width:0;border:1px solid #69ded866;background:linear-gradient(135deg,#10303a,#174753);color:#dffefa;border-radius:9px;padding:7px 2px;font-weight:800;font-size:9px;white-space:nowrap}
+.earth-btn:nth-child(1){background:linear-gradient(135deg,#145c62,#168c86);border-color:#6ef5db}
+.earth-btn:nth-child(2){background:linear-gradient(135deg,#244b78,#386bb0);border-color:#8abaff}
+.earth-btn:nth-child(3){background:linear-gradient(135deg,#684a24,#a66b2c);border-color:#ffd477}
+.earth-btn:nth-child(4){background:linear-gradient(135deg,#4d3475,#8054ad);border-color:#c8a6ff}
+.earth-info{background:linear-gradient(145deg,#0b202b,#102d38);border:1px solid #64d8d544;border-radius:15px;padding:9px;margin-top:0;box-shadow:0 9px 22px #00121c55,inset 0 1px 0 #ffffff14}
+.earth-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}
+.earth-info-cell{background:#ffffff0a;padding:6px;border-radius:8px;min-width:0}
+.earth-info-cell small{display:block;color:#9ac1c6;font-size:8px}.earth-info-cell b{font-size:10px;color:#e8ffff;overflow-wrap:anywhere}
+.earth-note{font-size:8px;color:#9bbbc1;line-height:1.3;margin:5px 2px 0}
+.earth-search{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:5px;margin:6px 0 0}
+.earth-search input{width:100%;min-width:0;background:#071a25;color:#eaffff;border:1px solid #67d8d866;border-radius:9px;padding:8px;font-size:10px;outline:none}
 .earth-search input:focus{border-color:#71f3dc;box-shadow:0 0 0 2px #71f3dc22}
-.earth-search button{background:#14515b;color:#eaffff;border:1px solid #69ded866;border-radius:11px;padding:0 14px;font-weight:700}
-.earth-suggest{display:none;max-height:150px;overflow:auto;background:#0b202b;border:1px solid #64d8d555;border-radius:10px;margin-top:5px}
-.earth-suggest button{display:block;width:100%;text-align:left;padding:9px 11px;background:transparent;color:#eaffff;border:0;border-bottom:1px solid #ffffff12;font-size:12px}
+.earth-search button{background:linear-gradient(135deg,#14515b,#167e7c);color:#eaffff;border:1px solid #69ded866;border-radius:9px;padding:0 7px;font-weight:800;font-size:9px}
+.earth-suggest{display:none;max-height:92px;overflow:auto;background:#0b202b;border:1px solid #64d8d555;border-radius:9px;margin-top:4px}
+.earth-suggest button{display:block;width:100%;text-align:left;padding:7px 9px;background:transparent;color:#eaffff;border:0;border-bottom:1px solid #ffffff12;font-size:10px}
 .earth-suggest button:last-child{border:0}
-.earth-status{font-size:10px;color:#a8d2d5;min-height:15px;margin:5px 2px}
-@media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:240px}.earth-stat b{font-size:13px}}
+.earth-status{font-size:8px;color:#a8d2d5;min-height:10px;margin:3px 2px}
+#earth-country-name{font-size:13px;margin:4px 0 2px!important;color:#f0ffff}
+#earth-country-desc{font-size:9px!important;line-height:1.25!important;margin:0!important}
+@media(max-width:370px){
+ #earth-globe,.earth-orbit{height:252px}
+ .earth-stats-overlay{width:82px;right:2px}
+ .earth-stat{padding:4px 5px}
+ .earth-stat b{font-size:11px}
+ .earth-sun{width:40px;height:40px;left:7px;top:14px}
+ .earth-btn{font-size:8px;padding:7px 1px}
+}
+@media(max-height:760px){
+ #earth-globe,.earth-orbit{height:235px}
+ #earth-page{gap:6px}
+ .earth-hero{padding:8px}
+ .earth-info{padding:7px}
+ .earth-info-grid{gap:4px}
+ .earth-info-cell{padding:5px}
+}
 
 /* Music switch is styled as a home shortcut above. */
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl" onerror="this.onerror=null;this.src='https://unpkg.com/globe.gl'"></script>
 </head>
@@ -406,23 +444,25 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
    <div class="page-head"><button class="back" onclick="earthStop();goHome()">‹ Back</button><h2>🌍 Live Earth</h2></div>
    <div class="earth-hero">
     <div class="earth-kicker"><span class="earth-live-dot"></span>EARTH OBSERVATORY · CONTINUOUS 3D VIEW</div>
-    <h2 style="font-size:22px;margin:7px 0 3px">Our planet, in motion.</h2>
-    <p style="font-size:11px;color:#a9cbd0;margin:0 0 8px">Drag to rotate · Pinch or use controls to zoom · Animated day/night globe</p>
-    <div class="earth-layout"><div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
-     <div class="earth-side">
-      <div class="earth-stat"><b id="earth-pop">8.2B</b><small>EST. POPULATION</small></div>
+    <h2>Our planet, in motion.</h2>
+    <p>Drag to rotate · Pinch or use controls to zoom</p>
+    <div class="earth-layout"><div class="earth-orbit">
+     <div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
+     <div class="earth-sun" aria-label="Animated realistic Sun"></div>
+     <div class="earth-stats-overlay">
+      <div class="earth-stat"><b id="earth-pop">8.2B</b><small>POPULATION</small></div>
       <div class="earth-stat"><b id="earth-births">+0</b><small>BIRTHS TODAY*</small></div>
       <div class="earth-stat"><b id="earth-deaths">+0</b><small>DEATHS TODAY*</small></div>
       <div class="earth-stat"><b id="earth-clock">--:--:--</b><small>UTC TIME</small></div>
      </div>
-    </div>
-    <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ Zoom in</button><button class="earth-btn" onclick="earthZoom(.74)">－ Zoom out</button><button class="earth-btn" onclick="earthReset()">◎ Reset view</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ Pause rotation</button></div>
-    <p class="earth-note">*Global population and daily births/deaths are model-based estimates, not exact live counts. Country search works with the online country database or a small offline fallback. Globe texture and country database need internet access. “4D” here means animated time, lighting and rotation effects on a 3D globe.</p>
+    </div></div>
+    <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ ZOOM IN</button><button class="earth-btn" onclick="earthZoom(.74)">－ ZOOM OUT</button><button class="earth-btn" onclick="earthReset()">◎ RESET</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ PAUSE</button></div>
+    <p class="earth-note">*Population, births and deaths are model-based estimates. Globe texture and full country database require internet access.</p>
    </div>
    <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div>
-    <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search country or capital…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button></div>
-    <div id="earth-suggest" class="earth-suggest"></div><div id="earth-search-status" class="earth-status">Search by country or capital, or tap a country on the globe.</div>
-    <h3 id="earth-country-name" style="margin:7px 0">Select a country</h3><p id="earth-country-desc" style="font-size:12px;color:#b5d2d5;margin:0">Explore country details on the interactive globe.</p>
+    <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search any country or capital…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button></div>
+    <div id="earth-suggest" class="earth-suggest"></div><div id="earth-search-status" class="earth-status">Search any country by name or capital.</div>
+    <h3 id="earth-country-name">Select a country</h3><p id="earth-country-desc">Explore country details on the interactive globe.</p>
     <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>CAPITAL</small><b id="earth-capital">—</b></div><div class="earth-info-cell"><small>POPULATION</small><b id="earth-country-pop">—</b></div><div class="earth-info-cell"><small>AREA</small><b id="earth-country-area">—</b></div></div>
    </div>
   </section>
@@ -702,7 +742,7 @@ let snakeNextDir = {x:1,y:0};
 let snakePoints = 0;
 let snakeLastTime = 0;
 let snakeAccumulator = 0;
-let snakeStep = 75;
+let snakeStep = 105;
 let snakeTouchStart = null;
 
 let carFrame = null;
@@ -1131,9 +1171,8 @@ function getRandomTypingParagraph() {
   if (!available.length) {
     typingUsed = [];
     available = typingParagraphs.map((p, i) => i);
-  }
-
-  const selected =
+}
+const selected =
     available[Math.floor(Math.random() * available.length)];
 
   typingUsed.push(selected);
@@ -1450,7 +1489,7 @@ function resetSnake() {
   snakeNextDir = {x:1,y:0};
   snakeFood = newSnakeFood();
   snakePoints = 0;
-  snakeStep = 75;
+  snakeStep = 105;
   snakeAccumulator = 0;
   snakeLastTime = 0;
 
@@ -1606,7 +1645,7 @@ function snakeMove() {
     snakeFood = newSnakeFood();
 
     $("snake-score").textContent = "Score: " + snakePoints;
-    snakeStep = Math.max(50, 75 - snakePoints * 2.5);
+    snakeStep = Math.max(85, 105 - snakePoints * 1.5);
   } else {
     snakeBody.pop();
   }
@@ -2016,7 +2055,7 @@ function earthInit(){
  if(!earthGlobe){
   if(typeof Globe!=='function'){if(!host.dataset.globeRetry){host.dataset.globeRetry='1';host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">Loading 3D globe…</div>';setTimeout(()=>{host.dataset.globeRetry='';earthInit();},1200);return;}host.innerHTML='<div style="padding:35px 8px;text-align:center;color:#bde9e8;font-size:12px">Globe library load nahi hui. Internet on karke page dobara kholo.</div>';return;}
   try{
-   earthGlobe=Globe()(host,{rendererConfig:{antialias:false,alpha:true,powerPreference:'low-power'}}).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').showAtmosphere(true).atmosphereColor('#58d9e8').atmosphereAltitude(.12).width(host.clientWidth||260).height(host.clientHeight||310).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+   earthGlobe=Globe()(host,{rendererConfig:{antialias:true,alpha:true,powerPreference:'low-power'}}).backgroundColor('rgba(0,0,0,0)').globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg').bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png').bumpScale(.035).showAtmosphere(true).atmosphereColor('#70dff5').atmosphereAltitude(.16).width(host.clientWidth||260).height(host.clientHeight||282).enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
    earthGlobe.pointOfView({lat:22,lng:65,altitude:2.15},0);
    const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.28;ctl.enableDamping=true;ctl.dampingFactor=.06;ctl.minDistance=125;ctl.maxDistance=600;
    /* Heavy global polygon mesh disabled for smoother mobile rendering. Country/capital search remains available. */
@@ -2024,11 +2063,11 @@ function earthInit(){
    document.addEventListener('visibilitychange',earthVisibility);
   }catch(e){console.error('Earth globe initialization failed:',e);host.innerHTML='<div style="padding:25px;color:#ffd6a1;font-size:12px">Globe could not start on this browser. Please reopen the page.</div>';earthGlobe=null;return;}
  }
- earthGlobe.width(host.clientWidth||260).height(host.clientHeight||310);earthLoadCountries();earthStartCounters();earthEnsureSpin();
+ earthGlobe.width(host.clientWidth||260).height(host.clientHeight||282);earthLoadCountries();earthStartCounters();earthEnsureSpin();
 }
 function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();}
-function earthEnsureSpin(){if(!earthGlobe||!earthSpin)return;const c=earthGlobe.controls();c.autoRotate=true;c.autoRotateSpeed=.42;}
-function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||310);}
+function earthEnsureSpin(){if(!earthGlobe||!earthSpin)return;const c=earthGlobe.controls();c.autoRotate=true;c.autoRotateSpeed=.34;}
+function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||282);}
 function earthLoadCountries(){if(earthCountryReady)return;earthCountryReady=true;earthCountriesData=earthFallback.slice();fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]||0,lng:x.latlng?.[1]||0})).filter(x=>x.name).sort((a,b)=>a.name.localeCompare(b.name));document.getElementById('earth-search-status').textContent='Country database loaded · '+earthCountriesData.length+' countries';}).catch(()=>{document.getElementById('earth-search-status').textContent='Offline country list active · '+earthCountriesData.length+' countries available';});}
 function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=(value||'').trim().toLowerCase();if(!q){box.style.display='none';box.innerHTML='';return;}const found=earthCountriesData.filter(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q)).slice(0,8);box.innerHTML=found.map((c,i)=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.capital)+'</span></button>').join('');box.style.display=found.length?'block':'none';if(!found.length)document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
 function earthChooseFirst(){const q=(document.getElementById('earth-country-input').value||'').trim().toLowerCase();if(!q)return;const found=earthCountriesData.find(c=>c.name.toLowerCase()===q||c.capital.toLowerCase()===q)||earthCountriesData.find(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q));if(found)earthPickCountry(earthCountriesData.indexOf(found));else document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
