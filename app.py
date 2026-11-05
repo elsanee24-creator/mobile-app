@@ -106,8 +106,8 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .primary{width:100%;padding:15px;border-radius:16px;background:linear-gradient(100deg,var(--mint),var(--aqua),#9bceff);box-shadow:0 8px 22px #36e4ca45}
 .secondary{width:100%;padding:14px;border-radius:16px;color:#effffb;background:#ffffff16;border:1px solid #ffffff38}
 
-.login-wrap{min-height:690px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 5px}
-.clock-panel{width:100%;display:flex;align-items:center;justify-content:center;gap:20px;margin:0 auto 25px;padding:20px 12px;border-radius:25px;background:linear-gradient(135deg,#ffffff20,#ffffff09);border:1px solid #ffffff40;box-shadow:0 12px 35px #071b3740}
+.login-wrap{min-height:620px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px 5px}
+.clock-panel{width:100%;display:flex;align-items:center;justify-content:center;gap:20px;margin:0 auto 16px;padding:15px 12px;border-radius:25px;background:linear-gradient(135deg,#ffffff20,#ffffff09);border:1px solid #ffffff40;box-shadow:0 12px 35px #071b3740}
 .clock-face{width:116px;height:116px;position:relative;flex-shrink:0;border-radius:50%;background:radial-gradient(circle at 35% 25%,#fff,#d7fff1 55%,#91d9d0);border:5px solid #f5fffc;box-shadow:0 0 0 5px #70f5c155,0 8px 25px #061b3a70}
 .clock-face:before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px solid #7aa9a2}
 .clock-face .number{position:absolute;color:#24515a;font-size:10px;font-weight:900;transform:translate(-50%,-50%)}
@@ -120,8 +120,8 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .digital-time{font-size:25px;font-weight:900;color:#fff;letter-spacing:1px}
 .digital-date{font-size:11px;color:#c9e9e5;margin-top:7px;line-height:1.5}
 .login-title{font-size:34px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a5ffe1,#8ceaff,#d8b4ff,#ffe1a1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.login-sub{max-width:290px;margin:8px auto 25px}
-.login-actions{width:100%;max-width:310px;display:grid;gap:12px}
+.login-sub{max-width:290px;margin:6px auto 16px}
+.login-actions{width:100%;max-width:310px;display:grid;gap:9px}
 .section{margin:18px 0}
 
 .card{padding:15px;border-radius:20px;background:linear-gradient(135deg,#ffffff20,#ffffff0c);border:1px solid #ffffff35;box-shadow:0 8px 24px #081b3440}
@@ -136,6 +136,26 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .row-tile{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-top:10px;border-radius:16px;text-align:left;color:#f2fffc;background:linear-gradient(110deg,#274d70,#345d57);border:1px solid #91d6c7}
 .row-tile .emoji{font-size:22px}
 .logout-btn{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
+/* COMPACT HOME SHORTCUTS — square neon buttons */
+.home-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.home-shortcut{min-width:0;min-height:78px;padding:8px 4px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;color:#f2fffc;background:linear-gradient(145deg,#123b55,#174e55 55%,#382b67);border:1px solid #67f5db88;box-shadow:0 0 12px #42e9d51c,inset 0 0 12px #8cffff0d}
+.home-shortcut .emoji{font-size:22px;line-height:1.1}
+.home-shortcut b{font-size:10px;line-height:1.2;overflow-wrap:anywhere}
+.home-shortcut.neon-shortcut{background:linear-gradient(145deg,#17234d,#38216b);border-color:#a98cff;box-shadow:0 0 13px #9d75ff30}
+.home-shortcut.earth-shortcut{background:linear-gradient(145deg,#063b43,#075e60);border-color:#55dedb;box-shadow:0 0 13px #55dedb30}
+.home-shortcut.logout-shortcut{background:linear-gradient(145deg,#5b242d,#842e3b);border-color:#ff8c9a}
+#home-page .section{margin:11px 0}
+#home-page .tile{min-height:88px;padding:9px 5px;gap:5px}
+#home-page .tile .emoji{font-size:23px}
+#home-page .wide-tile{padding:12px;gap:10px;border-radius:16px}
+#home-page .wide-icon{font-size:29px}
+#home-page .wide-title{font-size:15px;margin-bottom:2px}
+#home-page .wide-desc{font-size:10px}
+@media(max-height:760px){
+ #home-page .section{margin:8px 0}
+ .home-shortcut{min-height:70px}
+}
+
 .page-head{display:flex;align-items:center;gap:12px;margin:6px 0 18px}
 .back{padding:10px 13px;border-radius:12px;color:#effffb;background:#ffffff1c;border:1px solid #ffffff35}
 .field{width:100%;padding:13px;border-radius:13px;border:1px solid #ffffff55;background:#ffffffed;color:#183a42;font-size:14px;margin:5px 0 12px}
@@ -305,7 +325,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
 
-  <div class="login-title">Welcome</div>
+   <div class="login-title">Welcome</div>
    <h2 style="color:#f5fffc;margin:5px 0">Your space. Your apps.</h2>
    <p class="login-sub">A little world of useful tools, notes and games—made for you.</p>
 
@@ -337,13 +357,13 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </button>
    </div>
 
-   <div class="section">
-    <button class="row-tile" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>Settings</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile" onclick="openPage('about-page')"><span class="emoji">✨</span><b>About</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile school-home-btn" onclick="openPage('school-page')"><span class="emoji">🏫</span><b>About My School</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile" style="background:linear-gradient(110deg,#102d50,#49327e);border-color:#72eaff66" onclick="openPage('breakout-page');breakoutInit()"><span class="emoji">🟣</span><b>NEON BREAKOUT</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile" style="background:linear-gradient(110deg,#062b38,#125a60);border-color:#55dedb77" onclick="openPage('earth-page');earthInit()"><span class="emoji">🌍</span><b>LIVE EARTH 4D</b><span style="margin-left:auto">›</span></button>
-    <button class="row-tile logout-btn" onclick="logout()"><span class="emoji">🚪</span><b>Logout</b><span style="margin-left:auto">›</span></button>
+   <div class="home-shortcuts">
+    <button class="home-shortcut" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>SETTINGS</b></button>
+    <button class="home-shortcut" onclick="openPage('about-page')"><span class="emoji">✨</span><b>ABOUT</b></button>
+    <button class="home-shortcut" onclick="openPage('school-page')"><span class="emoji">🏫</span><b>ABOUT MY SCHOOL</b></button>
+    <button class="home-shortcut neon-shortcut" onclick="openPage('breakout-page');breakoutInit()"><span class="emoji">🟣</span><b>NEON BREAKOUT</b></button>
+    <button class="home-shortcut earth-shortcut" onclick="openPage('earth-page');earthInit()"><span class="emoji">🌍</span><b>LIVE EARTH 4D</b></button>
+    <button class="home-shortcut logout-shortcut" onclick="logout()"><span class="emoji">🚪</span><b>LOGOUT</b></button>
    </div>
   </section>
 
@@ -475,7 +495,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
   </section>
-
   <section id="flappy-page" class="hidden">
    <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Flappy Bird</h2></div>
    <div class="card">
@@ -783,7 +802,6 @@ function showPage(id) {
 function openPage(id) {
   showPage(id);
 }
-
 function goHome() {
   if (appPin && !isGuest) {
     showPage("pin-page");
@@ -1474,6 +1492,7 @@ function drawSnake() {
     sx.fill();
     sx.restore();
   }
+
   // Continuous rounded snake body, not separate dotted blocks.
   if (points.length > 1) {
     sx.save();
@@ -1946,7 +1965,6 @@ if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;con
 const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
 nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
 // ================= END NEON BREAKOUT =================
-
 // ================= LIVE EARTH DASHBOARD =================
 let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
 const earthFallback=[
