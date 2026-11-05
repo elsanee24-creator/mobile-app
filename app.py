@@ -144,8 +144,35 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .home-shortcut.neon-shortcut{background:linear-gradient(145deg,#17234d,#38216b);border-color:#a98cff;box-shadow:0 0 13px #9d75ff30}
 .home-shortcut.earth-shortcut{background:linear-gradient(145deg,#063b43,#075e60);border-color:#55dedb;box-shadow:0 0 13px #55dedb30}
 .home-shortcut.logout-shortcut{background:linear-gradient(145deg,#5b242d,#842e3b);border-color:#ff8c9a}
+
+/* 3D DEPTH FINISH — preserves the existing app background palette */
+.phone{box-shadow:0 28px 70px #263d6a70,inset 0 3px 5px #ffffffb8,inset 0 -8px 18px #20345a22}
+.screen{box-shadow:inset 0 2px 4px #ffffff30,inset 0 -22px 38px #07142635,0 12px 28px #07142635}
+.screen:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:linear-gradient(145deg,#ffffff0b,transparent 32%,#0000000b 100%);box-shadow:inset 0 1px 0 #ffffff25,inset 0 0 28px #ffffff08}
+.screen>*{position:relative;z-index:1}
+button{position:relative;overflow:hidden;transform:translateZ(0);box-shadow:inset 0 2px 0 #ffffff55,inset 0 -4px 0 #00000020,0 7px 14px #06172b38;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 0 3px 5px #00000022,0 2px 5px #06172b35}
+.card,.clock-panel,.tile,.wide-tile,.row-tile,.home-shortcut,.nb-panel,.earth-panel,.school-option,.school-text-card{box-shadow:inset 0 2px 0 #ffffff35,inset 0 -5px 0 #00000018,0 10px 20px #06172b38}
+.home-shortcut{border-width:1px 1px 3px}
+.home-shortcut:nth-child(1){background:linear-gradient(145deg,#287e91,#164b69);border-color:#8ce9df}
+.home-shortcut:nth-child(2){background:linear-gradient(145deg,#7452a8,#39275f);border-color:#c7a6ff}
+.home-shortcut:nth-child(3){background:linear-gradient(145deg,#a87836,#654329);border-color:#ffe0a8}
+.home-shortcut.neon-shortcut{background:linear-gradient(145deg,#5d42a4,#27214f);border-color:#c4a4ff}
+.home-shortcut.earth-shortcut{background:linear-gradient(145deg,#168b82,#064b50);border-color:#75f2e2}
+.home-shortcut.music-shortcut{background:linear-gradient(145deg,#287bb5,#17436f);border-color:#8bd7ff}
+.home-shortcut.music-shortcut.is-on{background:linear-gradient(145deg,#248b73,#105447);border-color:#8dffd1}
+#music-toggle{width:100%;height:auto;min-height:78px;padding:8px 4px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#f2fffc;font-size:10px;letter-spacing:0}
+#music-toggle .emoji{font-size:22px;line-height:1.1}
+#music-toggle b{font-size:10px;line-height:1.2}
+.logout-row{width:100%;min-height:48px;margin-top:9px;padding:10px 15px;border-radius:14px;display:flex;align-items:center;gap:10px;text-align:left;color:#fff;background:linear-gradient(110deg,#a83b43,#702b43);border:1px solid #ff9da5;border-bottom-width:3px}
+.logout-row .emoji{font-size:20px}
+.logout-row b{font-size:11px;letter-spacing:.6px}
+.logout-arrow{margin-left:auto;font-size:22px}
 #home-page .section{margin:11px 0}
 #home-page .tile{min-height:88px;padding:9px 5px;gap:5px}
+#home-page .tile-grid .tile:nth-child(1){background:linear-gradient(145deg,#176b67,#244b83);border-color:#8ce9df}
+#home-page .tile-grid .tile:nth-child(2){background:linear-gradient(145deg,#7452a8,#39275f);border-color:#c7a6ff}
+#home-page .tile-grid .tile:nth-child(3){background:linear-gradient(145deg,#a87836,#654329);border-color:#ffe0a8}
 #home-page .tile .emoji{font-size:23px}
 #home-page .wide-tile{padding:12px;gap:10px;border-radius:16px}
 #home-page .wide-icon{font-size:29px}
@@ -291,9 +318,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
 .earth-status{font-size:10px;color:#a8d2d5;min-height:15px;margin:5px 2px}
 @media(max-width:370px){.earth-layout{grid-template-columns:minmax(0,1fr) 96px}#earth-globe{height:240px}.earth-stat b{font-size:13px}}
 
-/* SMALL BACKGROUND MUSIC SWITCH — isolated addition */
-#music-toggle{position:fixed;right:12px;bottom:12px;z-index:99999;width:54px;height:32px;padding:0;border-radius:18px;border:1px solid #8ce9df99;background:linear-gradient(135deg,#123d49,#292c5a);color:#eafffa;font-size:10px;font-weight:900;box-shadow:0 4px 14px #00121c88;letter-spacing:.3px}
-#music-toggle.is-on{background:linear-gradient(100deg,#167b65,#176b80);border-color:#65f5c1}
+/* Music switch is styled as a home shortcut above. */
 </style>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl" onerror="this.onerror=null;this.src='https://unpkg.com/globe.gl'"></script>
 </head>
@@ -363,8 +388,9 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     <button class="home-shortcut" onclick="openPage('school-page')"><span class="emoji">🏫</span><b>ABOUT MY SCHOOL</b></button>
     <button class="home-shortcut neon-shortcut" onclick="openPage('breakout-page');breakoutInit()"><span class="emoji">🟣</span><b>NEON BREAKOUT</b></button>
     <button class="home-shortcut earth-shortcut" onclick="openPage('earth-page');earthInit()"><span class="emoji">🌍</span><b>LIVE EARTH 4D</b></button>
-    <button class="home-shortcut logout-shortcut" onclick="logout()"><span class="emoji">🚪</span><b>LOGOUT</b></button>
+    <button id="music-toggle" class="home-shortcut music-shortcut" type="button" onclick="toggleBackgroundMusic()" aria-label="Turn background music on"><span class="emoji">♫</span><b>MUSIC OFF</b></button>
    </div>
+   <button class="logout-row" onclick="logout()"><span class="emoji">🚪</span><b>LOGOUT</b><span class="logout-arrow">›</span></button>
   </section>
 
   <section id="breakout-page" class="hidden">
@@ -427,7 +453,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
    </div>
   </section>
 
-  <section id="password-page" class="hidden">
+   <section id="password-page" class="hidden">
    <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Password Generator</h2></div>
    <div class="card">
     <p>Create a strong random password.</p>
@@ -495,6 +521,7 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
     </div>
    </div>
   </section>
+
   <section id="flappy-page" class="hidden">
    <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Flappy Bird</h2></div>
    <div class="card">
@@ -618,7 +645,6 @@ button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
   </section>
 
  </main>
- <button id="music-toggle" type="button" onclick="toggleBackgroundMusic()" aria-label="Turn background music on">♫ OFF</button>
 </div>
 """
 APP += r"""
@@ -676,7 +702,7 @@ let snakeNextDir = {x:1,y:0};
 let snakePoints = 0;
 let snakeLastTime = 0;
 let snakeAccumulator = 0;
-let snakeStep = 115;
+let snakeStep = 75;
 let snakeTouchStart = null;
 
 let carFrame = null;
@@ -802,6 +828,7 @@ function showPage(id) {
 function openPage(id) {
   showPage(id);
 }
+
 function goHome() {
   if (appPin && !isGuest) {
     showPage("pin-page");
@@ -947,7 +974,6 @@ async function copyPassword() {
     $("password-output").textContent = value + "  (Select to copy)";
   }
 }
-
 // NOTES
 
 function getNotes() {
@@ -1424,7 +1450,7 @@ function resetSnake() {
   snakeNextDir = {x:1,y:0};
   snakeFood = newSnakeFood();
   snakePoints = 0;
-  snakeStep = 115;
+  snakeStep = 75;
   snakeAccumulator = 0;
   snakeLastTime = 0;
 
@@ -1580,7 +1606,7 @@ function snakeMove() {
     snakeFood = newSnakeFood();
 
     $("snake-score").textContent = "Score: " + snakePoints;
-    snakeStep = Math.max(65, 115 - snakePoints * 3);
+    snakeStep = Math.max(50, 75 - snakePoints * 2.5);
   } else {
     snakeBody.pop();
   }
@@ -1761,9 +1787,8 @@ function drawCar() {
     365,
     "#45d9ff",
     1.12
-  );
-
-  if (!carRunning) {
+ );
+ if (!carRunning) {
     cx.fillStyle = "#ffffff";
     cx.textAlign = "center";
     cx.font = "bold 19px Arial";
@@ -1965,6 +1990,7 @@ if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;con
 const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
 nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
 // ================= END NEON BREAKOUT =================
+
 // ================= LIVE EARTH DASHBOARD =================
 let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
 const earthFallback=[
@@ -2020,65 +2046,117 @@ function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}i
 
 
 // ===============================
-// OPTIONAL ORIGINAL BACKGROUND BEAT
-// Small isolated addition; starts only after the user taps ON.
+// ORIGINAL INSTRUMENTAL BACKGROUND GROOVE
+// Starts only after the user taps the in-app music button.
 // ===============================
 let musicAudio = null;
 let musicTimer = null;
 let musicStep = 0;
 let musicNoiseBuffer = null;
+
 function musicSetButton(on){
  const b=document.getElementById('music-toggle');
  if(!b)return;
- b.textContent=on?'♫ ON':'♫ OFF';
+ const label=b.querySelector('b');
+ if(label)label.textContent=on?'MUSIC ON':'MUSIC OFF';
  b.classList.toggle('is-on',on);
  b.setAttribute('aria-label',on?'Turn background music off':'Turn background music on');
 }
 function musicMakeNoiseBuffer(){
- const length=Math.floor(musicAudio.sampleRate*.22);
+ const length=Math.floor(musicAudio.sampleRate*.24);
  const buffer=musicAudio.createBuffer(1,length,musicAudio.sampleRate);
  const data=buffer.getChannelData(0);
  for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);
  return buffer;
 }
+function musicTone(time,frequency,duration,volume,type='triangle',filterFreq=0){
+ const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
+ const filter=filterFreq?musicAudio.createBiquadFilter():null;
+ osc.type=type;osc.frequency.setValueAtTime(frequency,time);
+ gain.gain.setValueAtTime(.0001,time);
+ gain.gain.exponentialRampToValueAtTime(volume,time+.012);
+ gain.gain.exponentialRampToValueAtTime(.0001,time+duration);
+ if(filter){filter.type='lowpass';filter.frequency.setValueAtTime(filterFreq,time);osc.connect(filter);filter.connect(gain);}
+ else osc.connect(gain);
+ gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+duration+.02);
+}
 function musicKick(time){
  const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
- osc.type='sine';osc.frequency.setValueAtTime(125,time);osc.frequency.exponentialRampToValueAtTime(43,time+.13);
- gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.34,time+.008);gain.gain.exponentialRampToValueAtTime(.0001,time+.19);
- osc.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.2);
+ osc.type='sine';osc.frequency.setValueAtTime(145,time);osc.frequency.exponentialRampToValueAtTime(42,time+.16);
+ gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.42,time+.008);gain.gain.exponentialRampToValueAtTime(.0001,time+.23);
+ osc.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.24);
 }
 function musicSnare(time){
  const noise=musicAudio.createBufferSource(),filter=musicAudio.createBiquadFilter(),gain=musicAudio.createGain();
- noise.buffer=musicNoiseBuffer;filter.type='highpass';filter.frequency.value=1200;
- gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.12,time+.004);gain.gain.exponentialRampToValueAtTime(.0001,time+.13);
- noise.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);noise.start(time);noise.stop(time+.14);
+ noise.buffer=musicNoiseBuffer;filter.type='highpass';filter.frequency.value=1050;
+ gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.15,time+.005);gain.gain.exponentialRampToValueAtTime(.0001,time+.16);
+ noise.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);noise.start(time);noise.stop(time+.17);
+ musicTone(time,185,.09,.055,'triangle');
 }
-function musicHat(time){
- const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
- osc.type='square';osc.frequency.value=7800;
- gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.022,time+.002);gain.gain.exponentialRampToValueAtTime(.0001,time+.035);
- osc.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.04);
+function musicHat(time,accent=false){
+ const noise=musicAudio.createBufferSource(),filter=musicAudio.createBiquadFilter(),gain=musicAudio.createGain();
+ noise.buffer=musicNoiseBuffer;filter.type='highpass';filter.frequency.value=accent?8500:6800;
+ gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(accent?.035:.018,time+.002);gain.gain.exponentialRampToValueAtTime(.0001,time+.045);
+ noise.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);noise.start(time);noise.stop(time+.05);
+}
+function musicBass(time,frequency){
+ musicTone(time,frequency,.22,.13,'sawtooth',420);
+}
+function musicPluck(time,frequency){
+ musicTone(time,frequency,.19,.075,'triangle',2600);
+ musicTone(time,frequency*2,.11,.018,'sine');
+}
+function musicPad(time,frequencies){
+ frequencies.forEach((frequency,index)=>{
+  const osc=musicAudio.createOscillator(),gain=musicAudio.createGain(),filter=musicAudio.createBiquadFilter();
+  osc.type='sawtooth';osc.frequency.setValueAtTime(frequency,time);
+  filter.type='lowpass';filter.frequency.value=1150;
+  gain.gain.setValueAtTime(.0001,time);gain.gain.linearRampToValueAtTime(.026,time+.12);gain.gain.setValueAtTime(.022,time+.48);gain.gain.exponentialRampToValueAtTime(.0001,time+.9);
+  osc.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.92);
+ });
 }
 function musicSchedule(){
  if(!musicAudio||musicAudio.state!=='running')return;
- const now=musicAudio.currentTime+.025,step=musicStep%16;
+ const now=musicAudio.currentTime+.035,step=musicStep%16;
+ const chords=[
+  [220.00,261.63,329.63],   // Am
+  [174.61,220.00,261.63],   // F
+  [130.81,164.81,196.00],   // C
+  [196.00,246.94,293.66]    // G
+ ];
+ const bass=[110,87.31,65.41,98];
+ const melody=[440,523.25,659.25,523.25,392,440,523.25,659.25,
+               493.88,587.33,739.99,587.33,392,493.88,587.33,659.25];
+ if(step===0)musicPad(now,chords[Math.floor(musicStep/16)%4]);
  if(step===0||step===8)musicKick(now);
  if(step===4||step===12)musicSnare(now);
- if(step%2===0)musicHat(now);
- musicStep++; 
+ if(step%2===0)musicHat(now,step===0||step===8);
+ if(step===0||step===4||step===8||step===12)musicBass(now,bass[Math.floor(musicStep/16)%4]);
+ if(step%2===0)musicPluck(now,melody[step]);
+ musicStep++;
 }
 async function toggleBackgroundMusic(){
  const b=document.getElementById('music-toggle');
- if(musicTimer!==null){clearInterval(musicTimer);musicTimer=null;if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}musicNoiseBuffer=null;musicSetButton(false);return;}
+ if(musicTimer!==null){
+  clearInterval(musicTimer);musicTimer=null;
+  if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}
+  musicNoiseBuffer=null;musicSetButton(false);return;
+ }
  try{
   const AudioCtx=window.AudioContext||window.webkitAudioContext;
   if(!AudioCtx)throw new Error('Audio unavailable');
   musicAudio=new AudioCtx();
   await musicAudio.resume();
   musicNoiseBuffer=musicMakeNoiseBuffer();musicStep=0;
-  musicSchedule();musicTimer=setInterval(musicSchedule,125);musicSetButton(true);
- }catch(e){if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}musicSetButton(false);if(b)b.textContent='♫ N/A';}
+  musicSchedule();musicTimer=setInterval(musicSchedule,143);musicSetButton(true);
+ }catch(e){
+  if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}
+  musicSetButton(false);
+  if(b){const label=b.querySelector('b');if(label)label.textContent='MUSIC N/A';}
+ }
 }
+// ================= END BACKGROUND MUSIC =================
+
 // ================= END BACKGROUND MUSIC =================
 
 // INITIAL SETUP
