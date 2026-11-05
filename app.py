@@ -300,19 +300,19 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
 #earth-page .page-head{margin:1px 0 2px;gap:9px}
 #earth-page .page-head h2{font-size:18px;margin:0}
 #earth-page .back{padding:7px 10px;font-size:11px}
-.earth-hero{position:relative;background:radial-gradient(circle at 50% 42%,#16495a,#071722 65%,#040b13);border:1px solid #55d9dc66;border-radius:20px;padding:8px;overflow:hidden;box-shadow:0 20px 46px #00121caa,inset 0 2px 0 #ffffff24,inset 0 -12px 24px #00000030;transform:perspective(1100px) translateZ(0)}
+.earth-hero{position:relative;background-color:#000!important;background-image:radial-gradient(1px 1px at 7% 13%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 18% 72%,#9bdcffcc 98%,transparent),radial-gradient(1.5px 1.5px at 31% 28%,#ffffffcc 98%,transparent),radial-gradient(1px 1px at 43% 83%,#ffffffaa 98%,transparent),radial-gradient(1px 1px at 58% 17%,#c8eaffdd 98%,transparent),radial-gradient(1px 1px at 72% 64%,#ffffffcc 98%,transparent),radial-gradient(1.5px 1.5px at 88% 31%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 94% 82%,#9bdcffcc 98%,transparent),radial-gradient(ellipse at 50% 45%,#101a32 0%,#03050d 48%,#000 78%);background-size:100% 100%;border:1px solid #55d9dc66;border-radius:20px;padding:8px;overflow:hidden;box-shadow:0 20px 46px #00121caa,inset 0 2px 0 #ffffff24,inset 0 -12px 24px #00000030;transform:perspective(1100px) translateZ(0)}
 .earth-kicker{font-size:9px;letter-spacing:1.5px;color:#71e7dc;font-weight:800}
 .earth-hero h2{font-size:17px!important;margin:5px 0 1px!important}
 .earth-hero>p{font-size:9px!important;margin:0!important;line-height:1.3!important}
 .earth-layout{display:block;position:relative}
-.earth-orbit{position:relative;width:100%;height:224px;overflow:hidden}
-#earth-globe{width:100%;height:224px;min-width:0;touch-action:pan-y;cursor:grab;position:relative;z-index:1}
+.earth-orbit{position:relative;width:100%;height:224px;overflow:hidden;background-color:#000;background-image:radial-gradient(1px 1px at 8% 18%,#fff 98%,transparent),radial-gradient(1px 1px at 23% 75%,#9bdcff 98%,transparent),radial-gradient(1.5px 1.5px at 43% 12%,#fff 98%,transparent),radial-gradient(1px 1px at 66% 84%,#fff 98%,transparent),radial-gradient(1px 1px at 91% 34%,#d9efff 98%,transparent),radial-gradient(ellipse at 50% 50%,#071326 0%,#01030a 68%,#000 100%)}
+#earth-globe{width:100%;height:224px;min-width:0;touch-action:none;cursor:grab;position:relative;z-index:1}
 #earth-globe:active{cursor:grabbing}
-.earth-sun{position:absolute;z-index:3;left:9px;top:13px;width:56px;height:56px;border-radius:50%;pointer-events:none;background-color:#ff9d35;background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);background-size:cover;background-position:center;background-blend-mode:screen;box-shadow:0 0 14px 6px #ffb34b99,0 0 42px 19px #ff6b2c66,inset -9px -7px 15px #7b170b88;animation:earthSunTurn 42s linear infinite}
+.earth-sun{position:absolute;z-index:3;left:9px;top:13px;width:56px;height:56px;border-radius:50%;pointer-events:none;background-color:#ff9d35;background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);background-size:cover;background-position:center;background-blend-mode:normal;box-shadow:0 0 16px 7px #ffcf6bba,0 0 38px 20px #ff8b2e88,0 0 76px 34px #ff5b1d55,inset -9px -7px 15px #7b170b88;animation:earthSunTurn 42s linear infinite}
 .earth-sun:after{content:"";position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,#ffb34b22 42%,#ff8a2b18 60%,transparent 72%);filter:blur(3px)}
 @keyframes earthSunTurn{to{transform:rotate(360deg)}}
-.earth-stats-overlay{position:absolute;z-index:4;right:5px;top:8px;width:91px;display:grid;gap:5px;pointer-events:none}
-.earth-stat{background:linear-gradient(145deg,#102f3bdc,#071721df);border:1px solid #8ce8e477;border-radius:9px;padding:5px 6px;min-width:0;box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;backdrop-filter:blur(5px)}
+.earth-stats-overlay{display:none!important}.earth-stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:5px;}
+.earth-stats-row .earth-stat{min-width:0;text-align:center;padding:5px 3px;background:linear-gradient(145deg,#102f3bdc,#071721df);border:1px solid #8ce8e477;border-radius:9px;padding:5px 6px;min-width:0;box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;backdrop-filter:blur(5px)}
 .earth-stat b{display:block;color:#e8ffff;font-size:12px;line-height:1.15;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
 .earth-stat small{display:block;color:#91cbd0;font-size:7px;letter-spacing:.45px;margin-top:3px}
 .earth-live-dot{display:inline-block;width:6px;height:6px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:5px;animation:earthPulse 1.5s infinite}
@@ -449,14 +449,13 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
     <div class="earth-layout"><div class="earth-orbit">
      <div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
      <div class="earth-sun" aria-label="Animated realistic Sun"></div>
-     <div class="earth-stats-overlay">
-      <div class="earth-stat"><b id="earth-pop">8.2B</b><small>POPULATION</small></div>
-      <div class="earth-stat"><b id="earth-births">+0</b><small>BIRTHS TODAY*</small></div>
-      <div class="earth-stat"><b id="earth-deaths">+0</b><small>DEATHS TODAY*</small></div>
-      <div class="earth-stat"><b id="earth-clock">--:--:--</b><small>UTC TIME</small></div>
-     </div>
-    </div></div>
+     </div></div>
     <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ ZOOM IN</button><button class="earth-btn" onclick="earthZoom(.74)">－ ZOOM OUT</button><button class="earth-btn" onclick="earthReset()">◎ RESET</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ PAUSE</button></div>
+    <div class="earth-stats-row">
+     <div class="earth-stat"><b id="earth-pop">8.2B</b><small>POPULATION</small></div>
+     <div class="earth-stat"><b id="earth-births">+0</b><small>BIRTHS TODAY*</small></div>
+     <div class="earth-stat"><b id="earth-deaths">+0</b><small>DEATHS TODAY*</small></div>
+    </div>
     <p class="earth-note">*Population, births and deaths are model-based estimates. Globe texture and full country database require internet access.</p>
    </div>
    <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div>
@@ -466,7 +465,7 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
     <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>CAPITAL</small><b id="earth-capital">—</b></div><div class="earth-info-cell"><small>POPULATION</small><b id="earth-country-pop">—</b></div><div class="earth-info-cell"><small>AREA</small><b id="earth-country-area">—</b></div></div>
    </div>
   </section>
-  
+
   <section id="calculator-page" class="hidden">
    <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Calculator</h2></div>
    <div class="calc-display" id="calc-display">0</div>
@@ -710,7 +709,6 @@ const store = {
     } catch (e) {}
   }
 };
-
 let userName = store.get("mobile_name", "Guest");
 let appPin = store.get("mobile_pin", "");
 let isGuest = false;
@@ -972,6 +970,7 @@ function calcResult() {
 }
 
 // PASSWORD GENERATOR
+
 function generatePassword() {
   let length = parseInt($("pass-length").value, 10);
 
@@ -1373,7 +1372,6 @@ function drawFlappy() {
     fx.fillText("Tap PLAY to start", w / 2, h / 2);
   }
 }
-
 function startFlappy() {
   stopFlappy();
 
@@ -1557,6 +1555,7 @@ function drawSnake() {
     sx.fill();
     sx.restore();
   }
+
   // Continuous rounded snake body, not separate dotted blocks.
   if (points.length > 1) {
     sx.save();
@@ -2098,7 +2097,7 @@ function earthInit(){
     .width(host.clientWidth||260).height(host.clientHeight||224)
     .enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
    earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},0);
-   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.34;ctl.enableDamping=true;ctl.dampingFactor=.075;ctl.minDistance=125;ctl.maxDistance=600;
+   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.34;ctl.enableDamping=true;ctl.dampingFactor=.075;ctl.enableRotate=true;ctl.enablePan=false;ctl.rotateSpeed=.72;ctl.minPolarAngle=0;ctl.maxPolarAngle=Math.PI;ctl.minDistance=125;ctl.maxDistance=600;
    window.addEventListener('resize',earthResize);document.addEventListener('visibilitychange',earthVisibility);
   }catch(e){console.warn('3D globe unavailable; using textured globe fallback.',e);earthGlobe=null;earthStartFallback();}
  }
@@ -2106,7 +2105,7 @@ function earthInit(){
  earthLoadCountries();earthStartCounters();earthEnsureSpin();
 }
 function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();}
-function earthEnsureSpin(){if(!earthGlobe||!earthSpin)return;const c=earthGlobe.controls();c.autoRotate=true;c.autoRotateSpeed=.34;}
+function earthEnsureSpin(){if(!earthGlobe)return;const c=earthGlobe.controls();c.enableRotate=true;c.enablePan=false;c.rotateSpeed=.72;c.minPolarAngle=0;c.maxPolarAngle=Math.PI;if(earthSpin){c.autoRotate=true;c.autoRotateSpeed=.34;}}
 function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||282);}
 function earthLoadCountries(){if(earthCountryReady)return;earthCountryReady=true;earthCountriesData=earthFallback.slice();fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]||0,lng:x.latlng?.[1]||0})).filter(x=>x.name).sort((a,b)=>a.name.localeCompare(b.name));document.getElementById('earth-search-status').textContent='Country database loaded · '+earthCountriesData.length+' countries';}).catch(()=>{document.getElementById('earth-search-status').textContent='Offline country list active · '+earthCountriesData.length+' countries available';});}
 function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=(value||'').trim().toLowerCase();if(!q){box.style.display='none';box.innerHTML='';return;}const found=earthCountriesData.filter(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q)).slice(0,8);box.innerHTML=found.map((c,i)=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.capital)+'</span></button>').join('');box.style.display=found.length?'block':'none';if(!found.length)document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
@@ -2119,7 +2118,7 @@ function earthSelectCoords(lat,lng){document.getElementById('earth-country-name'
 function earthZoom(f){if(earthGlobe){const p=earthGlobe.pointOfView();earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.58,Math.min(5,p.altitude/f))},400);}else if(earthFallbackCanvas){earthFallbackZoom=Math.max(.75,Math.min(1.8,earthFallbackZoom*f));earthFallbackCanvas.style.transform='scale('+earthFallbackZoom+')';}}
 function earthReset(){if(earthGlobe)earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},700);if(earthFallbackCanvas){earthFallbackZoom=1;earthFallbackCanvas.style.transform='scale(1)';earthFallbackAngle=0;}earthSpin=true;earthEnsureSpin();const b=document.getElementById('earth-spin');if(b)b.textContent='Ⅱ Pause rotation';}
 function earthToggleSpin(){earthSpin=!earthSpin;if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;const b=document.getElementById('earth-spin');if(b)b.textContent=earthSpin?'Ⅱ Pause rotation':'▶ Resume rotation';}
-function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);const dayStart=new Date();dayStart.setUTCHours(0,0,0,0);earthStartedAt=dayStart.getTime();const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};put('earth-pop', (pop/1e9).toFixed(3)+'B');put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));put('earth-clock',new Date().toISOString().slice(11,19));};update();earthTimer=setInterval(update,1000);}
+function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);const dayStart=new Date();dayStart.setUTCHours(0,0,0,0);earthStartedAt=dayStart.getTime();const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};put('earth-pop', (pop/1e9).toFixed(3)+'B');put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));};update();earthTimer=setInterval(update,1000);}
 function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;if(earthFallbackFrame){cancelAnimationFrame(earthFallbackFrame);earthFallbackFrame=null;}}
 // ================= END LIVE EARTH =================
 
