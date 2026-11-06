@@ -14,16 +14,25 @@ APP = r"""
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+
 *{box-sizing:border-box}
 
 :root{
- --mint:#65f5c1;--aqua:#35d8e8;--blue:#668cff;
- --violet:#a77bff;--gold:#ffd477;
- --ink:#102b35;--paper:#f2fff9;--muted:#b9d9d5;
+ --mint:#65f5c1;
+--aqua:#35d8e8;
+--blue:#668cff;
+ --violet:#a77bff;
+--gold:#ffd477;
+ --ink:#102b35;
+--paper:#f2fff9;
+--muted:#b9d9d5;
 }
 
 html,body{
- margin:0;padding:0;width:100%;min-height:100%;
+ margin:0;
+padding:0;
+width:100%;
+min-height:100%;
  font-family:Arial,sans-serif;
  background:linear-gradient(135deg,#c8fff0,#b8d9ff,#e5caff,#fff0c9);
  color:white;
@@ -39,15 +48,22 @@ body{
 }
 
 .phone{
- width:100%;max-width:440px;min-height:820px;
- margin:0 auto;padding:10px;border-radius:38px;
+ width:100%;
+max-width:440px;
+min-height:820px;
+ margin:0 auto;
+padding:10px;
+border-radius:38px;
  background:linear-gradient(145deg,#e5fff7,#8be7d3 24%,#92aaff 58%,#d6a9ff 82%,#ffe0a0);
  box-shadow:0 25px 65px #344e7960,inset 0 0 0 2px #ffffffb0;
 }
 
 .screen{
- min-height:800px;overflow:hidden;position:relative;
- border-radius:30px;padding:18px 15px 24px;
+ min-height:800px;
+overflow:hidden;
+position:relative;
+ border-radius:30px;
+padding:18px 15px 24px;
  background:
  radial-gradient(circle at 5% 0%,#35e9bd55,transparent 35%),
  radial-gradient(circle at 100% 30%,#826bff55,transparent 38%),
@@ -93,156 +109,491 @@ body{
  background:radial-gradient(circle at 90% 5%,#62f0a855,transparent 38%),linear-gradient(145deg,#102e32,#14564b 55%,#267b62);
 }
 
-.topbar{display:flex;justify-content:space-between;align-items:center;color:#eafffa;font-size:12px;margin:2px 4px 20px}
-.brand{font-weight:900;letter-spacing:2px;font-size:17px}
-.pill{padding:7px 11px;border-radius:30px;background:#ffffff20;border:1px solid #ffffff35;color:#eafffa;font-size:11px}
+.topbar{display:flex;
+justify-content:space-between;
+align-items:center;
+color:#eafffa;
+font-size:12px;
+margin:2px 4px 20px}
+.brand{font-weight:900;
+letter-spacing:2px;
+font-size:17px}
+.pill{padding:7px 11px;
+border-radius:30px;
+background:#ffffff20;
+border:1px solid #ffffff35;
+color:#eafffa;
+font-size:11px}
 
 h1,h2,h3,p{margin-top:0}
-h1{font-size:30px;line-height:1.1;margin-bottom:9px}
-h2{font-size:21px;margin-bottom:8px}
-p{color:#c5e3e2;line-height:1.5;font-size:13px}
+h1{font-size:30px;
+line-height:1.1;
+margin-bottom:9px}
+h2{font-size:21px;
+margin-bottom:8px}
+p{color:#c5e3e2;
+line-height:1.5;
+font-size:13px}
 
-button{border:0;cursor:pointer;font-weight:800;font-size:13px;color:#12323a}
-.primary{width:100%;padding:15px;border-radius:16px;background:linear-gradient(100deg,var(--mint),var(--aqua),#9bceff);box-shadow:0 8px 22px #36e4ca45}
-.secondary{width:100%;padding:14px;border-radius:16px;color:#effffb;background:#ffffff16;border:1px solid #ffffff38}
+button{border:0;
+cursor:pointer;
+font-weight:800;
+font-size:13px;
+color:#12323a}
+.primary{width:100%;
+padding:15px;
+border-radius:16px;
+background:linear-gradient(100deg,var(--mint),var(--aqua),#9bceff);
+box-shadow:0 8px 22px #36e4ca45}
+.secondary{width:100%;
+padding:14px;
+border-radius:16px;
+color:#effffb;
+background:#ffffff16;
+border:1px solid #ffffff38}
 
-.login-wrap{min-height:620px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px 5px}
-.clock-panel{width:100%;display:flex;align-items:center;justify-content:center;gap:20px;margin:0 auto 16px;padding:15px 12px;border-radius:25px;background:linear-gradient(135deg,#ffffff20,#ffffff09);border:1px solid #ffffff40;box-shadow:0 12px 35px #071b3740}
+.login-wrap{min-height:620px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:4px 5px}
+.clock-panel{width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:20px;
+margin:0 auto 16px;
+padding:15px 12px;
+border-radius:25px;
+background:linear-gradient(135deg,#ffffff20,#ffffff09);
+border:1px solid #ffffff40;
+box-shadow:0 12px 35px #071b3740}
 .login-wrap .clock-panel{transform:translateY(-10px)}
 .login-wrap .login-actions{transform:translateY(-10px)}
-.clock-face{width:116px;height:116px;position:relative;flex-shrink:0;border-radius:50%;background:radial-gradient(circle at 35% 25%,#fff,#d7fff1 55%,#91d9d0);border:5px solid #f5fffc;box-shadow:0 0 0 5px #70f5c155,0 8px 25px #061b3a70}
-.clock-face:before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px solid #7aa9a2}
-.clock-face .number{position:absolute;color:#24515a;font-size:10px;font-weight:900;transform:translate(-50%,-50%)}
-.hand{position:absolute;left:50%;bottom:50%;transform-origin:50% 100%;border-radius:8px}
-.hour-hand{width:5px;height:29px;background:#244c62}
-.minute-hand{width:3px;height:39px;background:#287c86}
-.second-hand{width:2px;height:43px;background:#ed8b65}
-.clock-pin{position:absolute;width:9px;height:9px;border-radius:50%;background:#e89a58;left:50%;top:50%;transform:translate(-50%,-50%)}
-.time-info{text-align:left;min-width:0}
-.digital-time{font-size:25px;font-weight:900;color:#fff;letter-spacing:1px}
-.digital-date{font-size:11px;color:#c9e9e5;margin-top:7px;line-height:1.5}
-.login-title{font-size:34px;font-weight:900;letter-spacing:1px;background:linear-gradient(90deg,#a5ffe1,#8ceaff,#d8b4ff,#ffe1a1);-webkit-background-clip:text;background-clip:text;color:transparent}
-.login-sub{max-width:290px;margin:6px auto 16px}
-.login-actions{width:100%;max-width:310px;display:grid;gap:9px}
+.clock-face{width:116px;
+height:116px;
+position:relative;
+flex-shrink:0;
+border-radius:50%;
+background:radial-gradient(circle at 35% 25%,#fff,#d7fff1 55%,#91d9d0);
+border:5px solid #f5fffc;
+box-shadow:0 0 0 5px #70f5c155,0 8px 25px #061b3a70}
+.clock-face:before{content:"";
+position:absolute;
+inset:8px;
+border-radius:50%;
+border:1px solid #7aa9a2}
+.clock-face .number{position:absolute;
+color:#24515a;
+font-size:10px;
+font-weight:900;
+transform:translate(-50%,-50%)}
+.hand{position:absolute;
+left:50%;
+bottom:50%;
+transform-origin:50% 100%;
+border-radius:8px}
+.hour-hand{width:5px;
+height:29px;
+background:#244c62}
+.minute-hand{width:3px;
+height:39px;
+background:#287c86}
+.second-hand{width:2px;
+height:43px;
+background:#ed8b65}
+.clock-pin{position:absolute;
+width:9px;
+height:9px;
+border-radius:50%;
+background:#e89a58;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%)}
+.time-info{text-align:left;
+min-width:0}
+.digital-time{font-size:25px;
+font-weight:900;
+color:#fff;
+letter-spacing:1px}
+.digital-date{font-size:11px;
+color:#c9e9e5;
+margin-top:7px;
+line-height:1.5}
+.login-title{font-size:34px;
+font-weight:900;
+letter-spacing:1px;
+background:linear-gradient(90deg,#a5ffe1,#8ceaff,#d8b4ff,#ffe1a1);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent}
+.login-sub{max-width:290px;
+margin:6px auto 16px}
+.login-actions{width:100%;
+max-width:310px;
+display:grid;
+gap:9px}
 .section{margin:18px 0}
 
-.card{padding:15px;border-radius:20px;background:linear-gradient(135deg,#ffffff20,#ffffff0c);border:1px solid #ffffff35;box-shadow:0 8px 24px #081b3440}
-.tile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.tile{min-height:104px;padding:13px 7px;border-radius:18px;background:linear-gradient(145deg,#176b67,#244b83);border:1px solid #8ce9df;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#f4fffd}
+.card{padding:15px;
+border-radius:20px;
+background:linear-gradient(135deg,#ffffff20,#ffffff0c);
+border:1px solid #ffffff35;
+box-shadow:0 8px 24px #081b3440}
+.tile-grid{display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:9px}
+.tile{min-height:104px;
+padding:13px 7px;
+border-radius:18px;
+background:linear-gradient(145deg,#176b67,#244b83);
+border:1px solid #8ce9df;
+text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:8px;
+color:#f4fffd}
 .tile .emoji{font-size:27px}
-.tile span:last-child{font-size:11px;font-weight:800}
-.wide-tile{width:100%;display:flex;align-items:center;gap:15px;padding:18px;border-radius:20px;text-align:left;color:white;background:linear-gradient(110deg,#a35b27,#b83f70,#6545a6);border:1px solid #ffe0a8;box-shadow:0 10px 25px #081b3440}
+.tile span:last-child{font-size:11px;
+font-weight:800}
+.wide-tile{width:100%;
+display:flex;
+align-items:center;
+gap:15px;
+padding:18px;
+border-radius:20px;
+text-align:left;
+color:white;
+background:linear-gradient(110deg,#a35b27,#b83f70,#6545a6);
+border:1px solid #ffe0a8;
+box-shadow:0 10px 25px #081b3440}
 .wide-icon{font-size:37px}
-.wide-title{font-size:18px;font-weight:900;margin-bottom:5px}
-.wide-desc{font-size:11px;color:#effffb;line-height:1.45}
-.row-tile{width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;margin-top:10px;border-radius:16px;text-align:left;color:#f2fffc;background:linear-gradient(110deg,#274d70,#345d57);border:1px solid #91d6c7}
+.wide-title{font-size:18px;
+font-weight:900;
+margin-bottom:5px}
+.wide-desc{font-size:11px;
+color:#effffb;
+line-height:1.45}
+.row-tile{width:100%;
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px 16px;
+margin-top:10px;
+border-radius:16px;
+text-align:left;
+color:#f2fffc;
+background:linear-gradient(110deg,#274d70,#345d57);
+border:1px solid #91d6c7}
 .row-tile .emoji{font-size:22px}
-.logout-btn{background:#e53935!important;border-color:#e53935!important;color:#fff!important}
+.logout-btn{background:#e53935!important;
+border-color:#e53935!important;
+color:#fff!important}
 /* COMPACT HOME SHORTCUTS — square neon buttons */
-.home-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
-.home-shortcut{min-width:0;min-height:78px;padding:8px 4px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;color:#f2fffc;background:linear-gradient(145deg,#123b55,#174e55 55%,#382b67);border:1px solid #67f5db88;box-shadow:0 0 12px #42e9d51c,inset 0 0 12px #8cffff0d}
-.home-shortcut .emoji{font-size:22px;line-height:1.1}
-.home-shortcut b{font-size:10px;line-height:1.2;overflow-wrap:anywhere}
-.home-shortcut.neon-shortcut{background:linear-gradient(145deg,#17234d,#38216b);border-color:#a98cff;box-shadow:0 0 13px #9d75ff30}
-.home-shortcut.earth-shortcut{background:linear-gradient(145deg,#063b43,#075e60);border-color:#55dedb;box-shadow:0 0 13px #55dedb30}
-.home-shortcut.logout-shortcut{background:linear-gradient(145deg,#5b242d,#842e3b);border-color:#ff8c9a}
+.home-shortcuts{display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:8px;
+margin-top:8px}
+.home-shortcut{min-width:0;
+min-height:78px;
+padding:8px 4px;
+border-radius:15px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:5px;
+text-align:center;
+color:#f2fffc;
+background:linear-gradient(145deg,#123b55,#174e55 55%,#382b67);
+border:1px solid #67f5db88;
+box-shadow:0 0 12px #42e9d51c,inset 0 0 12px #8cffff0d}
+.home-shortcut .emoji{font-size:22px;
+line-height:1.1}
+.home-shortcut b{font-size:10px;
+line-height:1.2;
+overflow-wrap:anywhere}
+.home-shortcut.neon-shortcut{background:linear-gradient(145deg,#17234d,#38216b);
+border-color:#a98cff;
+box-shadow:0 0 13px #9d75ff30}
+.home-shortcut.earth-shortcut{background:linear-gradient(145deg,#063b43,#075e60);
+border-color:#55dedb;
+box-shadow:0 0 13px #55dedb30}
+.home-shortcut.logout-shortcut{background:linear-gradient(145deg,#5b242d,#842e3b);
+border-color:#ff8c9a}
 
 /* 3D DEPTH FINISH — preserves the existing app background palette */
 .phone{box-shadow:0 28px 70px #263d6a70,inset 0 3px 5px #ffffffb8,inset 0 -8px 18px #20345a22}
 .screen{box-shadow:inset 0 2px 4px #ffffff30,inset 0 -22px 38px #07142635,0 12px 28px #07142635}
-.screen:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:linear-gradient(145deg,#ffffff0b,transparent 32%,#0000000b 100%);box-shadow:inset 0 1px 0 #ffffff25,inset 0 0 28px #ffffff08}
-.screen>*{position:relative;z-index:1}
+.screen:before{content:"";
+position:absolute;
+inset:0;
+z-index:0;
+pointer-events:none;
+border-radius:inherit;
+background:linear-gradient(145deg,#ffffff0b,transparent 32%,#0000000b 100%);
+box-shadow:inset 0 1px 0 #ffffff25,inset 0 0 28px #ffffff08}
+.screen>*{position:relative;
+z-index:1}
 /* Extra layered depth on the existing pastel background — original colors retained. */
-body{background-attachment:fixed;background-image:radial-gradient(ellipse at 12% 12%,#ffffffa8 0,transparent 26%),radial-gradient(ellipse at 88% 18%,#ffffff70 0,transparent 24%),radial-gradient(ellipse at 50% 92%,#ffffff55 0,transparent 32%),radial-gradient(ellipse at 50% 50%,#8bc8ff20 0,transparent 62%),linear-gradient(135deg,#d7fff1,#d9e7ff 52%,#f1ddff)}
-.phone{background-image:linear-gradient(145deg,#ffffffa8 0%,#e5fff7 10%,#8be7d3 25%,#92aaff 58%,#d6a9ff 82%,#ffe0a0 100%);box-shadow:0 34px 82px #263d6a75,0 8px 18px #ffffffa0,inset 0 3px 5px #ffffffd0,inset 0 -10px 22px #20345a30}
+body{background-attachment:fixed;
+background-image:radial-gradient(ellipse at 12% 12%,#ffffffa8 0,transparent 26%),radial-gradient(ellipse at 88% 18%,#ffffff70 0,transparent 24%),radial-gradient(ellipse at 50% 92%,#ffffff55 0,transparent 32%),radial-gradient(ellipse at 50% 50%,#8bc8ff20 0,transparent 62%),linear-gradient(135deg,#d7fff1,#d9e7ff 52%,#f1ddff)}
+.phone{background-image:linear-gradient(145deg,#ffffffa8 0%,#e5fff7 10%,#8be7d3 25%,#92aaff 58%,#d6a9ff 82%,#ffe0a0 100%);
+box-shadow:0 34px 82px #263d6a75,0 8px 18px #ffffffa0,inset 0 3px 5px #ffffffd0,inset 0 -10px 22px #20345a30}
 .screen{background-image:radial-gradient(ellipse at 12% 8%,#ffffff20,transparent 32%),radial-gradient(ellipse at 88% 25%,#8b9dff20,transparent 36%),radial-gradient(ellipse at 50% 100%,#00000018,transparent 48%),radial-gradient(circle at 50% 50%,#ffffff08,transparent 70%),linear-gradient(145deg,#153d49,#173c50 45%,#292c5a 100%)}
-button{position:relative;overflow:hidden;transform:translateZ(0);box-shadow:inset 0 2px 0 #ffffff55,inset 0 -4px 0 #00000020,0 7px 14px #06172b38;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
-button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 0 3px 5px #00000022,0 2px 5px #06172b35}
+button{position:relative;
+overflow:hidden;
+transform:translateZ(0);
+box-shadow:inset 0 2px 0 #ffffff55,inset 0 -4px 0 #00000020,0 7px 14px #06172b38;
+transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+button:active{transform:translateY(2px);
+filter:brightness(.97);
+box-shadow:inset 0 3px 5px #00000022,0 2px 5px #06172b35}
 .card,.clock-panel,.tile,.wide-tile,.row-tile,.home-shortcut,.nb-panel,.earth-panel,.school-option,.school-text-card{box-shadow:inset 0 2px 0 #ffffff35,inset 0 -5px 0 #00000018,0 10px 20px #06172b38}
 .home-shortcut{border-width:1px 1px 3px}
-.home-shortcut:nth-child(1){background:linear-gradient(145deg,#287e91,#164b69);border-color:#8ce9df}
-.home-shortcut:nth-child(2){background:linear-gradient(145deg,#7452a8,#39275f);border-color:#c7a6ff}
-.home-shortcut:nth-child(3){background:linear-gradient(145deg,#a87836,#654329);border-color:#ffe0a8}
-.home-shortcut.neon-shortcut{background:linear-gradient(145deg,#5d42a4,#27214f);border-color:#c4a4ff}
-.home-shortcut.earth-shortcut{background:linear-gradient(145deg,#168b82,#064b50);border-color:#75f2e2}
-.home-shortcut.music-shortcut{background:linear-gradient(145deg,#287bb5,#17436f);border-color:#8bd7ff}
-.home-shortcut.music-shortcut.is-on{background:linear-gradient(145deg,#248b73,#105447);border-color:#8dffd1}
-#music-toggle{width:100%;height:auto;min-height:78px;padding:8px 4px;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#f2fffc;font-size:10px;letter-spacing:0}
-#music-toggle .emoji{font-size:22px;line-height:1.1}
-#music-toggle b{font-size:10px;line-height:1.2}
-.logout-row{width:100%;min-height:48px;margin-top:9px;padding:10px 15px;border-radius:14px;display:flex;align-items:center;gap:10px;text-align:left;color:#fff;background:linear-gradient(110deg,#a83b43,#702b43);border:1px solid #ff9da5;border-bottom-width:3px}
+.home-shortcut:nth-child(1){background:linear-gradient(145deg,#287e91,#164b69);
+border-color:#8ce9df}
+.home-shortcut:nth-child(2){background:linear-gradient(145deg,#7452a8,#39275f);
+border-color:#c7a6ff}
+.home-shortcut:nth-child(3){background:linear-gradient(145deg,#a87836,#654329);
+border-color:#ffe0a8}
+.home-shortcut.neon-shortcut{background:linear-gradient(145deg,#5d42a4,#27214f);
+border-color:#c4a4ff}
+.home-shortcut.earth-shortcut{background:linear-gradient(145deg,#168b82,#064b50);
+border-color:#75f2e2}
+.home-shortcut.music-shortcut{background:linear-gradient(145deg,#287bb5,#17436f);
+border-color:#8bd7ff}
+.home-shortcut.music-shortcut.is-on{background:linear-gradient(145deg,#248b73,#105447);
+border-color:#8dffd1}
+#music-toggle{width:100%;
+height:auto;
+min-height:78px;
+padding:8px 4px;
+border-radius:15px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:5px;
+color:#f2fffc;
+font-size:10px;
+letter-spacing:0}
+#music-toggle .emoji{font-size:22px;
+line-height:1.1}
+#music-toggle b{font-size:10px;
+line-height:1.2}
+.logout-row{width:100%;
+min-height:48px;
+margin-top:9px;
+padding:10px 15px;
+border-radius:14px;
+display:flex;
+align-items:center;
+gap:10px;
+text-align:left;
+color:#fff;
+background:linear-gradient(110deg,#a83b43,#702b43);
+border:1px solid #ff9da5;
+border-bottom-width:3px}
 .logout-row .emoji{font-size:20px}
-.logout-row b{font-size:11px;letter-spacing:.6px}
-.logout-arrow{margin-left:auto;font-size:22px}
+.logout-row b{font-size:11px;
+letter-spacing:.6px}
+.logout-arrow{margin-left:auto;
+font-size:22px}
 #home-page .section{margin:11px 0}
-#home-page .tile{min-height:88px;padding:9px 5px;gap:5px}
-#home-page .tile-grid .tile:nth-child(1){background:linear-gradient(145deg,#176b67,#244b83);border-color:#8ce9df}
-#home-page .tile-grid .tile:nth-child(2){background:linear-gradient(145deg,#7452a8,#39275f);border-color:#c7a6ff}
-#home-page .tile-grid .tile:nth-child(3){background:linear-gradient(145deg,#a87836,#654329);border-color:#ffe0a8}
+#home-page .tile{min-height:88px;
+padding:9px 5px;
+gap:5px}
+#home-page .tile-grid .tile:nth-child(1){background:linear-gradient(145deg,#176b67,#244b83);
+border-color:#8ce9df}
+#home-page .tile-grid .tile:nth-child(2){background:linear-gradient(145deg,#7452a8,#39275f);
+border-color:#c7a6ff}
+#home-page .tile-grid .tile:nth-child(3){background:linear-gradient(145deg,#a87836,#654329);
+border-color:#ffe0a8}
 #home-page .tile .emoji{font-size:23px}
-#home-page .wide-tile{padding:12px;gap:10px;border-radius:16px}
+#home-page .wide-tile{padding:12px;
+gap:10px;
+border-radius:16px}
 #home-page .wide-icon{font-size:29px}
-#home-page .wide-title{font-size:15px;margin-bottom:2px}
+#home-page .wide-title{font-size:15px;
+margin-bottom:2px}
 #home-page .wide-desc{font-size:10px}
 @media(max-height:760px){
  #home-page .section{margin:8px 0}
  .home-shortcut{min-height:70px}
 }
 
-.page-head{display:flex;align-items:center;gap:12px;margin:6px 0 18px}
-.back{padding:10px 13px;border-radius:12px;color:#effffb;background:#ffffff1c;border:1px solid #ffffff35}
-.field{width:100%;padding:13px;border-radius:13px;border:1px solid #ffffff55;background:#ffffffed;color:#183a42;font-size:14px;margin:5px 0 12px}
-.output{padding:14px;border-radius:14px;background:#ffffffed;color:#183a42;overflow-wrap:anywhere;margin:10px 0}
-.calc-display{background:#eafff7;color:#173b42;border-radius:15px;padding:18px;text-align:right;font-size:27px;font-weight:900;min-height:65px;margin-bottom:10px;overflow-wrap:anywhere}
-.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.calc-key{padding:17px 3px;border-radius:13px;background:#f2fff9;color:#173b42;font-size:16px}
+.page-head{display:flex;
+align-items:center;
+gap:12px;
+margin:6px 0 18px}
+.back{padding:10px 13px;
+border-radius:12px;
+color:#effffb;
+background:#ffffff1c;
+border:1px solid #ffffff35}
+.field{width:100%;
+padding:13px;
+border-radius:13px;
+border:1px solid #ffffff55;
+background:#ffffffed;
+color:#183a42;
+font-size:14px;
+margin:5px 0 12px}
+.output{padding:14px;
+border-radius:14px;
+background:#ffffffed;
+color:#183a42;
+overflow-wrap:anywhere;
+margin:10px 0}
+.calc-display{background:#eafff7;
+color:#173b42;
+border-radius:15px;
+padding:18px;
+text-align:right;
+font-size:27px;
+font-weight:900;
+min-height:65px;
+margin-bottom:10px;
+overflow-wrap:anywhere}
+.calc-grid{display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:7px}
+.calc-key{padding:17px 3px;
+border-radius:13px;
+background:#f2fff9;
+color:#173b42;
+font-size:16px}
 .calc-key.op{background:#ffd477}
 .calc-key.equal{background:#65f5c1}
 .calc-key.clear{background:#ffb8a8}
-.game-canvas{width:100%;display:block;border-radius:17px;background:linear-gradient(#6bd8ff,#b8f1ff);border:2px solid #ffffff55;touch-action:none}
-.small-note{font-size:11px;color:#c3e2df}
+.game-canvas{width:100%;
+display:block;
+border-radius:17px;
+background:linear-gradient(#6bd8ff,#b8f1ff);
+border:2px solid #ffffff55;
+touch-action:none}
+.small-note{font-size:11px;
+color:#c3e2df}
 .hidden{display:none!important}
 
 /* TYPING GAME */
 #typing-page .card{padding:14px}
-#typing-sentence{padding:14px;border-radius:14px;background:#ffffffed;color:#183a42;font-size:14px;line-height:1.8;min-height:110px}
-#typing-input{min-height:105px;resize:vertical}
-.typing-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
-.typing-stat{padding:12px 8px;border-radius:14px;background:#ffffff18;border:1px solid #ffffff30;text-align:center}
-.typing-stat b{display:block;font-size:19px;color:#a5ffe1;margin-bottom:4px}
-.typing-stat span{font-size:10px;color:#d6e9ed}
-#typing-result{margin-top:10px;white-space:pre-line}
+#typing-sentence{padding:14px;
+border-radius:14px;
+background:#ffffffed;
+color:#183a42;
+font-size:14px;
+line-height:1.8;
+min-height:110px}
+#typing-input{min-height:105px;
+resize:vertical}
+.typing-stats{display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin:12px 0}
+.typing-stat{padding:12px 8px;
+border-radius:14px;
+background:#ffffff18;
+border:1px solid #ffffff30;
+text-align:center}
+.typing-stat b{display:block;
+font-size:19px;
+color:#a5ffe1;
+margin-bottom:4px}
+.typing-stat span{font-size:10px;
+color:#d6e9ed}
+#typing-result{margin-top:10px;
+white-space:pre-line}
 
 /* SNAKE */
-#snake-page{touch-action:none;overscroll-behavior:none}
+#snake-page{touch-action:none;
+overscroll-behavior:none}
 #snake-page .page-head{margin-bottom:8px}
-#snake-page .card{padding:10px;background:linear-gradient(145deg,#ffffff19,#ffffff08);border-color:#aaffbb55}
-#snake-page .card>p:first-child{margin-bottom:8px;font-size:11px}
-#snake-canvas{width:min(100%,288px);height:auto;aspect-ratio:1/1;margin:0 auto 8px;border-radius:13px;background:linear-gradient(145deg,#092b25,#124c38);border:2px solid #8cffb855;touch-action:none}
-#snake-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:225px;margin:5px auto 8px}
-#snake-controls button{min-height:42px;padding:7px;border-radius:12px;font-size:19px;background:linear-gradient(145deg,#d9ffe9,#8af0b7);color:#17432f;box-shadow:0 4px 10px #061b1644}
+#snake-page .card{padding:10px;
+background:linear-gradient(145deg,#ffffff19,#ffffff08);
+border-color:#aaffbb55}
+#snake-page .card>p:first-child{margin-bottom:8px;
+font-size:11px}
+#snake-canvas{width:min(100%,288px);
+height:auto;
+aspect-ratio:1/1;
+margin:0 auto 8px;
+border-radius:13px;
+background:linear-gradient(145deg,#092b25,#124c38);
+border:2px solid #8cffb855;
+touch-action:none}
+#snake-controls{display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:6px;
+max-width:225px;
+margin:5px auto 8px}
+#snake-controls button{min-height:42px;
+padding:7px;
+border-radius:12px;
+font-size:19px;
+background:linear-gradient(145deg,#d9ffe9,#8af0b7);
+color:#17432f;
+box-shadow:0 4px 10px #061b1644}
 #snake-controls .empty-control{visibility:hidden}
-#snake-page .primary{padding:11px;margin-top:4px}
-#snake-page #snake-score{margin:8px 0 0;text-align:center;font-weight:800;color:#c9ffdc}
+#snake-page .primary{padding:11px;
+margin-top:4px}
+#snake-page #snake-score{margin:8px 0 0;
+text-align:center;
+font-weight:800;
+color:#c9ffdc}
 
 /* CAR RACING */
 #car-page{touch-action:pan-y}
 #car-page .card{padding:10px}
-#car-canvas{width:100%;max-width:340px;height:auto;display:block;margin:0 auto 10px;border-radius:15px;border:2px solid #ffffff55;background:#245b45;touch-action:none}
-.car-controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-.car-controls button{padding:15px;border-radius:15px;background:linear-gradient(145deg,#d9ffe9,#8af0b7);color:#17432f;font-size:20px}
-.car-score{display:flex;justify-content:space-between;gap:8px;margin:8px 0}
-.car-score div{flex:1;text-align:center;padding:10px 5px;border-radius:12px;background:#ffffff18}
-.car-score b{display:block;font-size:18px;color:#b5ffcf}
-.car-score span{font-size:10px;color:#e2f8e8}
+#car-canvas{width:100%;
+max-width:340px;
+height:auto;
+display:block;
+margin:0 auto 10px;
+border-radius:15px;
+border:2px solid #ffffff55;
+background:#245b45;
+touch-action:none}
+.car-controls{display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:10px}
+.car-controls button{padding:15px;
+border-radius:15px;
+background:linear-gradient(145deg,#d9ffe9,#8af0b7);
+color:#17432f;
+font-size:20px}
+.car-score{display:flex;
+justify-content:space-between;
+gap:8px;
+margin:8px 0}
+.car-score div{flex:1;
+text-align:center;
+padding:10px 5px;
+border-radius:12px;
+background:#ffffff18}
+.car-score b{display:block;
+font-size:18px;
+color:#b5ffcf}
+.car-score span{font-size:10px;
+color:#e2f8e8}
 #car-page .small-note{text-align:center}
 
 @media(max-width:360px){
  body{padding:7px 5px 12px}
- .phone{padding:7px;border-radius:30px}
- .screen{padding:14px 11px 18px;border-radius:24px}
- .clock-panel{gap:12px;padding:15px 8px}
- .clock-face{width:96px;height:96px}
+ .phone{padding:7px;
+border-radius:30px}
+ .screen{padding:14px 11px 18px;
+border-radius:24px}
+ .clock-panel{gap:12px;
+padding:15px 8px}
+ .clock-face{width:96px;
+height:96px}
  .digital-time{font-size:20px}
  .tile-grid{gap:7px}
  .tile{min-height:96px}
@@ -252,99 +603,397 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
 }
 
 /* ABOUT MY SCHOOL — additions scoped to the new school pages */
-.school-page{min-height:760px;border-radius:22px;overflow:hidden;background-image:linear-gradient(180deg,#071d2bc9,#071d2b9c),var(--school-bg);background-size:cover;background-position:center;}
-.school-overlay{min-height:760px;padding:16px 12px;background:linear-gradient(180deg,#081b2b55,#081b2b9c)}
-.school-menu{display:grid;gap:14px;margin-top:28px}
-.school-option{width:100%;display:flex;align-items:center;justify-content:space-between;padding:17px 15px;border-radius:17px;color:white;font-weight:800;text-align:left;border:1px solid #ffffff80;box-shadow:0 8px 22px #06172580}
+.school-page{min-height:760px;
+border-radius:22px;
+overflow:hidden;
+background-image:linear-gradient(180deg,#071d2bc9,#071d2b9c),var(--school-bg);
+background-size:cover;
+background-position:center;
+}
+.school-overlay{min-height:760px;
+padding:16px 12px;
+background:linear-gradient(180deg,#081b2b55,#081b2b9c)}
+.school-menu{display:grid;
+gap:14px;
+margin-top:28px}
+.school-option{width:100%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:17px 15px;
+border-radius:17px;
+color:white;
+font-weight:800;
+text-align:left;
+border:1px solid #ffffff80;
+box-shadow:0 8px 22px #06172580}
 .school-option span{font-size:23px}
 .history-option{background:linear-gradient(110deg,#174d79,#247d83)}
 .mission-option{background:linear-gradient(110deg,#80501e,#b17b2e)}
 .myself-option{background:linear-gradient(110deg,#563b83,#8b477d)}
-.school-detail{min-height:760px;padding:12px;border-radius:22px;}
+.school-detail{min-height:760px;
+padding:12px;
+border-radius:22px;
+}
 .history-detail{background:linear-gradient(145deg,#102f49,#176b70)}
 .mission-detail{background:linear-gradient(145deg,#3a2c60,#80502e)}
 .myself-detail{background:linear-gradient(145deg,#263b67,#613b71)}
-.school-text-card{padding:16px;border-radius:18px;background:#fffdf5f5;color:#10232b;line-height:1.75;font-size:16px;font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;font-weight:600;text-shadow:0 0 0 transparent}
-.school-text-card p{margin:0 0 15px;color:#10232b}
+.school-text-card{padding:16px;
+border-radius:18px;
+background:#fffdf5f5;
+color:#10232b;
+line-height:1.75;
+font-size:16px;
+font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;
+font-weight:600;
+text-shadow:0 0 0 transparent}
+.school-text-card p{margin:0 0 15px;
+color:#10232b}
 .school-text-card p:last-child{margin-bottom:0}
-.school-text-card h3{margin:10px 0 6px;color:#10232b;font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;font-size:20px;font-weight:800}
-.school-text-card ol{padding-left:24px;margin:8px 0 0;color:#10232b}
-.school-text-card li{margin:8px 0;color:#10232b}
+.school-text-card h3{margin:10px 0 6px;
+color:#10232b;
+font-family:'URW Chancery L','Brush Script MT','Segoe Print',cursive;
+font-size:20px;
+font-weight:800}
+.school-text-card ol{padding-left:24px;
+margin:8px 0 0;
+color:#10232b}
+.school-text-card li{margin:8px 0;
+color:#10232b}
 
 /* NEON BREAKOUT — isolated game styles */
-#breakout-page{color:#effcff;background:radial-gradient(ellipse at 50% 0%,#183c66 0%,transparent 48%),linear-gradient(160deg,#07101f,#10172c 60%,#17102b);border:1px solid #68eaff35;border-radius:22px;padding:13px;overflow:hidden}
-#breakout-page .nb-hero{padding:15px;border:1px solid #72eaff44;border-radius:17px;background:linear-gradient(135deg,#142d49dd,#20163ddd);box-shadow:0 12px 28px #0005}
-#breakout-page .nb-kicker{font-size:8px;letter-spacing:.2em;color:#76f5ff;font-weight:900}
-#breakout-page h2{color:#f4fbff}#breakout-page h3{font-size:12px;color:#dffaff;margin:15px 2px 8px}
-#breakout-page p{font-size:10px;line-height:1.55;color:#a9bfd6}
-#breakout-page .nb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
-#breakout-page .nb-stat{padding:8px 4px;border-radius:11px;background:#ffffff0c;border:1px solid #ffffff18;text-align:center}
-#breakout-page .nb-stat b{display:block;font-size:17px;color:#fff}#breakout-page .nb-stat small{font-size:7px;color:#9fc9dc;letter-spacing:.1em}
-#breakout-page .nb-panel{padding:11px;border-radius:15px;border:1px solid #78eaff28;background:linear-gradient(145deg,#ffffff12,#ffffff06);margin-top:9px}
-#breakout-page canvas{width:100%;display:block;border-radius:13px;border:1px solid #71eaff44;background:#050b19;touch-action:none;box-shadow:0 0 22px #35caff18}
-#breakout-page .nb-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-#breakout-page .nb-btn{border:1px solid #72eaff66;background:linear-gradient(110deg,#126d8b,#5541a0);color:white;border-radius:10px;padding:10px 12px;font-size:9px;font-weight:900}
-#breakout-page .nb-ghost{background:#ffffff0c;border:1px solid #ffffff25;color:#e2f8ff;border-radius:10px;padding:9px 11px;font-size:9px}
+#breakout-page{color:#effcff;
+background:radial-gradient(ellipse at 50% 0%,#183c66 0%,transparent 48%),linear-gradient(160deg,#07101f,#10172c 60%,#17102b);
+border:1px solid #68eaff35;
+border-radius:22px;
+padding:13px;
+overflow:hidden}
+#breakout-page .nb-hero{padding:15px;
+border:1px solid #72eaff44;
+border-radius:17px;
+background:linear-gradient(135deg,#142d49dd,#20163ddd);
+box-shadow:0 12px 28px #0005}
+#breakout-page .nb-kicker{font-size:8px;
+letter-spacing:.2em;
+color:#76f5ff;
+font-weight:900}
+#breakout-page h2{color:#f4fbff}
+#breakout-page h3{font-size:12px;
+color:#dffaff;
+margin:15px 2px 8px}
+#breakout-page p{font-size:10px;
+line-height:1.55;
+color:#a9bfd6}
+#breakout-page .nb-stats{display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+margin-top:12px}
+#breakout-page .nb-stat{padding:8px 4px;
+border-radius:11px;
+background:#ffffff0c;
+border:1px solid #ffffff18;
+text-align:center}
+#breakout-page .nb-stat b{display:block;
+font-size:17px;
+color:#fff}
+#breakout-page .nb-stat small{font-size:7px;
+color:#9fc9dc;
+letter-spacing:.1em}
+#breakout-page .nb-panel{padding:11px;
+border-radius:15px;
+border:1px solid #78eaff28;
+background:linear-gradient(145deg,#ffffff12,#ffffff06);
+margin-top:9px}
+#breakout-page canvas{width:100%;
+display:block;
+border-radius:13px;
+border:1px solid #71eaff44;
+background:#050b19;
+touch-action:none;
+box-shadow:0 0 22px #35caff18}
+#breakout-page .nb-row{display:flex;
+gap:7px;
+flex-wrap:wrap;
+align-items:center}
+#breakout-page .nb-btn{border:1px solid #72eaff66;
+background:linear-gradient(110deg,#126d8b,#5541a0);
+color:white;
+border-radius:10px;
+padding:10px 12px;
+font-size:9px;
+font-weight:900}
+#breakout-page .nb-ghost{background:#ffffff0c;
+border:1px solid #ffffff25;
+color:#e2f8ff;
+border-radius:10px;
+padding:9px 11px;
+font-size:9px}
 #breakout-page .nb-btn:disabled{opacity:.4}
-#breakout-page .nb-levels{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-#breakout-page .nb-level{padding:9px 2px;border:1px solid #6feaff33;background:#ffffff0b;color:#eafaff;border-radius:9px;font-size:9px}
-#breakout-page .nb-level.current{background:#1a7790;border-color:#8af5ff;box-shadow:0 0 12px #55eaff55}
+#breakout-page .nb-levels{display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:6px}
+#breakout-page .nb-level{padding:9px 2px;
+border:1px solid #6feaff33;
+background:#ffffff0b;
+color:#eafaff;
+border-radius:9px;
+font-size:9px}
+#breakout-page .nb-level.current{background:#1a7790;
+border-color:#8af5ff;
+box-shadow:0 0 12px #55eaff55}
 #breakout-page .nb-level:disabled{opacity:.3}
-#breakout-page .nb-power{padding:8px;border-radius:10px;background:#071526;border:1px solid #ffffff18;margin:5px 0;font-size:9px;color:#b9d6e6}
+#breakout-page .nb-power{padding:8px;
+border-radius:10px;
+background:#071526;
+border:1px solid #ffffff18;
+margin:5px 0;
+font-size:9px;
+color:#b9d6e6}
 #breakout-page .nb-power b{color:#fff}
-#breakout-page .nb-status{font-size:9px;color:#8df5ff;min-height:16px}
+#breakout-page .nb-status{font-size:9px;
+color:#8df5ff;
+min-height:16px}
 
 
 /* LIVE EARTH — compact single-screen observatory */
-#earth-page{display:flex;flex-direction:column;gap:8px}
-#earth-page .page-head{margin:1px 0 2px;gap:9px}
-#earth-page .page-head h2{font-size:18px;margin:0}
-#earth-page .back{padding:7px 10px;font-size:11px}
-.earth-hero{position:relative;background-color:#000!important;background-image:radial-gradient(1px 1px at 7% 13%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 18% 72%,#9bdcffcc 98%,transparent),radial-gradient(1.5px 1.5px at 31% 28%,#ffffffcc 98%,transparent),radial-gradient(1px 1px at 43% 83%,#ffffffaa 98%,transparent),radial-gradient(1px 1px at 58% 17%,#c8eaffdd 98%,transparent),radial-gradient(1px 1px at 72% 64%,#ffffffcc 98%,transparent),radial-gradient(1.5px 1.5px at 88% 31%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 94% 82%,#9bdcffcc 98%,transparent),radial-gradient(ellipse at 50% 45%,#101a32 0%,#03050d 48%,#000 78%);background-size:100% 100%;border:1px solid #55d9dc66;border-radius:20px;padding:8px;overflow:hidden;box-shadow:0 20px 46px #00121caa,inset 0 2px 0 #ffffff24,inset 0 -12px 24px #00000030;transform:perspective(1100px) translateZ(0)}
-.earth-kicker{font-size:9px;letter-spacing:1.5px;color:#71e7dc;font-weight:800}
-.earth-hero h2{font-size:17px!important;margin:5px 0 1px!important}
-.earth-hero>p{font-size:9px!important;margin:0!important;line-height:1.3!important}
-.earth-layout{display:block;position:relative}
-.earth-orbit{position:relative;width:100%;height:224px;overflow:hidden;background-color:#000;background-image:radial-gradient(1px 1px at 8% 18%,#fff 98%,transparent),radial-gradient(1px 1px at 23% 75%,#9bdcff 98%,transparent),radial-gradient(1.5px 1.5px at 43% 12%,#fff 98%,transparent),radial-gradient(1px 1px at 66% 84%,#fff 98%,transparent),radial-gradient(1px 1px at 91% 34%,#d9efff 98%,transparent),radial-gradient(ellipse at 50% 50%,#071326 0%,#01030a 68%,#000 100%)}
-#earth-globe{width:100%;height:224px;min-width:0;touch-action:none;cursor:grab;position:relative;z-index:1}
+#earth-page{display:flex;
+flex-direction:column;
+gap:8px}
+#earth-page .page-head{margin:1px 0 2px;
+gap:9px}
+#earth-page .page-head h2{font-size:18px;
+margin:0}
+#earth-page .back{padding:7px 10px;
+font-size:11px}
+.earth-hero{position:relative;
+background-color:#000!important;
+background-image:radial-gradient(1px 1px at 7% 13%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 18% 72%,#9bdcffcc 98%,transparent),radial-gradient(1.5px 1.5px at 31% 28%,#ffffffcc 98%,transparent),radial-gradient(1px 1px at 43% 83%,#ffffffaa 98%,transparent),radial-gradient(1px 1px at 58% 17%,#c8eaffdd 98%,transparent),radial-gradient(1px 1px at 72% 64%,#ffffffcc 98%,transparent),radial-gradient(1.5px 1.5px at 88% 31%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 94% 82%,#9bdcffcc 98%,transparent),radial-gradient(ellipse at 50% 45%,#101a32 0%,#03050d 48%,#000 78%);
+background-size:100% 100%;
+border:1px solid #55d9dc66;
+border-radius:20px;
+padding:8px;
+overflow:hidden;
+box-shadow:0 20px 46px #00121caa,inset 0 2px 0 #ffffff24,inset 0 -12px 24px #00000030;
+transform:perspective(1100px) translateZ(0)}
+.earth-kicker{font-size:9px;
+letter-spacing:1.5px;
+color:#71e7dc;
+font-weight:800}
+.earth-hero h2{font-size:17px!important;
+margin:5px 0 1px!important}
+.earth-hero>p{font-size:9px!important;
+margin:0!important;
+line-height:1.3!important}
+.earth-layout{display:block;
+position:relative}
+.earth-orbit{position:relative;
+width:100%;
+height:224px;
+overflow:hidden;
+background-color:#000;
+background-image:radial-gradient(1px 1px at 8% 18%,#fff 98%,transparent),radial-gradient(1px 1px at 23% 75%,#9bdcff 98%,transparent),radial-gradient(1.5px 1.5px at 43% 12%,#fff 98%,transparent),radial-gradient(1px 1px at 66% 84%,#fff 98%,transparent),radial-gradient(1px 1px at 91% 34%,#d9efff 98%,transparent),radial-gradient(ellipse at 50% 50%,#071326 0%,#01030a 68%,#000 100%)}
+#earth-globe{width:100%;
+height:224px;
+min-width:0;
+touch-action:none;
+cursor:grab;
+position:relative;
+z-index:1}
 #earth-globe:active{cursor:grabbing}
-.earth-sun{position:absolute;z-index:3;left:9px;top:13px;width:56px;height:56px;border-radius:50%;pointer-events:none;background-color:#ff9d35;background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);background-size:cover;background-position:center;background-blend-mode:normal;box-shadow:0 0 16px 7px #ffcf6bba,0 0 38px 20px #ff8b2e88,0 0 76px 34px #ff5b1d55,inset -9px -7px 15px #7b170b88;animation:earthSunTurn 42s linear infinite}
-.earth-sun:after{content:"";position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,#ffb34b22 42%,#ff8a2b18 60%,transparent 72%);filter:blur(3px)}
-@keyframes earthSunTurn{to{transform:rotate(360deg)}}
-.earth-stats-overlay{display:none!important}.earth-stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:5px;}
-.earth-stats-row .earth-stat{min-width:0;text-align:center;padding:5px 3px;background:linear-gradient(145deg,#102f3bdc,#071721df);border:1px solid #8ce8e477;border-radius:9px;padding:5px 6px;min-width:0;box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;backdrop-filter:blur(5px)}
-.earth-stat b{display:block;color:#e8ffff;font-size:12px;line-height:1.15;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-.earth-stat small{display:block;color:#91cbd0;font-size:7px;letter-spacing:.45px;margin-top:3px}
-.earth-live-dot{display:inline-block;width:6px;height:6px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:5px;animation:earthPulse 1.5s infinite}
-@keyframes earthPulse{50%{opacity:.35;box-shadow:0 0 2px #55f0a2}}
-.earth-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}
-.earth-btn{min-width:0;border:1px solid #69ded866;background:linear-gradient(135deg,#10303a,#174753);color:#dffefa;border-radius:9px;padding:7px 2px;font-weight:800;font-size:9px;white-space:nowrap}
-.earth-btn:nth-child(1){background:linear-gradient(135deg,#145c62,#168c86);border-color:#6ef5db}
-.earth-btn:nth-child(2){background:linear-gradient(135deg,#244b78,#386bb0);border-color:#8abaff}
-.earth-btn:nth-child(3){background:linear-gradient(135deg,#684a24,#a66b2c);border-color:#ffd477}
-.earth-btn:nth-child(4){background:linear-gradient(135deg,#4d3475,#8054ad);border-color:#c8a6ff}
-.earth-info{background:linear-gradient(145deg,#0b202b,#102d38);border:1px solid #64d8d544;border-radius:15px;padding:9px;margin-top:0;box-shadow:0 9px 22px #00121c55,inset 0 1px 0 #ffffff14}
-.earth-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}
-.earth-info-cell{background:#ffffff0a;padding:6px;border-radius:8px;min-width:0}
-.earth-info-cell small{display:block;color:#9ac1c6;font-size:8px}.earth-info-cell b{font-size:10px;color:#e8ffff;overflow-wrap:anywhere}
-.earth-note{font-size:7px;color:#9bbbc1;line-height:1.2;margin:3px 2px 0}
-.earth-search{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:5px;margin:6px 0 0}
-.earth-search input{width:100%;min-width:0;background:#071a25;color:#eaffff;border:1px solid #67d8d866;border-radius:9px;padding:8px;font-size:10px;outline:none}
-.earth-search input:focus{border-color:#71f3dc;box-shadow:0 0 0 2px #71f3dc22}
-.earth-search button{background:linear-gradient(135deg,#14515b,#167e7c);color:#eaffff;border:1px solid #69ded866;border-radius:9px;padding:0 7px;font-weight:800;font-size:9px}
-.earth-suggest{display:none;max-height:92px;overflow:auto;background:#0b202b;border:1px solid #64d8d555;border-radius:9px;margin-top:4px}
-.earth-suggest button{display:block;width:100%;text-align:left;padding:7px 9px;background:transparent;color:#eaffff;border:0;border-bottom:1px solid #ffffff12;font-size:10px}
+.earth-sun{position:absolute;
+z-index:4;
+left:12px;
+top:18px;
+width:62px;
+height:62px;
+border-radius:50%;
+pointer-events:none;
+background-color:#ff9d35;
+background-image:radial-gradient(ellipse at 24% 36%,#6d2100aa 0 4%,transparent 8%),radial-gradient(ellipse at 65% 25%,#8b2b08aa 0 3%,transparent 7%),radial-gradient(ellipse at 56% 70%,#7c2600aa 0 5%,transparent 9%),radial-gradient(ellipse at 37% 73%,#fff1a5aa 0 8%,transparent 17%),url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);
+background-size:100% 100%,100% 100%,100% 100%,100% 100%,cover,cover;
+background-position:center;
+box-shadow:0 0 18px 8px #ffcf6bca,0 0 42px 22px #ff8b2e99,0 0 88px 38px #ff5b1d66,inset -10px -8px 16px #7b170baa;
+animation:earthSunTurn 42s linear infinite;
+filter:saturate(1.18)}
+.earth-sun:before{content:"";
+position:absolute;
+inset:-14px;
+border-radius:50%;
+background:conic-gradient(from 10deg,transparent,#ffb84d55,transparent,#ff7b2e66,transparent);
+filter:blur(5px);
+animation:earthSunTurn 18s linear infinite}
+.earth-sun:after{content:"";
+position:absolute;
+inset:-8px;
+border-radius:50%;
+background:radial-gradient(circle,#ffb34b22 42%,#ff8a2b18 60%,transparent 72%);
+filter:blur(3px)}
+.earth-moon{position:absolute;
+z-index:3;
+right:13px;
+bottom:13px;
+width:38px;
+height:38px;
+border-radius:50%;
+pointer-events:none;
+background-color:#aeb9c9;
+background-image:radial-gradient(circle at 28% 30%,#47505e 0 5%,transparent 7%),radial-gradient(circle at 66% 25%,#5a6470 0 8%,transparent 10%),radial-gradient(circle at 55% 65%,#56606b 0 11%,transparent 13%),radial-gradient(circle at 27% 73%,#68717d 0 6%,transparent 8%),url('https://www.solarsystemscope.com/textures/download/2k_moon.jpg'),radial-gradient(circle at 32% 28%,#fff,#aeb9c9 62%,#39404b);
+background-size:100% 100%,100% 100%,100% 100%,100% 100%,cover,cover;
+background-position:center;
+box-shadow:0 0 10px 3px #d8e5ff66,inset -8px -5px 12px #101724bb;
+animation:earthMoonFloat 8s ease-in-out infinite alternate}
+@keyframes earthMoonFloat{to{transform:translateY(-7px) rotate(8deg)}
+}
+@keyframes earthSunTurn{to{transform:rotate(360deg)}
+}
+.earth-stats-overlay{display:none!important}
+.earth-stats-row{display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:5px;
+margin-top:5px;
+}
+.earth-stats-row .earth-stat{min-width:0;
+text-align:center;
+padding:5px 3px;
+background:linear-gradient(145deg,#102f3bdc,#071721df);
+border:1px solid #8ce8e477;
+border-radius:9px;
+padding:5px 6px;
+min-width:0;
+box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;
+backdrop-filter:blur(5px)}
+.earth-stat b{display:block;
+color:#e8ffff;
+font-size:12px;
+line-height:1.15;
+overflow-wrap:anywhere;
+font-variant-numeric:tabular-nums}
+.earth-stat small{display:block;
+color:#91cbd0;
+font-size:7px;
+letter-spacing:.45px;
+margin-top:3px}
+.earth-live-dot{display:inline-block;
+width:6px;
+height:6px;
+background:#55f0a2;
+border-radius:50%;
+box-shadow:0 0 9px #55f0a2;
+margin-right:5px;
+animation:earthPulse 1.5s infinite}
+@keyframes earthPulse{50%{opacity:.35;
+box-shadow:0 0 2px #55f0a2}
+}
+.earth-tools{display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:5px;
+margin-top:5px}
+.earth-btn{min-width:0;
+border:1px solid #69ded866;
+background:linear-gradient(135deg,#10303a,#174753);
+color:#dffefa;
+border-radius:9px;
+padding:7px 2px;
+font-weight:800;
+font-size:9px;
+white-space:nowrap}
+.earth-btn:nth-child(1){background:linear-gradient(135deg,#145c62,#168c86);
+border-color:#6ef5db}
+.earth-btn:nth-child(2){background:linear-gradient(135deg,#244b78,#386bb0);
+border-color:#8abaff}
+.earth-btn:nth-child(3){background:linear-gradient(135deg,#684a24,#a66b2c);
+border-color:#ffd477}
+.earth-btn:nth-child(4){background:linear-gradient(135deg,#4d3475,#8054ad);
+border-color:#c8a6ff}
+.earth-info{background:linear-gradient(145deg,#0b202b,#102d38);
+border:1px solid #64d8d544;
+border-radius:15px;
+padding:9px;
+margin-top:0;
+box-shadow:0 9px 22px #00121c55,inset 0 1px 0 #ffffff14}
+.earth-info-grid{display:grid;
+grid-template-columns:1fr 1fr;
+gap:4px;
+margin-top:4px}
+.earth-info-cell{background:#ffffff0a;
+padding:6px;
+border-radius:8px;
+min-width:0}
+.earth-info-cell small{display:block;
+color:#9ac1c6;
+font-size:8px}
+.earth-info-cell b{font-size:10px;
+color:#e8ffff;
+overflow-wrap:anywhere}
+.earth-note{font-size:7px;
+color:#9bbbc1;
+line-height:1.2;
+margin:3px 2px 0}
+.earth-search{display:grid;
+grid-template-columns:minmax(0,1fr) 62px;
+gap:5px;
+margin:6px 0 0}
+.earth-search input{width:100%;
+min-width:0;
+background:#071a25;
+color:#eaffff;
+border:1px solid #67d8d866;
+border-radius:9px;
+padding:8px;
+font-size:10px;
+outline:none}
+.earth-search input:focus{border-color:#71f3dc;
+box-shadow:0 0 0 2px #71f3dc22}
+.earth-search button{background:linear-gradient(135deg,#14515b,#167e7c);
+color:#eaffff;
+border:1px solid #69ded866;
+border-radius:9px;
+padding:0 7px;
+font-weight:800;
+font-size:9px}
+.earth-suggest{display:none;
+max-height:92px;
+overflow:auto;
+background:#0b202b;
+border:1px solid #64d8d555;
+border-radius:9px;
+margin-top:4px}
+.earth-suggest button{display:block;
+width:100%;
+text-align:left;
+padding:7px 9px;
+background:transparent;
+color:#eaffff;
+border:0;
+border-bottom:1px solid #ffffff12;
+font-size:10px}
 .earth-suggest button:last-child{border:0}
-.earth-status{font-size:8px;color:#a8d2d5;min-height:10px;margin:3px 2px}
-#earth-country-name{font-size:13px;margin:4px 0 2px!important;color:#f0ffff}
-#earth-country-desc{font-size:9px!important;line-height:1.25!important;margin:0!important}
+.earth-status{font-size:8px;
+color:#a8d2d5;
+min-height:10px;
+margin:3px 2px}
+#earth-country-name{font-size:13px;
+margin:4px 0 2px!important;
+color:#f0ffff}
+#earth-country-desc{font-size:9px!important;
+line-height:1.25!important;
+margin:0!important}
 @media(max-width:370px){
  #earth-globe,.earth-orbit{height:216px}
- .earth-stats-overlay{width:82px;right:2px}
+ .earth-stats-overlay{width:82px;
+right:2px}
  .earth-stat{padding:4px 5px}
  .earth-stat b{font-size:11px}
- .earth-sun{width:40px;height:40px;left:7px;top:14px}
- .earth-btn{font-size:8px;padding:7px 1px}
+ .earth-sun{width:42px;
+height:42px;
+left:7px;
+top:14px}
+.earth-moon{width:29px;
+height:29px;
+right:8px;
+bottom:8px}
+ .earth-btn{font-size:8px;
+padding:7px 1px}
 }
 @media(max-height:760px){
  #earth-globe,.earth-orbit{height:202px}
@@ -355,7 +1004,181 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
  .earth-info-cell{padding:5px}
 }
 
+
+
+
+/* LIVE EARTH — detailed solar system observatory layers */
+.earth-orbit{isolation:isolate;
+perspective:1000px}
+.earth-orbit:before{content:"";
+position:absolute;
+z-index:2;
+inset:0;
+pointer-events:none;
+background:linear-gradient(112deg,#ffbd5720 0%,#ff9b3210 17%,transparent 44%,transparent 100%);
+mix-blend-mode:screen}
+.earth-orbit:after{content:"";
+position:absolute;
+z-index:2;
+inset:0;
+pointer-events:none;
+background:radial-gradient(ellipse at 48% 48%,transparent 42%,#02061155 78%,#000a 100%);
+box-shadow:inset 0 0 35px #000a}
+.earth-sun{isolation:isolate;
+transform-style:preserve-3d}
+.earth-sun .sun-granulation{position:absolute;
+inset:0;
+border-radius:50%;
+overflow:hidden;
+pointer-events:none;
+background-image:repeating-radial-gradient(ellipse at 30% 35%,#fff1a31a 0 1px,#ff7a1a0a 2px 4px,transparent 5px 8px),repeating-linear-gradient(18deg,#fff2 0 1px,transparent 1px 5px);
+mix-blend-mode:screen;
+opacity:.75;
+animation:sunSurfaceDrift 13s linear infinite}
+.earth-sun .sun-flare{position:absolute;
+left:50%;
+top:50%;
+width:130%;
+height:130%;
+border:2px solid #ffb64caa;
+border-left-color:transparent;
+border-bottom-color:transparent;
+border-radius:50%;
+transform:translate(-50%,-50%) rotate(-35deg);
+filter:blur(1px);
+animation:sunFlarePulse 4.5s ease-in-out infinite}
+.earth-sun .sun-flare:after{content:"";
+position:absolute;
+left:8%;
+top:8%;
+width:25%;
+height:18%;
+border:3px solid #ff9c39bb;
+border-bottom:0;
+border-left:0;
+border-radius:70% 90% 0 0;
+filter:blur(1px);
+transform:rotate(24deg)}
+.earth-sun .sun-corona{position:absolute;
+inset:-28%;
+border-radius:50%;
+background:conic-gradient(from 0deg,transparent 0 8%,#ffb84b35 10%,transparent 14% 25%,#ff8a2b30 28%,transparent 32% 49%,#ffcb6a2e 52%,transparent 58% 72%,#ff7b2e30 75%,transparent 80%);
+filter:blur(7px);
+animation:earthSunTurn 32s linear infinite}
+.earth-moon{isolation:isolate;
+overflow:hidden;
+background-blend-mode:normal,normal,normal,normal,screen,normal}
+.earth-moon:before{content:"";
+position:absolute;
+inset:0;
+border-radius:50%;
+background:radial-gradient(circle at 30% 25%,#fff8,transparent 25%),radial-gradient(circle at 65% 70%,#11182788,transparent 48%),linear-gradient(110deg,transparent 30%,#050914bb 92%);
+box-shadow:inset -8px -4px 12px #030712aa,inset 3px 2px 6px #fff5}
+.earth-moon:after{content:"";
+position:absolute;
+inset:4%;
+border-radius:50%;
+background:radial-gradient(ellipse at 30% 35%,transparent 0 6%,#27313b77 7% 9%,transparent 10%),radial-gradient(ellipse at 68% 25%,transparent 0 7%,#26303a88 8% 10%,transparent 11%),radial-gradient(ellipse at 54% 65%,transparent 0 9%,#27313b88 10% 13%,transparent 14%),radial-gradient(ellipse at 25% 76%,transparent 0 5%,#27313b77 6% 8%,transparent 9%),radial-gradient(ellipse at 78% 76%,transparent 0 4%,#26303a88 5% 7%,transparent 8%);
+mix-blend-mode:multiply}
+@keyframes sunSurfaceDrift{0%{transform:rotate(0) scale(1.05)}
+100%{transform:rotate(360deg) scale(1.05)}
+}
+@keyframes sunFlarePulse{0%,100%{opacity:.42;
+transform:translate(-50%,-50%) rotate(-35deg) scale(.96)}
+50%{opacity:.95;
+transform:translate(-50%,-50%) rotate(-28deg) scale(1.06)}
+}
+.earth-observatory-readout{display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:5px;
+margin-top:6px}
+.earth-readout{min-width:0;
+padding:6px 5px;
+border-radius:9px;
+background:linear-gradient(145deg,#102a37,#07131f);
+border:1px solid #7bd9d833}
+.earth-readout small{display:block;
+color:#8bbbc4;
+font-size:7px;
+letter-spacing:.5px}
+.earth-readout b{display:block;
+color:#e8ffff;
+font-size:10px;
+margin-top:3px;
+overflow-wrap:anywhere;
+font-variant-numeric:tabular-nums}
+.earth-view-tools{display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:5px;
+margin-top:5px}
+.earth-view-tools button{padding:7px 3px;
+border-radius:9px;
+border:1px solid #71d9dc55;
+background:#102d3a;
+color:#dffefa;
+font-size:8px;
+font-weight:900}
+.earth-view-tools button.active{background:linear-gradient(120deg,#146d68,#246c92);
+border-color:#9affdf;
+box-shadow:0 0 12px #5fffd433}
+.earth-detail-note{margin:5px 2px 0;
+color:#91b8c1;
+font-size:7px;
+line-height:1.35}
+#earth-globe canvas{outline:none}
+@media(max-width:370px){.earth-observatory-readout{gap:3px}
+.earth-readout{padding:5px 3px}
+.earth-readout b{font-size:9px}
+}
+
+/* REQUESTED GAME VIEWPORT FIT — compact controls, scrolling remains enabled */
+#breakout-page{padding:9px;
+gap:5px}
+#breakout-page .page-head{margin:0 0 5px}
+#breakout-page .nb-hero{padding:9px}
+#breakout-page .nb-hero h2{font-size:18px!important;
+margin:4px 0!important}
+#breakout-page .nb-hero p{display:none}
+#breakout-page .nb-stats{margin-top:6px}
+#breakout-page h3{margin:7px 2px 5px}
+#breakout-page .nb-panel{padding:7px;
+margin-top:5px}
+#breakout-page #nb-canvas{height:clamp(205px,34vh,285px);
+object-fit:fill}
+#breakout-page .nb-panel>p{margin-top:5px}
+#breakout-page .nb-power-guide,#breakout-page .nb-progress-panel{display:none}
+#flappy-page .card,#snake-page .card,#car-page .card{padding:8px}
+#flappy-canvas{height:clamp(245px,39vh,330px);
+object-fit:fill}
+#snake-canvas{width:min(100%,250px);
+max-height:250px}
+#car-canvas{height:clamp(260px,40vh,340px);
+object-fit:fill}
+#flappy-page .page-head,#car-page .page-head{margin:2px 0 8px}
+#flappy-page .card>p:first-child,#car-page .card>p:first-child{font-size:10px;
+margin-bottom:5px}
+#car-page .car-score{margin:4px 0}
+#car-page .car-score div{padding:6px 4px}
+#car-page .car-controls{gap:8px;
+margin-top:6px}
+#car-page .car-controls button{padding:10px}
+#car-page .primary{padding:10px!important;
+margin-top:7px!important}
+#snake-page .primary{padding:9px;
+margin-top:2px}
+#snake-page #snake-score{margin:4px 0 0}
+/* Keep page content compact without disabling the parent scrolling. */
+#breakout-page .nb-panel:has(#nb-levels),#breakout-page .nb-panel:has(#nb-progress){display:none}
+@media(max-height:700px){
+ #flappy-canvas{height:225px}
+ #car-canvas{height:245px}
+ #snake-canvas{width:min(100%,215px);
+max-height:215px}
+ #breakout-page #nb-canvas{height:195px}
+}
+
 /* Music switch is styled as a home shortcut above. */
+
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl" onerror="this.onerror=null;this.src='https://unpkg.com/globe.gl'"></script>
@@ -367,327 +1190,733 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
 
   <div class="topbar">
    <div class="brand">✦ MOBILE.APP</div>
+
    <div class="pill" id="top-time">--:--</div>
+
   </div>
 
-  <section id="login-page" class="login-wrap">
+<section id="login-page" class="login-wrap">
    <div class="clock-panel">
     <div class="clock-face" id="clock-face">
      <span class="number" style="left:50%;top:13%">12</span>
+
      <span class="number" style="left:83%;top:50%">3</span>
+
      <span class="number" style="left:50%;top:87%">6</span>
+
      <span class="number" style="left:17%;top:50%">9</span>
+
      <div class="hand hour-hand" id="hour-hand"></div>
+
      <div class="hand minute-hand" id="minute-hand"></div>
+
      <div class="hand second-hand" id="second-hand"></div>
+
      <div class="clock-pin"></div>
+
     </div>
+
     <div class="time-info">
      <div class="digital-time" id="digital-time">00:00:00</div>
+
      <div class="digital-date" id="digital-date">Loading date...</div>
+
     </div>
+
    </div>
 
+
    <div class="login-title">Welcome</div>
+
    <h2 style="color:#f5fffc;margin:5px 0">Your space. Your apps.</h2>
+
    <p class="login-sub">A little world of useful tools, notes and games—made for you.</p>
+
 
    <div class="login-actions">
     <button class="primary" onclick="login()">LOGIN</button>
+
     <button class="secondary" onclick="guestLogin()">EXPLORE AS GUEST</button>
+
    </div>
+
    <p class="small-note" style="margin-top:24px">A brighter way to use your phone.</p>
+
   </section>
+
 
   <section id="home-page" class="hidden">
    <div class="section">
     <p style="margin-bottom:5px">WELCOME BACK</p>
+
     <h1 id="welcome-name">Hello!</h1>
+
     <p>Your personal mobile space is ready.</p>
+
    </div>
 
+
    <div class="section tile-grid">
-    <button class="tile" onclick="openPage('calculator-page')"><span class="emoji">🧮</span><span>Calculator</span></button>
-    <button class="tile" onclick="openPage('password-page')"><span class="emoji">🔐</span><span>Password</span></button>
-    <button class="tile" onclick="openPage('notes-page')"><span class="emoji">📝</span><span>Notes</span></button>
+    <button class="tile" onclick="openPage('calculator-page')"><span class="emoji">🧮</span>
+<span>Calculator</span>
+</button>
+
+    <button class="tile" onclick="openPage('password-page')"><span class="emoji">🔐</span>
+<span>Password</span>
+</button>
+
+    <button class="tile" onclick="openPage('notes-page')"><span class="emoji">📝</span>
+<span>Notes</span>
+</button>
+
    </div>
+
 
    <div class="section">
     <button class="wide-tile" onclick="openPage('games-page')">
      <span class="wide-icon">🧩</span>
-     <span><div class="wide-title">Gaming Hub</div><div class="wide-desc">Play, challenge yourself and enjoy your mini-games collection.</div></span>
+
+     <span><div class="wide-title">Gaming Hub</div>
+<div class="wide-desc">Play, challenge yourself and enjoy your mini-games collection.</div>
+</span>
+
      <span style="margin-left:auto;font-size:23px">›</span>
+
     </button>
+
    </div>
+
 
    <div class="home-shortcuts">
-    <button class="home-shortcut" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>SETTINGS</b></button>
-    <button class="home-shortcut" onclick="openPage('about-page')"><span class="emoji">✨</span><b>ABOUT</b></button>
-    <button class="home-shortcut" onclick="openPage('school-page')"><span class="emoji">🏫</span><b>ABOUT MY SCHOOL</b></button>
-    <button class="home-shortcut neon-shortcut" onclick="openPage('breakout-page');breakoutInit()"><span class="emoji">🟣</span><b>NEON BREAKOUT</b></button>
-    <button class="home-shortcut earth-shortcut" onclick="openPage('earth-page');earthInit()"><span class="emoji">🌍</span><b>LIVE EARTH 4D</b></button>
-    <button id="music-toggle" class="home-shortcut music-shortcut" type="button" onclick="toggleBackgroundMusic()" aria-label="Turn background music on"><span class="emoji">♫</span><b>MUSIC OFF</b></button>
+    <button class="home-shortcut" onclick="openPage('settings-page')"><span class="emoji">⚙️</span>
+<b>SETTINGS</b>
+</button>
+
+    <button class="home-shortcut" onclick="openPage('about-page')"><span class="emoji">✨</span>
+<b>ABOUT</b>
+</button>
+
+    <button class="home-shortcut" onclick="openPage('school-page')"><span class="emoji">🏫</span>
+<b>ABOUT MY SCHOOL</b>
+</button>
+
+    <button class="home-shortcut neon-shortcut" onclick="openPage('breakout-page');breakoutInit()"><span class="emoji">🟣</span>
+<b>NEON BREAKOUT</b>
+</button>
+
+    <button class="home-shortcut earth-shortcut" onclick="openPage('earth-page');earthInit()"><span class="emoji">🌍</span>
+<b>LIVE EARTH 4D</b>
+</button>
+
+    <button id="music-toggle" class="home-shortcut music-shortcut" type="button" onclick="toggleBackgroundMusic()" aria-label="Turn background music on"><span class="emoji">♫</span>
+<b>MUSIC OFF</b>
+</button>
+
    </div>
-   <button class="logout-row" onclick="logout()"><span class="emoji">🚪</span><b>LOGOUT</b><span class="logout-arrow">›</span></button>
+
+   <button class="logout-row" onclick="logout()"><span class="emoji">🚪</span>
+<b>LOGOUT</b>
+<span class="logout-arrow">›</span>
+</button>
+
   </section>
+
 
   <section id="breakout-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="breakoutStop();goHome()">‹ Back</button><h2>🟣 Neon Breakout</h2></div>
-   <div class="nb-hero"><div class="nb-kicker">ARCADE CHALLENGE / SEASON 01</div><h2 style="font-size:24px;margin:8px 0">BREAK THE GRID.</h2><p>Control the energy paddle, smash neon blocks, collect power-ups and clear 30 handcrafted stages.</p><div class="nb-stats"><div class="nb-stat"><b id="nb-score">0</b><small>SCORE</small></div><div class="nb-stat"><b id="nb-lives">3</b><small>LIVES</small></div><div class="nb-stat"><b id="nb-best">0</b><small>BEST</small></div></div></div>
-   <h3>⚡ ARCADE ARENA</h3><div class="nb-panel"><canvas id="nb-canvas" width="360" height="520"></canvas><div class="nb-row" style="justify-content:space-between;margin:9px 0"><b id="nb-level-label">LEVEL 01 / 30</b><span id="nb-status" class="nb-status">Tap START to play</span></div><div class="nb-row"><button class="nb-btn" id="nb-start" onclick="breakoutToggle()">START GAME</button><button class="nb-ghost" onclick="breakoutPause()">Ⅱ PAUSE</button><button class="nb-ghost" onclick="breakoutRestart()">↻ RESTART</button></div><p style="margin-bottom:0">Controls: drag your finger across the arena, or use the buttons below.</p><div class="nb-row" style="justify-content:center;margin-top:8px"><button class="nb-ghost" onpointerdown="breakoutMove(-1)" onpointerup="breakoutMove(0)" onpointerleave="breakoutMove(0)">◀ LEFT</button><button class="nb-ghost" onpointerdown="breakoutMove(1)" onpointerup="breakoutMove(0)" onpointerleave="breakoutMove(0)">RIGHT ▶</button></div></div>
-   <h3>🧩 STAGE SELECT</h3><div class="nb-panel"><div id="nb-levels" class="nb-levels"></div><p>Clear a stage to unlock the next one. Your unlocked stages and best score are saved on this device.</p></div>
-   <h3>✨ POWER-UP GUIDE</h3><div class="nb-panel"><div class="nb-power">🟢 <b>WIDE PADDLE</b> — temporarily increases paddle width.</div><div class="nb-power">🔵 <b>SLOW BALL</b> — slows the ball for easier control.</div><div class="nb-power">🟣 <b>MULTI-BALL</b> — releases extra balls into the arena.</div><div class="nb-power">🟠 <b>LASER</b> — activates a short burst of paddle lasers.</div><p style="margin-bottom:0">Some blocks need two hits. Explosive blocks clear nearby blocks when broken.</p></div>
-   <h3>🏆 PROGRESS</h3><div class="nb-panel"><div class="nb-row" style="justify-content:space-between"><b id="nb-progress-label">0 / 30 stages cleared</b><b id="nb-coins">0 ✦</b></div><div style="height:7px;background:#ffffff18;border-radius:20px;overflow:hidden;margin-top:9px"><div id="nb-progress" style="height:100%;width:0;background:linear-gradient(90deg,#4ce7e9,#b16cff)"></div></div></div>
+   <div class="page-head"><button class="back" onclick="breakoutStop();goHome()">‹ Back</button>
+<h2>🟣 Neon Breakout</h2>
+</div>
+
+   <div class="nb-hero"><div class="nb-kicker">ARCADE CHALLENGE / SEASON 01</div>
+<h2 style="font-size:24px;margin:8px 0">BREAK THE GRID.</h2>
+<p>Control the energy paddle, smash neon blocks, collect power-ups and clear 30 handcrafted stages.</p>
+<div class="nb-stats"><div class="nb-stat"><b id="nb-score">0</b>
+<small>SCORE</small>
+</div>
+<div class="nb-stat"><b id="nb-lives">3</b>
+<small>LIVES</small>
+</div>
+<div class="nb-stat"><b id="nb-best">0</b>
+<small>BEST</small>
+</div>
+</div>
+</div>
+
+   <h3>⚡ ARCADE ARENA</h3>
+<div class="nb-panel"><canvas id="nb-canvas" width="360" height="520"></canvas><div class="nb-row" style="justify-content:space-between;margin:9px 0"><b id="nb-level-label">LEVEL 01 / 30</b>
+<span id="nb-status" class="nb-status">Tap START to play</span>
+</div>
+<div class="nb-row"><button class="nb-btn" id="nb-start" onclick="breakoutToggle()">START GAME</button>
+<button class="nb-ghost" onclick="breakoutPause()">Ⅱ PAUSE</button>
+<button class="nb-ghost" onclick="breakoutRestart()">↻ RESTART</button>
+</div>
+<p style="margin-bottom:0">Controls: drag your finger across the arena, or use the buttons below.</p>
+<div class="nb-row" style="justify-content:center;margin-top:8px"><button class="nb-ghost" onpointerdown="breakoutMove(-1)" onpointerup="breakoutMove(0)" onpointerleave="breakoutMove(0)">◀ LEFT</button>
+<button class="nb-ghost" onpointerdown="breakoutMove(1)" onpointerup="breakoutMove(0)" onpointerleave="breakoutMove(0)">RIGHT ▶</button>
+</div>
+</div>
+
+   <h3>🧩 STAGE SELECT</h3>
+<div class="nb-panel"><div id="nb-levels" class="nb-levels"></div>
+<p>Clear a stage to unlock the next one. Your unlocked stages and best score are saved on this device.</p>
+</div>
+
+   <h3>✨ POWER-UP GUIDE</h3>
+<div class="nb-panel"><div class="nb-power">🟢 <b>WIDE PADDLE</b>
+ — temporarily increases paddle width.</div>
+<div class="nb-power">🔵 <b>SLOW BALL</b>
+ — slows the ball for easier control.</div>
+<div class="nb-power">🟣 <b>MULTI-BALL</b>
+ — releases extra balls into the arena.</div>
+<div class="nb-power">🟠 <b>LASER</b>
+ — activates a short burst of paddle lasers.</div>
+<p style="margin-bottom:0">Some blocks need two hits. Explosive blocks clear nearby blocks when broken.</p>
+</div>
+
+   <h3>🏆 PROGRESS</h3>
+<div class="nb-panel"><div class="nb-row" style="justify-content:space-between"><b id="nb-progress-label">0 / 30 stages cleared</b>
+<b id="nb-coins">0 ✦</b>
+</div>
+<div style="height:7px;background:#ffffff18;border-radius:20px;overflow:hidden;margin-top:9px"><div id="nb-progress" style="height:100%;width:0;background:linear-gradient(90deg,#4ce7e9,#b16cff)"></div>
+</div>
+</div>
+
   </section>
+
 
   <section id="earth-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="earthStop();goHome()">‹ Back</button><h2>🌍 Live Earth</h2></div>
+   <div class="page-head"><button class="back" onclick="earthStop();goHome()">‹ Back</button>
+<h2>🌍 Live Earth</h2>
+</div>
+
    <div class="earth-hero">
-    <div class="earth-kicker"><span class="earth-live-dot"></span>EARTH OBSERVATORY · CONTINUOUS 3D VIEW</div>
+    <div class="earth-kicker"><span class="earth-live-dot"></span>
+EARTH OBSERVATORY · CONTINUOUS 3D VIEW</div>
+
     <h2>Our planet, in motion.</h2>
+
     <p>Drag to rotate · Pinch or use controls to zoom</p>
+
     <div class="earth-layout"><div class="earth-orbit">
      <div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
-     <div class="earth-sun" aria-label="Animated realistic Sun"></div>
-     </div></div>
-    <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ ZOOM IN</button><button class="earth-btn" onclick="earthZoom(.74)">－ ZOOM OUT</button><button class="earth-btn" onclick="earthReset()">◎ RESET</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ PAUSE</button></div>
+
+     <div class="earth-sun" aria-label="Detailed glowing Sun with sunspots"><span class="sun-granulation"></span>
+<span class="sun-flare"></span>
+<span class="sun-corona"></span>
+</div>
+<div class="earth-moon" aria-label="Detailed Moon with craters"></div>
+
+     </div>
+</div>
+
+    <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ ZOOM IN</button>
+<button class="earth-btn" onclick="earthZoom(.74)">－ ZOOM OUT</button>
+<button class="earth-btn" onclick="earthReset()">◎ RESET</button>
+<button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ PAUSE</button>
+</div>
+
+    <div class="earth-view-tools"><button id="earth-day-view" class="active" onclick="earthSetTexture('day')">☀ DAY SIDE</button>
+<button id="earth-night-view" onclick="earthSetTexture('night')">🌃 NIGHT LIGHTS</button>
+<button id="earth-grid-view" onclick="earthToggleGrid()">⌗ GRID ON</button>
+</div>
+
+    <div class="earth-observatory-readout"><div class="earth-readout"><small>UTC</small>
+<b id="earth-utc">--:--:--</b>
+</div>
+<div class="earth-readout"><small>SUN DECLINATION</small>
+<b id="earth-sun-declination">--</b>
+</div>
+<div class="earth-readout"><small>MOON PHASE</small>
+<b id="earth-moon-phase">--</b>
+</div>
+</div>
+
     <div class="earth-stats-row">
-     <div class="earth-stat"><b id="earth-pop">8.2B</b><small>POPULATION</small></div>
-     <div class="earth-stat"><b id="earth-births">+0</b><small>BIRTHS TODAY*</small></div>
-     <div class="earth-stat"><b id="earth-deaths">+0</b><small>DEATHS TODAY*</small></div>
+     <div class="earth-stat"><b id="earth-pop">8.2B</b>
+<small>POPULATION</small>
+</div>
+
+     <div class="earth-stat"><b id="earth-births">+0</b>
+<small>BIRTHS TODAY*</small>
+</div>
+
+     <div class="earth-stat"><b id="earth-deaths">+0</b>
+<small>DEATHS TODAY*</small>
+</div>
+
     </div>
+
     <p class="earth-note">*Population, births and deaths are model-based estimates. Globe texture and full country database require internet access.</p>
+
    </div>
+
    <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div>
-    <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search any country or capital…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button></div>
-    <div id="earth-suggest" class="earth-suggest"></div><div id="earth-search-status" class="earth-status">Search any country by name or capital.</div>
-    <h3 id="earth-country-name">Select a country</h3><p id="earth-country-desc">Explore country details on the interactive globe.</p>
-    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>CAPITAL</small><b id="earth-capital">—</b></div><div class="earth-info-cell"><small>POPULATION</small><b id="earth-country-pop">—</b></div><div class="earth-info-cell"><small>AREA</small><b id="earth-country-area">—</b></div></div>
+
+    <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search any country or capital…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button>
+</div>
+
+    <div id="earth-suggest" class="earth-suggest"></div>
+<div id="earth-search-status" class="earth-status">Search any country by name or capital.</div>
+
+    <h3 id="earth-country-name">Select a country</h3>
+<p id="earth-country-desc">Explore country details on the interactive globe.</p>
+
+    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small>
+<b id="earth-region">—</b>
+</div>
+<div class="earth-info-cell"><small>CAPITAL</small>
+<b id="earth-capital">—</b>
+</div>
+<div class="earth-info-cell"><small>POPULATION</small>
+<b id="earth-country-pop">—</b>
+</div>
+<div class="earth-info-cell"><small>AREA</small>
+<b id="earth-country-area">—</b>
+</div>
+</div>
+
    </div>
+
   </section>
+
 
   <section id="calculator-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Calculator</h2></div>
+   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>Calculator</h2>
+</div>
+
    <div class="calc-display" id="calc-display">0</div>
+
    <div class="calc-grid" id="calc-grid">
     <button class="calc-key clear" onclick="calcClear()">AC</button>
+
     <button class="calc-key op" onclick="calcInput('%')">%</button>
+
     <button class="calc-key op" onclick="calcInput('/')">÷</button>
+
     <button class="calc-key op" onclick="calcInput('*')">×</button>
+
     <button class="calc-key" onclick="calcInput('7')">7</button>
+
     <button class="calc-key" onclick="calcInput('8')">8</button>
+
     <button class="calc-key" onclick="calcInput('9')">9</button>
+
     <button class="calc-key op" onclick="calcInput('-')">−</button>
+
     <button class="calc-key" onclick="calcInput('4')">4</button>
+
     <button class="calc-key" onclick="calcInput('5')">5</button>
+
     <button class="calc-key" onclick="calcInput('6')">6</button>
+
     <button class="calc-key op" onclick="calcInput('+')">+</button>
+
     <button class="calc-key" onclick="calcInput('1')">1</button>
+
     <button class="calc-key" onclick="calcInput('2')">2</button>
+
     <button class="calc-key" onclick="calcInput('3')">3</button>
+
     <button class="calc-key equal" onclick="calcResult()">=</button>
+
     <button class="calc-key" style="grid-column:span 2" onclick="calcInput('0')">0</button>
+
     <button class="calc-key" onclick="calcInput('.')">.</button>
+
     <button class="calc-key" onclick="calcBack()">⌫</button>
+
    </div>
+
   </section>
+
 
    <section id="password-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Password Generator</h2></div>
+   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>Password Generator</h2>
+</div>
+
    <div class="card">
     <p>Create a strong random password.</p>
+
     <label>Password length</label>
+
     <input class="field" id="pass-length" type="number" min="6" max="40" value="16">
     <button class="primary" onclick="generatePassword()">GENERATE PASSWORD</button>
+
     <div class="output" id="password-output">Your password appears here.</div>
+
     <button class="secondary" onclick="copyPassword()">COPY PASSWORD</button>
+
    </div>
+
   </section>
 
+
   <section id="notes-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>My Notes</h2></div>
+   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>My Notes</h2>
+</div>
+
    <div class="card">
     <input class="field" id="note-title" placeholder="Note title">
     <textarea class="field" id="note-body" rows="5" placeholder="Write your note..."></textarea>
+
     <button class="primary" onclick="saveNote()">SAVE NOTE</button>
+
     <div id="notes-list" style="margin-top:15px"></div>
+
    </div>
+
   </section>
+
 
   <section id="games-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Gaming Hub</h2></div>
+   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>Gaming Hub</h2>
+</div>
+
    <p>Choose a game and enjoy your break.</p>
+
    <div class="tile-grid">
-    <button class="tile" onclick="openPage('guess-page')"><span class="emoji">🔢</span><span>Number Guess</span></button>
-    <button class="tile" onclick="openPage('typing-page')"><span class="emoji">⌨️</span><span>Typing Speed</span></button>
-    <button class="tile" onclick="openPage('flappy-page')"><span class="emoji">🐦</span><span>Flappy Bird</span></button>
-    <button class="tile" onclick="openPage('snake-page')"><span class="emoji">🐍</span><span>Snake</span></button>
-    <button class="tile" onclick="openPage('car-page')"><span class="emoji">🏎️</span><span>Car Racing</span></button>
+    <button class="tile" onclick="openPage('guess-page')"><span class="emoji">🔢</span>
+<span>Number Guess</span>
+</button>
+
+    <button class="tile" onclick="openPage('typing-page')"><span class="emoji">⌨️</span>
+<span>Typing Speed</span>
+</button>
+
+    <button class="tile" onclick="openPage('flappy-page')"><span class="emoji">🐦</span>
+<span>Flappy Bird</span>
+</button>
+
+    <button class="tile" onclick="openPage('snake-page')"><span class="emoji">🐍</span>
+<span>Snake</span>
+</button>
+
+    <button class="tile" onclick="openPage('car-page')"><span class="emoji">🏎️</span>
+<span>Car Racing</span>
+</button>
+
    </div>
+
   </section>
+
 
   <section id="guess-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Number Guess</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button>
+<h2>Number Guess</h2>
+</div>
+
    <div class="card">
     <p>Guess the secret number from 1 to 100. You have 10 chances.</p>
+
     <input class="field" id="guess-input" type="number" min="1" max="100" placeholder="Your guess">
     <button class="primary" onclick="makeGuess()">GUESS</button>
+
     <p id="guess-message">10 chances remaining.</p>
+
     <button class="secondary" onclick="resetGuess()">RESTART GAME</button>
+
    </div>
+
   </section>
+
 
   <section id="typing-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Typing Speed</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button>
+<h2>Typing Speed</h2>
+</div>
+
    <div class="card">
     <p>Type the paragraph accurately before the 60-second timer ends.</p>
+
     <div id="typing-sentence">Press START to get a random paragraph.</div>
+
     <div class="typing-stats">
-     <div class="typing-stat"><b id="typing-time">60</b><span>SECONDS LEFT</span></div>
-     <div class="typing-stat"><b id="typing-live-wpm">0</b><span>LIVE WPM</span></div>
+     <div class="typing-stat"><b id="typing-time">60</b>
+<span>SECONDS LEFT</span>
+</div>
+
+     <div class="typing-stat"><b id="typing-live-wpm">0</b>
+<span>LIVE WPM</span>
+</div>
+
     </div>
+
     <textarea class="field" id="typing-input" rows="4" placeholder="Press START, then type here..." disabled></textarea>
+
     <button class="primary" id="typing-start-button" onclick="startTyping()">START NEW TEST</button>
+
     <div id="typing-results" class="hidden">
      <div class="typing-stats">
-      <div class="typing-stat"><b id="typing-final-wpm">0</b><span>WORDS PER MINUTE</span></div>
-      <div class="typing-stat"><b id="typing-accuracy">0%</b><span>ACCURACY</span></div>
-      <div class="typing-stat"><b id="typing-correct">0</b><span>CORRECT CHARACTERS</span></div>
-      <div class="typing-stat"><b id="typing-mistakes">0</b><span>MISTAKES</span></div>
+      <div class="typing-stat"><b id="typing-final-wpm">0</b>
+<span>WORDS PER MINUTE</span>
+</div>
+
+      <div class="typing-stat"><b id="typing-accuracy">0%</b>
+<span>ACCURACY</span>
+</div>
+
+      <div class="typing-stat"><b id="typing-correct">0</b>
+<span>CORRECT CHARACTERS</span>
+</div>
+
+      <div class="typing-stat"><b id="typing-mistakes">0</b>
+<span>MISTAKES</span>
+</div>
+
      </div>
+
      <p id="typing-result"></p>
      <button class="secondary" onclick="startTyping()">TRY ANOTHER PARAGRAPH</button>
+
     </div>
+
    </div>
+
   </section>
+
 
   <section id="flappy-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Flappy Bird</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button>
+<h2>Flappy Bird</h2>
+</div>
+
    <div class="card">
     <p>Tap the game area to flap and avoid the obstacles.</p>
+
     <canvas id="flappy-canvas" class="game-canvas" width="360" height="460"></canvas>
     <button class="primary" onclick="startFlappy()">PLAY / RESTART</button>
+
         <p id="flappy-score">Score: 0</p>
+
    </div>
+
   </section>
 
+
   <section id="snake-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Snake</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button>
+<h2>Snake</h2>
+</div>
+
    <div class="card">
     <p>Collect the glowing fruit. Avoid the walls and your tail.</p>
+
     <canvas id="snake-canvas" class="game-canvas" width="288" height="288"></canvas>
     <div id="snake-controls">
      <button class="empty-control" aria-hidden="true"> </button>
+
      <button onclick="snakeDirection(0,-1)">⬆️</button>
+
      <button class="empty-control" aria-hidden="true"> </button>
+
      <button onclick="snakeDirection(-1,0)">⬅️</button>
+
      <button onclick="snakeDirection(0,1)">⬇️</button>
+
      <button onclick="snakeDirection(1,0)">➡️</button>
+
     </div>
+
     <button class="primary" onclick="startSnake()">PLAY / RESTART</button>
+
     <p id="snake-score">Score: 0</p>
+
    </div>
+
   </section>
 
+
   <section id="car-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button><h2>Car Racing</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('games-page')">‹ Games</button>
+<h2>Car Racing</h2>
+</div>
+
    <div class="card">
     <p>Swipe left or right to change lanes. Avoid the traffic!</p>
+
     <div class="car-score">
-     <div><b id="car-score">0</b><span>SCORE</span></div>
-     <div><b id="car-level">1</b><span>LEVEL</span></div>
-     <div><b id="car-speed">1x</b><span>SPEED</span></div>
+     <div><b id="car-score">0</b>
+<span>SCORE</span>
+</div>
+
+     <div><b id="car-level">1</b>
+<span>LEVEL</span>
+</div>
+
+     <div><b id="car-speed">1x</b>
+<span>SPEED</span>
+</div>
+
     </div>
+
     <canvas id="car-canvas" width="340" height="510"></canvas>
     <div class="car-controls">
      <button onclick="moveCar(-1)">⬅ LEFT</button>
+
      <button onclick="moveCar(1)">RIGHT ➡</button>
+
     </div>
+
     <button class="primary" style="margin-top:12px" onclick="startCarGame()">PLAY / RESTART</button>
+
     <p id="car-message" class="small-note">Use swipe, arrow keys or A/D to drive.</p>
+
    </div>
+
   </section>
+
 
   <section id="settings-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Settings</h2></div>
+   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>Settings</h2>
+</div>
+
    <div class="card">
     <label>Your name</label>
+
     <input class="field" id="setting-name" placeholder="Enter your name">
     <label>Set a PIN (optional)</label>
+
     <input class="field" id="setting-pin" type="password" maxlength="8" placeholder="Create a PIN">
     <button class="primary" onclick="saveSettings()">SAVE SETTINGS</button>
+
     <p class="small-note">Your notes and settings are saved on this device.</p>
+
    </div>
+
   </section>
 
+
   <section id="about-page" class="hidden">
-   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>About</h2></div>
+   <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>About</h2>
+</div>
+
    <div class="card">
     <h2>✦ mobile.app</h2>
+
     <p>A personal mini-app space with everyday tools, notes and games.</p>
+
     <p>Designed with a colorful premium interface and made to work without an AI API.</p>
+
     <div style="margin-top:18px;padding:13px;border-radius:14px;background:#ffffff15">
-     <p style="margin-bottom:8px"><b>Version:</b> 1.0</p>
-     <p style="margin-bottom:0"><b>Made by:</b> Kashan Boss</p>
+     <p style="margin-bottom:8px"><b>Version:</b>
+ 1.0</p>
+
+     <p style="margin-bottom:0"><b>Made by:</b>
+ Kashan Boss</p>
+
     </div>
+
    </div>
+
   </section>
+
 
   <section id="school-page" class="hidden school-page" style="--school-bg:url(1000015111.jpg)">
    <div class="school-overlay">
-    <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>About My School</h2></div>
+    <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button>
+<h2>About My School</h2>
+</div>
+
     <div class="school-menu">
-     <button class="school-option history-option" onclick="openPage('school-history-page')">📚 &nbsp; History of UPSS <span>›</span></button>
-     <button class="school-option mission-option" onclick="openPage('school-mission-page')">🌟 &nbsp; Mission of UPSS <span>›</span></button>
+     <button class="school-option history-option" onclick="openPage('school-history-page')">📚 &nbsp; History of UPSS <span>›</span>
+</button>
+
+     <button class="school-option mission-option" onclick="openPage('school-mission-page')">🌟 &nbsp; Mission of UPSS <span>›</span>
+</button>
+
     </div>
+
    </div>
+
   </section>
+
 
   <section id="school-history-page" class="hidden school-detail history-detail">
-   <div class="page-head"><button class="back" onclick="openPage('school-page')">‹ School</button><h2>History of UPSS</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('school-page')">‹ School</button>
+<h2>History of UPSS</h2>
+</div>
+
    <div class="school-text-card">
     <p>Usman Public School System (UPSS) began its educational journey in 1989. It was established with the aim of providing quality education while keeping Islamic values and character development at the heart of learning.</p>
+
     <p>From its beginning, the school system has focused on developing students academically, morally and socially. Its educational approach encourages discipline, responsibility, respect and a strong sense of purpose.</p>
+
     <p>Over the years, UPSS has grown beyond its first campus and expanded its educational work through campuses in Karachi. This growth has helped the school system reach more families and provide learning opportunities to a wider community.</p>
+
     <p>UPSS places importance on combining contemporary education with Islamic teachings. Along with classroom learning, students are encouraged to build good character, explore knowledge and understand their responsibilities towards society.</p>
+
     <p>Today, the journey of UPSS continues with an emphasis on education, values and the development of future generations. Its history reflects a continuing effort to prepare students to contribute positively to the Muslim Ummah and the wider world.</p>
+
    </div>
+
   </section>
 
+
   <section id="school-mission-page" class="hidden school-detail mission-detail">
-   <div class="page-head"><button class="back" onclick="openPage('school-page')">‹ School</button><h2>Mission of UPSS</h2></div>
+   <div class="page-head"><button class="back" onclick="openPage('school-page')">‹ School</button>
+<h2>Mission of UPSS</h2>
+</div>
+
    <div class="school-text-card">
     <h3>Mission</h3>
+
     <p>To motivate the students in becoming future leaders capable of providing guidance to the Muslim Ummah in all spheres of life and lead the contemporary world in accordance with the teachings of Islam.</p>
+
     <h3>Vision</h3>
+
     <p>Nurturing students in becoming future leaders.</p>
+
     <h3>Core Values</h3>
+
     <ol>
      <li>Taqwa</li>
+
      <li>Following Prophet Muhammad (SAW) as a role model</li>
+
      <li>Research &amp; Explore</li>
+
      <li>Service of Mankind</li>
+
      <li>Enjoining Good and Forbidding Evil</li>
+
      <li>Protection of Ideology of Pakistan</li>
+
     </ol>
    </div>
+
   </section>
+
 
   <section id="pin-page" class="hidden">
    <div class="login-wrap" style="min-height:650px">
     <h1>Welcome back</h1>
+
     <p>Enter your PIN to continue.</p>
+
     <input class="field" id="pin-entry" type="password" placeholder="Enter PIN">
     <button class="primary" onclick="unlockApp()">UNLOCK</button>
+
     <p id="pin-message"></p>
+
    </div>
+
   </section>
 
+
  </main>
+
 </div>
+
 """
 APP += r"""
 <script>
+
 // ===============================
 // MOBILE.APP - MAIN JAVASCRIPT
 // ===============================
@@ -988,12 +2217,16 @@ function generatePassword() {
   if (window.crypto && window.crypto.getRandomValues) {
     window.crypto.getRandomValues(random);
   } else {
-    for (let i = 0; i < length; i++) {
+    for (let i = 0;
+ i < length;
+ i++) {
       random[i] = Math.floor(Math.random() * 100000);
     }
   }
 
-  for (let i = 0; i < length; i++) {
+  for (let i = 0;
+ i < length;
+ i++) {
     result += chars[random[i] % chars.length];
   }
 
@@ -1218,7 +2451,9 @@ function getTypingStats() {
   let correct = 0;
   let mistakes = 0;
 
-  for (let i = 0; i < typed.length; i++) {
+  for (let i = 0;
+ i < typed.length;
+ i++) {
     if (typed[i] === typingText[i]) correct++;
     else mistakes++;
   }
@@ -1510,7 +2745,9 @@ function drawSnake() {
   // Subtle leafy shapes add texture without a distracting dotted grid.
   sx.save();
   sx.globalAlpha = 0.12;
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0;
+ i < 14;
+ i++) {
     const x = (i * 47 + 19) % w;
     const y = (i * 71 + 13) % h;
     sx.fillStyle = i % 2 ? "#c4ffcf" : "#69e6b0";
@@ -1781,7 +3018,9 @@ function drawCar() {
   cx.fillRect(carRoad.right, 0, 5, h);
 
   // Roadside stripes
-  for (let y = -50; y < h + 50; y += 65) {
+  for (let y = -50;
+ y < h + 50;
+ y += 65) {
     const offset = carRoadOffset % 65;
 
     cx.fillStyle = "#f5d66b";
@@ -1798,10 +3037,14 @@ function drawCar() {
   // Lane markings
   cx.fillStyle = "#ffffffaa";
 
-  for (let lane = 1; lane <= 2; lane++) {
+  for (let lane = 1;
+ lane <= 2;
+ lane++) {
     const x = carRoad.left + lane * carRoad.laneWidth - 2;
 
-    for (let y = -70; y < h + 70; y += 85) {
+    for (let y = -70;
+ y < h + 70;
+ y += 85) {
       cx.fillRect(x, y + (carRoadOffset % 85), 4, 42);
     }
   }
@@ -1997,39 +3240,275 @@ const nbCtx=nbCanvas?nbCanvas.getContext('2d'):null;
 const NB_W=360,NB_H=520,NB_LEVELS=30;
 const nbColors=['#4de9e9','#8d78ff','#ff69b4','#ffb45d','#83f28f'];
 let nbSave=nbLoad(),nbRunning=false,nbPaused=false,nbFrame=0,nbLast=0,nbPaddle={x:150,w:60},nbBalls=[],nbBricks=[],nbDrops=[],nbLasers=[],nbScore=0,nbLives=3,nbLevel=1,nbCoins=nbSave.coins,nbMove=0,nbEffects={wide:0,slow:0,laser:0},nbPointer=null,nbMessage='Tap START to play',nbLevelWon=false;
-function nbLoad(){try{const d=JSON.parse(localStorage.getItem('mobile_neon_breakout_v1')||'{}');return {best:Number(d.best)||0,unlocked:Math.max(1,Math.min(30,Number(d.unlocked)||1)),cleared:Array.isArray(d.cleared)?d.cleared:[],coins:Number(d.coins)||0};}catch(e){return {best:0,unlocked:1,cleared:[],coins:0};}}
-function nbPersist(){try{localStorage.setItem('mobile_neon_breakout_v1',JSON.stringify(nbSave));}catch(e){}nbRenderMeta();}
-function nbRenderMeta(){const el=id=>document.getElementById(id);if(!el('nb-best'))return;el('nb-best').textContent=nbSave.best;el('nb-coins').textContent=nbSave.coins+' ✦';el('nb-progress-label').textContent=nbSave.cleared.length+' / 30 stages cleared';el('nb-progress').style.width=(nbSave.cleared.length/30*100)+'%';el('nb-levels').innerHTML=Array.from({length:30},(_,i)=>'<button class="nb-level '+(i+1===nbLevel?'current':'')+'" '+(i+1>nbSave.unlocked?'disabled':'')+' onclick="breakoutSetLevel('+(i+1)+')">'+String(i+1).padStart(2,'0')+'</button>').join('');}
-function nbResetStage(){nbPaddle={x:150,w:nbEffects.wide>0?92:60};nbBalls=[{x:180,y:455,vx:2.3,vy:-3.5,r:6,stuck:true}];nbDrops=[];nbLasers=[];nbLevelWon=false;nbBricks=[];const rows=3+Math.min(4,Math.floor((nbLevel-1)/5)),cols=8;for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){let pattern=(r*7+c*3+nbLevel)%11;if(nbLevel%4===0&&pattern===0)continue;nbBricks.push({x:9+c*43,y:65+r*25,w:39,h:18,hp:pattern===1?2:1,max:pattern===1?2:1,color:nbColors[(r+c+nbLevel)%nbColors.length],type:pattern===0?'explosive':'normal'});}}
-function breakoutInit(){nbRenderMeta();nbDraw();}
-function breakoutSetLevel(n){if(n>nbSave.unlocked)return;breakoutStop();nbLevel=n;nbScore=0;nbLives=3;nbEffects={wide:0,slow:0,laser:0};nbResetStage();nbMessage='Level '+n+' ready';nbUpdateHud();nbDraw();nbRenderMeta();}
-function breakoutToggle(){if(nbRunning){breakoutPause();return;}if(nbLevelWon){breakoutNext();return;}if(!nbBalls.length||nbLives<=0)breakoutRestart();nbRunning=true;nbPaused=false;nbMessage='Game running';document.getElementById('nb-start').textContent='RUNNING';nbLast=0;nbFrame=requestAnimationFrame(breakoutLoop);nbUpdateHud();}
-function breakoutPause(){if(!nbRunning)return;nbRunning=false;nbPaused=true;cancelAnimationFrame(nbFrame);nbMessage='Paused';document.getElementById('nb-start').textContent='RESUME';nbDraw();nbUpdateHud();}
-function breakoutStop(){if(nbRunning){nbRunning=false;cancelAnimationFrame(nbFrame);}nbPaused=false;}
-function breakoutRestart(){breakoutStop();nbScore=0;nbLives=3;nbEffects={wide:0,slow:0,laser:0};nbResetStage();nbMessage='Ready';document.getElementById('nb-start').textContent='START GAME';nbUpdateHud();nbDraw();}
-function breakoutMove(dir){nbMove=dir;}
-function nbUpdateHud(){const el=id=>document.getElementById(id);if(!el('nb-score'))return;el('nb-score').textContent=nbScore;el('nb-lives').textContent=nbLives;el('nb-level-label').textContent='LEVEL '+String(nbLevel).padStart(2,'0')+' / 30';el('nb-status').textContent=nbMessage;el('nb-start').textContent=nbRunning?'RUNNING':nbPaused?'RESUME':nbLevelWon?'NEXT LEVEL':'START GAME';}
-function nbDrop(x,y){if(Math.random()>.23)return;const types=['wide','slow','multi','laser'];nbDrops.push({x,y,type:types[Math.floor(Math.random()*types.length)],vy:1.7});}
-function nbApplyDrop(d){if(d.type==='wide'){nbEffects.wide=600;nbPaddle.w=92;}if(d.type==='slow')nbEffects.slow=600;if(d.type==='laser')nbEffects.laser=600;if(d.type==='multi'){const b=nbBalls[0];if(b)for(let i=0;i<2;i++)nbBalls.push({x:b.x,y:b.y,vx:i? -b.vx:b.vx,vy:b.vy,r:6,stuck:false});}nbMessage=({wide:'WIDE PADDLE!',slow:'SLOW BALL!',laser:'LASER READY!',multi:'MULTI-BALL!'}[d.type]);}
-function nbHitBrick(index){const b=nbBricks[index];if(!b)return;b.hp--;if(b.hp<=0){nbScore+=b.type==='explosive'?35:10;nbCoins+=1;nbSave.coins+=1;nbDrop(b.x+b.w/2,b.y+b.h/2);nbBricks.splice(index,1);if(b.type==='explosive'){for(let i=nbBricks.length-1;i>=0;i--){const q=nbBricks[i];if(Math.hypot(q.x-b.x,q.y-b.y)<72){nbScore+=8;nbBricks.splice(i,1);}}}}else nbScore+=3;}
-function breakoutLoop(t){if(!nbRunning)return;const dt=Math.min(2,(t-(nbLast||t))/16.67||1);nbLast=t;const speed=4.1*(nbEffects.slow>0?.65:1);if(nbMove)nbPaddle.x+=nbMove*5.5*dt;nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,nbPaddle.x));if(nbEffects.wide>0)nbEffects.wide-=dt;else nbPaddle.w=60;if(nbEffects.slow>0)nbEffects.slow-=dt;if(nbEffects.laser>0)nbEffects.laser-=dt;
- for(const b of nbBalls){if(b.stuck){b.x=nbPaddle.x+nbPaddle.w/2;b.y=NB_H-65;continue;}b.x+=b.vx*dt*speed/4.1;b.y+=b.vy*dt*speed/4.1;if(b.x<b.r||b.x>NB_W-b.r)b.vx*=-1;if(b.y<b.r+25)b.vy=Math.abs(b.vy);if(b.y>NB_H-58&&b.y<NB_H-43&&b.x>nbPaddle.x&&b.x<nbPaddle.x+nbPaddle.w&&b.vy>0){b.vy=-Math.abs(b.vy);b.vx=((b.x-(nbPaddle.x+nbPaddle.w/2))/(nbPaddle.w/2))*3.8;}
-  for(let i=nbBricks.length-1;i>=0;i--){const q=nbBricks[i];if(b.x+b.r>q.x&&b.x-b.r<q.x+q.w&&b.y+b.r>q.y&&b.y-b.r<q.y+q.h){b.vy*=-1;nbHitBrick(i);break;}}}
- nbBalls=nbBalls.filter(b=>b.y<NB_H+15);if(!nbBalls.length){nbLives--;if(nbLives<=0){nbRunning=false;nbMessage='GAME OVER · Restart to try again';nbSave.best=Math.max(nbSave.best,nbScore);nbPersist();}else{nbBalls=[{x:nbPaddle.x+nbPaddle.w/2,y:NB_H-65,vx:2.2,vy:-3.4,r:6,stuck:true}];nbMessage='Life lost · Tap to launch';}}
- for(const d of nbDrops){d.y+=d.vy*dt;if(d.y>NB_H-65&&d.y<NB_H-45&&d.x>nbPaddle.x&&d.x<nbPaddle.x+nbPaddle.w)nbApplyDrop(d);}nbDrops=nbDrops.filter(d=>d.y<NB_H+10);
- if(nbEffects.laser>0&&Math.floor(t/160)%4===0){nbLasers.push({x:nbPaddle.x+nbPaddle.w*.25,y:NB_H-70},{x:nbPaddle.x+nbPaddle.w*.75,y:NB_H-70});}for(const l of nbLasers)l.y-=8*dt;nbLasers=nbLasers.filter(l=>l.y>35);for(let i=nbLasers.length-1;i>=0;i--){const l=nbLasers[i],j=nbBricks.findIndex(b=>l.x>=b.x&&l.x<=b.x+b.w&&l.y>=b.y&&l.y<=b.y+b.h);if(j>=0){nbHitBrick(j);nbLasers.splice(i,1);}}
- if(!nbBricks.length&&!nbLevelWon){nbLevelWon=true;nbRunning=false;nbSave.cleared=Array.from(new Set([...nbSave.cleared,nbLevel]));nbSave.unlocked=Math.max(nbSave.unlocked,Math.min(30,nbLevel+1));nbSave.best=Math.max(nbSave.best,nbScore);nbSave.coins=nbCoins;nbPersist();nbMessage=nbLevel===30?'ALL 30 LEVELS CLEARED!':'STAGE CLEAR · NEXT LEVEL UNLOCKED';}
- nbDraw();nbUpdateHud();if(nbRunning)nbFrame=requestAnimationFrame(breakoutLoop);}
-function breakoutNext(){if(nbLevel<30){nbLevel++;breakoutRestart();breakoutToggle();}}
-function nbDraw(){if(!nbCtx)return;const c=nbCtx;const g=c.createLinearGradient(0,0,0,NB_H);g.addColorStop(0,'#0b1730');g.addColorStop(1,'#070914');c.fillStyle=g;c.fillRect(0,0,NB_W,NB_H);for(let i=0;i<55;i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);}c.fillStyle='#8ceeff';c.font='bold 10px Arial';c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);for(const b of nbBricks){c.shadowBlur=12;c.shadowColor=b.color;c.fillStyle=b.color;c.beginPath();c.roundRect(b.x,b.y,b.w,b.h,5);c.fill();c.shadowBlur=0;c.fillStyle='#07111f';c.font='bold 9px Arial';c.textAlign='center';c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);}c.textAlign='left';for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);c.shadowBlur=10;c.shadowColor=c.fillStyle;c.beginPath();c.arc(d.x,d.y,7,0,Math.PI*2);c.fill();c.shadowBlur=0;}for(const l of nbLasers){c.fillStyle='#ffad55';c.fillRect(l.x-2,l.y,4,12);}c.shadowBlur=16;c.shadowColor='#62f5ff';c.fillStyle='#69efff';c.beginPath();c.roundRect(nbPaddle.x,NB_H-48,nbPaddle.w,10,5);c.fill();c.shadowBlur=0;for(const b of nbBalls){c.shadowBlur=14;c.shadowColor='#fff';c.fillStyle='#fff';c.beginPath();c.arc(b.x,b.y,b.r,0,Math.PI*2);c.fill();c.shadowBlur=0;}if(!nbRunning){c.fillStyle='rgba(3,8,20,.52)';c.fillRect(0,NB_H/2-26,NB_W,52);c.fillStyle='#eafcff';c.font='bold 14px Arial';c.textAlign='center';c.fillText(nbMessage,NB_W/2,NB_H/2+5);c.textAlign='left';}}
-if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;const b=nbBalls.find(x=>x.stuck);if(b){b.stuck=false;nbMessage='Good luck!';}if(!nbRunning&&!nbLevelWon&&nbLives>0&&nbPaused===false){/* start remains explicit */}});nbCanvas.addEventListener('pointermove',e=>{if(nbPointer===null&&e.buttons===0)return;const r=nbCanvas.getBoundingClientRect();const x=(e.clientX-r.left)*NB_W/r.width;nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,x-nbPaddle.w/2));if(nbBalls[0]?.stuck)nbBalls[0].x=nbPaddle.x+nbPaddle.w/2;});nbCanvas.addEventListener('pointerup',()=>nbPointer=null);nbCanvas.addEventListener('pointercancel',()=>nbPointer=null);}
+function nbLoad(){try{const d=JSON.parse(localStorage.getItem('mobile_neon_breakout_v1')||'{}');
+return {best:Number(d.best)||0,unlocked:Math.max(1,Math.min(30,Number(d.unlocked)||1)),cleared:Array.isArray(d.cleared)?d.cleared:[],coins:Number(d.coins)||0};
+}catch(e){return {best:0,unlocked:1,cleared:[],coins:0};
+}}
+function nbPersist(){try{localStorage.setItem('mobile_neon_breakout_v1',JSON.stringify(nbSave));
+}catch(e){}nbRenderMeta();
+}
+function nbRenderMeta(){const el=id=>document.getElementById(id);
+if(!el('nb-best'))return;
+el('nb-best').textContent=nbSave.best;
+el('nb-coins').textContent=nbSave.coins+' ✦';
+el('nb-progress-label').textContent=nbSave.cleared.length+' / 30 stages cleared';
+el('nb-progress').style.width=(nbSave.cleared.length/30*100)+'%';
+el('nb-levels').innerHTML=Array.from({length:30},(_,i)=>'<button class="nb-level '+(i+1===nbLevel?'current':'')+'" '+(i+1>nbSave.unlocked?'disabled':'')+' onclick="breakoutSetLevel('+(i+1)+')">'+String(i+1).padStart(2,'0')+'</button>').join('');
+}
+function nbResetStage(){nbPaddle={x:150,w:nbEffects.wide>0?92:60};
+nbBalls=[{x:180,y:455,vx:2.3,vy:-3.5,r:6,stuck:true}];
+nbDrops=[];
+nbLasers=[];
+nbLevelWon=false;
+nbBricks=[];
+const rows=3+Math.min(4,Math.floor((nbLevel-1)/5)),cols=8;
+for(let r=0;
+r<rows;
+r++)for(let c=0;
+c<cols;
+c++){let pattern=(r*7+c*3+nbLevel)%11;
+if(nbLevel%4===0&&pattern===0)continue;
+nbBricks.push({x:9+c*43,y:65+r*25,w:39,h:18,hp:pattern===1?2:1,max:pattern===1?2:1,color:nbColors[(r+c+nbLevel)%nbColors.length],type:pattern===0?'explosive':'normal'});
+}}
+function breakoutInit(){nbRenderMeta();
+nbDraw();
+}
+function breakoutSetLevel(n){if(n>nbSave.unlocked)return;
+breakoutStop();
+nbLevel=n;
+nbScore=0;
+nbLives=3;
+nbEffects={wide:0,slow:0,laser:0};
+nbResetStage();
+nbMessage='Level '+n+' ready';
+nbUpdateHud();
+nbDraw();
+nbRenderMeta();
+}
+function breakoutToggle(){if(nbRunning){breakoutPause();
+return;
+}if(nbLevelWon){breakoutNext();
+return;
+}if(!nbBalls.length||nbLives<=0)breakoutRestart();
+nbRunning=true;
+nbPaused=false;
+nbMessage='Game running';
+document.getElementById('nb-start').textContent='RUNNING';
+nbLast=0;
+nbFrame=requestAnimationFrame(breakoutLoop);
+nbUpdateHud();
+}
+function breakoutPause(){if(!nbRunning)return;
+nbRunning=false;
+nbPaused=true;
+cancelAnimationFrame(nbFrame);
+nbMessage='Paused';
+document.getElementById('nb-start').textContent='RESUME';
+nbDraw();
+nbUpdateHud();
+}
+function breakoutStop(){if(nbRunning){nbRunning=false;
+cancelAnimationFrame(nbFrame);
+}nbPaused=false;
+}
+function breakoutRestart(){breakoutStop();
+nbScore=0;
+nbLives=3;
+nbEffects={wide:0,slow:0,laser:0};
+nbResetStage();
+nbMessage='Ready';
+document.getElementById('nb-start').textContent='START GAME';
+nbUpdateHud();
+nbDraw();
+}
+function breakoutMove(dir){nbMove=dir;
+}
+function nbUpdateHud(){const el=id=>document.getElementById(id);
+if(!el('nb-score'))return;
+el('nb-score').textContent=nbScore;
+el('nb-lives').textContent=nbLives;
+el('nb-level-label').textContent='LEVEL '+String(nbLevel).padStart(2,'0')+' / 30';
+el('nb-status').textContent=nbMessage;
+el('nb-start').textContent=nbRunning?'RUNNING':nbPaused?'RESUME':nbLevelWon?'NEXT LEVEL':'START GAME';
+}
+function nbDrop(x,y){if(Math.random()>.23)return;
+const types=['wide','slow','multi','laser'];
+nbDrops.push({x,y,type:types[Math.floor(Math.random()*types.length)],vy:1.7});
+}
+function nbApplyDrop(d){if(d.type==='wide'){nbEffects.wide=600;
+nbPaddle.w=92;
+}if(d.type==='slow')nbEffects.slow=600;
+if(d.type==='laser')nbEffects.laser=600;
+if(d.type==='multi'){const b=nbBalls[0];
+if(b)for(let i=0;
+i<2;
+i++)nbBalls.push({x:b.x,y:b.y,vx:i? -b.vx:b.vx,vy:b.vy,r:6,stuck:false});
+}nbMessage=({wide:'WIDE PADDLE!',slow:'SLOW BALL!',laser:'LASER READY!',multi:'MULTI-BALL!'}[d.type]);
+}
+function nbHitBrick(index){const b=nbBricks[index];
+if(!b)return;
+b.hp--;
+if(b.hp<=0){nbScore+=b.type==='explosive'?35:10;
+nbCoins+=1;
+nbSave.coins+=1;
+nbDrop(b.x+b.w/2,b.y+b.h/2);
+nbBricks.splice(index,1);
+if(b.type==='explosive'){for(let i=nbBricks.length-1;
+i>=0;
+i--){const q=nbBricks[i];
+if(Math.hypot(q.x-b.x,q.y-b.y)<72){nbScore+=8;
+nbBricks.splice(i,1);
+}}}}else nbScore+=3;
+}
+function breakoutLoop(t){if(!nbRunning)return;
+const dt=Math.min(2,(t-(nbLast||t))/16.67||1);
+nbLast=t;
+const speed=4.1*(nbEffects.slow>0?.65:1);
+if(nbMove)nbPaddle.x+=nbMove*5.5*dt;
+nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,nbPaddle.x));
+if(nbEffects.wide>0)nbEffects.wide-=dt;
+else nbPaddle.w=60;
+if(nbEffects.slow>0)nbEffects.slow-=dt;
+if(nbEffects.laser>0)nbEffects.laser-=dt;
+ for(const b of nbBalls){if(b.stuck){b.x=nbPaddle.x+nbPaddle.w/2;
+b.y=NB_H-65;
+continue;
+}b.x+=b.vx*dt*speed/4.1;
+b.y+=b.vy*dt*speed/4.1;
+if(b.x<b.r||b.x>NB_W-b.r)b.vx*=-1;
+if(b.y<b.r+25)b.vy=Math.abs(b.vy);
+if(b.y>NB_H-58&&b.y<NB_H-43&&b.x>nbPaddle.x&&b.x<nbPaddle.x+nbPaddle.w&&b.vy>0){b.vy=-Math.abs(b.vy);
+b.vx=((b.x-(nbPaddle.x+nbPaddle.w/2))/(nbPaddle.w/2))*3.8;
+}
+  for(let i=nbBricks.length-1;
+i>=0;
+i--){const q=nbBricks[i];
+if(b.x+b.r>q.x&&b.x-b.r<q.x+q.w&&b.y+b.r>q.y&&b.y-b.r<q.y+q.h){b.vy*=-1;
+nbHitBrick(i);
+break;
+}}}
+ nbBalls=nbBalls.filter(b=>b.y<NB_H+15);
+if(!nbBalls.length){nbLives--;
+if(nbLives<=0){nbRunning=false;
+nbMessage='GAME OVER · Restart to try again';
+nbSave.best=Math.max(nbSave.best,nbScore);
+nbPersist();
+}else{nbBalls=[{x:nbPaddle.x+nbPaddle.w/2,y:NB_H-65,vx:2.2,vy:-3.4,r:6,stuck:true}];
+nbMessage='Life lost · Tap to launch';
+}}
+ for(const d of nbDrops){d.y+=d.vy*dt;
+if(d.y>NB_H-65&&d.y<NB_H-45&&d.x>nbPaddle.x&&d.x<nbPaddle.x+nbPaddle.w)nbApplyDrop(d);
+}nbDrops=nbDrops.filter(d=>d.y<NB_H+10);
+ if(nbEffects.laser>0&&Math.floor(t/160)%4===0){nbLasers.push({x:nbPaddle.x+nbPaddle.w*.25,y:NB_H-70},{x:nbPaddle.x+nbPaddle.w*.75,y:NB_H-70});
+}for(const l of nbLasers)l.y-=8*dt;
+nbLasers=nbLasers.filter(l=>l.y>35);
+for(let i=nbLasers.length-1;
+i>=0;
+i--){const l=nbLasers[i],j=nbBricks.findIndex(b=>l.x>=b.x&&l.x<=b.x+b.w&&l.y>=b.y&&l.y<=b.y+b.h);
+if(j>=0){nbHitBrick(j);
+nbLasers.splice(i,1);
+}}
+ if(!nbBricks.length&&!nbLevelWon){nbLevelWon=true;
+nbRunning=false;
+nbSave.cleared=Array.from(new Set([...nbSave.cleared,nbLevel]));
+nbSave.unlocked=Math.max(nbSave.unlocked,Math.min(30,nbLevel+1));
+nbSave.best=Math.max(nbSave.best,nbScore);
+nbSave.coins=nbCoins;
+nbPersist();
+nbMessage=nbLevel===30?'ALL 30 LEVELS CLEARED!':'STAGE CLEAR · NEXT LEVEL UNLOCKED';
+}
+ nbDraw();
+nbUpdateHud();
+if(nbRunning)nbFrame=requestAnimationFrame(breakoutLoop);
+}
+function breakoutNext(){if(nbLevel<30){nbLevel++;
+breakoutRestart();
+breakoutToggle();
+}}
+function nbDraw(){if(!nbCtx)return;
+const c=nbCtx;
+const g=c.createLinearGradient(0,0,0,NB_H);
+g.addColorStop(0,'#0b1730');
+g.addColorStop(1,'#070914');
+c.fillStyle=g;
+c.fillRect(0,0,NB_W,NB_H);
+for(let i=0;
+i<55;
+i++){c.fillStyle='rgba(180,225,255,'+(0.12+(i%4)*.05)+')';
+c.fillRect((i*67)%NB_W,(i*97)%NB_H,1.4,1.4);
+}c.fillStyle='#8ceeff';
+c.font='bold 10px Arial';
+c.fillText('NEON SECTOR  '+String(nbLevel).padStart(2,'0'),12,18);
+for(const b of nbBricks){c.shadowBlur=12;
+c.shadowColor=b.color;
+c.fillStyle=b.color;
+c.beginPath();
+c.roundRect(b.x,b.y,b.w,b.h,5);
+c.fill();
+c.shadowBlur=0;
+c.fillStyle='#07111f';
+c.font='bold 9px Arial';
+c.textAlign='center';
+c.fillText(b.hp>1?'Ⅱ':b.type==='explosive'?'✹':'',b.x+b.w/2,b.y+12);
+}c.textAlign='left';
+for(const d of nbDrops){c.fillStyle=({wide:'#72f28d',slow:'#59caff',multi:'#c28aff',laser:'#ffb45d'}[d.type]);
+c.shadowBlur=10;
+c.shadowColor=c.fillStyle;
+c.beginPath();
+c.arc(d.x,d.y,7,0,Math.PI*2);
+c.fill();
+c.shadowBlur=0;
+}for(const l of nbLasers){c.fillStyle='#ffad55';
+c.fillRect(l.x-2,l.y,4,12);
+}c.shadowBlur=16;
+c.shadowColor='#62f5ff';
+c.fillStyle='#69efff';
+c.beginPath();
+c.roundRect(nbPaddle.x,NB_H-48,nbPaddle.w,10,5);
+c.fill();
+c.shadowBlur=0;
+for(const b of nbBalls){c.shadowBlur=14;
+c.shadowColor='#fff';
+c.fillStyle='#fff';
+c.beginPath();
+c.arc(b.x,b.y,b.r,0,Math.PI*2);
+c.fill();
+c.shadowBlur=0;
+}if(!nbRunning){c.fillStyle='rgba(3,8,20,.52)';
+c.fillRect(0,NB_H/2-26,NB_W,52);
+c.fillStyle='#eafcff';
+c.font='bold 14px Arial';
+c.textAlign='center';
+c.fillText(nbMessage,NB_W/2,NB_H/2+5);
+c.textAlign='left';
+}}
+if(nbCanvas){nbCanvas.addEventListener('pointerdown',e=>{nbPointer=e.clientX;
+const b=nbBalls.find(x=>x.stuck);
+if(b){b.stuck=false;
+nbMessage='Good luck!';
+}if(!nbRunning&&!nbLevelWon&&nbLives>0&&nbPaused===false){/* start remains explicit */}});
+nbCanvas.addEventListener('pointermove',e=>{if(nbPointer===null&&e.buttons===0)return;
+const r=nbCanvas.getBoundingClientRect();
+const x=(e.clientX-r.left)*NB_W/r.width;
+nbPaddle.x=Math.max(0,Math.min(NB_W-nbPaddle.w,x-nbPaddle.w/2));
+if(nbBalls[0]?.stuck)nbBalls[0].x=nbPaddle.x+nbPaddle.w/2;
+});
+nbCanvas.addEventListener('pointerup',()=>nbPointer=null);
+nbCanvas.addEventListener('pointercancel',()=>nbPointer=null);
+}
 // Replace start button behavior after stage clear with next stage.
-const nbStartButton=document.getElementById('nb-start');if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;});
-nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
+const nbStartButton=document.getElementById('nb-start');
+if(nbStartButton)nbStartButton.addEventListener('click',()=>{if(nbLevelWon)breakoutNext();
+else if(nbBalls[0]?.stuck)nbBalls[0].stuck=false;
+});
+nbRenderMeta();
+nbResetStage();
+nbUpdateHud();
+nbDraw();
 // ================= END NEON BREAKOUT =================
 
 // ================= LIVE EARTH DASHBOARD =================
-let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now();
+let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now(),earthGeoFeatures=[],earthSelectedFeature=null;
 const earthFallback=[
  {name:'Pakistan',capital:'Islamabad',region:'Asia',subregion:'Southern Asia',population:255000000,area:881912,lat:30.3753,lng:69.3451},
  {name:'India',capital:'New Delhi',region:'Asia',subregion:'Southern Asia',population:1460000000,area:3287263,lat:20.5937,lng:78.9629},
@@ -2048,78 +3527,601 @@ const earthFallback=[
  {name:'Turkey',capital:'Ankara',region:'Asia',subregion:'Western Asia',population:87000000,area:783562,lat:38.9637,lng:35.2433}
 ];
 const earthNum=n=>Number(n||0).toLocaleString('en-US');
-let earthFallbackFrame=null,earthFallbackCanvas=null,earthFallbackCtx=null,earthFallbackTexture=null,earthFallbackAngle=0,earthFallbackZoom=1,earthFallbackDrag=null;
+let earthFallbackFrame=null,earthFallbackCanvas=null,earthFallbackCtx=null,earthFallbackTexture=null,earthFallbackAngle=0,earthFallbackTilt=0,earthFallbackZoom=1,earthFallbackDrag=null;
 function earthFallbackDraw(){
- const canvas=earthFallbackCanvas,ctx=earthFallbackCtx;if(!canvas||!ctx)return;
+ const canvas=earthFallbackCanvas,ctx=earthFallbackCtx;
+if(!canvas||!ctx)return;
  const w=canvas.clientWidth||canvas.width,h=canvas.clientHeight||canvas.height,d=Math.min(w*.68,h*.92),cx=w*.49,cy=h*.52,r=d/2;
  ctx.clearRect(0,0,w,h);
- ctx.save();ctx.shadowColor='#58dff8';ctx.shadowBlur=24;
- const halo=ctx.createRadialGradient(cx,cy,r*.72,cx,cy,r*1.2);halo.addColorStop(0,'#5edfff18');halo.addColorStop(1,'#5edfff00');ctx.fillStyle=halo;ctx.beginPath();ctx.arc(cx,cy,r*1.22,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.clip();
- const shade=ctx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);shade.addColorStop(0,'#d8f7ff');shade.addColorStop(.16,'#397f9d');shade.addColorStop(.52,'#092d50');shade.addColorStop(1,'#020a20');ctx.fillStyle=shade;ctx.fillRect(cx-r,cy-r,d,d);
+ ctx.save();
+ctx.shadowColor='#58dff8';
+ctx.shadowBlur=24;
+ const halo=ctx.createRadialGradient(cx,cy,r*.72,cx,cy,r*1.2);
+halo.addColorStop(0,'#5edfff18');
+halo.addColorStop(1,'#5edfff00');
+ctx.fillStyle=halo;
+ctx.beginPath();
+ctx.arc(cx,cy,r*1.22,0,Math.PI*2);
+ctx.fill();
+ctx.restore();
+ ctx.save();
+ctx.translate(cx,cy);
+ctx.rotate(earthFallbackTilt);
+ctx.translate(-cx,-cy);
+ctx.beginPath();
+ctx.arc(cx,cy,r,0,Math.PI*2);
+ctx.clip();
+ const shade=ctx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);
+shade.addColorStop(0,'#d8f7ff');
+shade.addColorStop(.16,'#397f9d');
+shade.addColorStop(.52,'#092d50');
+shade.addColorStop(1,'#020a20');
+ctx.fillStyle=shade;
+ctx.fillRect(cx-r,cy-r,d,d);
  if(earthFallbackTexture&&earthFallbackTexture.complete&&earthFallbackTexture.naturalWidth){
   const tw=earthFallbackTexture.naturalWidth,th=earthFallbackTexture.naturalHeight,drawW=d*2.05,drawH=d;
   const offset=((earthFallbackAngle%(Math.PI*2))/(Math.PI*2))*drawW;
   ctx.globalAlpha=.98;
-  for(let k=-1;k<=1;k++)ctx.drawImage(earthFallbackTexture,0,0,tw,th,cx-d+offset+k*drawW,cy-r,drawW,drawH);
+  for(let k=-1;
+k<=1;
+k++)ctx.drawImage(earthFallbackTexture,0,0,tw,th,cx-d+offset+k*drawW,cy-r,drawW,drawH);
  }
- const oceanShade=ctx.createRadialGradient(cx-r*.35,cy-r*.4,r*.05,cx,cy,r*1.08);oceanShade.addColorStop(0,'#ffffff08');oceanShade.addColorStop(.58,'#001b3b00');oceanShade.addColorStop(1,'#000615d9');ctx.fillStyle=oceanShade;ctx.fillRect(cx-r,cy-r,d,d);
+ const oceanShade=ctx.createRadialGradient(cx-r*.35,cy-r*.4,r*.05,cx,cy,r*1.08);
+oceanShade.addColorStop(0,'#ffffff08');
+oceanShade.addColorStop(.58,'#001b3b00');
+oceanShade.addColorStop(1,'#000615d9');
+ctx.fillStyle=oceanShade;
+ctx.fillRect(cx-r,cy-r,d,d);
  ctx.restore();
- ctx.strokeStyle='#a5edffbb';ctx.lineWidth=Math.max(1.2,d*.012);ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
- const atm=ctx.createRadialGradient(cx-r*.22,cy-r*.28,r*.65,cx,cy,r*1.15);atm.addColorStop(.75,'#6feaff00');atm.addColorStop(.92,'#75eaff35');atm.addColorStop(1,'#79eaff00');ctx.fillStyle=atm;ctx.beginPath();ctx.arc(cx,cy,r*1.12,0,Math.PI*2);ctx.fill();
+ /* No artificial blue outline: retain only the subtle atmospheric limb. */
+ const atm=ctx.createRadialGradient(cx-r*.22,cy-r*.28,r*.65,cx,cy,r*1.15);
+atm.addColorStop(.75,'#6feaff00');
+atm.addColorStop(.92,'#75eaff35');
+atm.addColorStop(1,'#79eaff00');
+ctx.fillStyle=atm;
+ctx.beginPath();
+ctx.arc(cx,cy,r*1.12,0,Math.PI*2);
+ctx.fill();
  if(earthSpin&&!earthFallbackDrag)earthFallbackAngle+=.0028;
  earthFallbackFrame=requestAnimationFrame(earthFallbackDraw);
 }
 function earthStartFallback(){
- const host=document.getElementById('earth-globe');if(!host)return;
+ const host=document.getElementById('earth-globe');
+if(!host)return;
  if(earthFallbackFrame)cancelAnimationFrame(earthFallbackFrame);
  host.innerHTML='<canvas id="earth-fallback-canvas" aria-label="Realistic rotating Earth"></canvas>';
- earthFallbackCanvas=host.querySelector('canvas');earthFallbackCtx=earthFallbackCanvas.getContext('2d');
- const resize=()=>{if(!earthFallbackCanvas)return;const box=host.getBoundingClientRect(),ratio=Math.min(window.devicePixelRatio||1,1.7);earthFallbackCanvas.style.width='100%';earthFallbackCanvas.style.height='100%';earthFallbackCanvas.width=Math.max(1,Math.floor(box.width*ratio));earthFallbackCanvas.height=Math.max(1,Math.floor(box.height*ratio));earthFallbackCtx.setTransform(ratio,0,0,ratio,0,0);};
- resize();window.addEventListener('resize',resize);
- earthFallbackTexture=new Image();earthFallbackTexture.crossOrigin='anonymous';earthFallbackTexture.onload=()=>{};earthFallbackTexture.src='https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
- earthFallbackCanvas.addEventListener('pointerdown',e=>{earthFallbackDrag={x:e.clientX,angle:earthFallbackAngle};earthFallbackCanvas.setPointerCapture(e.pointerId);});
- earthFallbackCanvas.addEventListener('pointermove',e=>{if(earthFallbackDrag){earthFallbackAngle=earthFallbackDrag.angle+(e.clientX-earthFallbackDrag.x)*.008;}});
+ earthFallbackCanvas=host.querySelector('canvas');
+earthFallbackCtx=earthFallbackCanvas.getContext('2d');
+ const resize=()=>{if(!earthFallbackCanvas)return;
+const box=host.getBoundingClientRect(),ratio=Math.min(window.devicePixelRatio||1,1.7);
+earthFallbackCanvas.style.width='100%';
+earthFallbackCanvas.style.height='100%';
+earthFallbackCanvas.width=Math.max(1,Math.floor(box.width*ratio));
+earthFallbackCanvas.height=Math.max(1,Math.floor(box.height*ratio));
+earthFallbackCtx.setTransform(ratio,0,0,ratio,0,0);
+};
+ resize();
+window.addEventListener('resize',resize);
+ earthFallbackTexture=new Image();
+earthFallbackTexture.crossOrigin='anonymous';
+earthFallbackTexture.onload=()=>{};
+earthFallbackTexture.src='https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
+ earthFallbackCanvas.addEventListener('pointerdown',e=>{earthFallbackDrag={x:e.clientX,y:e.clientY,angle:earthFallbackAngle,tilt:earthFallbackTilt};
+earthFallbackCanvas.setPointerCapture(e.pointerId);
+});
+ earthFallbackCanvas.addEventListener('pointermove',e=>{if(earthFallbackDrag){earthFallbackAngle=earthFallbackDrag.angle+(e.clientX-earthFallbackDrag.x)*.008;
+earthFallbackTilt=Math.max(-.75,Math.min(.75,earthFallbackDrag.tilt+(e.clientY-earthFallbackDrag.y)*.004));
+}});
  earthFallbackCanvas.addEventListener('pointerup',()=>earthFallbackDrag=null);
  earthFallbackCanvas.addEventListener('pointercancel',()=>earthFallbackDrag=null);
  earthFallbackDraw();
 }
 function earthInit(){
- const host=document.getElementById('earth-globe');if(!host)return;
+ const host=document.getElementById('earth-globe');
+if(!host)return;
  if(!earthGlobe&&!earthFallbackCanvas){
-  if(typeof Globe!=='function'){earthStartFallback();}
+  if(typeof Globe!=='function'){earthStartFallback();
+}
   else try{
    earthGlobe=Globe()(host,{rendererConfig:{antialias:true,alpha:true,powerPreference:'default',preserveDrawingBuffer:false}})
     .backgroundColor('rgba(0,0,0,0)')
-    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+    .globeImageUrl(EARTH_DAY_TEXTURE)
     .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png').bumpScale(.075)
-    .showAtmosphere(true).atmosphereColor('#70dff5').atmosphereAltitude(.19)
+    .showAtmosphere(true).atmosphereColor('#8adfff').atmosphereAltitude(.205).showGraticules(true)
     .width(host.clientWidth||260).height(host.clientHeight||224)
-    .enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng));
+    .enablePointerInteraction(true).onGlobeClick(earthHandleGlobeClick)
+    .polygonsData([]).polygonCapColor(f=>f===earthSelectedFeature?'rgba(70,255,190,.42)':'rgba(0,0,0,0)')
+    .polygonSideColor(()=> 'rgba(80,220,210,.12)').polygonStrokeColor(f=>f===earthSelectedFeature?'#9affd9':'rgba(120,220,235,.52)')
+    .polygonAltitude(f=>f===earthSelectedFeature?.012:.001).polygonsTransitionDuration(700);
    earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},0);
-   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.34;ctl.enableDamping=true;ctl.dampingFactor=.075;ctl.enableRotate=true;ctl.enablePan=false;ctl.rotateSpeed=.72;ctl.minPolarAngle=0;ctl.maxPolarAngle=Math.PI;ctl.minDistance=125;ctl.maxDistance=600;
-   window.addEventListener('resize',earthResize);document.addEventListener('visibilitychange',earthVisibility);
-  }catch(e){console.warn('3D globe unavailable; using textured globe fallback.',e);earthGlobe=null;earthStartFallback();}
+   const ctl=earthGlobe.controls();
+ctl.autoRotate=true;
+ctl.autoRotateSpeed=.34;
+ctl.enableDamping=true;
+ctl.dampingFactor=.075;
+ctl.enableRotate=true;
+ctl.enablePan=false;
+ctl.rotateSpeed=.72;
+ctl.minPolarAngle=0;
+ctl.maxPolarAngle=Math.PI;
+ctl.minDistance=125;
+ctl.maxDistance=600;
+   window.addEventListener('resize',earthResize);
+document.addEventListener('visibilitychange',earthVisibility);
+  }catch(e){console.warn('3D globe unavailable; using textured globe fallback.',e);
+earthGlobe=null;
+earthStartFallback();
+}
  }
  if(earthGlobe)earthGlobe.width(host.clientWidth||260).height(host.clientHeight||224);
- earthLoadCountries();earthStartCounters();earthEnsureSpin();
+ earthLoadCountries();
+earthLoadBoundaries();
+earthStartCounters();
+earthEnsureSpin();
+earthInstallDetailedInteractions();
 }
-function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();}
-function earthEnsureSpin(){if(!earthGlobe)return;const c=earthGlobe.controls();c.enableRotate=true;c.enablePan=false;c.rotateSpeed=.72;c.minPolarAngle=0;c.maxPolarAngle=Math.PI;if(earthSpin){c.autoRotate=true;c.autoRotateSpeed=.34;}}
-function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||282);}
-function earthLoadCountries(){if(earthCountryReady)return;earthCountryReady=true;earthCountriesData=earthFallback.slice();fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]||0,lng:x.latlng?.[1]||0})).filter(x=>x.name).sort((a,b)=>a.name.localeCompare(b.name));document.getElementById('earth-search-status').textContent='Country database loaded · '+earthCountriesData.length+' countries';}).catch(()=>{document.getElementById('earth-search-status').textContent='Offline country list active · '+earthCountriesData.length+' countries available';});}
-function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=(value||'').trim().toLowerCase();if(!q){box.style.display='none';box.innerHTML='';return;}const found=earthCountriesData.filter(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q)).slice(0,8);box.innerHTML=found.map((c,i)=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.capital)+'</span></button>').join('');box.style.display=found.length?'block':'none';if(!found.length)document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
-function earthChooseFirst(){const q=(document.getElementById('earth-country-input').value||'').trim().toLowerCase();if(!q)return;const found=earthCountriesData.find(c=>c.name.toLowerCase()===q||c.capital.toLowerCase()===q)||earthCountriesData.find(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q));if(found)earthPickCountry(earthCountriesData.indexOf(found));else document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';}
-function earthEsc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function earthPickCountry(i){const c=earthCountriesData[i];if(!c)return;document.getElementById('earth-suggest').style.display='none';document.getElementById('earth-country-input').value=c.name;earthShowCountry(c);if(earthGlobe)earthGlobe.pointOfView({lat:c.lat,lng:c.lng,altitude:1.35},900);else if(earthFallbackCanvas)earthFallbackAngle=(-c.lng*Math.PI/180);}
-function earthShowCountry(c){document.getElementById('earth-country-name').textContent=c.name;document.getElementById('earth-country-desc').textContent='Country overview · population and area are published estimates/data, not a live headcount.';document.getElementById('earth-region').textContent=(c.region||'—')+' · '+(c.subregion||'');document.getElementById('earth-capital').textContent=c.capital||'—';document.getElementById('earth-country-pop').textContent=earthNum(c.population);document.getElementById('earth-country-area').textContent=earthNum(Math.round(c.area))+' km²';document.getElementById('earth-search-status').textContent='Selected · '+c.name;}
-function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||'';const c=earthCountriesData.find(x=>x.name.toLowerCase()===name.toLowerCase())||earthCountriesData.find(x=>name.toLowerCase().includes(x.name.toLowerCase())||x.name.toLowerCase().includes(name.toLowerCase()));if(c)earthShowCountry(c);else{document.getElementById('earth-country-name').textContent=name||'Selected country';document.getElementById('earth-country-desc').textContent='Country selected on globe. Search by name to load detailed information.';}}
-function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°.';document.getElementById('earth-region').textContent='Coordinates';document.getElementById('earth-capital').textContent='—';document.getElementById('earth-country-pop').textContent='—';document.getElementById('earth-country-area').textContent='—';}
-function earthZoom(f){if(earthGlobe){const p=earthGlobe.pointOfView();earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.58,Math.min(5,p.altitude/f))},400);}else if(earthFallbackCanvas){earthFallbackZoom=Math.max(.75,Math.min(1.8,earthFallbackZoom*f));earthFallbackCanvas.style.transform='scale('+earthFallbackZoom+')';}}
-function earthReset(){if(earthGlobe)earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},700);if(earthFallbackCanvas){earthFallbackZoom=1;earthFallbackCanvas.style.transform='scale(1)';earthFallbackAngle=0;}earthSpin=true;earthEnsureSpin();const b=document.getElementById('earth-spin');if(b)b.textContent='Ⅱ Pause rotation';}
-function earthToggleSpin(){earthSpin=!earthSpin;if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;const b=document.getElementById('earth-spin');if(b)b.textContent=earthSpin?'Ⅱ Pause rotation':'▶ Resume rotation';}
-function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);const dayStart=new Date();dayStart.setUTCHours(0,0,0,0);earthStartedAt=dayStart.getTime();const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};put('earth-pop', (pop/1e9).toFixed(3)+'B');put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));};update();earthTimer=setInterval(update,1000);}
-function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;if(earthFallbackFrame){cancelAnimationFrame(earthFallbackFrame);earthFallbackFrame=null;}}
+function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();
+}
+function earthEnsureSpin(){if(!earthGlobe)return;
+const c=earthGlobe.controls();
+c.enableRotate=true;
+c.enablePan=false;
+c.rotateSpeed=.72;
+c.minPolarAngle=0;
+c.maxPolarAngle=Math.PI;
+if(earthSpin){c.autoRotate=true;
+c.autoRotateSpeed=.34;
+}}
+function earthResize(){const host=document.getElementById('earth-globe');
+if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||260).height(host.clientHeight||282);
+}
+function earthLoadCountries(){if(earthCountryReady)return;
+earthCountryReady=true;
+earthCountriesData=earthFallback.slice();
+fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng').then(r=>{if(!r.ok)throw Error('countries');
+return r.json();
+}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]||0,lng:x.latlng?.[1]||0})).filter(x=>x.name).sort((a,b)=>a.name.localeCompare(b.name));
+document.getElementById('earth-search-status').textContent='Country database loaded · '+earthCountriesData.length+' countries';
+}).catch(()=>{document.getElementById('earth-search-status').textContent='Offline country list active · '+earthCountriesData.length+' countries available';
+});
+}
+function earthLoadBoundaries(){
+ if(earthGeoFeatures.length)return;
+ fetch('https://raw.githubusercontent.com/deldesierto/countries-geojson/master/countries.geojson').then(r=>{if(!r.ok)throw Error('boundaries');
+return r.json();
+}).then(data=>{earthGeoFeatures=(data.features||[]).filter(f=>f.geometry&&(f.geometry.type==='Polygon'||f.geometry.type==='MultiPolygon'));
+if(earthGlobe)earthGlobe.polygonsData(earthGeoFeatures);
+const status=document.getElementById('earth-search-status');
+if(status)status.textContent='Country boundaries ready · '+earthGeoFeatures.length+' regions';
+}).catch(()=>{const status=document.getElementById('earth-search-status');
+if(status)status.textContent='Country boundary layer unavailable offline; country search remains available.';
+});
+}
+function earthMatchFeature(country){
+ const wanted=(country?.name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ const aliases=earthSearchAliases(country?.name||'').map(x=>x.toLowerCase().replace(/[^a-z0-9]/g,''));
+ return earthGeoFeatures.find(feature=>{
+  const p=feature.properties||{};
+  const names=[p.ADMIN,p.name,p.name_en,p.NAME,p.NAME_EN,p.SOVEREIGNT,p.FORMAL_EN];
+  return names.some(value=>{
+   const normalized=String(value||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+   return normalized===wanted||aliases.includes(normalized);
+  });
+ })||null;
+}
+function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=(value||'').trim().toLowerCase();
+if(!q){box.style.display='none';
+box.innerHTML='';
+return;
+}const found=earthCountriesData.filter(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q)).slice(0,8);
+box.innerHTML=found.map((c,i)=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.capital)+'</span></button>').join('');
+box.style.display=found.length?'block':'none';
+if(!found.length)document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';
+}
+function earthChooseFirst(){const q=(document.getElementById('earth-country-input').value||'').trim().toLowerCase();
+if(!q)return;
+const found=earthCountriesData.find(c=>c.name.toLowerCase()===q||c.capital.toLowerCase()===q)||earthCountriesData.find(c=>c.name.toLowerCase().includes(q)||c.capital.toLowerCase().includes(q));
+if(found)earthPickCountry(earthCountriesData.indexOf(found));
+else document.getElementById('earth-search-status').textContent='No match found. Try another country or capital.';
+}
+function earthEsc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function earthPickCountry(i){const c=earthCountriesData[i];
+if(!c)return;
+document.getElementById('earth-suggest').style.display='none';
+document.getElementById('earth-country-input').value=c.name;
+earthShowCountry(c);
+earthSelectedFeature=earthMatchFeature(c);
+if(earthGlobe){earthGlobe.polygonsData(earthGeoFeatures);
+earthGlobe.pointOfView({lat:c.lat,lng:c.lng,altitude:1.12},1250);
+}else if(earthFallbackCanvas){earthFallbackAngle=(-c.lng*Math.PI/180);
+earthFallbackTilt=Math.max(-.35,Math.min(.35,-c.lat*Math.PI/180));
+}}
+function earthShowCountry(c){document.getElementById('earth-country-name').textContent=c.name;
+document.getElementById('earth-country-desc').textContent='Country overview · population and area are published estimates/data, not a live headcount.';
+document.getElementById('earth-region').textContent=(c.region||'—')+' · '+(c.subregion||'');
+document.getElementById('earth-capital').textContent=c.capital||'—';
+document.getElementById('earth-country-pop').textContent=earthNum(c.population);
+document.getElementById('earth-country-area').textContent=earthNum(Math.round(c.area))+' km²';
+document.getElementById('earth-search-status').textContent='Selected · '+c.name;
+}
+function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||'';
+const c=earthCountriesData.find(x=>x.name.toLowerCase()===name.toLowerCase())||earthCountriesData.find(x=>name.toLowerCase().includes(x.name.toLowerCase())||x.name.toLowerCase().includes(name.toLowerCase()));
+if(c)earthShowCountry(c);
+else{document.getElementById('earth-country-name').textContent=name||'Selected country';
+document.getElementById('earth-country-desc').textContent='Country selected on globe. Search by name to load detailed information.';
+}}
+function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';
+document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°.';
+document.getElementById('earth-region').textContent='Coordinates';
+document.getElementById('earth-capital').textContent='—';
+document.getElementById('earth-country-pop').textContent='—';
+document.getElementById('earth-country-area').textContent='—';
+}
+function earthZoom(f){if(earthGlobe){const p=earthGlobe.pointOfView();
+earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.58,Math.min(5,p.altitude/f))},400);
+}else if(earthFallbackCanvas){earthFallbackZoom=Math.max(.75,Math.min(1.8,earthFallbackZoom*f));
+earthFallbackCanvas.style.transform='scale('+earthFallbackZoom+')';
+}}
+function earthReset(){earthSelectedFeature=null;
+if(earthGlobe){earthGlobe.polygonsData(earthGeoFeatures);
+earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},700);
+}if(earthFallbackCanvas){earthFallbackZoom=1;
+earthFallbackCanvas.style.transform='scale(1)';
+earthFallbackAngle=0;
+earthFallbackTilt=0;
+}earthSpin=true;
+earthEnsureSpin();
+const b=document.getElementById('earth-spin');
+if(b)b.textContent='Ⅱ Pause rotation';
+}
+function earthToggleSpin(){earthSpin=!earthSpin;
+if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;
+const b=document.getElementById('earth-spin');
+if(b)b.textContent=earthSpin?'Ⅱ Pause rotation':'▶ Resume rotation';
+}
+function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);
+const dayStart=new Date();
+dayStart.setUTCHours(0,0,0,0);
+earthStartedAt=dayStart.getTime();
+const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;
+const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);
+const put=(id,val)=>{const el=document.getElementById(id);
+if(el)el.textContent=val;
+};
+put('earth-pop', (pop/1e9).toFixed(3)+'B');
+put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));
+put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));
+};
+update();
+earthTimer=setInterval(update,1000);
+}
+function earthStop(){if(earthTimer){clearInterval(earthTimer);
+earthTimer=null;
+}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;
+if(earthFallbackFrame){cancelAnimationFrame(earthFallbackFrame);
+earthFallbackFrame=null;
+}}
+
+// -----------------------------------------------------------------------------
+// EARTH OBSERVATORY DETAIL SYSTEM
+// This section adds real time/astronomy readouts and resilient globe controls.
+// It does not add any other planets or alter the rest of the mobile application.
+// -----------------------------------------------------------------------------
+let earthTextureMode='day';
+let earthGridEnabled=true;
+let earthTelemetryTimer=null;
+let earthLastPointOfView={lat:22,lng:65,altitude:2.05};
+let earthSunVector={latitude:0,longitude:0};
+let earthMoonPhaseValue=0;
+const EARTH_DAY_TEXTURE='https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
+const EARTH_NIGHT_TEXTURE='https://unpkg.com/three-globe/example/img/earth-night.jpg';
+const EARTH_BUMP_TEXTURE='https://unpkg.com/three-globe/example/img/earth-topology.png';
+const EARTH_CLOUD_TEXTURE='https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg';
+
+function earthSafeElement(id){
+ return document.getElementById(id)||null;
+}
+
+function earthSetText(id,value){
+ const node=earthSafeElement(id);
+ if(node)node.textContent=String(value);
+}
+
+function earthSetTexture(mode){
+ const requested=mode==='night'?'night':'day';
+ earthTextureMode=requested;
+ if(earthGlobe){
+  const texture=requested==='night'?EARTH_NIGHT_TEXTURE:EARTH_DAY_TEXTURE;
+  earthGlobe.globeImageUrl(texture);
+  earthGlobe.bumpImageUrl(EARTH_BUMP_TEXTURE).bumpScale(requested==='night'?.035:.075);
+ }
+ const day=earthSafeElement('earth-day-view');
+ const night=earthSafeElement('earth-night-view');
+ if(day)day.classList.toggle('active',requested==='day');
+ if(night)night.classList.toggle('active',requested==='night');
+ earthSetText('earth-search-status',requested==='night'?'Night-side texture selected.':'Day-side satellite texture selected.');
+}
+
+function earthToggleGrid(){
+ earthGridEnabled=!earthGridEnabled;
+ if(earthGlobe&&typeof earthGlobe.showGraticules==='function'){
+  earthGlobe.showGraticules(earthGridEnabled);
+ }
+ const button=earthSafeElement('earth-grid-view');
+ if(button){
+  button.classList.toggle('active',earthGridEnabled);
+  button.textContent=earthGridEnabled?'⌗ GRID ON':'⌗ GRID OFF';
+ }
+}
+
+function earthJulianDay(date){
+ return date.getTime()/86400000+2440587.5;
+}
+
+function earthNormalizeDegrees(value){
+ let result=value%360;
+ if(result<0)result+=360;
+ return result;
+}
+
+function earthSignedDegrees(value){
+ let result=earthNormalizeDegrees(value);
+ if(result>180)result-=360;
+ return result;
+}
+
+function earthSolarCoordinates(date){
+ // Compact NOAA-style solar position approximation for a live observatory label.
+ const jd=earthJulianDay(date);
+ const t=(jd-2451545.0)/36525;
+ const meanLongitude=earthNormalizeDegrees(280.46646+t*(36000.76983+t*.0003032));
+ const meanAnomaly=earthNormalizeDegrees(357.52911+t*(35999.05029-.0001537*t));
+ const anomaly=meanAnomaly*Math.PI/180;
+ const equationCenter=Math.sin(anomaly)*(1.914602-t*(.004817+.000014*t))+
+  Math.sin(2*anomaly)*(.019993-.000101*t)+Math.sin(3*anomaly)*.000289;
+ const trueLongitude=meanLongitude+equationCenter;
+ const omega=125.04-1934.136*t;
+ const apparentLongitude=trueLongitude-.00569-.00478*Math.sin(omega*Math.PI/180);
+ const obliquity=23.439291-.0130042*t+.00256*Math.cos(omega*Math.PI/180);
+ const obliquityRad=obliquity*Math.PI/180;
+ const longitudeRad=apparentLongitude*Math.PI/180;
+ const declination=Math.asin(Math.sin(obliquityRad)*Math.sin(longitudeRad))*180/Math.PI;
+ const rightAscension=Math.atan2(Math.cos(obliquityRad)*Math.sin(longitudeRad),Math.cos(longitudeRad))*180/Math.PI;
+ const gmst=earthNormalizeDegrees(280.46061837+360.98564736629*(jd-2451545)+.000387933*t*t-t*t*t/38710000);
+ const subsolarLongitude=earthSignedDegrees(rightAscension-gmst);
+ return {declination,longitude:subsolarLongitude,rightAscension,gmst};
+}
+
+function earthMoonPhase(date){
+ // Synodic month approximation; output is a display estimate, not an ephemeris.
+ const knownNewMoon=Date.UTC(2000,0,6,18,14);
+ const synodicMonth=29.530588853*86400000;
+ const age=((date.getTime()-knownNewMoon)%synodicMonth+synodicMonth)%synodicMonth;
+ const phase=age/synodicMonth;
+ const illumination=(1-Math.cos(phase*Math.PI*2))/2;
+ const labels=[
+  [0.00,'New Moon'],[0.04,'Waxing Crescent'],[0.21,'First Quarter'],
+  [0.29,'Waxing Gibbous'],[0.46,'Full Moon'],[0.54,'Waning Gibbous'],
+  [0.71,'Last Quarter'],[0.79,'Waning Crescent'],[0.96,'New Moon']
+ ];
+ let label='New Moon';
+ for(let i=0;
+i<labels.length;
+i++)if(phase>=labels[i][0])label=labels[i][1];
+ return {phase,illumination,label,ageDays:age/86400000};
+}
+
+function earthFormatClock(date){
+ return date.toLocaleTimeString('en-GB',{timeZone:'UTC',hour12:false});
+}
+
+function earthUpdateTelemetry(){
+ const now=new Date();
+ const sun=earthSolarCoordinates(now);
+ const moon=earthMoonPhase(now);
+ earthSunVector={latitude:sun.declination,longitude:sun.longitude};
+ earthMoonPhaseValue=moon.phase;
+ earthSetText('earth-utc',earthFormatClock(now));
+ earthSetText('earth-sun-declination',sun.declination.toFixed(2)+'°');
+ earthSetText('earth-moon-phase',moon.label+' · '+Math.round(moon.illumination*100)+'%');
+ const sunElement=document.querySelector('.earth-sun');
+ if(sunElement){
+  sunElement.style.setProperty('--sun-declination',sun.declination.toFixed(2)+'deg');
+  sunElement.title='Approximate subsolar longitude '+sun.longitude.toFixed(2)+'°, declination '+sun.declination.toFixed(2)+'°';
+ }
+ const moonElement=document.querySelector('.earth-moon');
+ if(moonElement){
+  moonElement.style.setProperty('--moon-illumination',String(moon.illumination));
+  moonElement.style.filter='brightness('+(.36+moon.illumination*.64).toFixed(2)+')';
+  moonElement.title=moon.label+' · approximate illuminated fraction '+Math.round(moon.illumination*100)+'%';
+ }
+}
+
+function earthStartTelemetry(){
+ if(earthTelemetryTimer)clearInterval(earthTelemetryTimer);
+ earthUpdateTelemetry();
+ earthTelemetryTimer=setInterval(earthUpdateTelemetry,1000);
+}
+
+function earthStopTelemetry(){
+ if(earthTelemetryTimer){
+  clearInterval(earthTelemetryTimer);
+  earthTelemetryTimer=null;
+ }
+}
+
+function earthRememberView(){
+ if(!earthGlobe)return;
+ try{
+  const view=earthGlobe.pointOfView();
+  if(view&&Number.isFinite(view.lat)&&Number.isFinite(view.lng)&&Number.isFinite(view.altitude)){
+   earthLastPointOfView={lat:view.lat,lng:view.lng,altitude:view.altitude};
+  }
+ }catch(error){console.debug('Earth view could not be recorded.',error);
+}
+}
+
+function earthRestoreView(duration=650){
+ if(!earthGlobe)return;
+ earthGlobe.pointOfView(earthLastPointOfView,duration);
+}
+
+function earthFocusCoordinates(latitude,longitude,altitude=1.18){
+ const lat=Math.max(-89.5,Math.min(89.5,Number(latitude)||0));
+ const lng=earthSignedDegrees(Number(longitude)||0);
+ if(earthGlobe){
+  earthGlobe.pointOfView({lat,lng,altitude:Math.max(.58,Math.min(5,altitude))},1200);
+  earthLastPointOfView={lat,lng,altitude};
+ }else if(earthFallbackCanvas){
+  earthFallbackAngle=-lng*Math.PI/180;
+  earthFallbackTilt=Math.max(-.75,Math.min(.75,-lat*Math.PI/180));
+ }
+}
+
+function earthSetRotationSpeed(speed){
+ if(!earthGlobe)return;
+ const controls=earthGlobe.controls();
+ controls.autoRotateSpeed=Math.max(-3,Math.min(3,Number(speed)||0));
+}
+
+function earthApplyGlobeQuality(){
+ if(!earthGlobe)return;
+ try{
+  earthGlobe.showAtmosphere(true).atmosphereColor('#8adfff').atmosphereAltitude(.205);
+  earthGlobe.bumpImageUrl(EARTH_BUMP_TEXTURE).bumpScale(earthTextureMode==='day'?.085:.035);
+  if(typeof earthGlobe.showGraticules==='function')earthGlobe.showGraticules(earthGridEnabled);
+  const renderer=typeof earthGlobe.renderer==='function'?earthGlobe.renderer():null;
+  if(renderer){
+   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+   renderer.outputColorSpace=renderer.outputColorSpace||'srgb';
+  }
+ }catch(error){console.warn('Some optional Earth quality settings are unavailable.',error);
+}
+}
+
+function earthUpdateCountryBoundary(){
+ if(!earthGlobe)return;
+ const data=earthGeoFeatures||[];
+ earthGlobe.polygonsData(data)
+  .polygonCapColor(feature=>feature===earthSelectedFeature?'rgba(75,255,185,.38)':'rgba(0,0,0,0)')
+  .polygonSideColor(feature=>feature===earthSelectedFeature?'rgba(45,205,160,.24)':'rgba(70,150,170,.08)')
+  .polygonStrokeColor(feature=>feature===earthSelectedFeature?'#b6ffe2':'rgba(125,215,235,.42)')
+  .polygonAltitude(feature=>feature===earthSelectedFeature?.014:.0015)
+  .polygonsTransitionDuration(850);
+}
+
+function earthFindCountryByCoordinates(latitude,longitude){
+ if(!Array.isArray(earthGeoFeatures)||!earthGeoFeatures.length)return null;
+ const lat=Number(latitude),lng=Number(longitude);
+ if(!Number.isFinite(lat)||!Number.isFinite(lng))return null;
+ const point=[lng,lat];
+ const insideRing=(ring)=>{
+  let inside=false;
+  for(let i=0,j=ring.length-1;
+i<ring.length;
+j=i++){
+   const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+   const intersects=((yi>point[1])!==(yj>point[1]))&&
+    (point[0]<(xj-xi)*(point[1]-yi)/(yj-yi+Number.EPSILON)+xi);
+   if(intersects)inside=!inside;
+  }
+  return inside;
+ };
+ for(const feature of earthGeoFeatures){
+  const geometry=feature.geometry;
+  if(!geometry)continue;
+  const polygons=geometry.type==='Polygon'?[geometry.coordinates]:geometry.coordinates;
+  for(const polygon of polygons){
+   if(polygon&&polygon.length&&insideRing(polygon[0])){
+    const properties=feature.properties||{};
+    return properties.ADMIN||properties.name||properties.NAME||'Selected country';
+   }
+  }
+ }
+ return null;
+}
+
+function earthHandleGlobeClick(point){
+ if(!point)return;
+ const latitude=Number(point.lat),longitude=Number(point.lng);
+ earthSelectCoords(latitude,longitude);
+ const countryName=earthFindCountryByCoordinates(latitude,longitude);
+ if(countryName){
+  const country=earthCountriesData.find(item=>item.name.toLowerCase()===countryName.toLowerCase());
+  if(country){
+   earthSelectedFeature=earthMatchFeature(country);
+   earthUpdateCountryBoundary();
+   earthShowCountry(country);
+  }else{
+   earthSetText('earth-country-name',countryName);
+   earthSetText('earth-country-desc','Country boundary selected. Search its name for the full country profile.');
+  }
+ }
+}
+
+function earthSearchAliases(query){
+ const q=String(query||'').trim().toLowerCase();
+ if(!q)return [];
+ const aliases={
+  'usa':'united states','us':'united states','uk':'united kingdom',
+  'uae':'united arab emirates','south korea':'korea, republic of',
+  'north korea':'korea, democratic people\'s republic of',
+  'russia':'russian federation','iran':'iran, islamic republic of',
+  'syria':'syrian arab republic','vietnam':'viet nam',
+  'laos':'lao people\'s democratic republic','bolivia':'bolivia, plurinational state of',
+  'venezuela':'venezuela, bolivarian republic of','tanzania':'united republic of tanzania',
+  'moldova':'republic of moldova','brunei':'brunei darussalam',
+  'czech republic':'czechia','ivory coast':'côte d\'ivoire',
+  'cape verde':'cabo verde','swaziland':'eswatini','burma':'myanmar'
+ };
+ return aliases[q]?[aliases[q]]:[];
+}
+
+function earthEnhancedSearchCountry(value){
+ const raw=String(value||'').trim().toLowerCase();
+ if(!raw)return;
+ const aliases=earthSearchAliases(raw);
+ const candidates=[raw,...aliases];
+ const match=earthCountriesData.find(country=>candidates.some(term=>
+  country.name.toLowerCase()===term||country.capital.toLowerCase()===term));
+ if(match){earthPickCountry(earthCountriesData.indexOf(match));
+return;
+}
+ earthChooseFirst();
+}
+
+function earthResetObservatory(){
+ earthTextureMode='day';
+ earthGridEnabled=true;
+ earthSetTexture('day');
+ if(earthGlobe&&typeof earthGlobe.showGraticules==='function')earthGlobe.showGraticules(true);
+ earthReset();
+ earthApplyGlobeQuality();
+}
+
+function earthVisibility(){
+ if(document.hidden){earthStopTelemetry();
+return;
+}
+ earthStartTelemetry();
+ if(earthGlobe&&earthSpin)earthEnsureSpin();
+}
+
+// Replace the initial lightweight click handler with country-aware selection.
+function earthInstallDetailedInteractions(){
+ if(earthGlobe){
+  try{
+   earthGlobe.onGlobeClick(earthHandleGlobeClick);
+   earthApplyGlobeQuality();
+   earthUpdateCountryBoundary();
+  }catch(error){console.warn('Detailed globe interaction could not be installed.',error);
+}
+ }
+ earthStartTelemetry();
+}
+
+
 // ================= END LIVE EARTH =================
 
 
@@ -2144,38 +4146,70 @@ function musicMakeNoiseBuffer(){
  const length=Math.floor(musicAudio.sampleRate*.24);
  const buffer=musicAudio.createBuffer(1,length,musicAudio.sampleRate);
  const data=buffer.getChannelData(0);
- for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length);
+ for(let i=0;
+i<length;
+i++)data[i]=(Math.random()*2-1)*(1-i/length);
  return buffer;
 }
 function musicTone(time,frequency,duration,volume,type='triangle',filterFreq=0){
  const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
  const filter=filterFreq?musicAudio.createBiquadFilter():null;
- osc.type=type;osc.frequency.setValueAtTime(frequency,time);
+ osc.type=type;
+osc.frequency.setValueAtTime(frequency,time);
  gain.gain.setValueAtTime(.0001,time);
  gain.gain.exponentialRampToValueAtTime(volume,time+.012);
  gain.gain.exponentialRampToValueAtTime(.0001,time+duration);
- if(filter){filter.type='lowpass';filter.frequency.setValueAtTime(filterFreq,time);osc.connect(filter);filter.connect(gain);}
+ if(filter){filter.type='lowpass';
+filter.frequency.setValueAtTime(filterFreq,time);
+osc.connect(filter);
+filter.connect(gain);
+}
  else osc.connect(gain);
- gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+duration+.02);
+ gain.connect(musicAudio.destination);
+osc.start(time);
+osc.stop(time+duration+.02);
 }
 function musicKick(time){
  const osc=musicAudio.createOscillator(),gain=musicAudio.createGain();
- osc.type='sine';osc.frequency.setValueAtTime(145,time);osc.frequency.exponentialRampToValueAtTime(42,time+.16);
- gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.42,time+.008);gain.gain.exponentialRampToValueAtTime(.0001,time+.23);
- osc.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.24);
+ osc.type='sine';
+osc.frequency.setValueAtTime(145,time);
+osc.frequency.exponentialRampToValueAtTime(42,time+.16);
+ gain.gain.setValueAtTime(.0001,time);
+gain.gain.exponentialRampToValueAtTime(.42,time+.008);
+gain.gain.exponentialRampToValueAtTime(.0001,time+.23);
+ osc.connect(gain);
+gain.connect(musicAudio.destination);
+osc.start(time);
+osc.stop(time+.24);
 }
 function musicSnare(time){
  const noise=musicAudio.createBufferSource(),filter=musicAudio.createBiquadFilter(),gain=musicAudio.createGain();
- noise.buffer=musicNoiseBuffer;filter.type='highpass';filter.frequency.value=1050;
- gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.15,time+.005);gain.gain.exponentialRampToValueAtTime(.0001,time+.16);
- noise.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);noise.start(time);noise.stop(time+.17);
+ noise.buffer=musicNoiseBuffer;
+filter.type='highpass';
+filter.frequency.value=1050;
+ gain.gain.setValueAtTime(.0001,time);
+gain.gain.exponentialRampToValueAtTime(.15,time+.005);
+gain.gain.exponentialRampToValueAtTime(.0001,time+.16);
+ noise.connect(filter);
+filter.connect(gain);
+gain.connect(musicAudio.destination);
+noise.start(time);
+noise.stop(time+.17);
  musicTone(time,185,.09,.055,'triangle');
 }
 function musicHat(time,accent=false){
  const noise=musicAudio.createBufferSource(),filter=musicAudio.createBiquadFilter(),gain=musicAudio.createGain();
- noise.buffer=musicNoiseBuffer;filter.type='highpass';filter.frequency.value=accent?8500:6800;
- gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(accent?.035:.018,time+.002);gain.gain.exponentialRampToValueAtTime(.0001,time+.045);
- noise.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);noise.start(time);noise.stop(time+.05);
+ noise.buffer=musicNoiseBuffer;
+filter.type='highpass';
+filter.frequency.value=accent?8500:6800;
+ gain.gain.setValueAtTime(.0001,time);
+gain.gain.exponentialRampToValueAtTime(accent?.035:.018,time+.002);
+gain.gain.exponentialRampToValueAtTime(.0001,time+.045);
+ noise.connect(filter);
+filter.connect(gain);
+gain.connect(musicAudio.destination);
+noise.start(time);
+noise.stop(time+.05);
 }
 function musicBass(time,frequency){
  musicTone(time,frequency,.22,.13,'sawtooth',420);
@@ -2187,10 +4221,19 @@ function musicPluck(time,frequency){
 function musicPad(time,frequencies){
  frequencies.forEach((frequency,index)=>{
   const osc=musicAudio.createOscillator(),gain=musicAudio.createGain(),filter=musicAudio.createBiquadFilter();
-  osc.type='sawtooth';osc.frequency.setValueAtTime(frequency,time);
-  filter.type='lowpass';filter.frequency.value=1150;
-  gain.gain.setValueAtTime(.0001,time);gain.gain.linearRampToValueAtTime(.026,time+.12);gain.gain.setValueAtTime(.022,time+.48);gain.gain.exponentialRampToValueAtTime(.0001,time+.9);
-  osc.connect(filter);filter.connect(gain);gain.connect(musicAudio.destination);osc.start(time);osc.stop(time+.92);
+  osc.type='sawtooth';
+osc.frequency.setValueAtTime(frequency,time);
+  filter.type='lowpass';
+filter.frequency.value=1150;
+  gain.gain.setValueAtTime(.0001,time);
+gain.gain.linearRampToValueAtTime(.026,time+.12);
+gain.gain.setValueAtTime(.022,time+.48);
+gain.gain.exponentialRampToValueAtTime(.0001,time+.9);
+  osc.connect(filter);
+filter.connect(gain);
+gain.connect(musicAudio.destination);
+osc.start(time);
+osc.stop(time+.92);
  });
 }
 function musicSchedule(){
@@ -2216,21 +4259,33 @@ function musicSchedule(){
 async function toggleBackgroundMusic(){
  const b=document.getElementById('music-toggle');
  if(musicTimer!==null){
-  clearInterval(musicTimer);musicTimer=null;
-  if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}
-  musicNoiseBuffer=null;musicSetButton(false);return;
+  clearInterval(musicTimer);
+musicTimer=null;
+  if(musicAudio){musicAudio.close().catch(()=>{});
+musicAudio=null;
+}
+  musicNoiseBuffer=null;
+musicSetButton(false);
+return;
  }
  try{
   const AudioCtx=window.AudioContext||window.webkitAudioContext;
   if(!AudioCtx)throw new Error('Audio unavailable');
   musicAudio=new AudioCtx();
   await musicAudio.resume();
-  musicNoiseBuffer=musicMakeNoiseBuffer();musicStep=0;
-  musicSchedule();musicTimer=setInterval(musicSchedule,143);musicSetButton(true);
+  musicNoiseBuffer=musicMakeNoiseBuffer();
+musicStep=0;
+  musicSchedule();
+musicTimer=setInterval(musicSchedule,143);
+musicSetButton(true);
  }catch(e){
-  if(musicAudio){musicAudio.close().catch(()=>{});musicAudio=null;}
+  if(musicAudio){musicAudio.close().catch(()=>{});
+musicAudio=null;
+}
   musicSetButton(false);
-  if(b){const label=b.querySelector('b');if(label)label.textContent='MUSIC N/A';}
+  if(b){const label=b.querySelector('b');
+if(label)label.textContent='MUSIC N/A';
+}
  }
 }
 // ================= END BACKGROUND MUSIC =================
@@ -2238,7 +4293,6 @@ async function toggleBackgroundMusic(){
 // ================= END BACKGROUND MUSIC =================
 
 // INITIAL SETUP
-
 resetGuess();
 resetSnake();
 drawFlappy();
@@ -2246,9 +4300,12 @@ drawCar();
 renderNotes();
 showPage("login-page");
 
+
 </script>
 </body>
 </html>
 """
 
 components.html(APP, height=950, scrolling=True)
+
+ 
