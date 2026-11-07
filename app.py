@@ -283,6 +283,7 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
 #breakout-page .nb-panel{padding:11px;border-radius:15px;border:1px solid #78eaff28;background:linear-gradient(145deg,#ffffff12,#ffffff06);margin-top:9px}
 #breakout-page canvas{width:100%;display:block;border-radius:13px;border:1px solid #71eaff44;background:#050b19;touch-action:none;box-shadow:0 0 22px #35caff18}
 #breakout-page .nb-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+
 #breakout-page .nb-btn{border:1px solid #72eaff66;background:linear-gradient(110deg,#126d8b,#5541a0);color:white;border-radius:10px;padding:10px 12px;font-size:9px;font-weight:900}
 #breakout-page .nb-ghost{background:#ffffff0c;border:1px solid #ffffff25;color:#e2f8ff;border-radius:10px;padding:9px 11px;font-size:9px}
 #breakout-page .nb-btn:disabled{opacity:.4}
@@ -893,13 +894,26 @@ padding:5px
 .earth-search input{font-size:11px}
 .earth-info{padding:8px}
 .earth-info-grid{grid-template-columns:1fr 1fr}
-#earth-country-capital{display:none}
+#earth-country-code{letter-spacing:1px}
 @media(max-width:370px){.earth-orbit,#earth-globe{height:270px;min-height:270px}.earth-sun{width:70px;height:70px}.earth-moon{width:47px;height:47px}}
 @media(max-height:700px){.earth-orbit,#earth-globe{height:250px;min-height:250px}.earth-hero{padding:7px}}
 
 /* Music switch is styled as a home shortcut above. */
 
+
+/* Three-dimensional Sun and Moon mini-observatories. */
+.earth-celestial-row{align-items:center;min-height:104px;padding:10px 14px;gap:14px;background:radial-gradient(ellipse at 22% 50%,#38200d 0%,#111827 40%,#0b1422 100%);}
+.earth-celestial-item{flex:1;min-width:0;gap:10px;}
+.earth-celestial-canvas{display:block;flex:0 0 auto;border-radius:50%;background:transparent;object-fit:contain;pointer-events:none;}
+.earth-sun.earth-celestial-canvas{position:relative;inset:auto;width:78px;height:78px;box-shadow:none;animation:none;background:transparent;}
+.earth-moon.earth-celestial-canvas{position:relative;inset:auto;width:62px;height:62px;box-shadow:none;background:transparent;}
+.earth-sun.earth-celestial-canvas:before,.earth-sun.earth-celestial-canvas:after{display:none;}
+.earth-sun.earth-celestial-canvas{filter:drop-shadow(0 0 9px #ff9c3c88);}
+.earth-moon.earth-celestial-canvas{filter:drop-shadow(0 0 8px #a8c9ff66);}
+@media(max-width:370px){.earth-sun.earth-celestial-canvas{width:68px;height:68px}.earth-moon.earth-celestial-canvas{width:54px;height:54px}}
+
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl" onerror="this.onerror=null;this.src='https://unpkg.com/globe.gl'"></script>
 </head>
 
@@ -991,8 +1005,8 @@ padding:5px
      <div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
      </div></div>
     <div class="earth-celestial-row" aria-label="Sun and Moon reference display">
-     <div class="earth-celestial-item"><div class="earth-sun" aria-hidden="true"></div><span>SUN<small>Solar surface · animated texture</small></span></div>
-     <div class="earth-celestial-item"><div class="earth-moon" aria-hidden="true"></div><span>MOON<small>Lunar surface · crater detail</small></span></div>
+     <div class="earth-celestial-item"><canvas class="earth-sun earth-celestial-canvas" id="earth-sun-3d" aria-label="Animated three-dimensional Sun"></canvas><span>SUN<small>Solar surface · animated texture</small></span></div>
+     <div class="earth-celestial-item"><canvas class="earth-moon earth-celestial-canvas" id="earth-moon-3d" aria-label="Animated three-dimensional Moon"></canvas><span>MOON<small>Lunar surface · crater detail</small></span></div>
     </div>
     <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ ZOOM IN</button><button class="earth-btn" onclick="earthZoom(.74)">－ ZOOM OUT</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ STOP ROTATION</button></div>
     <div class="earth-stats-row">
@@ -1004,9 +1018,9 @@ padding:5px
    </div>
    <div class="earth-info"><div class="earth-kicker">COUNTRY EXPLORER</div>
     <div class="earth-search"><input id="earth-country-input" type="search" autocomplete="off" placeholder="Search a country…" oninput="earthSearchCountry(this.value)" onkeydown="if(event.key==='Enter')earthChooseFirst()"><button onclick="earthChooseFirst()">SEARCH</button></div>
-    <div id="earth-suggest" class="earth-suggest"></div><div id="earth-search-status" class="earth-status">Search from 100 popular countries.</div>
+    <div id="earth-suggest" class="earth-suggest"></div><div id="earth-search-status" class="earth-status">Search country names from the global country list.</div>
     <h3 id="earth-country-name">Select a country</h3><p id="earth-country-desc">Explore country details on the interactive globe.</p>
-    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>COUNTRY CODE</small><b id="earth-capital">—</b></div><div class="earth-info-cell"><small>POPULATION</small><b id="earth-country-pop">—</b></div><div class="earth-info-cell"><small>AREA</small><b id="earth-country-area">—</b></div></div>
+    <div class="earth-info-grid"><div class="earth-info-cell"><small>REGION</small><b id="earth-region">—</b></div><div class="earth-info-cell"><small>COUNTRY CODE</small><b id="earth-country-code">—</b></div><div class="earth-info-cell"><small>POPULATION</small><b id="earth-country-pop">—</b></div><div class="earth-info-cell"><small>AREA</small><b id="earth-country-area">—</b></div></div>
    </div>
   </section>
 
@@ -1035,8 +1049,7 @@ padding:5px
     <button class="calc-key" onclick="calcBack()">⌫</button>
    </div>
   </section>
-
-   <section id="password-page" class="hidden">
+  <section id="password-page" class="hidden">
    <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Password Generator</h2></div>
    <div class="card">
     <p>Create a strong random password.</p>
@@ -1296,7 +1309,6 @@ let carSpeed = 190;
 let carSpawnTimer = 0;
 let carRoadOffset = 0;
 let carTouchStart = null;
-
 function updateClock() {
   const now = new Date();
   const h = now.getHours();
@@ -1840,7 +1852,6 @@ function drawFlappy() {
     fx.arc(x + r * 2, y, r, 0, Math.PI * 2);
     fx.fill();
   });
-
   fx.fillStyle = "#75d68b";
   fx.fillRect(0, h - 35, w, 35);
 
@@ -2611,21 +2622,21 @@ nbRenderMeta();nbResetStage();nbUpdateHud();nbDraw();
 // ================= LIVE EARTH DASHBOARD =================
 let earthGlobe=null,earthSpin=true,earthTimer=null,earthCountriesData=[],earthCountryReady=false,earthStartedAt=Date.now(),earthGeoFeatures=[],earthSelectedFeature=null,earthBoundaryLoading=false;
 const earthFallback=[
- {name:'Pakistan',capital:'Islamabad',region:'Asia',subregion:'Southern Asia',population:255000000,area:881912,lat:30.3753,lng:69.3451},
- {name:'India',capital:'New Delhi',region:'Asia',subregion:'Southern Asia',population:1460000000,area:3287263,lat:20.5937,lng:78.9629},
- {name:'China',capital:'Beijing',region:'Asia',subregion:'Eastern Asia',population:1410000000,area:9596961,lat:35.8617,lng:104.1954},
- {name:'United States',capital:'Washington, D.C.',region:'Americas',subregion:'North America',population:347000000,area:9833520,lat:37.0902,lng:-95.7129},
- {name:'Brazil',capital:'Brasília',region:'Americas',subregion:'South America',population:212000000,area:8515767,lat:-14.235,lng:-51.9253},
- {name:'United Kingdom',capital:'London',region:'Europe',subregion:'Northern Europe',population:69600000,area:243610,lat:55.3781,lng:-3.436},
- {name:'France',capital:'Paris',region:'Europe',subregion:'Western Europe',population:66500000,area:551695,lat:46.2276,lng:2.2137},
- {name:'Germany',capital:'Berlin',region:'Europe',subregion:'Western Europe',population:84000000,area:357114,lat:51.1657,lng:10.4515},
- {name:'Japan',capital:'Tokyo',region:'Asia',subregion:'Eastern Asia',population:123000000,area:377975,lat:36.2048,lng:138.2529},
- {name:'Australia',capital:'Canberra',region:'Oceania',subregion:'Australia and New Zealand',population:27000000,area:7692024,lat:-25.2744,lng:133.7751},
- {name:'Canada',capital:'Ottawa',region:'Americas',subregion:'North America',population:41300000,area:9984670,lat:56.1304,lng:-106.3468},
- {name:'Egypt',capital:'Cairo',region:'Africa',subregion:'Northern Africa',population:118000000,area:1002450,lat:26.8206,lng:30.8025},
- {name:'South Africa',capital:'Pretoria',region:'Africa',subregion:'Southern Africa',population:64000000,area:1221037,lat:-30.5595,lng:22.9375},
- {name:'Saudi Arabia',capital:'Riyadh',region:'Asia',subregion:'Western Asia',population:34500000,area:2149690,lat:23.8859,lng:45.0792},
- {name:'Turkey',capital:'Ankara',region:'Asia',subregion:'Western Asia',population:87000000,area:783562,lat:38.9637,lng:35.2433}
+ {name:'Pakistan',region:'Asia',subregion:'Southern Asia',population:255000000,area:881912,lat:30.3753,lng:69.3451},
+ {name:'India',region:'Asia',subregion:'Southern Asia',population:1460000000,area:3287263,lat:20.5937,lng:78.9629},
+ {name:'China',region:'Asia',subregion:'Eastern Asia',population:1410000000,area:9596961,lat:35.8617,lng:104.1954},
+ {name:'United States',region:'Americas',subregion:'North America',population:347000000,area:9833520,lat:37.0902,lng:-95.7129},
+ {name:'Brazil',region:'Americas',subregion:'South America',population:212000000,area:8515767,lat:-14.235,lng:-51.9253},
+ {name:'United Kingdom',region:'Europe',subregion:'Northern Europe',population:69600000,area:243610,lat:55.3781,lng:-3.436},
+ {name:'France',region:'Europe',subregion:'Western Europe',population:66500000,area:551695,lat:46.2276,lng:2.2137},
+ {name:'Germany',region:'Europe',subregion:'Western Europe',population:84000000,area:357114,lat:51.1657,lng:10.4515},
+ {name:'Japan',region:'Asia',subregion:'Eastern Asia',population:123000000,area:377975,lat:36.2048,lng:138.2529},
+ {name:'Australia',region:'Oceania',subregion:'Australia and New Zealand',population:27000000,area:7692024,lat:-25.2744,lng:133.7751},
+ {name:'Canada',region:'Americas',subregion:'North America',population:41300000,area:9984670,lat:56.1304,lng:-106.3468},
+ {name:'Egypt',region:'Africa',subregion:'Northern Africa',population:118000000,area:1002450,lat:26.8206,lng:30.8025},
+ {name:'South Africa',region:'Africa',subregion:'Southern Africa',population:64000000,area:1221037,lat:-30.5595,lng:22.9375},
+ {name:'Saudi Arabia',region:'Asia',subregion:'Western Asia',population:34500000,area:2149690,lat:23.8859,lng:45.0792},
+ {name:'Turkey',region:'Asia',subregion:'Western Asia',population:87000000,area:783562,lat:38.9637,lng:35.2433}
 ];
 const earthNum=n=>Number(n||0).toLocaleString('en-US');
 let earthFallbackFrame=null,earthFallbackCanvas=null,earthFallbackCtx=null,earthFallbackTexture=null,earthFallbackAngle=0,earthFallbackTilt=0,earthFallbackZoom=1,earthFallbackDrag=null;
@@ -2711,7 +2722,69 @@ earthFallbackTexture.src='https://unpkg.com/three-globe/example/img/earth-blue-m
  earthFallbackCanvas.addEventListener('pointercancel',()=>earthFallbackDrag=null);
  earthFallbackDraw();
 }
+// -----------------------------------------------------------------------------
+// THREE-DIMENSIONAL CELESTIAL OBJECTS
+// These are independent Three.js scenes so their scale and position never cover
+// the Earth globe, country search, statistics, or controls.
+// -----------------------------------------------------------------------------
+let earthCelestialLoops=[];
+let earthCelestialReady=false;
+function earthCreateCelestialSphere(canvasId,kind){
+ const canvas=document.getElementById(canvasId);
+ if(!canvas||!window.THREE||canvas.dataset.ready==='1')return;
+ canvas.dataset.ready='1';
+ const THREE3=window.THREE;
+ const scene=new THREE3.Scene();
+ const camera=new THREE3.PerspectiveCamera(34,1,.1,100);
+ camera.position.set(0,0,kind==='sun'?4.15:4.35);
+ const renderer=new THREE3.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+ renderer.setSize(canvas.clientWidth||78,canvas.clientHeight||78,false);
+ renderer.outputEncoding=THREE3.sRGBEncoding;
+ const geometry=new THREE3.SphereGeometry(1,kind==='sun'?72:64,kind==='sun'?56:48);
+ const loader=new THREE3.TextureLoader();
+ loader.crossOrigin='anonymous';
+ const material=kind==='sun'
+  ?new THREE3.MeshBasicMaterial({color:0xffffff})
+  :new THREE3.MeshStandardMaterial({color:0xffffff,roughness:1,metalness:0});
+ const sphere=new THREE3.Mesh(geometry,material);
+ sphere.rotation.z=kind==='sun'?.24:-.18;
+ scene.add(sphere);
+ if(kind==='sun'){
+  const glowGeometry=new THREE3.SphereGeometry(1.12,48,36);
+  const glowMaterial=new THREE3.MeshBasicMaterial({color:0xff8a32,transparent:true,opacity:.13,side:THREE3.BackSide,blending:THREE3.AdditiveBlending,depthWrite:false});
+  scene.add(new THREE3.Mesh(glowGeometry,glowMaterial));
+  const coronaGeometry=new THREE3.SphereGeometry(1.27,40,32);
+  const coronaMaterial=new THREE3.MeshBasicMaterial({color:0xffb34d,transparent:true,opacity:.055,side:THREE3.BackSide,blending:THREE3.AdditiveBlending,depthWrite:false});
+  scene.add(new THREE3.Mesh(coronaGeometry,coronaMaterial));
+  const sunLight=new THREE3.PointLight(0xffb45c,1.5,12);sunLight.position.set(2,1,3);scene.add(sunLight);
+  loader.load('https://www.solarsystemscope.com/textures/download/2k_sun.jpg',texture=>{texture.encoding=THREE3.sRGBEncoding;material.map=texture;material.needsUpdate=true;},undefined,()=>{material.color.set(0xff9b35);});
+ }else{
+  scene.add(new THREE3.AmbientLight(0x71809a,.34));
+  const key=new THREE3.DirectionalLight(0xe4edff,2.0);key.position.set(-2,1.5,3);scene.add(key);
+  const fill=new THREE3.DirectionalLight(0x263a59,.22);fill.position.set(2,-1,-2);scene.add(fill);
+  loader.load('https://www.solarsystemscope.com/textures/download/2k_moon.jpg',texture=>{texture.encoding=THREE3.sRGBEncoding;material.map=texture;material.needsUpdate=true;},undefined,()=>{material.color.set(0x9299a6);});
+  loader.load('https://www.solarsystemscope.com/textures/download/2k_moon.jpg',texture=>{material.bumpMap=texture;material.bumpScale=.035;material.needsUpdate=true;},undefined,()=>{});
+ }
+ const resize=()=>{const w=Math.max(1,canvas.clientWidth||78),h=Math.max(1,canvas.clientHeight||78);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};
+ const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(resize):null;
+ if(observer)observer.observe(canvas);
+ let frame=0;
+ const animate=()=>{frame=requestAnimationFrame(animate);sphere.rotation.y+=kind==='sun'?.0022:.0011;if(kind==='sun'){const t=performance.now()*.00022;scene.rotation.z=Math.sin(t)*.018;}renderer.render(scene,camera);};
+ animate();
+ earthCelestialLoops.push({renderer,scene,camera,observer,stop:()=>cancelAnimationFrame(frame)});
+}
+function earthInitCelestial3D(){
+ if(earthCelestialReady)return;
+ if(!window.THREE){const retry=()=>{if(window.THREE){earthInitCelestial3D();}else setTimeout(retry,350);};setTimeout(retry,350);return;}
+ earthCelestialReady=true;
+ earthCreateCelestialSphere('earth-sun-3d','sun');
+ earthCreateCelestialSphere('earth-moon-3d','moon');
+}
+function earthStopCelestial3D(){earthCelestialLoops.forEach(item=>{try{item.stop();if(item.observer)item.observer.disconnect();item.renderer.dispose();}catch(e){}});earthCelestialLoops=[];}
+
 function earthInit(){
+ earthInitCelestial3D();
  const host=document.getElementById('earth-globe');
 if(!host)return;
  if(!earthGlobe&&!earthFallbackCanvas){
@@ -2747,7 +2820,10 @@ ctl.maxPolarAngle=Math.PI-.0001;
 ctl.minDistance=55;
 ctl.maxDistance=900;
 earthInstallSolarLighting();
-ctl.addEventListener('end',()=>{if(earthSpin){ctl.autoRotate=true;}});
+ctl.enableRotate=false;
+ctl.autoRotate=false;
+earthInstallFullRangeRotation();
+ctl.addEventListener('end',()=>{if(earthSpin){ctl.autoRotate=false;}});
    window.addEventListener('resize',earthResize);
 document.addEventListener('visibilitychange',earthVisibility);
   }catch(e){console.warn('3D globe unavailable; using textured globe fallback.',e);
@@ -2761,6 +2837,7 @@ earthLoadBoundaries();
 earthStartCounters();
 earthEnsureSpin();
 earthPreparePanel();
+if(earthGlobe)earthInstallHighDetailPipeline();
 }
 function earthInstallSolarLighting(){
  if(!earthGlobe||earthGlobe.__solarLightingInstalled)return;
@@ -2805,12 +2882,12 @@ return aliases[q]?[aliases[q]]:[];
 function earthLoadCountries(){if(earthCountryReady)return;
 earthCountryReady=true;
 earthCountriesData=earthFallback.slice();
-fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng,cca3,cca2,altSpellings,independent').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||x.name?.official||'',official:x.name?.official||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]??0,lng:x.latlng?.[1]??0,cca3:x.cca3||'',cca2:x.cca2||'',aliases:Array.isArray(x.altSpellings)?x.altSpellings:[],independent:x.independent})).filter(x=>x.name&&x.independent!==false).sort((a,b)=>b.population-a.population);const status=document.getElementById('earth-search-status');if(status)status.textContent=earthCountriesData.length+' countries loaded';earthSyncPendingCountry();}).catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Offline country list active · connect to internet for the complete country list';});
+fetch('https://restcountries.com/v3.1/all?fields=name,region,subregion,population,area,latlng,cca3,cca2,altSpellings,independent').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=earthValidateCountryRecords(rows.map(x=>({name:x.name?.common||x.name?.official||'',official:x.name?.official||'',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]??0,lng:x.latlng?.[1]??0,cca3:x.cca3||'',cca2:x.cca2||'',aliases:Array.isArray(x.altSpellings)?x.altSpellings:[],independent:x.independent})).filter(x=>x.name&&x.independent!==false));const status=document.getElementById('earth-search-status');if(status)status.textContent=earthCountriesData.length+' country records loaded';earthSyncPendingCountry();}).catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Offline country list active · connect to internet for the complete country list';});
 }
 function earthLoadBoundaries(){if(earthBoundaryLoading||earthGeoFeatures.length)return;
 earthBoundaryLoading=true;
 const urls=['https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson','https://raw.githubusercontent.com/deldesierto/countries-geojson/master/countries.geojson'];
-(async()=>{let error=null;for(const url of urls){try{const response=await fetch(url);if(!response.ok)throw Error('boundary data unavailable');const data=await response.json();const features=(data.features||[]).filter(f=>f.geometry&&(f.geometry.type==='Polygon'||f.geometry.type==='MultiPolygon'));if(features.length<150)throw Error('boundary data incomplete');earthGeoFeatures=features;if(earthGlobe)earthGlobe.polygonsData(earthSelectedFeature?[earthSelectedFeature]:[]);const input=document.getElementById('earth-country-input');const selectedQuery=earthNormalizeName(input?.value||'');if(selectedQuery){const selectedCountry=earthCountriesData.find(country=>[country.name,country.official,...(country.aliases||[])].map(earthNormalizeName).includes(selectedQuery));if(selectedCountry)earthSelectedFeature=earthFindBoundary(selectedCountry);}if(earthSelectedFeature)earthUpdateSelectedBoundary();const status=document.getElementById('earth-search-status');if(status)status.textContent='Global country boundaries loaded · '+features.length+' regions';return;}catch(e){error=e;}}throw error||Error('boundaries unavailable');})().catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Country search works; boundaries require an internet connection.';}).finally(()=>{earthBoundaryLoading=false;});
+(async()=>{let error=null;for(const url of urls){try{const response=await fetch(url);if(!response.ok)throw Error('boundary data unavailable');const data=await response.json();const features=(data.features||[]).filter(f=>f.geometry&&(f.geometry.type==='Polygon'||f.geometry.type==='MultiPolygon'));if(features.length<150)throw Error('boundary data incomplete');earthGeoFeatures=features;if(earthGlobe)earthGlobe.polygonsData(earthSelectedFeature?[earthSelectedFeature]:[]);const input=document.getElementById('earth-country-input');const selectedQuery=earthNormalizeName(input?.value||'');if(selectedQuery){const selectedCountry=earthCountriesData.find(country=>[country.name,country.official,...(country.aliases||[])].map(earthNormalizeName).includes(selectedQuery));if(selectedCountry)earthSelectedFeature=earthFindBoundary(selectedCountry);}if(earthSelectedFeature)earthUpdateSelectedBoundary();earthSyncPendingCountry();const status=document.getElementById('earth-search-status');if(status)status.textContent='Global country boundaries loaded · '+features.length+' regions';return;}catch(e){error=e;}}throw error||Error('boundaries unavailable');})().catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Country search works; boundaries require an internet connection.';}).finally(()=>{earthBoundaryLoading=false;});
 }
 function earthSyncPendingCountry(){const input=document.getElementById('earth-country-input');
 if(!input||!input.value||!earthGeoFeatures.length)return;
@@ -2858,7 +2935,7 @@ earthCommitCountrySelection(c);
 function earthShowCountry(c){document.getElementById('earth-country-name').textContent=c.name;
 document.getElementById('earth-country-desc').textContent='Country overview · population and area are published estimates/data, not a live headcount.';
 document.getElementById('earth-region').textContent=(c.region||'—')+' · '+(c.subregion||'');
-document.getElementById('earth-capital').textContent=c.cca3||'—';
+document.getElementById('earth-country-code').textContent=c.cca3||'—';
 document.getElementById('earth-country-pop').textContent=earthNum(c.population);
 document.getElementById('earth-country-area').textContent=earthNum(Math.round(c.area))+' km²';
 document.getElementById('earth-search-status').textContent='Selected · '+c.name;
@@ -2872,13 +2949,14 @@ document.getElementById('earth-country-desc').textContent='Country selected on g
 function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';
 document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°.';
 document.getElementById('earth-region').textContent='Coordinates';
-document.getElementById('earth-capital').textContent='—';
+document.getElementById('earth-country-code').textContent='—';
 document.getElementById('earth-country-pop').textContent='—';
 document.getElementById('earth-country-area').textContent='—';
 }
 function earthZoom(f){earthZoomByFactor(f);
 }
 function earthReset(){earthSelectedFeature=null;
+if(earthPlanetRoot)earthResetFreeRotationForSearch();
 if(earthGlobe){earthGlobe.polygonsData([]);
 earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},700);
 }if(earthFallbackCanvas){earthFallbackZoom=1;
@@ -3008,8 +3086,9 @@ function earthMoveCamera(target,duration=1400){
 // A single selection transaction updates details, outline, camera and rotation.
 function earthCommitCountrySelection(country){
  if(!country)return false;
- earthShowCountry(country);
- earthSelectedFeature=earthFindBoundary(country);
+ earthResetFreeRotationForSearch();
+ earthCommitDetailedCountry(country);
+ earthSelectedFeature=earthFindBoundary(country)||earthSelectedFeature;
  earthUpdateSelectedBoundary();
  earthSpin=false;
  if(earthGlobe){
@@ -3315,6 +3394,920 @@ function earthPreparePanel(){
 
 // -----------------------------------------------------------------------------
 // END EARTH 4D INTERACTION HELPERS
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// EARTH 4D — HIGH DETAIL PLANETARY RENDERING AND INTERACTION SUBSYSTEM
+// -----------------------------------------------------------------------------
+// This subsystem deliberately stays inside the Earth dashboard boundary.  It
+// does not touch the home screen, games, calculator, login flow, or app theme.
+// The globe renderer remains responsible for geographic polygons and camera
+// projection; these helpers enrich its Three.js scene with physically layered
+// atmospheric and cloud shells and a free-rotation controller.
+// -----------------------------------------------------------------------------
+const EARTH_RENDER_PROFILE={
+  radius:100,
+  cloudRadius:100.58,
+  atmosphereRadius:102.35,
+  cloudOpacity:.42,
+  cloudRotation:.000075,
+  atmosphereIntensity:.78,
+  dragSensitivity:.0052,
+  inertia:.91,
+  maximumPixelRatio:1.8,
+  minimumAltitude:.58,
+  maximumAltitude:5,
+  countryAltitude:.72,
+  defaultAltitude:2.05,
+  textureTimeout:14000,
+  resizeDebounce:90,
+  pointerTapThreshold:5,
+  slowFrameThreshold:38,
+  smoothFrameThreshold:18
+};
+
+let earthPlanetRoot=null;
+let earthCloudShell=null;
+let earthAtmosphereShell=null;
+let earthCloudTexture=null;
+let earthLayerMaterial=null;
+let earthFreeRotation=null;
+let earthFreeRotationInstalled=false;
+let earthPlanetAnimationFrame=0;
+let earthPlanetLastFrame=0;
+let earthPlanetResizeObserver=null;
+let earthPlanetTextureLoader=null;
+let earthPlanetQuality='high';
+let earthPlanetTextureState={earth:false,clouds:false,moon:false,sun:false};
+let earthPlanetLastError='';
+let earthPlanetUserInteracting=false;
+let earthPlanetPendingResize=0;
+let earthPlanetLastTap=0;
+let earthPlanetPointerMap=new Map();
+let earthPlanetPinchDistance=0;
+let earthPlanetGesture=null;
+let earthPlanetMotion={x:0,y:0,velocityX:0,velocityY:0};
+let earthPlanetSelectedCode='';
+let earthPlanetLastCountry=null;
+let earthPlanetRenderStats={frames:0,lastFps:0,lastFrameTime:0,slowFrames:0};
+
+// Return a browser-safe numeric value without allowing NaN into Three.js.
+function earthFinite(value,fallback=0){
+ const n=Number(value);
+ return Number.isFinite(n)?n:fallback;
+}
+
+// Clamp an ordinary value while preserving a useful fallback for missing data.
+function earthLimit(value,min,max,fallback=min){
+ const n=earthFinite(value,fallback);
+ return Math.max(min,Math.min(max,n));
+}
+
+// Detect the Three.js namespace loaded by the page's existing script tag.
+function earthThree(){
+ return window.THREE&&typeof window.THREE.SphereGeometry==='function'?window.THREE:null;
+}
+
+// Traverse a scene safely and return all nodes matching a predicate.
+function earthVisitScene(root,predicate){
+ const found=[];
+ if(!root||typeof root.traverse!=='function')return found;
+ root.traverse(node=>{try{if(predicate(node))found.push(node);}catch(error){}});
+ return found;
+}
+
+// Recognize the textured base sphere by its radius and mapped material.
+function earthIsBasePlanetMesh(node){
+ if(!node||!node.isMesh||!node.geometry)return false;
+ const parameters=node.geometry.parameters||{};
+ const radius=earthFinite(parameters.radius,-1);
+ if(radius<EARTH_RENDER_PROFILE.radius*.8||radius>EARTH_RENDER_PROFILE.radius*1.2)return false;
+ const material=Array.isArray(node.material)?node.material[0]:node.material;
+ return !!(material&&(material.map||material.bumpMap||material.isMeshPhongMaterial||material.isMeshStandardMaterial));
+}
+
+// Locate the ThreeGlobe object that owns the Earth mesh and geographic layers.
+function earthFindPlanetRoot(){
+ if(!earthGlobe||typeof earthGlobe.scene!=='function')return null;
+ const scene=earthGlobe.scene();
+ const planet=earthVisitScene(scene,earthIsBasePlanetMesh)[0];
+ if(!planet)return null;
+ let root=planet;
+ while(root.parent&&root.parent!==scene)root=root.parent;
+ return root;
+}
+
+// Remove a previous copy of a scene extension before rebuilding it.
+function earthDisposeNode(node){
+ if(!node)return;
+ node.traverse?.(child=>{
+  if(child.geometry&&typeof child.geometry.dispose==='function')child.geometry.dispose();
+  const materials=Array.isArray(child.material)?child.material:[child.material];
+  materials.forEach(material=>{
+   if(!material)return;
+   ['map','alphaMap','bumpMap','normalMap','roughnessMap','metalnessMap'].forEach(key=>{
+    const texture=material[key];
+    if(texture&&texture.userData&&texture.userData.earthOwned&&texture.dispose)texture.dispose();
+   });
+   if(material.userData&&material.userData.earthOwned&&material.dispose)material.dispose();
+  });
+ });
+ if(node.parent)node.parent.remove(node);
+}
+
+// Load a texture with bounded waiting and a graceful fallback callback.
+function earthLoadTexture(url,onReady,onFailure){
+ const THREE3=earthThree();
+ if(!THREE3||!url){if(onFailure)onFailure(Error('Texture loader unavailable'));return null;}
+ if(!earthPlanetTextureLoader)earthPlanetTextureLoader=new THREE3.TextureLoader();
+ earthPlanetTextureLoader.setCrossOrigin?.('anonymous');
+ let settled=false;
+ const timer=setTimeout(()=>{
+  if(settled)return;
+  settled=true;
+  if(onFailure)onFailure(Error('Texture loading timed out'));
+ },EARTH_RENDER_PROFILE.textureTimeout);
+ return earthPlanetTextureLoader.load(url,texture=>{
+  if(settled){texture.dispose();return;}
+  settled=true;clearTimeout(timer);
+  texture.anisotropy=Math.min(8,earthGlobe?.renderer?.()?.capabilities?.getMaxAnisotropy?.()||4);
+  texture.colorSpace=THREE3.SRGBColorSpace||texture.colorSpace;
+  texture.encoding=THREE3.sRGBEncoding||texture.encoding;
+  if(onReady)onReady(texture);
+ },undefined,error=>{
+  if(settled)return;
+  settled=true;clearTimeout(timer);
+  if(onFailure)onFailure(error||Error('Texture load failed'));
+ });
+}
+
+// Create a high-resolution, independently rotating cloud shell around Earth.
+function earthCreateCloudShell(){
+ const THREE3=earthThree();
+ if(!THREE3||!earthPlanetRoot||earthCloudShell)return false;
+ const geometry=new THREE3.SphereGeometry(EARTH_RENDER_PROFILE.cloudRadius,128,96);
+ const material=new THREE3.MeshPhongMaterial({
+  color:0xffffff,transparent:true,opacity:EARTH_RENDER_PROFILE.cloudOpacity,
+  depthWrite:false,side:THREE3.FrontSide,shininess:5
+ });
+ material.userData.earthOwned=true;
+ const shell=new THREE3.Mesh(geometry,material);
+ shell.name='earth-independent-cloud-layer';
+ shell.renderOrder=3;
+ shell.rotation.set(0,0,0);
+ earthPlanetRoot.add(shell);
+ earthCloudShell=shell;
+ earthLoadTexture('https://unpkg.com/three-globe/example/img/clouds.png',texture=>{
+  if(!earthCloudShell){texture.dispose();return;}
+  texture.wrapS=THREE3.RepeatWrapping;
+  texture.wrapT=THREE3.ClampToEdgeWrapping;
+  texture.userData.earthOwned=true;
+  earthCloudTexture=texture;
+  earthCloudShell.material.map=texture;
+  earthCloudShell.material.alphaMap=texture;
+  earthCloudShell.material.needsUpdate=true;
+  earthPlanetTextureState.clouds=true;
+ },()=>{
+  earthPlanetLastError='Cloud texture unavailable; cloud shell is inactive.';
+  if(earthCloudShell){earthDisposeNode(earthCloudShell);earthCloudShell=null;}
+ });
+ return true;
+}
+
+// Build a restrained Fresnel atmosphere; this replaces the hard cyan outline.
+function earthCreateAtmosphereShell(){
+ const THREE3=earthThree();
+ if(!THREE3||!earthPlanetRoot||earthAtmosphereShell)return false;
+ const geometry=new THREE3.SphereGeometry(EARTH_RENDER_PROFILE.atmosphereRadius,96,72);
+ const material=new THREE3.ShaderMaterial({
+  uniforms:{uGlow:{value:EARTH_RENDER_PROFILE.atmosphereIntensity},uColor:{value:new THREE3.Color(0x78bce8)}},
+  vertexShader:`varying vec3 vNormal; varying vec3 vView; void main(){vec4 mvPosition=modelViewMatrix*vec4(position,1.0);vNormal=normalize(normalMatrix*normal);vView=normalize(-mvPosition.xyz);gl_Position=projectionMatrix*mvPosition;}`,
+  fragmentShader:`uniform float uGlow;uniform vec3 uColor;varying vec3 vNormal;varying vec3 vView;void main(){float rim=pow(1.0-max(dot(normalize(vNormal),normalize(vView)),0.0),3.1);float day=0.35+0.65*max(dot(normalize(vNormal),normalize(vView)),0.0);float alpha=clamp(rim*uGlow*day,0.0,0.34);gl_FragColor=vec4(uColor,alpha);}`,
+  transparent:true,depthWrite:false,blending:THREE3.AdditiveBlending,side:THREE3.BackSide
+ });
+ material.userData.earthOwned=true;
+ const shell=new THREE3.Mesh(geometry,material);
+ shell.name='earth-fresnel-atmosphere-shell';
+ shell.renderOrder=4;
+ earthPlanetRoot.add(shell);
+ earthAtmosphereShell=shell;
+ return true;
+}
+
+// Add subtle directional light from a fixed solar direction to the Earth scene.
+function earthRefinePlanetLighting(){
+ if(!earthGlobe||typeof earthGlobe.scene!=='function')return false;
+ const THREE3=earthThree();
+ if(!THREE3)return false;
+ const scene=earthGlobe.scene();
+ const lights=earthVisitScene(scene,node=>node.isDirectionalLight);
+ if(lights.length){
+  lights[0].position.set(-420,175,310);
+  lights[0].intensity=Math.max(1.1,earthFinite(lights[0].intensity,1));
+  lights[0].castShadow=false;
+ }
+ const ambient=earthVisitScene(scene,node=>node.isAmbientLight);
+ ambient.forEach(light=>{light.intensity=Math.min(.5,Math.max(.18,earthFinite(light.intensity,.35)));});
+ return true;
+}
+
+// Select a rendering profile based on the actual device and current viewport.
+function earthChooseQuality(){
+ const width=Math.max(1,window.innerWidth||360);
+ const cores=earthFinite(navigator.hardwareConcurrency,4);
+ const memory=earthFinite(navigator.deviceMemory,4);
+ const compact=width<390;
+ if(cores<=4||memory<=3)return 'balanced';
+ if(compact)return 'balanced';
+ return 'high';
+}
+
+// Apply quality without changing the visual layout or the app's other screens.
+function earthApplyQuality(){
+ earthPlanetQuality=earthChooseQuality();
+ const renderer=earthGlobe?.renderer?.();
+ if(renderer){
+  const ratio=earthPlanetQuality==='high'?EARTH_RENDER_PROFILE.maximumPixelRatio:1.25;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,ratio));
+ }
+ if(earthCloudShell){
+  earthCloudShell.material.opacity=earthPlanetQuality==='high'?.44:.34;
+  earthCloudShell.material.needsUpdate=true;
+ }
+}
+
+// Read a pointer coordinate relative to the globe renderer, not the page.
+function earthPointerPosition(event){
+ const element=earthGlobe?.renderer?.()?.domElement;
+ if(!element)return null;
+ const rect=element.getBoundingClientRect();
+ return {x:event.clientX-rect.left,y:event.clientY-rect.top,width:rect.width,height:rect.height};
+}
+
+// Reset the free-rotation group before a country search drives the camera.
+function earthResetFreeRotationForSearch(){
+ if(!earthPlanetRoot)return;
+ earthPlanetRoot.rotation.set(0,0,0);
+ earthPlanetMotion={x:0,y:0,velocityX:0,velocityY:0};
+ earthPlanetUserInteracting=false;
+ if(earthCloudShell)earthCloudShell.rotation.set(0,0,0);
+}
+
+// Begin a single-finger drag or prepare a two-finger pinch gesture.
+function earthHandlePlanetPointerDown(event){
+ if(!earthPlanetRoot||!event.isPrimary&&event.pointerType==='mouse')return;
+ if(event.pointerType==='mouse'&&event.button!==0)return;
+ const point=earthPointerPosition(event);
+ if(!point)return;
+ earthPlanetPointerMap.set(event.pointerId,{x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY});
+ try{event.currentTarget.setPointerCapture(event.pointerId);}catch(error){}
+ if(earthPlanetPointerMap.size===1){
+  earthPlanetGesture={type:'rotate',pointerId:event.pointerId,lastX:event.clientX,lastY:event.clientY,startX:event.clientX,startY:event.clientY,moved:false};
+  earthPlanetUserInteracting=true;
+  earthPlanetMotion.velocityX=0;
+  earthPlanetMotion.velocityY=0;
+ }else if(earthPlanetPointerMap.size===2){
+  const points=Array.from(earthPlanetPointerMap.values());
+  earthPlanetPinchDistance=Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y);
+  earthPlanetGesture={type:'pinch',distance:Math.max(1,earthPlanetPinchDistance)};
+ }
+}
+
+// Rotate the planet root itself, so vertical movement can pass through both poles.
+function earthHandlePlanetPointerMove(event){
+ if(!earthPlanetPointerMap.has(event.pointerId)||!earthPlanetGesture)return;
+ const point=earthPlanetPointerMap.get(event.pointerId);
+ point.x=event.clientX;point.y=event.clientY;
+ if(earthPlanetGesture.type==='pinch'&&earthPlanetPointerMap.size>=2){
+  const points=Array.from(earthPlanetPointerMap.values());
+  const distance=Math.max(1,Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y));
+  const ratio=distance/Math.max(1,earthPlanetGesture.distance);
+  if(earthGlobe&&Number.isFinite(ratio)&&Math.abs(ratio-1)>.006){
+   const pov=earthGlobe.pointOfView();
+   earthMoveCamera({...pov,altitude:pov.altitude/ratio},0);
+  }
+  earthPlanetGesture.distance=distance;
+  return;
+ }
+ if(earthPlanetGesture.type!=='rotate'||earthPlanetGesture.pointerId!==event.pointerId)return;
+ const dx=event.clientX-earthPlanetGesture.lastX;
+ const dy=event.clientY-earthPlanetGesture.lastY;
+ if(Math.abs(event.clientX-earthPlanetGesture.startX)+Math.abs(event.clientY-earthPlanetGesture.startY)>EARTH_RENDER_PROFILE.pointerTapThreshold)earthPlanetGesture.moved=true;
+ const sensitivity=EARTH_RENDER_PROFILE.dragSensitivity;
+ earthPlanetRoot.rotation.order='YXZ';
+ earthPlanetRoot.rotation.y+=dx*sensitivity;
+ earthPlanetRoot.rotation.x+=dy*sensitivity;
+ earthPlanetMotion.velocityX=dx*sensitivity;
+ earthPlanetMotion.velocityY=dy*sensitivity;
+ earthPlanetGesture.lastX=event.clientX;
+ earthPlanetGesture.lastY=event.clientY;
+}
+
+// End a gesture while preserving a small, natural inertial glide.
+function earthHandlePlanetPointerUp(event){
+ if(!earthPlanetPointerMap.has(event.pointerId))return;
+ earthPlanetPointerMap.delete(event.pointerId);
+ if(earthPlanetPointerMap.size===0){
+  const gesture=earthPlanetGesture;
+  earthPlanetGesture=null;
+  earthPlanetUserInteracting=false;
+  if(gesture&&gesture.type==='rotate'&&!gesture.moved){
+   const now=performance.now();
+   if(now-earthPlanetLastTap<260)earthRecenter();
+   earthPlanetLastTap=now;
+  }
+ }else if(earthPlanetPointerMap.size===1){
+  const remaining=Array.from(earthPlanetPointerMap.entries())[0];
+  earthPlanetGesture={type:'rotate',pointerId:remaining[0],lastX:remaining[1].x,lastY:remaining[1].y,startX:remaining[1].x,startY:remaining[1].y,moved:true};
+ }
+}
+
+// Attach full-range drag and pinch controls to the existing WebGL canvas.
+function earthInstallFullRangeRotation(){
+ if(!earthGlobe||earthFreeRotationInstalled)return false;
+ const renderer=earthGlobe.renderer?.();
+ const canvas=renderer?.domElement;
+ if(!canvas)return false;
+ earthPlanetRoot=earthFindPlanetRoot();
+ if(!earthPlanetRoot){const fallbackControls=earthGlobe.controls();fallbackControls.enableRotate=true;fallbackControls.enableZoom=true;fallbackControls.autoRotate=false;return false;}
+ earthPlanetRoot.rotation.order='YXZ';
+ earthCreateCloudShell();
+ earthCreateAtmosphereShell();
+ earthRefinePlanetLighting();
+ earthApplyQuality();
+ const controls=earthGlobe.controls();
+ controls.enableRotate=false;
+ controls.autoRotate=false;
+ controls.enableZoom=true;
+ controls.enablePan=false;
+ canvas.style.touchAction='none';
+ canvas.addEventListener('pointerdown',earthHandlePlanetPointerDown,{passive:false});
+ canvas.addEventListener('pointermove',earthHandlePlanetPointerMove,{passive:false});
+ canvas.addEventListener('pointerup',earthHandlePlanetPointerUp,{passive:true});
+ canvas.addEventListener('pointercancel',earthHandlePlanetPointerUp,{passive:true});
+ canvas.addEventListener('lostpointercapture',earthHandlePlanetPointerUp,{passive:true});
+ earthFreeRotation={canvas,controls,down:earthHandlePlanetPointerDown,move:earthHandlePlanetPointerMove,up:earthHandlePlanetPointerUp};
+ earthFreeRotationInstalled=true;
+ earthStartPlanetAnimation();
+ return true;
+}
+
+// Remove all listeners owned by the free-rotation controller before rebuilding.
+function earthRemoveFullRangeRotation(){
+ if(!earthFreeRotation)return;
+ const item=earthFreeRotation;
+ item.canvas.removeEventListener('pointerdown',item.down);
+ item.canvas.removeEventListener('pointermove',item.move);
+ item.canvas.removeEventListener('pointerup',item.up);
+ item.canvas.removeEventListener('pointercancel',item.up);
+ item.canvas.removeEventListener('lostpointercapture',item.up);
+ earthFreeRotation=null;
+ earthFreeRotationInstalled=false;
+ earthPlanetPointerMap.clear();
+ earthPlanetGesture=null;
+}
+
+// Animate clouds independently and damp the final few degrees of a drag.
+function earthPlanetAnimationTick(timestamp){
+ if(!earthPlanetAnimationFrame)return;
+ const previous=earthPlanetLastFrame||timestamp;
+ const delta=Math.min(48,Math.max(0,timestamp-previous));
+ earthPlanetLastFrame=timestamp;
+ if(earthPlanetRoot&&!earthPlanetUserInteracting){
+  if(earthSpin&&!earthPlanetGesture){
+   earthPlanetMotion.velocityX*=EARTH_RENDER_PROFILE.inertia;
+   earthPlanetMotion.velocityY*=EARTH_RENDER_PROFILE.inertia;
+   earthPlanetRoot.rotation.y+=earthPlanetMotion.velocityX;
+   earthPlanetRoot.rotation.x+=earthPlanetMotion.velocityY;
+   if(Math.abs(earthPlanetMotion.velocityX)<.000015)earthPlanetMotion.velocityX=0;
+   if(Math.abs(earthPlanetMotion.velocityY)<.000015)earthPlanetMotion.velocityY=0;
+   if(earthPlanetMotion.velocityX===0&&earthPlanetMotion.velocityY===0)earthPlanetRoot.rotation.y+=delta*.000018;
+  }else{
+   earthPlanetMotion.velocityX*=.84;
+   earthPlanetMotion.velocityY*=.84;
+  }
+ }
+ if(earthCloudShell&&!document.hidden){earthCloudShell.rotation.y+=delta*EARTH_RENDER_PROFILE.cloudRotation;}
+ earthPlanetRenderStats.frames++;
+ if(delta>EARTH_RENDER_PROFILE.slowFrameThreshold)earthPlanetRenderStats.slowFrames++;
+ if(timestamp%1000<delta){earthPlanetRenderStats.lastFps=Math.round(1000/(delta||16.7));earthPlanetRenderStats.lastFrameTime=delta;}
+ earthPlanetAnimationFrame=requestAnimationFrame(earthPlanetAnimationTick);
+}
+
+// Start the single Earth animation loop only once.
+function earthStartPlanetAnimation(){
+ if(earthPlanetAnimationFrame)return;
+ earthPlanetLastFrame=0;
+ earthPlanetAnimationFrame=requestAnimationFrame(earthPlanetAnimationTick);
+}
+
+// Pause the Earth-only animation loop when its page is hidden.
+function earthStopPlanetAnimation(){
+ if(earthPlanetAnimationFrame){cancelAnimationFrame(earthPlanetAnimationFrame);earthPlanetAnimationFrame=0;}
+ earthPlanetLastFrame=0;
+}
+// Resume planet animation when the observatory becomes visible again.
+function earthResumePlanetAnimation(){
+ const page=document.getElementById('earth-page');
+ if(!page||page.classList.contains('hidden')||document.hidden)return;
+ earthStartPlanetAnimation();
+}
+
+// Resize the globe renderer and preserve its sharpness on high-density displays.
+function earthResizePlanetRenderer(){
+ if(!earthGlobe)return;
+ const host=document.getElementById('earth-globe');
+ if(!host)return;
+ const width=Math.max(1,Math.floor(host.clientWidth));
+ const height=Math.max(1,Math.floor(host.clientHeight));
+ earthGlobe.width(width).height(height);
+ const renderer=earthGlobe.renderer?.();
+ if(renderer){
+  const cap=earthPlanetQuality==='high'?1.8:1.25;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,cap));
+  renderer.setSize(width,height,false);
+ }
+}
+
+// Coalesce orientation and viewport changes into one resize operation.
+function earthSchedulePlanetResize(){
+ if(earthPlanetPendingResize)clearTimeout(earthPlanetPendingResize);
+ earthPlanetPendingResize=setTimeout(()=>{
+  earthPlanetPendingResize=0;
+  earthResizePlanetRenderer();
+ },EARTH_RENDER_PROFILE.resizeDebounce);
+}
+
+// Observe the actual globe container instead of relying only on window resize.
+function earthInstallPlanetResizeObserver(){
+ const host=document.getElementById('earth-globe');
+ if(!host||typeof ResizeObserver==='undefined'||earthPlanetResizeObserver)return;
+ earthPlanetResizeObserver=new ResizeObserver(earthSchedulePlanetResize);
+ earthPlanetResizeObserver.observe(host);
+}
+
+// Rebuild the extra shells if the 3D scene was recreated after a renderer failure.
+function earthRebuildPlanetLayers(){
+ if(!earthGlobe)return false;
+ const root=earthFindPlanetRoot();
+ if(!root)return false;
+ if(root!==earthPlanetRoot){
+  earthDisposeNode(earthCloudShell);
+  earthDisposeNode(earthAtmosphereShell);
+  earthCloudShell=null;earthAtmosphereShell=null;
+  earthPlanetRoot=root;
+ }
+ earthCreateCloudShell();
+ earthCreateAtmosphereShell();
+ earthRefinePlanetLighting();
+ return true;
+}
+
+// Keep the selected country's exact identifier for matching and diagnostics.
+function earthRememberSelectedCountry(country){
+ if(!country){earthPlanetSelectedCode='';earthPlanetLastCountry=null;return;}
+ earthPlanetSelectedCode=String(country.cca3||country.cca2||'').toUpperCase();
+ earthPlanetLastCountry={name:String(country.name||''),code:earthPlanetSelectedCode,lat:earthFinite(country.lat),lng:earthFinite(country.lng)};
+}
+
+// Resolve country aliases with exact matches before using a partial match.
+function earthResolveCountryStrict(query){
+ const key=earthCountryKey(query);
+ if(!key)return null;
+ const aliases=[key,...earthAliases(query).map(earthCountryKey)];
+ const exact=earthCountriesData.find(country=>earthCountryNames(country).some(name=>aliases.includes(earthCountryKey(name))));
+ if(exact)return exact;
+ return earthCountriesData.find(country=>earthCountryNames(country).some(name=>{
+  const candidate=earthCountryKey(name);
+  return aliases.some(alias=>candidate.startsWith(alias)&&alias.length>=3);
+ }))||null;
+}
+
+// Verify that a downloaded country record contains usable map coordinates.
+function earthCountryHasCoordinates(country){
+ return !!country&&Number.isFinite(Number(country.lat))&&Number.isFinite(Number(country.lng))&&Math.abs(Number(country.lat))<=90&&Math.abs(Number(country.lng))<=180;
+}
+
+// Keep the suggestion box focused on country names rather than capital cities.
+function earthCountrySearchIndex(){
+ return earthCountriesData.map((country,index)=>({
+  index,name:String(country.name||''),official:String(country.official||''),
+  aliases:(country.aliases||[]).filter(value=>typeof value==='string'),
+  key:earthCountryKey(country.name),code:String(country.cca3||'').toUpperCase()
+ })).filter(item=>item.name&&item.key);
+}
+
+// Produce a stable, country-only search ranking with exact matches first.
+function earthCountrySearchResults(query,limit=10){
+ const key=earthCountryKey(query);
+ if(!key)return [];
+ const index=earthCountrySearchIndex();
+ const exact=[];const starts=[];const contains=[];
+ index.forEach(item=>{
+  const keys=[item.key,earthCountryKey(item.official),...item.aliases.map(earthCountryKey)].filter(Boolean);
+  if(keys.includes(key)){exact.push(item);return;}
+  if(keys.some(value=>value.startsWith(key))){starts.push(item);return;}
+  if(keys.some(value=>value.includes(key))){contains.push(item);}
+ });
+ return exact.concat(starts,contains).slice(0,Math.max(1,limit));
+}
+
+// Use a known ISO code first, then the country name, for GeoJSON boundary lookup.
+function earthResolveFeatureForCountry(country){
+ if(!country||!earthGeoFeatures.length)return null;
+ const code=String(country.cca3||'').toUpperCase();
+ const codeFields=['ISO_A3','ISO_A3_EH','ADM0_A3','SOV_A3','iso_a3','ISO3','iso3','ADM0_A3_US','GU_A3','WB_A3'];
+ if(code){
+  const byCode=earthGeoFeatures.find(feature=>{
+   const properties=feature.properties||{};
+   return codeFields.some(field=>String(properties[field]||'').toUpperCase()===code);
+  });
+  if(byCode)return byCode;
+ }
+ const names=earthCountryNames(country).map(earthCountryKey).filter(Boolean);
+ const nameFields=['ADMIN','NAME','NAME_EN','name','name_en','SOVEREIGNT','FORMAL_EN','ADMIN_EN','GEOUNIT','BRK_NAME'];
+ return earthGeoFeatures.find(feature=>{
+  const properties=feature.properties||{};
+  return nameFields.some(field=>names.includes(earthCountryKey(properties[field])));
+ })||null;
+}
+
+// Confirm a feature contains polygon geometry before it is drawn as an outline.
+function earthFeatureIsDrawable(feature){
+ const geometry=feature?.geometry;
+ if(!geometry)return false;
+ if(geometry.type==='Polygon')return Array.isArray(geometry.coordinates)&&geometry.coordinates.length>0;
+ if(geometry.type==='MultiPolygon')return Array.isArray(geometry.coordinates)&&geometry.coordinates.length>0;
+ return false;
+}
+
+// Replace only the selected boundary; all other country outlines remain hidden.
+function earthSetSingleCountryOutline(feature){
+ if(!earthGlobe)return false;
+ if(!feature||!earthFeatureIsDrawable(feature)){
+  earthGlobe.polygonsData([]);
+  return false;
+ }
+ earthGlobe.polygonsData([feature]);
+ return true;
+}
+
+// Update the white outline after asynchronous boundary data becomes available.
+function earthRefreshSelectedCountryOutline(){
+ const country=earthPlanetLastCountry?earthResolveCountryStrict(earthPlanetLastCountry.name):null;
+ if(!country){earthSetSingleCountryOutline(earthSelectedFeature);return;}
+ const feature=earthResolveFeatureForCountry(country);
+ earthSelectedFeature=feature;
+ earthSetSingleCountryOutline(feature);
+}
+
+// Keep country selection and camera motion as one predictable operation.
+function earthSelectCountryDetailed(country){
+ if(!country)return false;
+ earthRememberSelectedCountry(country);
+ earthSelectedFeature=earthResolveFeatureForCountry(country)||earthFindBoundary(country);
+ earthSetSingleCountryOutline(earthSelectedFeature);
+ earthShowCountry(country);
+ earthResetFreeRotationForSearch();
+ if(earthGlobe){
+  const controls=earthGlobe.controls();
+  controls.autoRotate=false;
+  controls.enableRotate=false;
+  earthMoveCamera(earthCountryCamera(country),1450);
+ }
+ earthSpin=false;
+ earthUpdateSpinButton();
+ return true;
+}
+
+// Validate downloaded records and remove malformed or duplicate country entries.
+function earthValidateCountryRecords(records){
+ if(!Array.isArray(records))return [];
+ const seen=new Set();
+ return records.filter(country=>{
+  if(!country||typeof country.name!=='string'||!country.name.trim())return false;
+  const key=earthCountryKey(country.name);
+  if(!key||seen.has(key))return false;
+  seen.add(key);
+  if(!earthCountryHasCoordinates(country))return false;
+  country.population=Math.max(0,earthFinite(country.population,0));
+  country.area=Math.max(0,earthFinite(country.area,0));
+  country.region=String(country.region||'—');
+  country.subregion=String(country.subregion||'—');
+  return true;
+ }).sort((a,b)=>b.population-a.population);
+}
+
+// Update the status line without throwing when a panel element is unavailable.
+function earthSetStatus(message){
+ const status=document.getElementById('earth-search-status');
+ if(status)status.textContent=String(message||'');
+}
+
+// Display a country count and dataset readiness state for the observatory.
+function earthUpdateCountryReadiness(){
+ const count=earthCountriesData.length;
+ if(count>0)earthSetStatus(count+' country records ready · search by country name');
+ else earthSetStatus('Country records are not available yet.');
+}
+
+// Reapply the current query after either the country or boundary request completes.
+function earthReconcileCountryData(){
+ const input=document.getElementById('earth-country-input');
+ const query=String(input?.value||'').trim();
+ if(!query)return;
+ const country=earthResolveCountryStrict(query);
+ if(!country)return;
+ if(earthGeoFeatures.length){
+  earthSelectedFeature=earthResolveFeatureForCountry(country);
+  earthSetSingleCountryOutline(earthSelectedFeature);
+ }
+}
+
+// Convert a country record into a safe, display-ready data object.
+function earthCountryPresentation(country){
+ return {
+  name:earthSafeCountryValue(country?.name),
+  region:earthSafeCountryValue(country?.region),
+  subregion:earthSafeCountryValue(country?.subregion),
+  code:earthSafeCountryValue(country?.cca3),
+  population:earthFormatMetric(country?.population),
+  area:earthFormatMetric(country?.area,'km²'),
+  latitude:earthFinite(country?.lat),
+  longitude:earthFinite(country?.lng)
+ };
+}
+
+// Keep selected country metadata in sync with the data panel and outline layer.
+function earthCommitDetailedCountry(country){
+ if(!country)return false;
+ earthPlanetLastCountry=earthCountryPresentation(country);
+ earthPlanetSelectedCode=earthPlanetLastCountry.code;
+ earthShowCountry(country);
+ earthSelectedFeature=earthResolveFeatureForCountry(country)||earthFindBoundary(country);
+ earthSetSingleCountryOutline(earthSelectedFeature);
+ return true;
+}
+
+// Provide a compact health report for the 3D scene without logging user data.
+function earthRenderHealth(){
+ return {
+  renderer:!!earthGlobe?.renderer?.(),
+  root:!!earthPlanetRoot,
+  clouds:!!earthCloudShell,
+  atmosphere:!!earthAtmosphereShell,
+  cloudTexture:!!earthPlanetTextureState.clouds,
+  countryRecords:earthCountriesData.length,
+  boundaryFeatures:earthGeoFeatures.length,
+  quality:earthPlanetQuality,
+  selectedCode:earthPlanetSelectedCode,
+  fps:earthPlanetRenderStats.lastFps,
+  slowFrames:earthPlanetRenderStats.slowFrames,
+  lastError:earthPlanetLastError
+ };
+}
+
+// Restore all planet-only visual layers after returning from another app page.
+function earthRestoreDetailedScene(){
+ if(!earthGlobe)return false;
+ if(!earthPlanetRoot)earthPlanetRoot=earthFindPlanetRoot();
+ if(!earthPlanetRoot)return false;
+ earthRebuildPlanetLayers();
+ earthInstallFullRangeRotation();
+ earthInstallPlanetResizeObserver();
+ earthApplyQuality();
+ earthResumePlanetAnimation();
+ return true;
+}
+
+// Remove Earth-specific WebGL additions without touching the rest of the app.
+function earthDisposeDetailedScene(){
+ earthStopPlanetAnimation();
+ earthRemoveFullRangeRotation();
+ if(earthPlanetResizeObserver){earthPlanetResizeObserver.disconnect();earthPlanetResizeObserver=null;}
+ earthDisposeNode(earthCloudShell);
+ earthDisposeNode(earthAtmosphereShell);
+ earthCloudShell=null;earthAtmosphereShell=null;earthPlanetRoot=null;
+ earthCloudTexture=null;
+ earthPlanetTextureLoader=null;
+}
+
+// Ensure the detailed scene is installed only after Globe.GL creates its scene.
+function earthFinalizeDetailedScene(){
+ if(!earthGlobe)return false;
+ const installed=earthInstallFullRangeRotation();
+ earthInstallPlanetResizeObserver();
+ earthApplyQuality();
+ earthReconcileCountryData();
+ return installed;
+}
+
+// Add a keyboard path for zooming while keeping keyboard focus in the search box.
+function earthInstallDetailedKeyboard(){
+ if(document.documentElement.dataset.earthDetailedKeys==='ready')return;
+ document.documentElement.dataset.earthDetailedKeys='ready';
+ document.addEventListener('keydown',event=>{
+  const page=document.getElementById('earth-page');
+  if(!page||page.classList.contains('hidden'))return;
+  if(event.target&&['INPUT','TEXTAREA','SELECT','BUTTON'].includes(event.target.tagName))return;
+  if(event.key==='ArrowLeft'&&earthPlanetRoot)earthPlanetRoot.rotation.y-=.08;
+  if(event.key==='ArrowRight'&&earthPlanetRoot)earthPlanetRoot.rotation.y+=.08;
+  if(event.key==='ArrowUp'&&earthPlanetRoot)earthPlanetRoot.rotation.x-=.08;
+  if(event.key==='ArrowDown'&&earthPlanetRoot)earthPlanetRoot.rotation.x+=.08;
+  if(event.key==='Home')earthReset();
+ });
+}
+
+// Improve the existing panel preparation with the detailed planet controller.
+function earthPrepareDetailedPanel(){
+ earthInstallDetailedKeyboard();
+ earthInstallPlanetResizeObserver();
+ if(earthGlobe)earthFinalizeDetailedScene();
+}
+
+// Reapply scene quality after a device orientation change.
+function earthOnDetailedOrientationChange(){
+ earthPlanetQuality=earthChooseQuality();
+ earthApplyQuality();
+ earthSchedulePlanetResize();
+}
+
+// Install the orientation listener once for the Earth page only.
+function earthInstallDetailedOrientation(){
+ if(window.__earthDetailedOrientationInstalled)return;
+ window.__earthDetailedOrientationInstalled=true;
+ window.addEventListener('orientationchange',earthOnDetailedOrientationChange,{passive:true});
+ window.addEventListener('resize',earthOnDetailedOrientationChange,{passive:true});
+}
+
+// Keep the country search and outline aligned after a fresh data response.
+function earthOnCountryDataReady(){
+ earthCountriesData=earthValidateCountryRecords(earthCountriesData);
+ earthUpdateCountryReadiness();
+ earthReconcileCountryData();
+}
+
+// Keep the outline aligned after a boundary response without selecting every country.
+function earthOnBoundaryDataReady(){
+ earthGeoFeatures=earthGeoFeatures.filter(earthFeatureIsDrawable);
+ earthRefreshSelectedCountryOutline();
+ earthReconcileCountryData();
+}
+
+// Update the selected-country record after the user chooses a suggestion.
+function earthRememberCountryChoice(index){
+ const country=earthCountriesData[Number(index)];
+ if(!country)return false;
+ earthPlanetLastCountry=earthCountryPresentation(country);
+ earthPlanetSelectedCode=earthPlanetLastCountry.code;
+ return true;
+}
+
+// Keep the country suggestion interface limited to common and official names.
+function earthCountrySearchNamesOnly(country){
+ return [country?.name,country?.official,...(country?.aliases||[])].filter(value=>typeof value==='string'&&value.trim());
+}
+
+// Return a robust ISO identifier from the fields present in a GeoJSON record.
+function earthFeatureIsoCode(feature){
+ const properties=feature?.properties||{};
+ const candidates=[properties.ISO_A3,properties.ISO_A3_EH,properties.ADM0_A3,properties.iso_a3,properties.ISO3,properties.iso3,properties.SOV_A3];
+ return String(candidates.find(value=>value&&value!=='-99')||'').toUpperCase();
+}
+
+// Find a country record from a clicked GeoJSON feature using codes first.
+function earthCountryFromFeature(feature){
+ const code=earthFeatureIsoCode(feature);
+ if(code){
+  const match=earthCountriesData.find(country=>String(country.cca3||'').toUpperCase()===code);
+  if(match)return match;
+ }
+ const name=earthFeatureName(feature);
+ return earthResolveCountryStrict(name);
+}
+
+// Make boundary selection data-safe when a provider uses alternate property keys.
+function earthNormalizeFeatureProperties(feature){
+ const properties=feature?.properties||{};
+ return {
+  name:properties.ADMIN||properties.NAME_EN||properties.NAME||properties.name||properties.name_en||'Unknown country',
+  iso3:earthFeatureIsoCode(feature),
+  feature
+ };
+}
+
+// Clear stale selection metadata after the user resets the globe.
+function earthClearDetailedSelection(){
+ earthPlanetSelectedCode='';
+ earthPlanetLastCountry=null;
+ earthSelectedFeature=null;
+ earthSetSingleCountryOutline(null);
+}
+
+// Return the globe to its default geographic framing and free-rotation state.
+function earthResetDetailedView(){
+ earthClearDetailedSelection();
+ earthResetFreeRotationForSearch();
+ if(earthGlobe){
+  earthGlobe.controls().autoRotate=false;
+  earthGlobe.controls().enableRotate=false;
+  earthMoveCamera({lat:22,lng:65,altitude:EARTH_RENDER_PROFILE.defaultAltitude},650);
+ }
+ earthSpin=true;
+ earthUpdateSpinButton();
+}
+
+// Keep the existing zoom buttons consistent with the camera limits.
+function earthDetailedZoom(factor){
+ const multiplier=earthLimit(factor,.5,2,1);
+ if(!earthGlobe)return earthZoomByFactor(multiplier);
+ const current=earthGlobe.pointOfView();
+ const altitude=earthLimit(current.altitude/multiplier,EARTH_RENDER_PROFILE.minimumAltitude,EARTH_RENDER_PROFILE.maximumAltitude,EARTH_RENDER_PROFILE.defaultAltitude);
+ earthMoveCamera({...current,altitude},380);
+}
+
+// Keep the spin button meaningful when free rotation replaces OrbitControls spin.
+function earthSetDetailedSpin(enabled){
+ earthSpin=!!enabled;
+ if(earthGlobe){
+  const controls=earthGlobe.controls();
+  controls.autoRotate=false;
+  controls.enableRotate=false;
+ }
+ earthUpdateSpinButton();
+}
+
+// Keep the country detail view stable while cloud and atmosphere layers animate.
+function earthCountryFocusState(){
+ return {
+  selected:earthPlanetLastCountry?earthPlanetLastCountry.name:'',
+  iso3:earthPlanetSelectedCode,
+  boundary:!!earthSelectedFeature,
+  globeReady:!!earthPlanetRoot,
+  camera:earthGlobe?earthGlobe.pointOfView():null
+ };
+}
+
+// Ensure the panel does not accumulate duplicate pointer handlers after re-entry.
+function earthReinstallPlanetController(){
+ if(!earthGlobe)return false;
+ earthRemoveFullRangeRotation();
+ return earthInstallFullRangeRotation();
+}
+
+// Apply a low-cost rendering mode when the page is backgrounded on a mobile device.
+function earthHandleDetailedVisibility(){
+ if(document.hidden){earthStopPlanetAnimation();return;}
+ earthResumePlanetAnimation();
+ earthSchedulePlanetResize();
+}
+
+// Register visibility handling once without changing global app navigation.
+function earthInstallDetailedVisibility(){
+ if(document.documentElement.dataset.earthDetailedVisibility==='ready')return;
+ document.documentElement.dataset.earthDetailedVisibility='ready';
+ document.addEventListener('visibilitychange',earthHandleDetailedVisibility);
+}
+// Summarize the loaded texture state for the observatory's internal diagnostics.
+function earthTextureReadiness(){
+ return {
+  earth:!!earthPlanetTextureState.earth,
+  clouds:!!earthPlanetTextureState.clouds,
+  sun:!!earthPlanetTextureState.sun,
+  moon:!!earthPlanetTextureState.moon,
+  atmosphere:!!earthAtmosphereShell
+ };
+}
+
+// Mark the base globe as ready once its renderer and root object are available.
+function earthMarkBaseTextureReady(){
+ if(!earthGlobe)return false;
+ const material=earthGlobe.globeMaterial?.();
+ if(material&&material.map){earthPlanetTextureState.earth=true;return true;}
+ return false;
+}
+
+// Re-check the globe scene briefly after initialization in case the mesh is async.
+function earthWaitForPlanetRoot(attempt=0){
+ if(earthPlanetRoot||!earthGlobe)return;
+ earthPlanetRoot=earthFindPlanetRoot();
+ if(earthPlanetRoot){earthFinalizeDetailedScene();return;}
+ if(attempt<24)setTimeout(()=>earthWaitForPlanetRoot(attempt+1),180);
+ else earthPlanetLastError='Earth mesh root was not found; standard globe controls remain available.';
+}
+
+// A single post-initialization hook for the existing Earth setup.
+function earthInstallHighDetailPipeline(){
+ if(!earthGlobe)return;
+ earthMarkBaseTextureReady();
+ earthInstallDetailedOrientation();
+ earthInstallDetailedVisibility();
+ earthPrepareDetailedPanel();
+ earthWaitForPlanetRoot(0);
+}
+
+// -----------------------------------------------------------------------------
+// END HIGH DETAIL PLANETARY RENDERING AND INTERACTION SUBSYSTEM
 // -----------------------------------------------------------------------------
 
 // ================= END LIVE EARTH =================
