@@ -296,74 +296,539 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
 
 
 /* LIVE EARTH — compact single-screen observatory */
-#earth-page{display:flex;flex-direction:column;gap:8px}
-#earth-page .page-head{margin:1px 0 2px;gap:9px}
-#earth-page .page-head h2{font-size:18px;margin:0}
-#earth-page .back{padding:7px 10px;font-size:11px}
-.earth-hero{position:relative;background-color:#000!important;background-image:radial-gradient(1px 1px at 7% 13%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 18% 72%,#9bdcffcc 98%,transparent),radial-gradient(1.5px 1.5px at 31% 28%,#ffffffcc 98%,transparent),radial-gradient(1px 1px at 43% 83%,#ffffffaa 98%,transparent),radial-gradient(1px 1px at 58% 17%,#c8eaffdd 98%,transparent),radial-gradient(1px 1px at 72% 64%,#ffffffcc 98%,transparent),radial-gradient(1.5px 1.5px at 88% 31%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 94% 82%,#9bdcffcc 98%,transparent),radial-gradient(ellipse at 50% 45%,#101a32 0%,#03050d 48%,#000 78%);background-size:100% 100%;border:1px solid #55d9dc66;border-radius:20px;padding:8px;overflow:hidden;box-shadow:0 20px 46px #00121caa,inset 0 2px 0 #ffffff24,inset 0 -12px 24px #00000030;transform:perspective(1100px) translateZ(0)}
-.earth-kicker{font-size:9px;letter-spacing:1.5px;color:#71e7dc;font-weight:800}
-.earth-hero h2{font-size:17px!important;margin:5px 0 1px!important}
-.earth-hero>p{font-size:9px!important;margin:0!important;line-height:1.3!important}
-.earth-layout{display:block;position:relative}
-.earth-orbit{position:relative;width:100%;height:224px;overflow:hidden;background-color:#000;background-image:radial-gradient(1px 1px at 8% 18%,#fff 98%,transparent),radial-gradient(1px 1px at 23% 75%,#9bdcff 98%,transparent),radial-gradient(1.5px 1.5px at 43% 12%,#fff 98%,transparent),radial-gradient(1px 1px at 66% 84%,#fff 98%,transparent),radial-gradient(1px 1px at 91% 34%,#d9efff 98%,transparent),radial-gradient(ellipse at 50% 50%,#071326 0%,#01030a 68%,#000 100%)}
-#earth-globe{width:100%;height:224px;min-width:0;touch-action:none;cursor:grab;position:relative;z-index:1}
-#earth-globe:active{cursor:grabbing}
-.earth-sun{position:absolute;z-index:3;left:9px;top:13px;width:56px;height:56px;border-radius:50%;pointer-events:none;background-color:#ff9d35;background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);background-size:cover;background-position:center;background-blend-mode:normal;box-shadow:0 0 16px 7px #ffcf6bba,0 0 38px 20px #ff8b2e88,0 0 76px 34px #ff5b1d55,inset -9px -7px 15px #7b170b88;animation:earthSunTurn 42s linear infinite}
-.earth-sun:after{content:"";position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,#ffb34b22 42%,#ff8a2b18 60%,transparent 72%);filter:blur(3px)}
-@keyframes earthSunTurn{to{transform:rotate(360deg)}}
+#earth-page{
+display:flex;
+flex-direction:column;
+gap:8px
+}
+
+#earth-page .page-head{
+margin:1px 0 2px;
+gap:9px
+}
+
+#earth-page .page-head h2{
+font-size:18px;
+margin:0
+}
+
+#earth-page .back{
+padding:7px 10px;
+font-size:11px
+}
+
+.earth-hero{
+position:relative;
+background-color:#000!important;
+background-image:radial-gradient(1px 1px at 7% 13%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 18% 72%,#9bdcffcc 98%,transparent),radial-gradient(1.5px 1.5px at 31% 28%,#ffffffcc 98%,transparent),radial-gradient(1px 1px at 43% 83%,#ffffffaa 98%,transparent),radial-gradient(1px 1px at 58% 17%,#c8eaffdd 98%,transparent),radial-gradient(1px 1px at 72% 64%,#ffffffcc 98%,transparent),radial-gradient(1.5px 1.5px at 88% 31%,#ffffffdd 98%,transparent),radial-gradient(1px 1px at 94% 82%,#9bdcffcc 98%,transparent),radial-gradient(ellipse at 50% 45%,#101a32 0%,#03050d 48%,#000 78%);
+background-size:100% 100%;
+border:1px solid #55d9dc66;
+border-radius:20px;
+padding:8px;
+overflow:hidden;
+box-shadow:0 20px 46px #00121caa,inset 0 2px 0 #ffffff24,inset 0 -12px 24px #00000030;
+transform:perspective(1100px) translateZ(0)
+}
+
+.earth-kicker{
+font-size:9px;
+letter-spacing:1.5px;
+color:#71e7dc;
+font-weight:800
+}
+
+.earth-hero h2{
+font-size:17px!important;
+margin:5px 0 1px!important
+}
+
+.earth-hero>p{
+font-size:9px!important;
+margin:0!important;
+line-height:1.3!important
+}
+
+.earth-layout{
+display:block;
+position:relative
+}
+
+.earth-celestial-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+padding:9px 12px;
+margin-top:7px;
+border:1px solid #ffffff18;
+border-radius:13px;
+background:linear-gradient(110deg,#111827,#0b1520 55%,#171521);
+
+}
+
+.earth-celestial-item{
+display:flex;
+align-items:center;
+gap:9px;
+min-width:0;
+color:#e8f5ff;
+font-size:9px;
+font-weight:800;
+letter-spacing:.5px
+}
+
+.earth-celestial-item small{
+display:block;
+color:#a6b8c9;
+font-size:7px;
+font-weight:500;
+letter-spacing:.2px;
+margin-top:3px
+}
+
+.earth-sun,.earth-moon{
+position:relative;
+inset:auto;
+flex:0 0 auto
+}
+
+.earth-sun{
+width:42px;
+height:42px
+}
+
+.earth-moon{
+width:34px;
+height:34px
+}
+
+.earth-orbit{
+position:relative;
+width:100%;
+height:224px;
+overflow:hidden;
+background-color:#000;
+background-image:radial-gradient(1px 1px at 8% 18%,#fff 98%,transparent),radial-gradient(1px 1px at 23% 75%,#9bdcff 98%,transparent),radial-gradient(1.5px 1.5px at 43% 12%,#fff 98%,transparent),radial-gradient(1px 1px at 66% 84%,#fff 98%,transparent),radial-gradient(1px 1px at 91% 34%,#d9efff 98%,transparent),radial-gradient(ellipse at 50% 50%,#071326 0%,#01030a 68%,#000 100%)
+}
+
+#earth-globe{
+width:100%;
+height:224px;
+min-width:0;
+touch-action:none;
+cursor:grab;
+position:relative;
+z-index:1
+}
+
+#earth-globe:active{
+cursor:grabbing
+}
+
+.earth-sun{
+position:absolute;
+z-index:3;
+left:9px;
+top:13px;
+width:56px;
+height:56px;
+border-radius:50%;
+pointer-events:none;
+background-color:#ff9d35;
+background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);
+background-size:cover;
+background-position:center;
+background-blend-mode:normal;
+box-shadow:0 0 16px 7px #ffcf6bba,0 0 38px 20px #ff8b2e88,0 0 76px 34px #ff5b1d55,inset -9px -7px 15px #7b170b88;
+animation:earthSunTurn 42s linear infinite
+}
+
+.earth-sun:after{
+content:"";
+position:absolute;
+inset:-8px;
+border-radius:50%;
+background:radial-gradient(circle,#ffb34b22 42%,#ff8a2b18 60%,transparent 72%);
+filter:blur(3px)
+}
+
+@keyframes earthSunTurn{
+to{
+transform:rotate(360deg)
+}
+
+}
+
 /* Realistic light direction, lunar surface and solar corona for the Earth observatory. */
-.earth-orbit{isolation:isolate}
-#earth-globe{touch-action:none;user-select:none;-webkit-user-select:none}
-#earth-globe canvas{touch-action:none;outline:none}
-#earth-globe:after{content:"";position:absolute;z-index:2;pointer-events:none;width:min(66vw,190px);height:min(66vw,190px);max-height:190px;max-width:190px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:linear-gradient(112deg,rgba(255,245,205,.035) 0%,rgba(255,255,255,0) 34%,rgba(0,5,18,.10) 58%,rgba(0,3,16,.54) 100%);box-shadow:inset -13px -2px 24px rgba(0,0,0,.22);}
-.earth-sun{background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);background-size:cover;background-position:center;box-shadow:0 0 18px 8px #ffcf6bba,0 0 44px 22px #ff8b2e88,0 0 90px 40px #ff5b1d55,inset -9px -7px 15px #7b170b88;}
-.earth-sun:before{content:"";position:absolute;inset:-16px;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 8%,#ffb33b55 10%,transparent 13% 27%,#ffd06a55 30%,transparent 34% 61%,#ff8b2b66 64%,transparent 68% 100%);filter:blur(5px);animation:earthSunTurn 24s linear infinite;}
-.earth-moon{position:absolute;z-index:3;right:14px;bottom:13px;width:39px;height:39px;border-radius:50%;pointer-events:none;background-color:#aab4c4;background-image:url('https://www.solarsystemscope.com/textures/download/2k_moon.jpg'),radial-gradient(circle at 30% 28%,#f2f4f7,#8c98aa 68%,#303b4c);background-size:cover;background-position:center;box-shadow:0 0 13px 4px #b7d5ff44,inset -8px -5px 12px #111b30aa;animation:earthMoonDrift 9s ease-in-out infinite;}
-.earth-moon:after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 27% 30%,transparent 0 12%,#34405433 13% 17%,transparent 18%),radial-gradient(circle at 65% 58%,transparent 0 9%,#26324755 10% 15%,transparent 16%),radial-gradient(circle at 42% 76%,transparent 0 7%,#26324755 8% 12%,transparent 13%),linear-gradient(110deg,#ffffff16 0%,transparent 40%,#07102099 100%);}
-@keyframes earthMoonDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.earth-stats-overlay{display:none!important}.earth-stats-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:5px;}
-.earth-stats-row .earth-stat{min-width:0;text-align:center;padding:5px 3px;background:linear-gradient(145deg,#102f3bdc,#071721df);border:1px solid #8ce8e477;border-radius:9px;padding:5px 6px;min-width:0;box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;backdrop-filter:blur(5px)}
-.earth-stat b{display:block;color:#e8ffff;font-size:12px;line-height:1.15;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
-.earth-stat small{display:block;color:#91cbd0;font-size:7px;letter-spacing:.45px;margin-top:3px}
-.earth-live-dot{display:inline-block;width:6px;height:6px;background:#55f0a2;border-radius:50%;box-shadow:0 0 9px #55f0a2;margin-right:5px;animation:earthPulse 1.5s infinite}
-@keyframes earthPulse{50%{opacity:.35;box-shadow:0 0 2px #55f0a2}}
-.earth-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:5px}
-.earth-btn{min-width:0;border:1px solid #69ded866;background:linear-gradient(135deg,#10303a,#174753);color:#dffefa;border-radius:9px;padding:7px 2px;font-weight:800;font-size:9px;white-space:nowrap}
-.earth-btn:nth-child(1){background:linear-gradient(135deg,#145c62,#168c86);border-color:#6ef5db}
-.earth-btn:nth-child(2){background:linear-gradient(135deg,#244b78,#386bb0);border-color:#8abaff}
-.earth-btn:nth-child(3){background:linear-gradient(135deg,#684a24,#a66b2c);border-color:#ffd477}
-.earth-btn:nth-child(4){background:linear-gradient(135deg,#4d3475,#8054ad);border-color:#c8a6ff}
-.earth-info{background:linear-gradient(145deg,#0b202b,#102d38);border:1px solid #64d8d544;border-radius:15px;padding:9px;margin-top:0;box-shadow:0 9px 22px #00121c55,inset 0 1px 0 #ffffff14}
-.earth-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px}
-.earth-info-cell{background:#ffffff0a;padding:6px;border-radius:8px;min-width:0}
-.earth-info-cell small{display:block;color:#9ac1c6;font-size:8px}.earth-info-cell b{font-size:10px;color:#e8ffff;overflow-wrap:anywhere}
-.earth-note{font-size:7px;color:#9bbbc1;line-height:1.2;margin:3px 2px 0}
-.earth-search{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:5px;margin:6px 0 0}
-.earth-search input{width:100%;min-width:0;background:#071a25;color:#eaffff;border:1px solid #67d8d866;border-radius:9px;padding:8px;font-size:10px;outline:none}
-.earth-search input:focus{border-color:#71f3dc;box-shadow:0 0 0 2px #71f3dc22}
-.earth-search button{background:linear-gradient(135deg,#14515b,#167e7c);color:#eaffff;border:1px solid #69ded866;border-radius:9px;padding:0 7px;font-weight:800;font-size:9px}
-.earth-suggest{display:none;max-height:92px;overflow:auto;background:#0b202b;border:1px solid #64d8d555;border-radius:9px;margin-top:4px}
-.earth-suggest button{display:block;width:100%;text-align:left;padding:7px 9px;background:transparent;color:#eaffff;border:0;border-bottom:1px solid #ffffff12;font-size:10px}
-.earth-suggest button:last-child{border:0}
-.earth-status{font-size:8px;color:#a8d2d5;min-height:10px;margin:3px 2px}
-#earth-country-name{font-size:13px;margin:4px 0 2px!important;color:#f0ffff}
-#earth-country-desc{font-size:9px!important;line-height:1.25!important;margin:0!important}
+.earth-orbit{
+isolation:isolate
+}
+
+#earth-globe{
+touch-action:none;
+user-select:none;
+-webkit-user-select:none
+}
+
+#earth-globe canvas{
+touch-action:none;
+outline:none
+}
+
+#earth-globe:after{
+content:"";
+position:absolute;
+z-index:2;
+pointer-events:none;
+width:min(66vw,190px);
+height:min(66vw,190px);
+max-height:190px;
+max-width:190px;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+border-radius:50%;
+background:linear-gradient(112deg,rgba(255,245,205,.035) 0%,rgba(255,255,255,0) 34%,rgba(0,5,18,.10) 58%,rgba(0,3,16,.54) 100%);
+box-shadow:inset -13px -2px 24px rgba(0,0,0,.22);
+
+}
+
+.earth-sun{
+background-image:url('https://www.solarsystemscope.com/textures/download/2k_sun.jpg'),radial-gradient(circle at 32% 27%,#fffbd0 0 2%,#ffe18a 15%,#ff9a32 52%,#9f2515 100%);
+background-size:cover;
+background-position:center;
+box-shadow:0 0 18px 8px #ffcf6bba,0 0 44px 22px #ff8b2e88,0 0 90px 40px #ff5b1d55,inset -9px -7px 15px #7b170b88;
+
+}
+
+.earth-sun:before{
+content:"";
+position:absolute;
+inset:-16px;
+border-radius:50%;
+background:conic-gradient(from 20deg,transparent 0 8%,#ffb33b55 10%,transparent 13% 27%,#ffd06a55 30%,transparent 34% 61%,#ff8b2b66 64%,transparent 68% 100%);
+filter:blur(5px);
+animation:earthSunTurn 24s linear infinite;
+
+}
+
+.earth-moon{
+position:absolute;
+z-index:3;
+right:14px;
+bottom:13px;
+width:39px;
+height:39px;
+border-radius:50%;
+pointer-events:none;
+background-color:#aab4c4;
+background-image:url('https://www.solarsystemscope.com/textures/download/2k_moon.jpg'),radial-gradient(circle at 30% 28%,#f2f4f7,#8c98aa 68%,#303b4c);
+background-size:cover;
+background-position:center;
+box-shadow:0 0 13px 4px #b7d5ff44,inset -8px -5px 12px #111b30aa;
+animation:earthMoonDrift 9s ease-in-out infinite;
+
+}
+
+.earth-moon:after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:50%;
+background:radial-gradient(circle at 27% 30%,transparent 0 12%,#34405433 13% 17%,transparent 18%),radial-gradient(circle at 65% 58%,transparent 0 9%,#26324755 10% 15%,transparent 16%),radial-gradient(circle at 42% 76%,transparent 0 7%,#26324755 8% 12%,transparent 13%),linear-gradient(110deg,#ffffff16 0%,transparent 40%,#07102099 100%);
+
+}
+
+@keyframes earthMoonDrift{
+0%,100%{
+transform:translateY(0)
+}
+50%{
+transform:translateY(-4px)
+}
+
+}
+
+.earth-stats-overlay{
+display:none!important
+}
+.earth-stats-row{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+gap:5px;
+margin-top:5px;
+
+}
+
+.earth-stats-row .earth-stat{
+min-width:0;
+text-align:center;
+padding:5px 3px;
+background:linear-gradient(145deg,#102f3bdc,#071721df);
+border:1px solid #8ce8e477;
+border-radius:9px;
+padding:5px 6px;
+min-width:0;
+box-shadow:0 4px 12px #0008,inset 0 1px 0 #ffffff22;
+backdrop-filter:blur(5px)
+}
+
+.earth-stat b{
+display:block;
+color:#e8ffff;
+font-size:12px;
+line-height:1.15;
+overflow-wrap:anywhere;
+font-variant-numeric:tabular-nums
+}
+
+.earth-stat small{
+display:block;
+color:#91cbd0;
+font-size:7px;
+letter-spacing:.45px;
+margin-top:3px
+}
+
+.earth-live-dot{
+display:inline-block;
+width:6px;
+height:6px;
+background:#55f0a2;
+border-radius:50%;
+box-shadow:0 0 9px #55f0a2;
+margin-right:5px;
+animation:earthPulse 1.5s infinite
+}
+
+@keyframes earthPulse{
+50%{
+opacity:.35;
+box-shadow:0 0 2px #55f0a2
+}
+
+}
+
+.earth-tools{
+display:grid;
+grid-template-columns:repeat(4,minmax(0,1fr));
+gap:5px;
+margin-top:5px
+}
+
+.earth-btn{
+min-width:0;
+border:1px solid #69ded866;
+background:linear-gradient(135deg,#10303a,#174753);
+color:#dffefa;
+border-radius:9px;
+padding:7px 2px;
+font-weight:800;
+font-size:9px;
+white-space:nowrap
+}
+
+.earth-btn:nth-child(1){
+background:linear-gradient(135deg,#145c62,#168c86);
+border-color:#6ef5db
+}
+
+.earth-btn:nth-child(2){
+background:linear-gradient(135deg,#244b78,#386bb0);
+border-color:#8abaff
+}
+
+.earth-btn:nth-child(3){
+background:linear-gradient(135deg,#684a24,#a66b2c);
+border-color:#ffd477
+}
+
+.earth-btn:nth-child(4){
+background:linear-gradient(135deg,#4d3475,#8054ad);
+border-color:#c8a6ff
+}
+
+.earth-info{
+background:linear-gradient(145deg,#0b202b,#102d38);
+border:1px solid #64d8d544;
+border-radius:15px;
+padding:9px;
+margin-top:0;
+box-shadow:0 9px 22px #00121c55,inset 0 1px 0 #ffffff14
+}
+
+.earth-info-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:4px;
+margin-top:4px
+}
+
+.earth-info-cell{
+background:#ffffff0a;
+padding:6px;
+border-radius:8px;
+min-width:0
+}
+
+.earth-info-cell small{
+display:block;
+color:#9ac1c6;
+font-size:8px
+}
+.earth-info-cell b{
+font-size:10px;
+color:#e8ffff;
+overflow-wrap:anywhere
+}
+
+.earth-note{
+font-size:7px;
+color:#9bbbc1;
+line-height:1.2;
+margin:3px 2px 0
+}
+
+.earth-search{
+display:grid;
+grid-template-columns:minmax(0,1fr) 62px;
+gap:5px;
+margin:6px 0 0
+}
+
+.earth-search input{
+width:100%;
+min-width:0;
+background:#071a25;
+color:#eaffff;
+border:1px solid #67d8d866;
+border-radius:9px;
+padding:8px;
+font-size:10px;
+outline:none
+}
+
+.earth-search input:focus{
+border-color:#71f3dc;
+box-shadow:0 0 0 2px #71f3dc22
+}
+
+.earth-search button{
+background:linear-gradient(135deg,#14515b,#167e7c);
+color:#eaffff;
+border:1px solid #69ded866;
+border-radius:9px;
+padding:0 7px;
+font-weight:800;
+font-size:9px
+}
+
+.earth-suggest{
+display:none;
+max-height:92px;
+overflow:auto;
+background:#0b202b;
+border:1px solid #64d8d555;
+border-radius:9px;
+margin-top:4px
+}
+
+.earth-suggest button{
+display:block;
+width:100%;
+text-align:left;
+padding:7px 9px;
+background:transparent;
+color:#eaffff;
+border:0;
+border-bottom:1px solid #ffffff12;
+font-size:10px
+}
+
+.earth-suggest button:last-child{
+border:0
+}
+
+.earth-status{
+font-size:8px;
+color:#a8d2d5;
+min-height:10px;
+margin:3px 2px
+}
+
+#earth-country-name{
+font-size:13px;
+margin:4px 0 2px!important;
+color:#f0ffff
+}
+
+#earth-country-desc{
+font-size:9px!important;
+line-height:1.25!important;
+margin:0!important
+}
+
 @media(max-width:370px){
- #earth-globe,.earth-orbit{height:216px}
- .earth-stats-overlay{width:82px;right:2px}
- .earth-stat{padding:4px 5px}
- .earth-stat b{font-size:11px}
- .earth-sun{width:40px;height:40px;left:7px;top:14px}
- .earth-btn{font-size:8px;padding:7px 1px}
+
+ #earth-globe,.earth-orbit{
+height:216px
 }
+
+ .earth-stats-overlay{
+width:82px;
+right:2px
+}
+
+ .earth-stat{
+padding:4px 5px
+}
+
+ .earth-stat b{
+font-size:11px
+}
+
+ .earth-sun{
+width:40px;
+height:40px;
+left:7px;
+top:14px
+}
+
+ .earth-btn{
+font-size:8px;
+padding:7px 1px
+}
+
+}
+
 @media(max-height:760px){
- #earth-globe,.earth-orbit{height:202px}
- #earth-page{gap:6px}
- .earth-hero{padding:8px}
- .earth-info{padding:7px}
- .earth-info-grid{gap:4px}
- .earth-info-cell{padding:5px}
+
+ #earth-globe,.earth-orbit{
+height:202px
 }
+
+ #earth-page{
+gap:6px
+}
+
+ .earth-hero{
+padding:8px
+}
+
+ .earth-info{
+padding:7px
+}
+
+ .earth-info-grid{
+gap:4px
+}
+
+ .earth-info-cell{
+padding:5px
+}
+
+}
+
 /* FINAL COMPACT GAME LAYOUT — controls remain visible; page scrolling stays enabled. */
 #flappy-page .page-head,#snake-page .page-head,#car-page .page-head,#breakout-page .page-head{margin:2px 0 7px;gap:8px}
 #flappy-page .card,#snake-page .card,#car-page .card{padding:8px;margin:0}
@@ -409,7 +874,6 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
  #breakout-page canvas{height:225px}
  #snake-canvas{width:min(220px,31vh)}
 }
-
 /* EARTH 4D — natural atmosphere, larger solar system objects, no artificial blue rim. */
 .earth-orbit{height:300px;min-height:300px;overflow:hidden;background-color:#02050b}
 #earth-globe{height:300px;min-height:300px;touch-action:none;overscroll-behavior:contain}
@@ -497,6 +961,7 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
      <span style="margin-left:auto;font-size:23px">›</span>
     </button>
    </div>
+
    <div class="home-shortcuts">
     <button class="home-shortcut" onclick="openPage('settings-page')"><span class="emoji">⚙️</span><b>SETTINGS</b></button>
     <button class="home-shortcut" onclick="openPage('about-page')"><span class="emoji">✨</span><b>ABOUT</b></button>
@@ -524,9 +989,11 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
     <p>Drag in any direction to explore the whole planet · Pinch to zoom</p>
     <div class="earth-layout"><div class="earth-orbit">
      <div id="earth-globe" aria-label="Interactive 3D Earth globe"></div>
-     <div class="earth-sun" aria-label="Detailed animated Sun"></div>
-     <div class="earth-moon" aria-label="Textured Moon with craters"></div>
      </div></div>
+    <div class="earth-celestial-row" aria-label="Sun and Moon reference display">
+     <div class="earth-celestial-item"><div class="earth-sun" aria-hidden="true"></div><span>SUN<small>Solar surface · animated texture</small></span></div>
+     <div class="earth-celestial-item"><div class="earth-moon" aria-hidden="true"></div><span>MOON<small>Lunar surface · crater detail</small></span></div>
+    </div>
     <div class="earth-tools"><button class="earth-btn" onclick="earthZoom(1.35)">＋ ZOOM IN</button><button class="earth-btn" onclick="earthZoom(.74)">－ ZOOM OUT</button><button class="earth-btn" id="earth-spin" onclick="earthToggleSpin()">Ⅱ STOP ROTATION</button></div>
     <div class="earth-stats-row">
      <div class="earth-stat"><b id="earth-pop">8.2B</b><small>POPULATION</small></div>
@@ -681,9 +1148,10 @@ button:active{transform:translateY(2px);filter:brightness(.97);box-shadow:inset 
      <button onclick="moveCar(1)">RIGHT ➡</button>
     </div>
     <button class="primary" style="margin-top:12px" onclick="startCarGame()">PLAY / RESTART</button>
-    <p id="car-message" class="small-note">Use swipe, arrow keys or A/D to drive.</p>
+        <p id="car-message" class="small-note">Use swipe, arrow keys or A/D to drive.</p>
    </div>
   </section>
+
   <section id="settings-page" class="hidden">
    <div class="page-head"><button class="back" onclick="goHome()">‹ Back</button><h2>Settings</h2></div>
    <div class="card">
@@ -998,6 +1466,7 @@ function unlockApp() {
 }
 
 // CALCULATOR
+
 function calcUpdate() {
   $("calc-display").textContent = calcExpression || "0";
 }
@@ -1423,6 +1892,7 @@ function drawFlappy() {
 
     fx.restore();
   }
+
   flappyPipes.forEach(p => {
     const pipeGradient = fx.createLinearGradient(p.x, 0, p.x + 48, 0);
     pipeGradient.addColorStop(0, "#075343");
@@ -2048,6 +2518,7 @@ function endCarGame() {
 
   drawCar();
 }
+
 cc.addEventListener("pointerdown", e => {
   carTouchStart = {x:e.clientX,y:e.clientY};
 }, {passive:true});
@@ -2159,34 +2630,81 @@ const earthFallback=[
 const earthNum=n=>Number(n||0).toLocaleString('en-US');
 let earthFallbackFrame=null,earthFallbackCanvas=null,earthFallbackCtx=null,earthFallbackTexture=null,earthFallbackAngle=0,earthFallbackTilt=0,earthFallbackZoom=1,earthFallbackDrag=null;
 function earthFallbackDraw(){
- const canvas=earthFallbackCanvas,ctx=earthFallbackCtx;if(!canvas||!ctx)return;
+ const canvas=earthFallbackCanvas,ctx=earthFallbackCtx;
+if(!canvas||!ctx)return;
  const w=canvas.clientWidth||canvas.width,h=canvas.clientHeight||canvas.height,d=Math.min(w*.68,h*.92),cx=w*.49,cy=h*.52,r=d/2;
  ctx.clearRect(0,0,w,h);
- ctx.save();ctx.shadowColor='rgba(0,0,0,0)';ctx.shadowBlur=0;
- const halo=ctx.createRadialGradient(cx,cy,r*.72,cx,cy,r*1.2);halo.addColorStop(0,'#5edfff18');halo.addColorStop(1,'#5edfff00');ctx.fillStyle=halo;ctx.beginPath();ctx.arc(cx,cy,r*1.22,0,Math.PI*2);ctx.fill();ctx.restore();
- ctx.save();ctx.translate(cx,cy);ctx.rotate(earthFallbackTilt);ctx.translate(-cx,-cy);ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.clip();
- const shade=ctx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);shade.addColorStop(0,'#d8f7ff');shade.addColorStop(.16,'#397f9d');shade.addColorStop(.52,'#092d50');shade.addColorStop(1,'#020a20');ctx.fillStyle=shade;ctx.fillRect(cx-r,cy-r,d,d);
+ ctx.save();
+ctx.shadowColor='rgba(0,0,0,0)';
+ctx.shadowBlur=0;
+ const halo=ctx.createRadialGradient(cx,cy,r*.72,cx,cy,r*1.2);
+halo.addColorStop(0,'#5edfff18');
+halo.addColorStop(1,'#5edfff00');
+ctx.fillStyle=halo;
+ctx.beginPath();
+ctx.arc(cx,cy,r*1.22,0,Math.PI*2);
+ctx.fill();
+ctx.restore();
+ ctx.save();
+ctx.translate(cx,cy);
+ctx.rotate(earthFallbackTilt);
+ctx.translate(-cx,-cy);
+ctx.beginPath();
+ctx.arc(cx,cy,r,0,Math.PI*2);
+ctx.clip();
+ const shade=ctx.createLinearGradient(cx-r,cy-r,cx+r,cy+r);
+shade.addColorStop(0,'#d8f7ff');
+shade.addColorStop(.16,'#397f9d');
+shade.addColorStop(.52,'#092d50');
+shade.addColorStop(1,'#020a20');
+ctx.fillStyle=shade;
+ctx.fillRect(cx-r,cy-r,d,d);
  if(earthFallbackTexture&&earthFallbackTexture.complete&&earthFallbackTexture.naturalWidth){
   const tw=earthFallbackTexture.naturalWidth,th=earthFallbackTexture.naturalHeight,drawW=d*2.05,drawH=d;
   const offset=((earthFallbackAngle%(Math.PI*2))/(Math.PI*2))*drawW;
   ctx.globalAlpha=.98;
   for(let k=-1;k<=1;k++)ctx.drawImage(earthFallbackTexture,0,0,tw,th,cx-d+offset+k*drawW,cy-r,drawW,drawH);
  }
- const oceanShade=ctx.createRadialGradient(cx-r*.35,cy-r*.4,r*.05,cx,cy,r*1.08);oceanShade.addColorStop(0,'#ffffff08');oceanShade.addColorStop(.58,'#001b3b00');oceanShade.addColorStop(1,'#000615d9');ctx.fillStyle=oceanShade;ctx.fillRect(cx-r,cy-r,d,d);
+ const oceanShade=ctx.createRadialGradient(cx-r*.35,cy-r*.4,r*.05,cx,cy,r*1.08);
+oceanShade.addColorStop(0,'#ffffff08');
+oceanShade.addColorStop(.58,'#001b3b00');
+oceanShade.addColorStop(1,'#000615d9');
+ctx.fillStyle=oceanShade;
+ctx.fillRect(cx-r,cy-r,d,d);
  ctx.restore();
  /* No artificial blue outline: only a subtle natural atmospheric haze is drawn. */
- const atm=ctx.createRadialGradient(cx-r*.22,cy-r*.28,r*.65,cx,cy,r*1.15);atm.addColorStop(.75,'#6feaff00');atm.addColorStop(.92,'#75eaff35');atm.addColorStop(1,'#79eaff00');ctx.fillStyle=atm;ctx.beginPath();ctx.arc(cx,cy,r*1.12,0,Math.PI*2);ctx.fill();
+ const atm=ctx.createRadialGradient(cx-r*.22,cy-r*.28,r*.65,cx,cy,r*1.15);
+atm.addColorStop(.75,'#6feaff00');
+atm.addColorStop(.92,'#75eaff35');
+atm.addColorStop(1,'#79eaff00');
+ctx.fillStyle=atm;
+ctx.beginPath();
+ctx.arc(cx,cy,r*1.12,0,Math.PI*2);
+ctx.fill();
  if(earthSpin&&!earthFallbackDrag)earthFallbackAngle+=.0028;
  earthFallbackFrame=requestAnimationFrame(earthFallbackDraw);
 }
 function earthStartFallback(){
- const host=document.getElementById('earth-globe');if(!host)return;
+ const host=document.getElementById('earth-globe');
+if(!host)return;
  if(earthFallbackFrame)cancelAnimationFrame(earthFallbackFrame);
  host.innerHTML='<canvas id="earth-fallback-canvas" aria-label="Realistic rotating Earth"></canvas>';
- earthFallbackCanvas=host.querySelector('canvas');earthFallbackCtx=earthFallbackCanvas.getContext('2d');
- const resize=()=>{if(!earthFallbackCanvas)return;const box=host.getBoundingClientRect(),ratio=Math.min(window.devicePixelRatio||1,1.7);earthFallbackCanvas.style.width='100%';earthFallbackCanvas.style.height='100%';earthFallbackCanvas.width=Math.max(1,Math.floor(box.width*ratio));earthFallbackCanvas.height=Math.max(1,Math.floor(box.height*ratio));earthFallbackCtx.setTransform(ratio,0,0,ratio,0,0);};
- resize();window.addEventListener('resize',resize);
- earthFallbackTexture=new Image();earthFallbackTexture.crossOrigin='anonymous';earthFallbackTexture.onload=()=>{};earthFallbackTexture.src='https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
+ earthFallbackCanvas=host.querySelector('canvas');
+earthFallbackCtx=earthFallbackCanvas.getContext('2d');
+ const resize=()=>{if(!earthFallbackCanvas)return;
+const box=host.getBoundingClientRect(),ratio=Math.min(window.devicePixelRatio||1,1.7);
+earthFallbackCanvas.style.width='100%';
+earthFallbackCanvas.style.height='100%';
+earthFallbackCanvas.width=Math.max(1,Math.floor(box.width*ratio));
+earthFallbackCanvas.height=Math.max(1,Math.floor(box.height*ratio));
+earthFallbackCtx.setTransform(ratio,0,0,ratio,0,0);
+};
+ resize();
+window.addEventListener('resize',resize);
+ earthFallbackTexture=new Image();
+earthFallbackTexture.crossOrigin='anonymous';
+earthFallbackTexture.onload=()=>{};
+earthFallbackTexture.src='https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg';
  earthFallbackCanvas.addEventListener('pointerdown',e=>{earthFallbackDrag={x:e.clientX,y:e.clientY,angle:earthFallbackAngle,tilt:earthFallbackTilt};earthFallbackCanvas.setPointerCapture(e.pointerId);});
  earthFallbackCanvas.addEventListener('pointermove',e=>{if(earthFallbackDrag){earthFallbackAngle=earthFallbackDrag.angle+(e.clientX-earthFallbackDrag.x)*.008;earthFallbackTilt=earthFallbackDrag.tilt+(e.clientY-earthFallbackDrag.y)*.004;}});
  earthFallbackCanvas.addEventListener('pointerup',()=>earthFallbackDrag=null);
@@ -2194,15 +2712,17 @@ function earthStartFallback(){
  earthFallbackDraw();
 }
 function earthInit(){
- const host=document.getElementById('earth-globe');if(!host)return;
+ const host=document.getElementById('earth-globe');
+if(!host)return;
  if(!earthGlobe&&!earthFallbackCanvas){
-  if(typeof Globe!=='function'){earthStartFallback();}
+  if(typeof Globe!=='function'){earthStartFallback();
+}
   else try{
    earthGlobe=Globe()(host,{rendererConfig:{antialias:true,alpha:true,powerPreference:'default',preserveDrawingBuffer:false}})
     .backgroundColor('rgba(0,0,0,0)')
     .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
     .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png').bumpScale(.075)
-    .showAtmosphere(true).atmosphereColor('#70dff5').atmosphereAltitude(.19)
+    .showAtmosphere(false).atmosphereAltitude(0)
     .width(host.clientWidth||340).height(host.clientHeight||300)
     .enablePointerInteraction(true).onGlobeClick(({lat,lng})=>earthSelectCoords(lat,lng))
     .polygonsData([])
@@ -2212,12 +2732,35 @@ function earthInit(){
     .polygonAltitude(feature=>feature===earthSelectedFeature?.012:.0012)
     .polygonsTransitionDuration(650);
    earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},0);
-   const ctl=earthGlobe.controls();ctl.autoRotate=true;ctl.autoRotateSpeed=.34;ctl.enableDamping=true;ctl.dampingFactor=.085;ctl.enableRotate=true;ctl.enableZoom=true;ctl.enablePan=false;ctl.rotateSpeed=1.25;ctl.zoomSpeed=.9;ctl.minPolarAngle=0;ctl.maxPolarAngle=Math.PI;ctl.minDistance=92;ctl.maxDistance=760;earthInstallSolarLighting();ctl.addEventListener('end',()=>{if(earthSpin){ctl.autoRotate=true;}});
-   window.addEventListener('resize',earthResize);document.addEventListener('visibilitychange',earthVisibility);
-  }catch(e){console.warn('3D globe unavailable; using textured globe fallback.',e);earthGlobe=null;earthStartFallback();}
+   const ctl=earthGlobe.controls();
+ctl.autoRotate=true;
+ctl.autoRotateSpeed=.34;
+ctl.enableDamping=true;
+ctl.dampingFactor=.075;
+ctl.enableRotate=true;
+ctl.enableZoom=true;
+ctl.enablePan=false;
+ctl.rotateSpeed=1.55;
+ctl.zoomSpeed=.9;
+ctl.minPolarAngle=.0001;
+ctl.maxPolarAngle=Math.PI-.0001;
+ctl.minDistance=55;
+ctl.maxDistance=900;
+earthInstallSolarLighting();
+ctl.addEventListener('end',()=>{if(earthSpin){ctl.autoRotate=true;}});
+   window.addEventListener('resize',earthResize);
+document.addEventListener('visibilitychange',earthVisibility);
+  }catch(e){console.warn('3D globe unavailable; using textured globe fallback.',e);
+earthGlobe=null;
+earthStartFallback();
+}
  }
  if(earthGlobe)earthGlobe.width(host.clientWidth||340).height(host.clientHeight||300);
- earthLoadCountries();earthLoadBoundaries();earthStartCounters();earthEnsureSpin();
+ earthLoadCountries();
+earthLoadBoundaries();
+earthStartCounters();
+earthEnsureSpin();
+earthPreparePanel();
 }
 function earthInstallSolarLighting(){
  if(!earthGlobe||earthGlobe.__solarLightingInstalled)return;
@@ -2232,28 +2775,548 @@ function earthInstallSolarLighting(){
    if(object&&object.isAmbientLight)object.intensity=Math.min(object.intensity||.45,.48);
   });
   earthGlobe.__solarLightingInstalled=true;
- }catch(error){console.warn('Solar light adjustment unavailable; using globe default lighting.',error);}
+ }catch(error){console.warn('Solar light adjustment unavailable; using globe default lighting.',error);
 }
-function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();}
-function earthEnsureSpin(){if(!earthGlobe)return;const c=earthGlobe.controls();c.enableRotate=true;c.enableZoom=true;c.enablePan=false;c.rotateSpeed=1.25;c.minPolarAngle=0;c.maxPolarAngle=Math.PI;c.enableDamping=true;c.dampingFactor=.085;if(earthSpin){c.autoRotate=true;c.autoRotateSpeed=.34;}}
-function earthResize(){const host=document.getElementById('earth-globe');if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||340).height(host.clientHeight||300);}
-function earthNormalizeName(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,' ').trim();}
-function earthAliases(value){const q=earthNormalizeName(value);const aliases={usa:'united states',us:'united states',uk:'united kingdom',uae:'united arab emirates',russia:'russian federation',iran:'iran islamic republic of',syria:'syrian arab republic',vietnam:'viet nam',laos:'lao peoples democratic republic',bolivia:'bolivia plurinational state of',venezuela:'venezuela bolivarian republic of',tanzania:'united republic of tanzania',moldova:'republic of moldova',brunei:'brunei darussalam',swaziland:'eswatini',burma:'myanmar','ivory coast':'cote divoire', 'south korea':'korea republic of', 'north korea':'korea democratic peoples republic of', 'czech republic':'czechia', 'cape verde':'cabo verde'};return aliases[q]?[aliases[q]]:[];}
-function earthLoadCountries(){if(earthCountryReady)return;earthCountryReady=true;earthCountriesData=earthFallback.slice();fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng,cca3,cca2,altSpellings,independent').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||x.name?.official||'',official:x.name?.official||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]??0,lng:x.latlng?.[1]??0,cca3:x.cca3||'',cca2:x.cca2||'',aliases:Array.isArray(x.altSpellings)?x.altSpellings:[],independent:x.independent})).filter(x=>x.name&&x.independent!==false).sort((a,b)=>b.population-a.population).slice(0,100);const status=document.getElementById('earth-search-status');if(status)status.textContent='100 popular countries loaded';}).catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Offline country list active · connect to internet for the complete country list';});}
-function earthLoadBoundaries(){if(earthBoundaryLoading||earthGeoFeatures.length)return;earthBoundaryLoading=true;const urls=['https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson','https://raw.githubusercontent.com/deldesierto/countries-geojson/master/countries.geojson'];(async()=>{let error=null;for(const url of urls){try{const response=await fetch(url);if(!response.ok)throw Error('boundary data unavailable');const data=await response.json();const features=(data.features||[]).filter(f=>f.geometry&&(f.geometry.type==='Polygon'||f.geometry.type==='MultiPolygon'));if(features.length<150)throw Error('boundary data incomplete');earthGeoFeatures=features;if(earthGlobe)earthGlobe.polygonsData(earthGeoFeatures);const input=document.getElementById('earth-country-input');const selectedQuery=earthNormalizeName(input?.value||'');if(selectedQuery){const selectedCountry=earthCountriesData.find(country=>[country.name,country.official,...(country.aliases||[])].map(earthNormalizeName).includes(selectedQuery));if(selectedCountry)earthSelectedFeature=earthFindBoundary(selectedCountry);}if(earthSelectedFeature)earthUpdateSelectedBoundary();const status=document.getElementById('earth-search-status');if(status)status.textContent='Global country boundaries loaded · '+features.length+' regions';return;}catch(e){error=e;}}throw error||Error('boundaries unavailable');})().catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Country search works; boundaries require an internet connection.';}).finally(()=>{earthBoundaryLoading=false;});}
-function earthFindBoundary(country){if(!country||!earthGeoFeatures.length)return null;const code=String(country.cca3||'').toUpperCase();const names=[country.name,country.official,...(country.aliases||[]),...earthAliases(country.name)].map(earthNormalizeName).filter(Boolean);return earthGeoFeatures.find(feature=>{const p=feature.properties||{};const codes=[p.ISO_A3,p.ISO_A3_EH,p.ADM0_A3,p.SOV_A3,p.iso_a3,p.ISO3,p.iso3].map(v=>String(v||'').toUpperCase());if(code&&codes.includes(code))return true;const labels=[p.ADMIN,p.name,p.name_en,p.NAME,p.NAME_EN,p.SOVEREIGNT,p.FORMAL_EN,p.ADMIN_EN];return labels.some(v=>names.includes(earthNormalizeName(v)));})||null;}
-function earthUpdateSelectedBoundary(){if(!earthGlobe)return;earthGlobe.polygonsData(earthGeoFeatures);}
-function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=earthNormalizeName(value);if(!q){box.style.display='none';box.innerHTML='';return;}const terms=[q,...earthAliases(value).map(earthNormalizeName)];const found=earthCountriesData.filter(c=>[c.name,c.official,...(c.aliases||[])].map(earthNormalizeName).some(name=>terms.some(term=>name.includes(term)||term.includes(name)))).slice(0,10);box.innerHTML=found.map(c=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.region)+'</span></button>').join('');box.style.display=found.length?'block':'none';if(!found.length){const status=document.getElementById('earth-search-status');if(status)status.textContent='No match found. Try the official or common country name.';}}
-function earthChooseFirst(){const input=document.getElementById('earth-country-input'),q=earthNormalizeName(input?.value||'');if(!q)return;const terms=[q,...earthAliases(input.value).map(earthNormalizeName)];const found=earthCountriesData.find(c=>[c.name,c.official,...(c.aliases||[])].map(earthNormalizeName).some(n=>terms.includes(n)))||earthCountriesData.find(c=>[c.name,c.official,...(c.aliases||[])].map(earthNormalizeName).some(n=>terms.some(t=>n.includes(t))));if(found)earthPickCountry(earthCountriesData.indexOf(found));else{const status=document.getElementById('earth-search-status');if(status)status.textContent='No match found. If the country list is loading, try again shortly.';}}
-function earthPickCountry(i){const c=earthCountriesData[i];if(!c)return;const box=document.getElementById('earth-suggest'),input=document.getElementById('earth-country-input');if(box)box.style.display='none';if(input)input.value=c.name;earthShowCountry(c);earthSelectedFeature=earthFindBoundary(c);if(earthGlobe){earthGlobe.polygonsData(earthGeoFeatures);earthGlobe.pointOfView({lat:Math.max(-85,Math.min(85,Number(c.lat)||0)),lng:Number(c.lng)||0,altitude:1.35},1100);earthSpin=false;earthGlobe.controls().autoRotate=false;const b=document.getElementById('earth-spin');if(b)b.textContent='▶ RESUME ROTATION';}else if(earthFallbackCanvas){earthFallbackAngle=(-c.lng*Math.PI/180);}if(earthGeoFeatures.length&&!earthSelectedFeature){const status=document.getElementById('earth-search-status');if(status)status.textContent='Selected '+c.name+'; boundary match is unavailable in the current map dataset.';}}
-function earthShowCountry(c){document.getElementById('earth-country-name').textContent=c.name;document.getElementById('earth-country-desc').textContent='Country overview · population and area are published estimates/data, not a live headcount.';document.getElementById('earth-region').textContent=(c.region||'—')+' · '+(c.subregion||'');document.getElementById('earth-capital').textContent=c.cca3||'—';document.getElementById('earth-country-pop').textContent=earthNum(c.population);document.getElementById('earth-country-area').textContent=earthNum(Math.round(c.area))+' km²';document.getElementById('earth-search-status').textContent='Selected · '+c.name;}
-function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||'';const c=earthCountriesData.find(x=>x.name.toLowerCase()===name.toLowerCase())||earthCountriesData.find(x=>name.toLowerCase().includes(x.name.toLowerCase())||x.name.toLowerCase().includes(name.toLowerCase()));if(c)earthShowCountry(c);else{document.getElementById('earth-country-name').textContent=name||'Selected country';document.getElementById('earth-country-desc').textContent='Country selected on globe. Search by name to load detailed information.';}}
-function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°.';document.getElementById('earth-region').textContent='Coordinates';document.getElementById('earth-capital').textContent='—';document.getElementById('earth-country-pop').textContent='—';document.getElementById('earth-country-area').textContent='—';}
-function earthZoom(f){if(earthGlobe){const p=earthGlobe.pointOfView();earthGlobe.pointOfView({lat:p.lat,lng:p.lng,altitude:Math.max(.58,Math.min(5,p.altitude/f))},400);}else if(earthFallbackCanvas){earthFallbackZoom=Math.max(.75,Math.min(1.8,earthFallbackZoom*f));earthFallbackCanvas.style.transform='scale('+earthFallbackZoom+')';}}
-function earthReset(){earthSelectedFeature=null;if(earthGlobe){earthGlobe.polygonsData(earthGeoFeatures);earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},700);}if(earthFallbackCanvas){earthFallbackZoom=1;earthFallbackCanvas.style.transform='scale(1)';earthFallbackAngle=0;earthFallbackTilt=0;}earthSpin=true;earthEnsureSpin();const b=document.getElementById('earth-spin');if(b)b.textContent='Ⅱ STOP ROTATION';}
-function earthToggleSpin(){earthSpin=!earthSpin;if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;const b=document.getElementById('earth-spin');if(b)b.textContent=earthSpin?'Ⅱ STOP ROTATION':'▶ RESUME ROTATION';}
-function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);const dayStart=new Date();dayStart.setUTCHours(0,0,0,0);earthStartedAt=dayStart.getTime();const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);const put=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};put('earth-pop', (pop/1e9).toFixed(3)+'B');put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));};update();earthTimer=setInterval(update,1000);}
-function earthStop(){if(earthTimer){clearInterval(earthTimer);earthTimer=null;}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;if(earthFallbackFrame){cancelAnimationFrame(earthFallbackFrame);earthFallbackFrame=null;}}
+}
+function earthVisibility(){if(!document.hidden&&earthGlobe&&earthSpin)earthEnsureSpin();
+}
+function earthEnsureSpin(){if(!earthGlobe)return;
+const c=earthGlobe.controls();
+c.enableRotate=true;
+c.enableZoom=true;
+c.enablePan=false;
+c.rotateSpeed=1.55;
+c.minPolarAngle=.0001;
+c.maxPolarAngle=Math.PI-.0001;
+c.enableDamping=true;
+c.dampingFactor=.075;
+if(earthSpin){c.autoRotate=true;
+c.autoRotateSpeed=.34;
+}}
+function earthResize(){const host=document.getElementById('earth-globe');
+if(earthGlobe&&host&&!document.getElementById('earth-page').classList.contains('hidden'))earthGlobe.width(host.clientWidth||340).height(host.clientHeight||300);
+}
+function earthNormalizeName(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,' ').trim();
+}
+function earthAliases(value){const q=earthNormalizeName(value);
+const aliases={usa:'united states',us:'united states',uk:'united kingdom',uae:'united arab emirates',russia:'russian federation',iran:'iran islamic republic of',syria:'syrian arab republic',vietnam:'viet nam',laos:'lao peoples democratic republic',bolivia:'bolivia plurinational state of',venezuela:'venezuela bolivarian republic of',tanzania:'united republic of tanzania',moldova:'republic of moldova',brunei:'brunei darussalam',swaziland:'eswatini',burma:'myanmar','ivory coast':'cote divoire', 'south korea':'korea republic of', 'north korea':'korea democratic peoples republic of', 'czech republic':'czechia', 'cape verde':'cabo verde'};
+return aliases[q]?[aliases[q]]:[];
+}
+function earthLoadCountries(){if(earthCountryReady)return;
+earthCountryReady=true;
+earthCountriesData=earthFallback.slice();
+fetch('https://restcountries.com/v3.1/all?fields=name,capital,region,subregion,population,area,latlng,cca3,cca2,altSpellings,independent').then(r=>{if(!r.ok)throw Error('countries');return r.json();}).then(rows=>{earthCountriesData=rows.map(x=>({name:x.name?.common||x.name?.official||'',official:x.name?.official||'',capital:x.capital?.[0]||'—',region:x.region||'—',subregion:x.subregion||'—',population:x.population||0,area:x.area||0,lat:x.latlng?.[0]??0,lng:x.latlng?.[1]??0,cca3:x.cca3||'',cca2:x.cca2||'',aliases:Array.isArray(x.altSpellings)?x.altSpellings:[],independent:x.independent})).filter(x=>x.name&&x.independent!==false).sort((a,b)=>b.population-a.population);const status=document.getElementById('earth-search-status');if(status)status.textContent=earthCountriesData.length+' countries loaded';earthSyncPendingCountry();}).catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Offline country list active · connect to internet for the complete country list';});
+}
+function earthLoadBoundaries(){if(earthBoundaryLoading||earthGeoFeatures.length)return;
+earthBoundaryLoading=true;
+const urls=['https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson','https://raw.githubusercontent.com/deldesierto/countries-geojson/master/countries.geojson'];
+(async()=>{let error=null;for(const url of urls){try{const response=await fetch(url);if(!response.ok)throw Error('boundary data unavailable');const data=await response.json();const features=(data.features||[]).filter(f=>f.geometry&&(f.geometry.type==='Polygon'||f.geometry.type==='MultiPolygon'));if(features.length<150)throw Error('boundary data incomplete');earthGeoFeatures=features;if(earthGlobe)earthGlobe.polygonsData(earthSelectedFeature?[earthSelectedFeature]:[]);const input=document.getElementById('earth-country-input');const selectedQuery=earthNormalizeName(input?.value||'');if(selectedQuery){const selectedCountry=earthCountriesData.find(country=>[country.name,country.official,...(country.aliases||[])].map(earthNormalizeName).includes(selectedQuery));if(selectedCountry)earthSelectedFeature=earthFindBoundary(selectedCountry);}if(earthSelectedFeature)earthUpdateSelectedBoundary();const status=document.getElementById('earth-search-status');if(status)status.textContent='Global country boundaries loaded · '+features.length+' regions';return;}catch(e){error=e;}}throw error||Error('boundaries unavailable');})().catch(()=>{const status=document.getElementById('earth-search-status');if(status)status.textContent='Country search works; boundaries require an internet connection.';}).finally(()=>{earthBoundaryLoading=false;});
+}
+function earthSyncPendingCountry(){const input=document.getElementById('earth-country-input');
+if(!input||!input.value||!earthGeoFeatures.length)return;
+const q=earthNormalizeName(input.value);
+const country=earthCountriesData.find(item=>earthCountryNames(item).some(name=>earthNormalizeName(name)===q));
+if(country){earthSelectedFeature=earthFindBoundary(country);
+earthUpdateSelectedBoundary();
+}}
+function earthCountryNames(country){return [country?.name,country?.official,...(country?.aliases||[]),...earthAliases(country?.name||'')].filter(Boolean);
+}
+function earthFindBoundary(country){if(!country||!earthGeoFeatures.length)return null;
+const code=String(country.cca3||'').toUpperCase();
+const names=earthCountryNames(country).map(earthNormalizeName).filter(Boolean);
+return earthGeoFeatures.find(feature=>{const p=feature.properties||{};const codes=[p.ISO_A3,p.ISO_A3_EH,p.ADM0_A3,p.SOV_A3,p.iso_a3,p.ISO3,p.iso3,p.ADM0_A3_US,p.GU_A3].map(v=>String(v||'').toUpperCase());if(code&&codes.includes(code))return true;const labels=[p.ADMIN,p.name,p.name_en,p.NAME,p.NAME_EN,p.SOVEREIGNT,p.FORMAL_EN,p.ADMIN_EN,p.BRK_NAME,p.GEOUNIT,p.GU_A3];return labels.some(v=>names.includes(earthNormalizeName(v)));})||null;
+}
+function earthUpdateSelectedBoundary(){if(!earthGlobe)return;
+earthGlobe.polygonsData(earthSelectedFeature?[earthSelectedFeature]:[]);
+}
+function earthSearchCountry(value){const box=document.getElementById('earth-suggest'),q=earthNormalizeName(value);
+if(!q){box.style.display='none';
+box.innerHTML='';
+return;
+}const terms=[q,...earthAliases(value).map(earthNormalizeName)];
+const found=earthCountriesData.filter(c=>[c.name,c.official,...(c.aliases||[])].map(earthNormalizeName).some(name=>terms.some(term=>name.includes(term)||term.includes(name)))).slice(0,10);
+box.innerHTML=found.map(c=>'<button type="button" onclick="earthPickCountry('+earthCountriesData.indexOf(c)+')"><b>'+earthEsc(c.name)+'</b> <span style="color:#9cc4c8">· '+earthEsc(c.region)+'</span></button>').join('');
+box.style.display=found.length?'block':'none';
+if(!found.length){const status=document.getElementById('earth-search-status');
+if(status)status.textContent='No match found. Try the official or common country name.';
+}}
+function earthChooseFirst(){const input=document.getElementById('earth-country-input'),q=earthNormalizeName(input?.value||'');
+if(!q)return;
+const terms=[q,...earthAliases(input.value).map(earthNormalizeName)];
+const found=earthCountriesData.find(c=>[c.name,c.official,...(c.aliases||[])].map(earthNormalizeName).some(n=>terms.includes(n)))||earthCountriesData.find(c=>[c.name,c.official,...(c.aliases||[])].map(earthNormalizeName).some(n=>terms.some(t=>n.includes(t))));
+if(found)earthPickCountry(earthCountriesData.indexOf(found));
+else{const status=document.getElementById('earth-search-status');
+if(status)status.textContent='No match found. If the country list is loading, try again shortly.';
+}}
+function earthPickCountry(i){const c=earthCountriesData[i];
+if(!c)return;
+const box=document.getElementById('earth-suggest'),input=document.getElementById('earth-country-input');
+if(box)box.style.display='none';
+if(input)input.value=c.name;
+earthCommitCountrySelection(c);
+}
+function earthShowCountry(c){document.getElementById('earth-country-name').textContent=c.name;
+document.getElementById('earth-country-desc').textContent='Country overview · population and area are published estimates/data, not a live headcount.';
+document.getElementById('earth-region').textContent=(c.region||'—')+' · '+(c.subregion||'');
+document.getElementById('earth-capital').textContent=c.cca3||'—';
+document.getElementById('earth-country-pop').textContent=earthNum(c.population);
+document.getElementById('earth-country-area').textContent=earthNum(Math.round(c.area))+' km²';
+document.getElementById('earth-search-status').textContent='Selected · '+c.name;
+}
+function earthSelectCountry(feature){const p=feature.properties||{},name=p.ADMIN||p.name||p.name_en||p.NAME_EN||'';
+const c=earthCountriesData.find(x=>x.name.toLowerCase()===name.toLowerCase())||earthCountriesData.find(x=>name.toLowerCase().includes(x.name.toLowerCase())||x.name.toLowerCase().includes(name.toLowerCase()));
+if(c)earthShowCountry(c);
+else{document.getElementById('earth-country-name').textContent=name||'Selected country';
+document.getElementById('earth-country-desc').textContent='Country selected on globe. Search by name to load detailed information.';
+}}
+function earthSelectCoords(lat,lng){document.getElementById('earth-country-name').textContent='Location selected';
+document.getElementById('earth-country-desc').textContent='Latitude '+lat.toFixed(2)+'°, longitude '+lng.toFixed(2)+'°.';
+document.getElementById('earth-region').textContent='Coordinates';
+document.getElementById('earth-capital').textContent='—';
+document.getElementById('earth-country-pop').textContent='—';
+document.getElementById('earth-country-area').textContent='—';
+}
+function earthZoom(f){earthZoomByFactor(f);
+}
+function earthReset(){earthSelectedFeature=null;
+if(earthGlobe){earthGlobe.polygonsData([]);
+earthGlobe.pointOfView({lat:22,lng:65,altitude:2.05},700);
+}if(earthFallbackCanvas){earthFallbackZoom=1;
+earthFallbackCanvas.style.transform='scale(1)';
+earthFallbackAngle=0;
+earthFallbackTilt=0;
+}earthSpin=true;
+earthEnsureSpin();
+earthUpdateSpinButton();
+}
+function earthToggleSpin(){earthSpin=!earthSpin;
+if(earthGlobe)earthGlobe.controls().autoRotate=earthSpin;
+earthUpdateSpinButton();
+}
+function earthStartCounters(){if(earthTimer)clearInterval(earthTimer);
+const dayStart=new Date();
+dayStart.setUTCHours(0,0,0,0);
+earthStartedAt=dayStart.getTime();
+const basePop=8200000000,birthPerSec=4.35,deathPerSec=1.95;
+const update=()=>{const elapsed=Math.max(0,(Date.now()-earthStartedAt)/1000),pop=basePop+elapsed*(birthPerSec-deathPerSec);
+const put=(id,val)=>{const el=document.getElementById(id);
+if(el)el.textContent=val;
+};
+put('earth-pop', (pop/1e9).toFixed(3)+'B');
+put('earth-births','+'+earthNum(Math.floor(elapsed*birthPerSec)));
+put('earth-deaths','+'+earthNum(Math.floor(elapsed*deathPerSec)));
+};
+update();
+earthTimer=setInterval(update,1000);
+}
+function earthStop(){if(earthTimer){clearInterval(earthTimer);
+earthTimer=null;
+}if(earthGlobe&&earthSpin)earthGlobe.controls().autoRotate=false;
+if(earthFallbackFrame){cancelAnimationFrame(earthFallbackFrame);
+earthFallbackFrame=null;
+}}
+// -----------------------------------------------------------------------------
+// EARTH 4D INTERACTION, CAMERA, SEARCH AND ACCESSIBILITY HELPERS
+// These helpers are intentionally scoped to the Earth observatory only.
+// -----------------------------------------------------------------------------
+// Keep the rotation control label synchronized with the actual animation state.
+function earthUpdateSpinButton(){
+ const button=document.getElementById('earth-spin');
+ if(!button)return;
+ button.textContent=earthSpin?'Ⅱ STOP ROTATION':'▶ RESUME ROTATION';
+ button.setAttribute('aria-pressed',earthSpin?'true':'false');
+ button.setAttribute('aria-label',earthSpin?'Stop automatic Earth rotation':'Resume automatic Earth rotation');
+}
+
+// Convert country names to a stable comparison key for international aliases.
+function earthCountryKey(value){
+ return earthNormalizeName(value)
+  .replace(/\b(the|of|and)\b/g,' ')
+  .replace(/\s+/g,' ')
+  .trim();
+}
+
+// Resolve a country by its common name, official name, ISO-3 code or alias.
+function earthResolveCountry(query){
+ const key=earthCountryKey(query);
+ if(!key)return null;
+ const aliasKeys=[key,...earthAliases(query).map(earthCountryKey)];
+ const exact=earthCountriesData.find(country=>{
+  const names=earthCountryNames(country).map(earthCountryKey);
+  return names.some(name=>aliasKeys.includes(name))||String(country.cca3||'').toLowerCase()===key;
+ });
+ if(exact)return exact;
+ return earthCountriesData.find(country=>{
+  const names=earthCountryNames(country).map(earthCountryKey);
+  return names.some(name=>aliasKeys.some(alias=>name.startsWith(alias)||alias.startsWith(name)));
+ })||null;
+}
+
+// Keep the search result list safe when country names contain punctuation.
+function earthBuildSuggestion(country,index){
+ const button=document.createElement('button');
+ button.type='button';
+ button.className='earth-country-suggestion';
+ button.setAttribute('role','option');
+ button.setAttribute('aria-label','Select '+country.name);
+ const title=document.createElement('b');
+ title.textContent=country.name;
+ const region=document.createElement('span');
+ region.textContent=' · '+(country.region||'Region unavailable');
+ region.style.color='#9cc4c8';
+ button.append(title,region);
+ button.addEventListener('click',()=>earthPickCountry(index));
+ return button;
+}
+
+// Rebuild suggestions with DOM nodes rather than injecting remote text as HTML.
+function earthRenderSuggestions(matches){
+ const box=document.getElementById('earth-suggest');
+ if(!box)return;
+ box.replaceChildren();
+ matches.slice(0,10).forEach(country=>{
+  const index=earthCountriesData.indexOf(country);
+  if(index>=0)box.appendChild(earthBuildSuggestion(country,index));
+ });
+ box.style.display=matches.length?'block':'none';
+ box.setAttribute('role','listbox');
+}
+
+// Return a valid camera target while protecting against incomplete country data.
+function earthCountryCamera(country){
+ const latitude=Number(country?.lat);
+ const longitude=Number(country?.lng);
+ return {
+  lat:Number.isFinite(latitude)?Math.max(-89.5,Math.min(89.5,latitude)):0,
+  lng:Number.isFinite(longitude)?Math.max(-180,Math.min(180,longitude)):0,
+  altitude:.72
+ };
+}
+
+// Animate the globe to a requested geographic position.
+function earthMoveCamera(target,duration=1400){
+ if(!earthGlobe||!target)return false;
+ const camera={
+  lat:Math.max(-89.5,Math.min(89.5,Number(target.lat)||0)),
+  lng:Math.max(-180,Math.min(180,Number(target.lng)||0)),
+  altitude:Math.max(.58,Math.min(5,Number(target.altitude)||1.2))
+ };
+ earthGlobe.pointOfView(camera,Math.max(0,Number(duration)||0));
+ return true;
+}
+
+// A single selection transaction updates details, outline, camera and rotation.
+function earthCommitCountrySelection(country){
+ if(!country)return false;
+ earthShowCountry(country);
+ earthSelectedFeature=earthFindBoundary(country);
+ earthUpdateSelectedBoundary();
+ earthSpin=false;
+ if(earthGlobe){
+  earthGlobe.controls().autoRotate=false;
+  earthMoveCamera(earthCountryCamera(country),1450);
+ }
+ if(earthFallbackCanvas){
+  earthFallbackCenter(country);
+ }
+ earthUpdateSpinButton();
+ if(earthGeoFeatures.length&&!earthSelectedFeature){
+  const status=document.getElementById('earth-search-status');
+  if(status)status.textContent='Selected '+country.name+' · this boundary is not present in the current map dataset.';
+ }
+ return true;
+}
+
+// Search can be called while the country dataset is still loading.
+function earthSearchWhenReady(query){
+ const country=earthResolveCountry(query);
+ if(country){earthPickCountry(earthCountriesData.indexOf(country));
+return true;
+}
+ const status=document.getElementById('earth-search-status');
+ if(status)status.textContent=earthCountryReady?'No matching country found. Check the spelling.':'Country list is loading. Please try again in a moment.';
+ return false;
+}
+
+// Keep keyboard users able to close the suggestion panel without changing pages.
+function earthInstallSearchKeyboard(){
+ const input=document.getElementById('earth-country-input');
+ const box=document.getElementById('earth-suggest');
+ if(!input||input.dataset.earthKeyboard==='ready')return;
+ input.dataset.earthKeyboard='ready';
+ input.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&box){box.style.display='none';return;}
+  if(event.key==='Enter'){
+   event.preventDefault();
+   earthSearchWhenReady(input.value);
+  }
+ });
+}
+
+// Provide a safe resize path for mobile orientation changes.
+function earthRefreshViewport(){
+ const host=document.getElementById('earth-globe');
+ if(!host)return;
+ if(earthGlobe){
+  earthGlobe.width(Math.max(1,host.clientWidth)).height(Math.max(1,host.clientHeight));
+ }
+ if(earthFallbackCanvas){
+  const ratio=Math.min(window.devicePixelRatio||1,1.7);
+  const width=Math.max(1,host.clientWidth);
+  const height=Math.max(1,host.clientHeight);
+  earthFallbackCanvas.width=Math.floor(width*ratio);
+  earthFallbackCanvas.height=Math.floor(height*ratio);
+  earthFallbackCtx?.setTransform(ratio,0,0,ratio,0,0);
+ }
+}
+
+// Normalize a point-of-view request and avoid impossible camera values.
+function earthClampView(view){
+ const safe=view||{};
+ return {
+  lat:Math.max(-89.9,Math.min(89.9,Number(safe.lat)||0)),
+  lng:Math.max(-180,Math.min(180,Number(safe.lng)||0)),
+  altitude:Math.max(.58,Math.min(5,Number(safe.altitude)||2.05))
+ };
+}
+
+// Move the fallback globe in a predictable way when the 3D library is blocked.
+function earthFallbackCenter(country){
+ if(!earthFallbackCanvas||!country)return;
+ const longitude=Number(country.lng)||0;
+ const latitude=Number(country.lat)||0;
+ earthFallbackAngle=-longitude*Math.PI/180;
+ earthFallbackTilt=Math.max(-.7,Math.min(.7,latitude*Math.PI/180*.35));
+ earthFallbackZoom=1.18;
+ earthFallbackCanvas.style.transform='scale(1.18)';
+}
+
+// Return a short diagnostics snapshot for local debugging of the Earth panel.
+function earthDiagnostics(){
+ return {
+  globeAvailable:!!earthGlobe,
+  fallbackAvailable:!!earthFallbackCanvas,
+  countryCount:earthCountriesData.length,
+  boundaryCount:earthGeoFeatures.length,
+  selectedCountry:document.getElementById('earth-country-name')?.textContent||'',
+  selectedBoundary:!!earthSelectedFeature,
+  autoRotation:earthSpin
+ };
+}
+
+// Keep the button and controls consistent after a browser tab becomes active.
+function earthResumeAfterVisibility(){
+ if(document.hidden)return;
+ if(earthGlobe){
+  const controls=earthGlobe.controls();
+  controls.autoRotate=!!earthSpin;
+  controls.enabled=true;
+ }
+ if(earthSpin&&!earthFallbackFrame&&earthFallbackCanvas)earthFallbackDraw();
+ earthUpdateSpinButton();
+}
+
+// Stop only Earth-specific animation loops when the user leaves this page.
+function earthPausePanel(){
+ if(earthGlobe&&earthGlobe.controls())earthGlobe.controls().autoRotate=false;
+ if(earthFallbackFrame){cancelAnimationFrame(earthFallbackFrame);
+earthFallbackFrame=null;
+}
+}
+
+// Restore Earth rendering when the page is opened again.
+function earthResumePanel(){
+ const page=document.getElementById('earth-page');
+ if(!page||page.classList.contains('hidden'))return;
+ if(earthGlobe){
+  earthRefreshViewport();
+  earthGlobe.controls().autoRotate=!!earthSpin;
+ }else if(earthFallbackCanvas&&!earthFallbackFrame){
+  earthFallbackDraw();
+ }
+ earthUpdateSpinButton();
+}
+
+// Keep all country information fields populated even for partial API records.
+function earthSafeCountryValue(value,fallback='—'){
+ if(value===null||value===undefined||value==='')return fallback;
+ return String(value);
+}
+
+// Format population and area without displaying NaN or Infinity.
+function earthFormatMetric(value,suffix=''){
+ const numeric=Number(value);
+ if(!Number.isFinite(numeric)||numeric<0)return '—';
+ return earthNum(Math.round(numeric))+(suffix?' '+suffix:'');
+}
+
+// Convert a GeoJSON feature's country label into a display-safe string.
+function earthFeatureName(feature){
+ const properties=feature?.properties||{};
+ const candidates=[properties.ADMIN,properties.NAME,properties.NAME_EN,properties.name,properties.name_en,properties.SOVEREIGNT];
+ return candidates.find(value=>typeof value==='string'&&value.trim())||'Unknown country';
+}
+
+// Compare a boundary feature to the selected country's common and official names.
+function earthBoundaryNameMatches(feature,country){
+ const featureName=earthCountryKey(earthFeatureName(feature));
+ if(!featureName)return false;
+ return earthCountryNames(country).some(name=>earthCountryKey(name)===featureName);
+}
+
+// Country codes vary across GeoJSON publishers; test all common ISO variants.
+function earthBoundaryCodeMatches(feature,country){
+ const code=String(country?.cca3||'').toUpperCase();
+ if(!code)return false;
+ const properties=feature?.properties||{};
+ const candidates=[properties.ISO_A3,properties.ISO_A3_EH,properties.ADM0_A3,properties.SOV_A3,properties.iso_a3,properties.ISO3,properties.iso3,properties.ADM0_A3_US,properties.GU_A3];
+ return candidates.some(value=>String(value||'').toUpperCase()===code);
+}
+
+// Resolve the best matching GeoJSON feature without relying on one property schema.
+function earthBestBoundaryMatch(country){
+ if(!country||!earthGeoFeatures.length)return null;
+ const byCode=earthGeoFeatures.find(feature=>earthBoundaryCodeMatches(feature,country));
+ if(byCode)return byCode;
+ return earthGeoFeatures.find(feature=>earthBoundaryNameMatches(feature,country))||null;
+}
+
+// Keep a selected outline visible after the boundary file is loaded asynchronously.
+function earthReapplySelectedBoundary(){
+ if(!earthGlobe)return;
+ if(!earthSelectedFeature){earthGlobe.polygonsData([]);
+return;
+}
+ earthGlobe.polygonsData([earthSelectedFeature]);
+}
+
+// Check the search box after network responses arrive, without selecting partial text.
+function earthResolveQueuedSearch(){
+ const input=document.getElementById('earth-country-input');
+ if(!input)return;
+ const query=input.value.trim();
+ if(!query)return;
+ const country=earthResolveCountry(query);
+ if(country&&earthGeoFeatures.length){
+  earthSelectedFeature=earthBestBoundaryMatch(country);
+  earthReapplySelectedBoundary();
+ }
+}
+
+// Make the country panel usable if the remote service returns a partial response.
+function earthCountryCountLabel(){
+ const count=earthCountriesData.length;
+ if(count===0)return 'Country database unavailable';
+ return count+' countries available';
+}
+
+// Keep country suggestion matching tolerant of spacing and punctuation.
+function earthCountryMatchesQuery(country,query){
+ const terms=[earthCountryKey(query),...earthAliases(query).map(earthCountryKey)].filter(Boolean);
+ const names=earthCountryNames(country).map(earthCountryKey);
+ return names.some(name=>terms.some(term=>name===term||name.startsWith(term)||term.startsWith(name)));
+}
+
+// Return the closest country result first, then other partial matches.
+function earthRankCountryMatches(query){
+ const exact=[];
+ const partial=[];
+ earthCountriesData.forEach(country=>{
+  const names=earthCountryNames(country).map(earthCountryKey);
+  const key=earthCountryKey(query);
+  if(names.includes(key))exact.push(country);
+  else if(earthCountryMatchesQuery(country,query))partial.push(country);
+ });
+ return exact.concat(partial).slice(0,10);
+}
+
+// Rebuild the suggestion list using the shared ranking rules.
+function earthSearchRanked(value){
+ const input=document.getElementById('earth-country-input');
+ const box=document.getElementById('earth-suggest');
+ const query=String(value||'').trim();
+ if(!query){if(box){box.replaceChildren();
+box.style.display='none';
+}return;
+}
+ const matches=earthRankCountryMatches(query);
+ earthRenderSuggestions(matches);
+ if(input)input.setAttribute('aria-expanded',matches.length?'true':'false');
+ const status=document.getElementById('earth-search-status');
+ if(status&&!matches.length)status.textContent='No matching country found.';
+}
+
+// Recenter the camera without changing the currently selected country.
+function earthRecenter(){
+ if(earthGlobe){
+  const current=earthGlobe.pointOfView();
+  earthMoveCamera(earthClampView(current),550);
+ }
+}
+
+// Keep zoom operations inside a safe, comfortable range.
+function earthZoomByFactor(factor){
+ const amount=Number(factor);
+ if(!Number.isFinite(amount)||amount<=0)return;
+ if(earthGlobe){
+  const current=earthGlobe.pointOfView();
+  earthMoveCamera({...current,altitude:current.altitude/amount},420);
+  return;
+ }
+ if(earthFallbackCanvas){
+  earthFallbackZoom=Math.max(.75,Math.min(1.8,earthFallbackZoom*amount));
+  earthFallbackCanvas.style.transform='scale('+earthFallbackZoom+')';
+ }
+}
+
+// Update all accessible labels for the interactive globe and its buttons.
+function earthSetAccessibility(){
+ const globe=document.getElementById('earth-globe');
+ if(globe){
+  globe.setAttribute('role','img');
+  globe.setAttribute('aria-label','Interactive Earth. Drag to rotate and use the zoom controls.');
+  globe.setAttribute('tabindex','0');
+ }
+ earthUpdateSpinButton();
+ earthInstallSearchKeyboard();
+}
+
+// Avoid registering resize and visibility handlers repeatedly across page visits.
+function earthInstallLifecycle(){
+ if(window.__mobileEarthLifecycleInstalled)return;
+ window.__mobileEarthLifecycleInstalled=true;
+ window.addEventListener('resize',earthRefreshViewport,{passive:true});
+ window.addEventListener('orientationchange',()=>setTimeout(earthRefreshViewport,120),{passive:true});
+ document.addEventListener('visibilitychange',earthResumeAfterVisibility);
+}
+
+// Add a keyboard shortcut for returning to the default Earth camera.
+function earthInstallCameraKeyboard(){
+ if(document.documentElement.dataset.earthCameraKeys==='ready')return;
+ document.documentElement.dataset.earthCameraKeys='ready';
+ document.addEventListener('keydown',event=>{
+  const page=document.getElementById('earth-page');
+  if(!page||page.classList.contains('hidden'))return;
+  if(event.target&&['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName))return;
+  if(event.key==='0')earthReset();
+  if(event.key==='+'||event.key==='=')earthZoomByFactor(1.2);
+  if(event.key==='-')earthZoomByFactor(.84);
+ });
+}
+
+// A consistent entry point for restoring the complete Earth experience.
+function earthPreparePanel(){
+ earthSetAccessibility();
+ earthInstallLifecycle();
+ earthInstallCameraKeyboard();
+ earthResolveQueuedSearch();
+ earthResumePanel();
+}
+
+// -----------------------------------------------------------------------------
+// END EARTH 4D INTERACTION HELPERS
+// -----------------------------------------------------------------------------
+
 // ================= END LIVE EARTH =================
 
 
@@ -2265,6 +3328,7 @@ let musicAudio = null;
 let musicTimer = null;
 let musicStep = 0;
 let musicNoiseBuffer = null;
+
 function musicSetButton(on){
  const b=document.getElementById('music-toggle');
  if(!b)return;
@@ -2385,5 +3449,4 @@ showPage("login-page");
 """
 
 components.html(APP, height=950, scrolling=True)
-
 
